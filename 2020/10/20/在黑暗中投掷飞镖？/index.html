@@ -102,12 +102,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevuctzzj20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipewr8iypj20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeyonbf9j20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicm07ih54j20zk0m84qp.jpg"></li>
           <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclx6phq6j20zk0m8e36.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipesng5oej20zk0m87d4.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipesx5fdwj20zk0m81kx.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclfb3vzhj20zk0m8wny.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipew28b65j20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclize41wj20zk0m87gk.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhnx9glj20zk0m8npd.jpg"></li>
         </ul>
       </div>
     </header>
@@ -153,7 +153,7 @@ Yume Shoka = Parallel universe</title>
   <div class="body md" itemprop="articleBody">
     
 
-    <p>在黑暗中投掷飞镖？利用神经数据增强技术检测和有限数据的检测机器</p>
+    <p>题目：在黑暗中投掷飞镖？利用神经数据增强技术检测和有限数据的检测机器</p>
 <p>收录：S&amp;P，四大顶会之一，作者团队：美国伊利诺伊大学香槟分校。</p>
 <h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>(1)概要：目前许多机器学习的模型需要不断地提供标记数据进行训练，实用性不高。本文以bot检测为例，探索了如何使用数据合成来解决这一问题。</p>
 <p>(2)数据选取：收集了一年内3个月份的三个服务器的请求数据(2300万个请求)。</p>
@@ -241,7 +241,7 @@ Yume Shoka = Parallel universe</title>
 <p>经常出现在序列同一位置的URL将会以更小的距离嵌入到vendors(供应商)中。嵌入方法对于离线数据处理非常有效，但是不适用于实时处理系统。</p>
 <h3 id="基于频率编码的滑动窗口"><a href="#基于频率编码的滑动窗口" class="headerlink" title="基于频率编码的滑动窗口"></a>基于频率编码的滑动窗口</h3><p>提出一种编码方法，它不需要原始的实体、但是需要实体出现的频率。编码是在滑动窗口中进行的。</p>
 <p>以“访问过的URL”为例，给定一个请求，基于URL的哈希过去出现过的频率进行编码。如下图，一个URL在过去经常出现，占95%，就把这个URL映射为0.95，因此出现频率相似的URL将会被编码为相似的索引数字。任何新来的实体都会被分配到一个低分布的百分比，特征值已经在0和1之间规范化。</p>
-<p>![ED89B716-5ED3-4AEA-BF14-8433199C0A88](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/ED89B716-5ED3-4AEA-BF14-8433199C0A88.png)</p>
+<p>![6-frequency encoding](/Users/my/Documents/blog/source/_posts/在黑暗中投掷飞镖？/6-frequency encoding.png)</p>
 <p>对于频率估计，如下图的示例，假设IP序列S1是在第t天形成的，使用过去w天的历史数据来估计URL现在的分布，IP序列S2也是在第t天形成的，因此使用相同的时间窗口来估计分布。在实际操作的时候，不需要计算每个新到达的请求的分布，而是需要预先计算好每一天的分布，因为同一天的IP序列分享相同的窗口。</p>
 <p><img data-src="/Users/my/Documents/blog/source/_posts/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F%E5%88%A9%E7%94%A8%E7%A5%9E%E7%BB%8F%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E5%92%8C%E6%9C%89%E9%99%90%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%99%A8%E4%BA%BA/4-frequency.png" alt="4-frequency"></p>
 <p>下表展示了不同的特征是如何编码的。Cookie flag是一个布尔值，表示这个请求是否产生了cookie。每个IP序列可以用一个30 x 5 的矩阵来表示。</p>
@@ -264,7 +264,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-10-22 16:42:12" itemprop="dateModified" datetime="2020-10-22T16:42:12+08:00">2020-10-22</time>
+    <time title="Modified: 2020-10-22 16:47:33" itemprop="dateModified" datetime="2020-10-22T16:47:33+08:00">2020-10-22</time>
   </span>
 </div>
 
@@ -319,7 +319,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclip4jbpj20zk0m87cv.jpg" title="文件包含">
+  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gicm07ih54j20zk0m84qp.jpg" title="文件包含">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> web</span>
   <h3>文件包含</h3>
@@ -450,20 +450,20 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
+<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
+<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
 </div>
 
-    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
   </li>
 
   </ul>

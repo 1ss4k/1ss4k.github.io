@@ -1,0 +1,529 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Parallel universe" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Parallel universe" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="Parallel universe" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.3">
+
+  
+  <meta name="keywords" content="顶会SP,机器学习" />
+
+
+<link rel="canonical" href="http://example.com/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/">
+
+
+
+  <title>
+机器学习_在黑暗中投掷飞镖？ - paper笔记 |
+Yume Shoka = Parallel universe</title>
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">机器学习_在黑暗中投掷飞镖？
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2020-10-20 15:11:11">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2020-10-20T15:11:11+08:00">2020-10-20</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevuctzzj20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipewr8iypj20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclx6phq6j20zk0m8e36.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipesng5oej20zk0m87d4.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipesx5fdwj20zk0m81kx.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclfb3vzhj20zk0m8wny.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main id="main">
+      <div class="inner">
+        <div id="content" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">Home</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/paper%E7%AC%94%E8%AE%B0/" itemprop="item" rel="index" title="In paper笔记"><span itemprop="name">paper笔记</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="1ss4k">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Parallel universe">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>在黑暗中投掷飞镖？利用神经数据增强技术检测和有限数据的检测机器</p>
+<p>收录：S&amp;P，四大顶会之一，作者团队：美国伊利诺伊大学香槟分校。</p>
+<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>(1)概要：目前许多机器学习的模型需要不断地提供标记数据进行训练，实用性不高。本文以bot检测为例，探索了如何使用数据合成来解决这一问题。</p>
+<p>(2)数据选取：收集了一年内3个月份的三个服务器的请求数据(2300万个请求)。</p>
+<p>(3)成果：开发了一个基于流的特征编码方案，对交通数据进行编码，来支持这个高级检测模型。</p>
+<p>(4)创新点：</p>
+<ul>
+<li>所提出的模型可以检测到有 extremely limited标签的数据</li>
+<li>提出一种数据合成的方法来合成未知的(或未来的)bot行为分布，合成方法是分布感知的。在一个GAN中使用两种不同的生成器，以在特征空间中合成聚集区域和外部区域的数据。</li>
+</ul>
+<p>(5)评估：</p>
+<ul>
+<li><p>评估表明所提出的方法可以训练出一个 只使用1%的标记数据 就比现有方法更好的模型。</p>
+</li>
+<li><p>数据合成也提高了模型的可持续性，加速了再次训练的过程。</p>
+</li>
+<li><p>比较data synthesis 和 adversarial retraining，发现他们可以互补，以提高模型的普适性。</p>
+</li>
+</ul>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>(1)机器学习在安全领域的作用</p>
+<p>在以往数据经验的驱动下，机器学习算法可以识别出隐藏的模式，因此被应用于：恶意网站检测、恶意呼叫电话分类、网络流量分析、恶意软件分类、入侵检测等。</p>
+<p>(2)ML的挑战</p>
+<p>需要”labeled data”(标记数据) 来训练模型。</p>
+<p>(3)数据合成</p>
+<p>为了解决数据标记的问题，使用数据合成。</p>
+<p>数据合成就是，使用有限的标签，产生合成的数据去进行更多的模型训练。</p>
+<p>(4)介绍本文</p>
+<p>本文以bot detection为例，用真实的数据进行测试，使用”ground-truth(地面实况)”标签，探索了设计的基于流的模型的正确性。</p>
+<p>我们认为模型真正的价值在于处理攻击者多变的行为，因此排除了那些已经被精确标记的bot，更多的关注那些可以绕过规则的高级bots。</p>
+<p>存在的问题：有限的数据可能会使得模型瘫痪，因此使用数据合成，并设计了一种新的数据合成方法。</p>
+<p>提出了 ODDS: 异常分布感知数据合成。合成的核心思想是：用良性用户数据和有限的bot的实例 实施分布感知合成。作者猜测用户良性数据 比 有限的用户实例更加稳定、更具有代表性。</p>
+<p>本文通过区分“聚类区域”和“异常区域” 来合成特征空间中 新的bot样本。</p>
+<p>聚集区域(代表普通用户/bot行为)，数据合成被设计成保守的，随着我们接近良性区域，合成的攻击性逐渐降低。在异常区域(代表罕见的人类行为或新的bot变体)，数据合成更加aggressive。</p>
+<p>最后分析了ODDS的误差，了解了数据合成的局限性。</p>
+<p>本文贡献：</p>
+<ul>
+<li><p>创造了一个基于流的bot检测系统，新颖之处在于基于流的特征编码方案，并且是实时的。</p>
+</li>
+<li><p>创造了一种新的数据合成方法，它可以合成聚集数据和外部数据。</p>
+</li>
+<li><p>使用三个真实的实时数据集验证本文所设计的系统。</p>
+</li>
+</ul>
+<h1 id="Background-and-goals"><a href="#Background-and-goals" class="headerlink" title="Background and goals"></a>Background and goals</h1><h2 id="Bot-detection"><a href="#Bot-detection" class="headerlink" title="Bot detection"></a>Bot detection</h2><p>(1)定义：bots 是假装真实的用户的计算机软件，大多数bots都是恶意的。</p>
+<p>(2)在线图灵测试：CAPTCHA是“完全自动公共翻转测试”，可以区分是人还是机器。</p>
+<p>为了使用户有比较好的体验感，不能向合法用户提供太多的验证。所以目标是向用户提供最少的验证，而向bots提供尽可能多的验证。</p>
+<p>(3)基于规则的方法：根据预先设定好的规则来检验bots。现实中，规则是高度容错的，避免对良性用户的错误检测。</p>
+<p>(4)基于机器学习的方法：有监督和非监督的方法，但是监督的方法一般更好。</p>
+<h2 id="实际应用中的挑战"><a href="#实际应用中的挑战" class="headerlink" title="实际应用中的挑战"></a>实际应用中的挑战</h2><p>部署(deploy)现有的bot检测方案有如下挑战，本工作与Radware合作。</p>
+<p>(1)挑战1: bots是不断进化的。这给 基于静态规则的系统 带来了挑战。</p>
+<p>(2)挑战2:数据标签是有限的。可以合理地假设数据标签是有限的或者有偏差的。</p>
+<p>(3)挑战3:一般化。大多数bot检测方法都针对特定的应用，所提出的模型很难通用化，也难以共享预先训练过的模型。</p>
+<p>(4)目标：</p>
+<p>建立了一个机器学习模型，它是对现有的[基于规则的]和[验证码系统]的补充。</p>
+<p>该模型设计为通用的，它只依赖于基本的网络级信息而不包含任何的应用层信息。</p>
+<p>设计了一种编码方案，允许系统在非对称的数据集上工作，进一步提高了在web服务中的可移植性。</p>
+<p>系统是基于流的，是接近实时的。</p>
+<p>探讨[有限的训练数据]对模型的影响，探讨数据合成的方法在增强模型抗攻击能力方面的优势和局限性。</p>
+<p>#数据集和问题定义 </p>
+<p>每个数据集都包含bots和用户的真实标签。</p>
+<h2 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h2><p>总的数据集收集如下</p>
+<p><img data-src="/Users/my/Documents/blog/source/_posts/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F%E5%88%A9%E7%94%A8%E7%A5%9E%E7%BB%8F%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E5%92%8C%E6%9C%89%E9%99%90%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%99%A8%E4%BA%BA/1-dataset.png" alt="1-dataset"></p>
+<p>数据集包含一系列[有时间戳]的网络请求，每个请求包含{一个URL、源IP、referer、cookie、请求时间戳、浏览器的版本}。</p>
+<h2 id="再处理：IP序列"><a href="#再处理：IP序列" class="headerlink" title="再处理：IP序列"></a>再处理：IP序列</h2><p>根据源IP地址对网络请求进行分组。</p>
+<p>给定一个IP，一个简单的方法是将IP标记为bot或benign，但是这个的粒度不够细，而且一个IP地址有时有bot流量是正常的。因此需要对请求的子序列做更加细粒度划分。</p>
+<p>基于时间戳对请求进行排序，并将请求处理为流。</p>
+<p>当累积了某个IP的T个请求，我们就产生了一个IP序列。在本文中设定T=30，并对每个IP序列执行bot检测。</p>
+<h2 id="真实的标签"><a href="#真实的标签" class="headerlink" title="真实的标签"></a>真实的标签</h2><p>从验证系统和内部基于规则的系统中 获取真实的标签，</p>
+<p>(1)CAPTCHA labels：如果用户没有验证成功，这个特殊的请求就会需要用一个flag来标记。这些方法的目的是均衡地探索请求的整个空间，而不是集中于可疑的请求。</p>
+<p>给定一个IP序列，如果一个请求被标记为flag，就把这个IP序列标记为bot。</p>
+<p>某些特定的CAPTCHA系统可以被一些深度学习算法攻击。</p>
+<p>(2)基于规则的标签：规则一般是宽松的，即尽量不会把人判断为bot </p>
+<p>提取包含规则标签的所有IP序列，并且检查他们之中有多少已经接受并解决了验证码。不过这个结果也有可能是误报。如下图，对于网站A，规则匹配的有42487和IP序列，在其中有38294个序列收到了CAPTCHA，再其中只有4个用户解决了CAPTCHA。</p>
+<p>![2-false positoves](/Users/my/Documents/blog/source/_posts/在黑暗中投掷飞镖？利用神经数据增强技术检测和有限数据的检测机器人/2-false positoves.png)</p>
+<h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>如果IP序列未能解决验证码，或者触发了规则，我们就将它标记为bot，否则IP序列就被标记为良性的。</p>
+<p>此模型可以通过通过精确定位可疑用户来提高CAPTCHA的效率。</p>
+<h2 id="范围和局限性"><a href="#范围和局限性" class="headerlink" title="范围和局限性"></a>范围和局限性</h2><p>特定类型的攻击超出了我们的探测范围，</p>
+<h1 id="基本bot检测系统"><a href="#基本bot检测系统" class="headerlink" title="基本bot检测系统"></a>基本bot检测系统</h1><p>我们想建立一个机器学习模型，来检测出那些[能绕过规则]的高级bot。</p>
+<p>首先过滤出能够被规则捕获的简单的bot，然后描述我们的基于流的bot检测模型。本节会使用所有可用的训练数据来检查模型的性能。下一节会介绍一个新的数据合成方法。</p>
+<p>(1)数据处理管道(data processing pipeline)</p>
+<p>其有两个步骤</p>
+<h2 id="阶段1-预处理，使用现有的规则过滤出易于检测的bot"><a href="#阶段1-预处理，使用现有的规则过滤出易于检测的bot" class="headerlink" title="阶段1: 预处理，使用现有的规则过滤出易于检测的bot"></a>阶段1: 预处理，使用现有的规则过滤出易于检测的bot</h2><p>下表显示的是过滤的结果。不计算那些T &lt; 30的请求。因为如果一个月内T &lt; 30，那么他也不会对服务器造成威胁。简单bots的数量比高级bots的数量要多很多。良性数据一般也比高级bots多，但是多的数量不是很明显，以为有很多良性IP序列由于请求少于30，而被过滤掉了。由于这些数据的作用很小，忽略也没啥大问题。</p>
+<p><img data-src="/Users/my/Documents/blog/source/_posts/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F%E5%88%A9%E7%94%A8%E7%A5%9E%E7%BB%8F%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E5%92%8C%E6%9C%89%E9%99%90%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%99%A8%E4%BA%BA/3-data.png" alt="3-data"></p>
+<h2 id="阶段2-使用机器学习模型去检测出剩余的数据中的高级bot"><a href="#阶段2-使用机器学习模型去检测出剩余的数据中的高级bot" class="headerlink" title="阶段2:使用机器学习模型去检测出剩余的数据中的高级bot"></a>阶段2:使用机器学习模型去检测出剩余的数据中的高级bot</h2><p>关键之处不是对于深度神经网络的选择，而是新的特征编码方式，可以在跨服务器的匿名数据上工作。此外，设计了一个基于流的近似实时的系统。</p>
+<p>特征编码的目标是将IP序列的原始数据转换为向量。目前的编码方式有的不能满足我们的需求，如 one - hot 编码、嵌入编码。</p>
+<p>经常出现在序列同一位置的URL将会以更小的距离嵌入到vendors(供应商)中。嵌入方法对于离线数据处理非常有效，但是不适用于实时处理系统。</p>
+<h3 id="基于频率编码的滑动窗口"><a href="#基于频率编码的滑动窗口" class="headerlink" title="基于频率编码的滑动窗口"></a>基于频率编码的滑动窗口</h3><p>提出一种编码方法，它不需要原始的实体、但是需要实体出现的频率。编码是在滑动窗口中进行的。</p>
+<p>以“访问过的URL”为例，给定一个请求，基于URL的哈希过去出现过的频率进行编码。如下图，一个URL在过去经常出现，占95%，就把这个URL映射为0.95，因此出现频率相似的URL将会被编码为相似的索引数字。任何新来的实体都会被分配到一个低分布的百分比，特征值已经在0和1之间规范化。</p>
+<p>![ED89B716-5ED3-4AEA-BF14-8433199C0A88](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/ED89B716-5ED3-4AEA-BF14-8433199C0A88.png)</p>
+<p>对于频率估计，如下图的示例，假设IP序列S1是在第t天形成的，使用过去w天的历史数据来估计URL现在的分布，IP序列S2也是在第t天形成的，因此使用相同的时间窗口来估计分布。在实际操作的时候，不需要计算每个新到达的请求的分布，而是需要预先计算好每一天的分布，因为同一天的IP序列分享相同的窗口。</p>
+<p><img data-src="/Users/my/Documents/blog/source/_posts/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F%E5%88%A9%E7%94%A8%E7%A5%9E%E7%BB%8F%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E5%92%8C%E6%9C%89%E9%99%90%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%99%A8%E4%BA%BA/4-frequency.png" alt="4-frequency"></p>
+<p>下表展示了不同的特征是如何编码的。Cookie flag是一个布尔值，表示这个请求是否产生了cookie。每个IP序列可以用一个30 x 5 的矩阵来表示。</p>
+<p><img data-src="/Users/my/Documents/blog/source/_posts/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F%E5%88%A9%E7%94%A8%E7%A5%9E%E7%BB%8F%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA%E6%8A%80%E6%9C%AF%E6%A3%80%E6%B5%8B%E5%92%8C%E6%9C%89%E9%99%90%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A3%80%E6%B5%8B%E6%9C%BA%E5%99%A8%E4%BA%BA/5-features.png" alt="5-features"></p>
+<h3 id="构建分类器"><a href="#构建分类器" class="headerlink" title="构建分类器"></a>构建分类器</h3><p>建立一个有监督的Long-Short-Term-Memory(长短期记忆)分类器，LSTM是一种专门的递归神经网络，</p>
+<p>疑问：为什么S2和S1使用相同的窗口来估计时间分布？</p>
+<h1 id="会议视频记录"><a href="#会议视频记录" class="headerlink" title="会议视频记录"></a>会议视频记录</h1><p>视频链接🔗 <span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj0xVEJPTzRNcVNhayZhbXA7bGlzdD1QTDBwUkY0eHZvRDBuSmNCVjhPT05yRk5JamFidk9KcGxWJmFtcDtpbmRleD02NA==">https://www.youtube.com/watch?v=1TBOO4MqSak&amp;list=PL0pRF4xvoD0nJcBV8OONrFNIjabvOJplV&amp;index=64</span></p>
+
+      <div class="tags">
+          <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" rel="tag"><i class="ic i-tag"></i> 顶会SP</a>
+          <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="ic i-tag"></i> 机器学习</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2020-10-22 16:42:12" itemprop="dateModified" datetime="2020-10-22T16:42:12+08:00">2020-10-22</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="1ss4k WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="1ss4k Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="1ss4k PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>1ss4k <i class="ic i-at"><em>@</em></i>Parallel universe
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="http://example.com/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">http://example.com/2020/10/20/在黑暗中投掷飞镖？/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="nav">
+    <div class="item left">
+      
+
+  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclip4jbpj20zk0m87cv.jpg" title="文件包含">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> web</span>
+  <h3>文件包含</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Background-and-goals"><span class="toc-number">3.</span> <span class="toc-text">Background and goals</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bot-detection"><span class="toc-number">3.1.</span> <span class="toc-text">Bot detection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">3.2.</span> <span class="toc-text">实际应用中的挑战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86"><span class="toc-number">3.3.</span> <span class="toc-text">数据收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E5%A4%84%E7%90%86%EF%BC%9AIP%E5%BA%8F%E5%88%97"><span class="toc-number">3.4.</span> <span class="toc-text">再处理：IP序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-number">3.5.</span> <span class="toc-text">真实的标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">3.6.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">3.7.</span> <span class="toc-text">范围和局限性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACbot%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">基本bot检测系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51-%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E7%9A%84%E8%A7%84%E5%88%99%E8%BF%87%E6%BB%A4%E5%87%BA%E6%98%93%E4%BA%8E%E6%A3%80%E6%B5%8B%E7%9A%84bot"><span class="toc-number">4.1.</span> <span class="toc-text">阶段1: 预处理，使用现有的规则过滤出易于检测的bot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52-%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%8E%BB%E6%A3%80%E6%B5%8B%E5%87%BA%E5%89%A9%E4%BD%99%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%AD%E7%9A%84%E9%AB%98%E7%BA%A7bot"><span class="toc-number">4.2.</span> <span class="toc-text">阶段2:使用机器学习模型去检测出剩余的数据中的高级bot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%A2%91%E7%8E%87%E7%BC%96%E7%A0%81%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.2.1.</span> <span class="toc-text">基于频率编码的滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">4.2.2.</span> <span class="toc-text">构建分类器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%9A%E8%AE%AE%E8%A7%86%E9%A2%91%E8%AE%B0%E5%BD%95"><span class="toc-number">5.</span> <span class="toc-text">会议视频记录</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+        <ul>
+          <li class="active"><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" rel="bookmark" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="1ss4k"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">1ss4k</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">2</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">2</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">4</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lvdXJuYW1l" title="https:&#x2F;&#x2F;github.com&#x2F;yourname"><i class="ic i-github"></i></span>
+      <span class="exturl item twitter" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;twitter.com&#x2F;yourname"><i class="ic i-twitter"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yourname"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item music" data-url="aHR0cHM6Ly9tdXNpYy4xNjMuY29tLyMvdXNlci9ob21lP2lkPXlvdXJpZA==" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;yourid"><i class="ic i-cloud-music"></i></span>
+      <span class="exturl item weibo" data-url="aHR0cHM6Ly93ZWliby5jb20veW91cm5hbWU=" title="https:&#x2F;&#x2F;weibo.com&#x2F;yourname"><i class="ic i-weibo"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9hYm91dC5tZS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;about.me&#x2F;yourname"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+        
+  <li class="item dropdown">
+    <a href="javascript:void(0);"><i class="ic i-feather"></i>Posts</a>
+    <ul class="submenu">
+
+        
+  <li class="item">
+    <a href="/archives/" rel="section"><i class="ic i-list-alt"></i>Archives</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/categories/" rel="section"><i class="ic i-th"></i>Categories</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/tags/" rel="section"><i class="ic i-tags"></i>Tags</a>
+  </li>
+
+  </ul>
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
+</div>
+
+    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2020</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">1ss4k @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2020/10/20/在黑暗中投掷飞镖？/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.3"></script>
+
+
+
+
+</body>
+</html>

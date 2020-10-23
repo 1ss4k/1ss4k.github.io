@@ -102,12 +102,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevarprfj20zk0m8npd.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevo9j1jj20zk0m8e81.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeuibk9fj20zk0m8ay2.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicm07ih54j20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclh5u05ej20zk0m87df.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipetfk5zwj20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipetlbztpj20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicitcxhpij20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giph47e9vtj20zk0m8x6l.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclxp31goj20zk0m8qv5.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclfb3vzhj20zk0m8wny.jpg"></li>
         </ul>
       </div>
     </header>
@@ -163,16 +163,31 @@ Yume Shoka = Parallel universe</title>
 <h2 id="目录遍历与文件包含的区别"><a href="#目录遍历与文件包含的区别" class="headerlink" title="目录遍历与文件包含的区别"></a>目录遍历与文件包含的区别</h2><p>目录遍历漏洞：限制不严格，导致访问到了原本不该访问的文件。</p>
 <p>它和文件包含漏洞的本质以及利用方法都是一样的。</p>
 <p>区别：文件包含分为本地文件包含和远程文件包含，目录遍历是对本操作系统的文件进行读取，即目录遍历和本地文件包含一致。</p>
-<h2 id="靶场环境搭建"><a href="#靶场环境搭建" class="headerlink" title="靶场环境搭建"></a>靶场环境搭建</h2><p>由于要演示，所以决定在windows下搭建dvwa的靶场环境。</p>
-<p>步骤如下：</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、安装PHP集成环境---phpstudy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
+<h2 id="靶场环境"><a href="#靶场环境" class="headerlink" title="靶场环境"></a>靶场环境</h2><p>在Windows中搭建DVWA测试环境。</p>
+<p>DVWA是一款基于php&amp;mysql编写的用于常规WEB漏洞教学和检测的应用。其中包含了SQL注入，盲注，文件包含，XSS，CSRF等一些常见的WEB漏洞。</p>
+<ul>
+<li>下载phpstudy源码和DVWA源码</li>
+</ul>
+<p>phpstudy源码 <span class="exturl" data-url="aHR0cHM6Ly93d3cueHAuY24vZG93bmxvYWQuaHRtbA==">https://www.xp.cn/download.html</span> —&gt; 解压出exe文件 —&gt; 安装软件 —&gt; 启动Apache和mysql服务 —&gt;访问127.0.0.1，查看站点是否创建成功</p>
+<p>dvwa源码 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2RpZ2luaW5qYS9EVldB">https://github.com/digininja/DVWA</span> —&gt; 下载zip —&gt; 解压 —&gt; 修改文件名为dvwa —&gt; 文件安装到phpstudy\WWW 的目录之下 —&gt; 修改 dvwa/config/config.inc.php.dist 的文件名为 config.inc.php，即删掉dist(如果这里不显示扩展名，点击上方的[ 查看 ] [ 文件扩展名 ]) —&gt; 记事本再打开这个文件，把奇怪的密码‘p@ssw0rd’修改为root</p>
+<ul>
+<li>重置数据库</li>
+</ul>
+<p>浏览器输入<span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9kdndhL3NldHVwLnBocA==">http://127.0.0.1/dvwa/setup.php</span> —&gt; 下方的 创建/重置数据库 —&gt;</p>
+<p> (有一个错误:  allow_url_include: Disable. 这里要修改的不是dvwa文件夹里的php.ini的文件内容，而是Apache里的php.ini，要返回到phpstudy的安装目录 —&gt; C:\phpstudy_pro\Extensions\php\php7.3.4nts —&gt;php.ini文件 —&gt; allow_url_include=On allow_url_fopen=On —&gt;重启Apache  ) —&gt;</p>
+<p>又有一个错误: reCAPTCHA key: <strong>Missing</strong> —&gt; 修改dvwa里的php.ini，使得allow_url_fopen = On和allow_url_include = On，然后进入当前目录下的config文件，打开config.inc.php，使$_DVWA[ ‘recaptcha_public_key’ ]  = ‘’; 和 private_key变为</p>
+<p>_DVWA[ ‘recaptcha_public_key’ ]  = ‘6LdK7xITAAzzAAJQTfL7fu6I-0aPl8KHHieAT_yJg’; </p>
+<p>__​_DVWA[ ‘recaptcha_private_key’ ] = ‘6LdK7xITAzzAAL_uw9YXVUOPoIHPZLfw2K1n5NVQ’;</p>
+<p>还是不行，解决下一个错误(Database Error #1045: Access denied for user ‘dvwa’@’localhost’ (using password: NO).) 本质应该是用户密码错误。</p>
+<p>尝试1:打开dvwa—&gt;config文件下的config.inc.php，将密码改为空(之前设置为了root) ❌这个方法没用</p>
+<p>尝试2:打开phpstudy目录下的extensions —&gt; mysql —&gt;my.ini ，在端口下面添加 skip-grant-tables —&gt; 重启Apache —&gt; 重置，可以进行到主页面了。但是之前设置的用户名dvwa，密码为空，不能登陆.</p>
+<p>继续解决，打开mysql文件夹下的mysql.exe，use mysql….. ❌ 还是没用</p>
+<p>最后发现是账号密码设置错误了，不要看配置文件里的，直接用默认的 admin/password 即可登陆，完成！✅</p>
+<p>搭建过程可以百度，问题解决参考如下</p>
+<ul>
+<li>参考1 ：<span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZXNpb24uY29tL2FydGljbGUvNTg5MDQyNjczNy8=">https://www.freesion.com/article/5890426737/</span></li>
+<li>参考2:    <span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20veHUtdXgvcC8xMjIyMjg5NS5odG1s">https://www.cnblogs.com/xu-ux/p/12222895.html</span></li>
+</ul>
 <h1 id="0x01-文件包含漏洞基础知识"><a href="#0x01-文件包含漏洞基础知识" class="headerlink" title="0x01 文件包含漏洞基础知识"></a>0x01 文件包含漏洞基础知识</h1><h2 id="漏洞产生的原因"><a href="#漏洞产生的原因" class="headerlink" title="漏洞产生的原因"></a>漏洞产生的原因</h2><p>开发人员为了使代码更加灵活，将被包含的文件设置为变量，用来进行动态的调试。文件包含的参数没有经过过滤或严格的定义，可以被用户所控制，包含其他恶意文件，导致执行了非预期的代码。</p>
 <p>例如最简单的</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  $filename = $_GET[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line">	<span class="keyword">include</span>($filename);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -185,9 +200,39 @@ Yume Shoka = Parallel universe</title>
 
 <p>[题目1]</p>
 <p>来源：dvwa-file inclusion- low</p>
-<p>(若演示，可使用在线靶场 <span class="exturl" data-url="aHR0cDovLzQzLjI0Ny45MS4yMjg6ODEv">http://43.247.91.228:81/</span> admin password)</p>
-<p>wp</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">file1: </span><br><span class="line">查看源码，有语句 $file = $_GET[ &#x27;page&#x27; ];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>(若让学员操作，可使用在线靶场 <span class="exturl" data-url="aHR0cDovLzQzLjI0Ny45MS4yMjg6ODEv">http://43.247.91.228:81/</span> admin password)</p>
+<p><strong>wp</strong></p>
+<p>file1: </p>
+<ul>
+<li>查看源码，有语句 $file = ​_GET[ ‘page’ ];</li>
+<li>打开文件夹 C:\phpstudy_pro\WWW\dvwa\vulnerabilities\fi中的index.php，可以看到low.php又被包含在其中，这就构成了文件包含漏洞。</li>
+<li>在file1同级目录下新建一个名为ah.txt的文本文件，内容如下：</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>访问 <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9kdndhL3Z1bG5lcmFiaWxpdGllcy9maS8/cGFnZT1haC50eHQ=">http://127.0.0.1/dvwa/vulnerabilities/fi/?page=ah.txt</span></li>
+</ul>
+<p>小补充：文件包含可以包含任意文件，包括图片、文本文件、压缩包等，比如此处包含的是txt文件。如果文件中有服务器能识别的脚本语言，就按照该脚本语言执行，否则就直接显示出源代码。即尝试把创建一个新的文件ah2.txt，输入乱码，会在顶部直接显示出这些信息。</p>
+<p>后续怎么利用：如果本地中没有什么值得包含的文件，可以上传一个恶意文件，如上传一个一句话木马，就可以用蚁剑连接。如果文件上传不了，直接把木马输入到url中，就会保存在日志(access_log)中。</p>
+<h2 id="远程文件包含漏洞"><a href="#远程文件包含漏洞" class="headerlink" title="远程文件包含漏洞"></a>远程文件包含漏洞</h2><p>定义：能够包含远程服务器上的文件并执行。由于远程服务器的文件是我们可以控制的，此漏洞一旦存在，危害性会很大。由于危害性很大，所以一般都是没有的。</p>
+<p>条件：利用条件较为苛刻，需要在远程服务器的php.ini中配置如下信息</p>
+<p>allow_url_fopen=On<br>allow_url_include=On</p>
+<p>具体的配置过程如下：</p>
+<ul>
+<li><p>php -v 可以查看php的版本信息</p>
+</li>
+<li><p>php.ini 的位置查找：<code>php -i | grep php.ini</code>，结果是位于 /etc/php/5.6/cli/php.ini 参考 <span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9jODdiZTIwZjE0Mzc=">https://www.jianshu.com/p/c87be20f1437</span></p>
+</li>
+</ul>
+<p>打开文件，shift + ⬇️，翻页找到两个allow，都更改为On。</p>
+<p>[题目1]</p>
+<p>来源：dvwa-file inclusion- low</p>
+<p><strong>wp</strong></p>
+<ul>
+<li>配置好服务器的php.ini文件后，在服务器中新建文件ah3.txt，文件内容如下，文件的地址为<code>/root/course/fi</code></li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -199,19 +244,7 @@ Yume Shoka = Parallel universe</title>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<h1 id="0x02-漏洞的利用"><a href="#0x02-漏洞的利用" class="headerlink" title="0x02 漏洞的利用"></a>0x02 漏洞的利用</h1><p>使用<code>php://filter</code>协议读取index文件</p>
+<h2 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h2><h1 id="0x02-漏洞的利用"><a href="#0x02-漏洞的利用" class="headerlink" title="0x02 漏洞的利用"></a>0x02 漏洞的利用</h1><p>使用<code>php://filter</code>协议读取index文件</p>
 <p>[题目2]</p>
 <p>网址 <span class="exturl" data-url="aHR0cDovLzQuY2hpbmFsb3Zlci5zaW5hYXBwLmNvbS93ZWI3L2luZGV4LnBocA==">http://4.chinalover.sinaapp.com/web7/index.php</span></p>
 <p>wp</p>
@@ -239,11 +272,10 @@ Yume Shoka = Parallel universe</title>
 
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li></li>
-<li></li>
-<li><p>[Web安全实战系列：文件包含漏洞] <span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWJ1Zi5jb20vYXJ0aWNsZXMvd2ViLzE4MjI4MC5odG1s">https://www.freebuf.com/articles/web/182280.html</span>  正在</p>
-</li>
-<li><p>[文件包含CTF题目]<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC82YWY4ZTc2ZDIyYTU=">https://www.jianshu.com/p/6af8e76d22a5</span> 正在</p>
-</li>
+</ul>
+<ul>
+<li>[Web安全实战系列：文件包含漏洞] <span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWJ1Zi5jb20vYXJ0aWNsZXMvd2ViLzE4MjI4MC5odG1s">https://www.freebuf.com/articles/web/182280.html</span>  正在</li>
+<li>[文件包含CTF题目]<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC82YWY4ZTc2ZDIyYTU=">https://www.jianshu.com/p/6af8e76d22a5</span> 正在</li>
 </ul>
 
       <div class="tags">
@@ -260,7 +292,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-10-20 14:57:43" itemprop="dateModified" datetime="2020-10-20T14:57:43+08:00">2020-10-20</time>
+    <time title="Modified: 2020-10-23 17:09:59" itemprop="dateModified" datetime="2020-10-23T17:09:59+08:00">2020-10-23</time>
   </span>
 </div>
 
@@ -317,7 +349,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item right">
       
 
-  <a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipexw3o58j20zk0m8e81.jpg" title="机器学习_在黑暗中投掷飞镖？">
+  <a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclh5u05ej20zk0m87df.jpg" title="机器学习_在黑暗中投掷飞镖？">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> paper笔记</span>
   <h3>机器学习_在黑暗中投掷飞镖？</h3>
@@ -339,7 +371,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00 文件包含的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">文件包含的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">文件包含函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">目录遍历与文件包含的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.4.</span> <span class="toc-text">靶场环境搭建</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">0x01 文件包含漏洞基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.1.</span> <span class="toc-text">漏洞产生的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.2.</span> <span class="toc-text">本地文件包含漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">0x02 漏洞的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">3.0.1.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00 文件包含的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">文件包含的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">文件包含函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">目录遍历与文件包含的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.</span> <span class="toc-text">靶场环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">0x01 文件包含漏洞基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.1.</span> <span class="toc-text">漏洞产生的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.2.</span> <span class="toc-text">本地文件包含漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.3.</span> <span class="toc-text">远程文件包含漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.4.</span> <span class="toc-text">伪协议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">0x02 漏洞的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">3.0.1.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
@@ -446,20 +478,20 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
+<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
 </div>
 
-    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
+<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
   </li>
 
   </ul>

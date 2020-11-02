@@ -102,12 +102,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giciundwu5j20zk0m8n9e.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipewkhf1zj20zk0m81kx.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclhpw3lwj20zk0m8gvw.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipevarprfj20zk0m8npd.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipex2cdtbj20zk0m8x6p.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giciszlczyj20zk0m816d.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclhnx9glj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipesng5oej20zk0m87d4.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gicliierfjj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclimtf7dj20zk0m8qav.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
+          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giciub8ja1j20zk0m81ky.jpg"></li>
         </ul>
       </div>
     </header>
@@ -242,7 +242,13 @@ Yume Shoka = Parallel universe</title>
 <p>ipconfig查看本机ip地址是10.211.55.3</p>
 <p>访问的url改成 <span class="exturl" data-url="aHR0cDovLzEwLjIxMS41NS4zL2xmaS9MRkktMS8=">http://10.211.55.3/lfi/LFI-1/</span> ，即可成功访问。</p>
 <p>或者在浏览器中，将[不代理的地址列表]中的127.0.0.1删掉，即可。</p>
-<h3 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h3><h2 id="讲授思路"><a href="#讲授思路" class="headerlink" title="讲授思路"></a>讲授思路</h2><p>上午—相关函数解析/php伪协议/日志文件包含</p>
+<h3 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h3><p>官网下载 <span class="exturl" data-url="aHR0cHM6Ly9jdXJsLmhheHguc2UvZG93bmxvYWQuaHRtbA==">https://curl.haxx.se/download.html</span></p>
+<p>下载到了windows的Downloads，解压到了C盘</p>
+<p>增加环境变量，变量名CURL_HOME，值C:\curl-7.73.0-win64-mingw\bin</p>
+<p>path环境变量增加%CURL_HOME%</p>
+<p>打开cmd，输入curl –help</p>
+<p>安装配置参考 <span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZ2FvaC9wLzExMDY5NjI4Lmh0bWw=">https://www.cnblogs.com/gaoh/p/11069628.html</span></p>
+<h2 id="讲授思路"><a href="#讲授思路" class="headerlink" title="讲授思路"></a>讲授思路</h2><p>上午—相关函数解析/php伪协议/日志文件包含</p>
 <p>下午—session文件包含/安全加固</p>
 <h1 id="0x01-文件包含漏洞基础知识"><a href="#0x01-文件包含漏洞基础知识" class="headerlink" title="0x01 文件包含漏洞基础知识"></a>0x01 文件包含漏洞基础知识</h1><h2 id="漏洞产生的原因"><a href="#漏洞产生的原因" class="headerlink" title="漏洞产生的原因"></a>漏洞产生的原因</h2><p>开发人员为了使代码更加灵活，将被包含的文件设置为变量，用来进行动态的调试。文件包含的参数没有经过过滤或严格的定义，可以被用户所控制，包含其他恶意文件，导致执行了非预期的代码。</p>
 <p>例如最简单的</p>
@@ -368,12 +374,13 @@ Yume Shoka = Parallel universe</title>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (substr($_GET[<span class="string">&#x27;file&#x27;</span>], <span class="number">-4</span>, <span class="number">4</span>) != <span class="string">&#x27;.php&#x27;</span>)</span><br><span class="line"> <span class="keyword">echo</span> file_get_contents($_GET[<span class="string">&#x27;file&#x27;</span>]);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"> <span class="keyword">echo</span> <span class="string">&#x27;You are not allowed to see source files!&#x27;</span>.<span class="string">&quot;\n&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>substr函数，截取字符串，格式：substr(string,start,length)</p>
+<p>eee.txt</p>
 <p><em>start</em> 必需。规定在字符串的何处开始。正数 - 在字符串的指定位置开始，负数-在从字符串结尾开始的指定位置开始，0- 在字符串中的第一个字符处开始。</p>
 <p>length 可选。规定被返回字符串的长度。默认是直到字符串的结尾。正数 - 从 <em>start</em> 参数所在的位置返回的长度，负数- 从字符串末端返回的长度</p>
 <p>代码的含义：从结尾的倒数第四个开始，取4个长度。如../../a.php，取得的就是.php。即需要使得file的扩展名不为php。</p>
 <p><code>file_get_contents</code> 这个函数用于获取文件中的一些内容，页面是不回显的，要在源码中查看内容。</p>
 <ul>
-<li>绕过方法：在末尾添加.或/.</li>
+<li>绕过方法：在末尾添加.或**/.**</li>
 </ul>
 <p><span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9sZmkvTEZJLTMvP2ZpbGU9Li4vLi4vcGhwaW5mby5waHA=">http://127.0.0.1/lfi/LFI-3/?file=../../phpinfo.php</span>.  F12查看源码 最后有了phpinfo</p>
 <p><span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9sZmkvTEZJLTMvP2ZpbGU9Li4vLi4vcGhwaW5mby5waHA=">http://127.0.0.1/lfi/LFI-3/?file=../../phpinfo.php</span> (不加点) 最后没有phpinfo</p>
@@ -596,6 +603,9 @@ Yume Shoka = Parallel universe</title>
 <p>(3) IIS7.0+WIN 配置文件</p>
 <p>​    C:\Windows\System32\inetsrv\config\applicationHost.config</p>
 <p>[题目X]</p>
+<p>来源—LFI-1</p>
+<p>地址 <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9sZmkvTEZJLTEv">http://127.0.0.1/lfi/LFI-1/</span></p>
+<p>目标：查看敏感信息/获取webshell</p>
 <p>找到自己Windows中的日志文件路径</p>
 <p>C:\phpStudy\PHPTutorial\Apache\logs中没有access.log，打开配置文件C:\phpStudy\PHPTutorial\Apache\conf\extra中的httpd-vhosts.conf</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#&lt;VirtualHost *:80&gt;</span><br><span class="line">#    ServerAdmin webmaster@dummy-host2.example.com</span><br><span class="line">#    DocumentRoot &quot;&#x2F;Apache24&#x2F;docs&#x2F;dummy-host2.example.com&quot;</span><br><span class="line">#    ServerName dummy-host2.example.com</span><br><span class="line">#    ErrorLog &quot;logs&#x2F;dummy-host2.example.com-error.log&quot;</span><br><span class="line">#    CustomLog &quot;logs&#x2F;dummy-host2.example.com-access.log&quot; common</span><br><span class="line">#&lt;&#x2F;VirtualHost&gt;</span><br></pre></td></tr></table></figure>
@@ -620,28 +630,73 @@ Yume Shoka = Parallel universe</title>
 <p>空格 — %20</p>
 <p>这里可以百度搜索‘url编码’，进行演示。</p>
 <p>总结失败原因：浏览器直接构造的PHP一句话中特殊字符，会被浏览器自动进行URL转义，导致最终写入日志文件中的而这些转码后的编码PHP并不能进行正常的解析。</p>
-<p>解决方法1：bp抓包,第一行url中后面写入phpinfo的代码</p>
+<p><strong>解决方法1：bp抓包,第一行url中后面写入phpinfo的代码</strong></p>
 <p>这样就可以绕过后台的编码。查看access.log文件。</p>
 <p><span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9sZmkvTEZJLTEvP3BhZ2U9QzolNUNwaHBTdHVkeSU1Q1BIUFR1dG9yaWFsJTVDQXBhY2hlJTVDbG9ncyU1Q2FjY2Vzcy5sb2c=">http://127.0.0.1/lfi/LFI-1/?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log</span> </p>
 <p>成功执行了。</p>
 <p>如果phpinfo改成一句话木马 <?php eval($_POST[ah]); ?> ，再打开日志文件，就发现有了一句话木马文件。</p>
 <p>用蚁剑连接，就可以获取webshell。</p>
 <p>也可以用相对路径</p>
-<p>解决方法2: curl构造一句话，写入日志文件记录</p>
+<p><strong>解决方法2: curl构造一句话，写入日志文件记录</strong></p>
+<p>介绍一下curl，它是一个常用的命令行工具，用来请求 Web 服务器。它的名字就是客户端（client）的 URL 工具的意思。</p>
+<p>他的用法很多，具体需要使用的时候可以用语句curl –help 查看帮助文档。</p>
+<p><code>-v</code>参数输出通信的整个过程，用于调试。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -v &quot;http://10.211.55.3/lfi/LFI-1/?page=&lt;?php @eval($_POST\[123\]);?&gt;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>查看日志文件，确实成功写入了。为了和bp区分，这里用的密码是123。成功的原因：curl在请求资源的时候，没有像浏览器一样对特殊字符进行url的转码，而是原封不动的将php一句话 信息写入了服务日志文件中。</p>
+<p><span class="exturl" data-url="aHR0cDovLzEwLjIxMS41NS4zL2xmaS9MRkktMS8/cGFnZT1DOiU1Q3BocFN0dWR5JTVDUEhQVHV0b3JpYWwlNUNBcGFjaGUlNUNsb2dzJTVDYWNjZXNzLmxvZw==">http://10.211.55.3/lfi/LFI-1/?page=C:\phpStudy\PHPTutorial\Apache\logs\access.log</span></p>
+<p>随后用蚁剑去进行连接。</p>
+<p> curl构造一句话时，需要注意两点：</p>
+<p>1）请求的资源对象，需要被双引号包含，不然会报错；<br>2） php一句话中的 中括号[ ]curl是特殊符号，需要进行转义\ [\ ]，不然curl使用时也会报错；</p>
+<p>尝试一下这两个错误。</p>
 <p>LFI参考文章一览 <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE3ODUzMDkvYXJ0aWNsZS9kZXRhaWxzLzEwNTE4MTY1Ng==">https://blog.csdn.net/u011785309/article/details/105181656</span></p>
-<p>[题目X]</p>
-<p>来源—LFI-1</p>
-<p>地址 <span class="exturl" data-url="aHR0cDovLzEyNy4wLjAuMS9sZmkvTEZJLTEv">http://127.0.0.1/lfi/LFI-1/</span></p>
-<p>目标：查看敏感信息/获取webshell</p>
-<h2 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h2><p>伪协议的含义：php中为了读取http请求的参数、数据流、压缩包等，</p>
-<p>file:// ：读取文件</p>
-<p>php://filter (是一种元封装器，设计用于数据流打开时筛选过滤应用)</p>
+<p>包含日志文件参考文章</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vbXkxZTMvcC81ODU0ODk3Lmh0bWw=">https://www.cnblogs.com/my1e3/p/5854897.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9yajQ1bXAuZ2l0aHViLmlvLyVFNiU5QyVBQyVFNSU5QyVCMCVFNiU5NiU4NyVFNCVCQiVCNiVFNSU4QyU4NSVFNSU5MCVBQiVFNCVCOSU4QiVFNSU4QyU4NSVFNSU5MCVBQiVFNiU5NyVBNSVFNSVCRiU5NyVFOCU4RSVCNyVFNSU4RiU5NndlYnNoZWxsLw==">https://rj45mp.github.io/本地文件包含之包含日志获取webshell/</span></p>
+<p>#0x03 伪协议</p>
+<h2 id="⌛️含义"><a href="#⌛️含义" class="headerlink" title="⌛️含义"></a>⌛️含义</h2><p>PHP伪协议在CTF中经常出现，也经常跟文件包含，文件上传，命令执行等漏洞结合在一起。伪协议的含义：php中为了读取http请求的参数、数据流、压缩包等，</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>php中支持的伪协议</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">file:// — 访问本地文件系统,读取文件</span><br><span class="line">http:// — 访问 HTTP(s) 网址</span><br><span class="line">ftp:// — 访问 FTP(s) URLs</span><br><span class="line">php:// — 访问各个输入/输出流（I/O streams）</span><br><span class="line">zlib:// — 压缩流</span><br><span class="line">data:// — 数据（RFC 2397）</span><br><span class="line">glob:// — 查找匹配的文件路径模式</span><br><span class="line">phar:// — PHP 归档</span><br><span class="line">ssh2:// — Secure Shell 2</span><br><span class="line">rar:// — RAR</span><br><span class="line">ogg:// — 音频流</span><br><span class="line">expect:// — 处理交互式的流</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="php-协议"><a href="#php-协议" class="headerlink" title="php://协议"></a>php://协议</h3><ul>
+<li>php://filter</li>
+</ul>
+<p>可以作为一个中间流来处理其他流，可以进行任意文件的读取；</p>
+<p>是一种元封装器，设计用于数据流打开时筛选过滤应用。这个定义比较抽象。根据名字，filter，过滤器，可以很容易想到这个协议可以用来过滤一些东西；</p>
+<p>使用不同的参数可以达到不同的目的和效果：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">resource=&lt;要过滤的数据流&gt; --- 指定了你要筛选过滤的数据流 --- 必选</span><br><span class="line"></span><br><span class="line">read=&lt;读链的筛选列表&gt; --- 可以设定一个或多个过滤器名称，以管道符（|）分隔 --- 可选</span><br><span class="line"></span><br><span class="line">write=&lt;写链的筛选列表&gt; --- 可以设定一个或多个过滤器名称，以管道符（|）分隔 --- 可选</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>php://filter </p>
 <p>php://input 可以读取post里面的参数</p>
 <p>zip://  (访问压缩包里的文件需要用到#，编码后是%23)</p>
 <p>compress.bzip2://</p>
 <p>compress.zipb://</p>
 <p>data:// (类似input，可以让用户来控制输入流)</p>
 <p>phar:// (解压缩包的一个函数，不管后缀是什么，都会当作压缩包来解压)</p>
+<h1 id="session文件包含"><a href="#session文件包含" class="headerlink" title="session文件包含"></a>session文件包含</h1><h2 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h2><p>利用session的位置可以存储的特性来getshell。</p>
+<p>php默认生成的session文件往往放在/tmp目录下。</p>
 <h1 id="0x0-漏洞的利用"><a href="#0x0-漏洞的利用" class="headerlink" title="0x0 漏洞的利用"></a>0x0 漏洞的利用</h1><h2 id="伪协议的利用"><a href="#伪协议的利用" class="headerlink" title="伪协议的利用"></a>伪协议的利用</h2><p>使用<code>php://filter</code>协议读取index文件</p>
 <p>[题目2]</p>
 <p>网址 <span class="exturl" data-url="aHR0cDovLzQuY2hpbmFsb3Zlci5zaW5hYXBwLmNvbS93ZWI3L2luZGV4LnBocA==">http://4.chinalover.sinaapp.com/web7/index.php</span></p>
@@ -692,6 +747,39 @@ Yume Shoka = Parallel universe</title>
 <li>[Web安全实战系列：文件包含漏洞] <span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWJ1Zi5jb20vYXJ0aWNsZXMvd2ViLzE4MjI4MC5odG1s">https://www.freebuf.com/articles/web/182280.html</span>  正在</li>
 <li>[文件包含CTF题目]<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC82YWY4ZTc2ZDIyYTU=">https://www.jianshu.com/p/6af8e76d22a5</span> 正在</li>
 </ul>
+<h1 id="待看资料"><a href="#待看资料" class="headerlink" title="待看资料"></a>待看资料</h1><ul>
+<li>总</li>
+</ul>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NTExNjY1Ny9hcnRpY2xlL2RldGFpbHMvMTAwNjAyNzY5">https://blog.csdn.net/weixin_45116657/article/details/100602769</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYnVnZm9yLmNvbS9xdWFuemkvMzQyMy5odG1s">https://www.bugfor.com/quanzi/3423.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20veHV5aXFpbmcvcC85OTc0NDYxLmh0bWw=">https://www.cnblogs.com/xuyiqing/p/9974461.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20veXV6bHkvcC8xMDc5OTQ4Ni5odG1s">https://www.cnblogs.com/yuzly/p/10799486.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hlX2FuZC9hcnRpY2xlL2RldGFpbHMvODA0MDA3MjU=">https://blog.csdn.net/he_and/article/details/80400725</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9jOTcyMjIyNDI1MGU=">https://www.jianshu.com/p/c9722224250e</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly94ei5hbGl5dW4uY29tL3QvNzE3Ng==">https://xz.aliyun.com/t/7176</span></p>
+<ul>
+<li>session</li>
+</ul>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC82MjRmZTZkMDljMGI=">https://www.jianshu.com/p/624fe6d09c0b</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9zZWFyY2g/c3hzcmY9QUxlS2swMl9SbFhvamFIWEFLR3IwNmZtLUduU2dvbmc0dzoxNjAzOTAwMjM2MDU5JmFtcDtzb3VyY2U9aHAmYW1wO2VpPVRKT1pYNjk1bGZ2NUJvWE9yY0FEJmFtcDtxPXNlc3Npb24rJUU2JTk2JTg3JUU0JUJCJUI2JUU1JThDJTg1JUU1JTkwJUFCJmFtcDtvcT1zZXNzaW9uKyVFNiU5NiU4NyVFNCVCQiVCNiVFNSU4QyU4NSVFNSU5MCVBQiZhbXA7Z3NfbGNwPUNnWndjM2t0WVdJUUF6b0ZDQUFRc1FNNkNBZ0FFTEVERUlNQk9nSUlBRG9FQ0NNUUp6b0hDQUFRc1FNUUREb0VDQUFRRERvRUNBQVFDam9GQ0NFUW9BRlExenRZNVZwZzlsMW9BSEFBZUFDQUFkMENpQUgxSDVJQkNEQXVNVGN1TWk0eW1BRUFvQUVCcWdFSFozZHpMWGRwZWcmYW1wO3NjbGllbnQ9cHN5LWFiJmFtcDt2ZWQ9MGFoVUtFd2l2ejhyLTBkZnNBaFdWZmQ0S0hRVm5DemdRNGRVRENBYyZhbXA7dWFjdD01">https://www.google.com/search?sxsrf=ALeKk02_RlXojaHXAKGr06fm-GnSgong4w%3A1603900236059&amp;source=hp&amp;ei=TJOZX695lfv5BoXOrcAD&amp;q=session+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB&amp;oq=session+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB&amp;gs_lcp=CgZwc3ktYWIQAzoFCAAQsQM6CAgAELEDEIMBOgIIADoECCMQJzoHCAAQsQMQDDoECAAQDDoECAAQCjoFCCEQoAFQ1ztY5Vpg9l1oAHAAeACAAd0CiAH1H5IBCDAuMTcuMi4ymAEAoAEBqgEHZ3dzLXdpeg&amp;sclient=psy-ab&amp;ved=0ahUKEwivz8r-0dfsAhWVfd4KHQVnCzgQ4dUDCAc&amp;uact=5</span></p>
+<p>视频 <span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMVpWNDExQjdDcz9mcm9tPXNlYXJjaCZhbXA7c2VpZD0zMzc2MTExOTEyNDM5MjY3Mzc2">https://www.bilibili.com/video/BV1ZV411B7Cs?from=search&amp;seid=3376111912439267376</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC81ODYxMTAzNw==">https://zhuanlan.zhihu.com/p/58611037</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9zZWFyY2g/c291cmNlPWhwJmFtcDtlaT1wWS1aWDlYOEJZaXptQVdFaHI2Z0NRJmFtcDtxPXNlc3Npb24rJUU2JTk2JTg3JUU0JUJCJUI2JUU1JThDJTg1JUU1JTkwJUFCJmFtcDtvcT1zZXNzaW9uKyVFNiU5NiU4NyVFNCVCQiVCNiVFNSU4QyU4NSVFNSU5MCVBQiZhbXA7Z3NfbGNwPUNnWndjM2t0WVdJUUF6SUVDQUFRRERJRUNBQVFERG9GQ0FBUXNRTTZDQWdBRUxFREVJTUJPZ0lJQURvSENBQVFSaERfQVRvRUNBQVFDbENkQjFpV0ttRGdLMmdDY0FCNEFvQUJyd1NJQWFZbmtnRU1NQzR4Tmk0eUxqRXVNUzR5bUFFQW9BRUJxZ0VIWjNkekxYZHBlZyZhbXA7c2NsaWVudD1wc3ktYWImYW1wO3ZlZD0wYWhVS0V3aVY0LVBBenRmc0FoV0lHYVlLSFFTREQ1UVE0ZFVEQ0FvJmFtcDt1YWN0PTU=">https://www.google.com/search?source=hp&amp;ei=pY-ZX9X8BYizmAWEhr6gCQ&amp;q=session+文件包含&amp;oq=session+文件包含&amp;gs_lcp=CgZwc3ktYWIQAzIECAAQDDIECAAQDDoFCAAQsQM6CAgAELEDEIMBOgIIADoHCAAQRhD_AToECAAQClCdB1iWKmDgK2gCcAB4AoABrwSIAaYnkgEMMC4xNi4yLjEuMS4ymAEAoAEBqgEHZ3dzLXdpeg&amp;sclient=psy-ab&amp;ved=0ahUKEwiV4-PAztfsAhWIGaYKHQSDD5QQ4dUDCAo&amp;uact=5</span></p>
+<ul>
+<li>伪协议</li>
+</ul>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vMG50aDN3YXkvYXJ0aWNsZXMvNzE1OTI1My5odG1s">https://www.cnblogs.com/0nth3way/articles/7159253.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuc21pMWUudG9wLyVFNiU5NiU4NyVFNCVCQiVCNiVFNSU4QyU4NSVFNSU5MCVBQiVFNiVCQyU4RiVFNiVCNCU5RSVFNCVCOCU4RXBocCVFNCVCQyVBQSVFNSU4RCU4RiVFOCVBRSVBRS8=">https://www.smi1e.top/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E4%B8%8Ephp%E4%BC%AA%E5%8D%8F%E8%AE%AE/</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9zZWFyY2g/c3hzcmY9QUxlS2swMGs0RjdGNVhwSnhNSmVUUi04TngycjMxUm9IdzoxNjAzODk2MjE3MTY3JmFtcDtzb3VyY2U9aHAmYW1wO2VpPW1ZT1pYNzcyQjZMeGh3UFk5N1NnRHcmYW1wO3E9JUU2JTk2JTg3JUU0JUJCJUI2JUU1JThDJTg1JUU1JTkwJUFCKyVFNCVCQyVBQSVFNSU4RCU4RiVFOCVBRSVBRSZhbXA7b3E9JUU2JTk2JTg3JUU0JUJCJUI2JUU1JThDJTg1JUU1JTkwJUFCKyVFNCVCQyVBQSVFNSU4RCU4RiVFOCVBRSVBRSZhbXA7Z3NfbGNwPUNnWndjM2t0WVdJUUF6b0VDQ01RSnpvQ0NBQTZCUWdBRUxFRE9nZ0lBQkN4QXhDREFWREZCRmp6SldEN0oyZ0FjQUI0QUlBQnhBU0lBZW9Oa2dFTE1DNHlMakF1TVM0eExqR1lBUUNnQVFHcUFRZG5kM010ZDJsNiZhbXA7c2NsaWVudD1wc3ktYWImYW1wO3ZlZD0wYWhVS0V3ai1wcDJDdzlmc0FoV2ktR0VLSGRnN0RmUVE0ZFVEQ0FjJmFtcDt1YWN0PTU=">https://www.google.com/search?sxsrf=ALeKk00k4F7F5XpJxMJeTR-8Nx2r31RoHw%3A1603896217167&amp;source=hp&amp;ei=mYOZX772B6LxhwPY97SgDw&amp;q=%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB+%E4%BC%AA%E5%8D%8F%E8%AE%AE&amp;oq=%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB+%E4%BC%AA%E5%8D%8F%E8%AE%AE&amp;gs_lcp=CgZwc3ktYWIQAzoECCMQJzoCCAA6BQgAELEDOggIABCxAxCDAVDFBFjzJWD7J2gAcAB4AIABxASIAeoNkgELMC4yLjAuMS4xLjGYAQCgAQGqAQdnd3Mtd2l6&amp;sclient=psy-ab&amp;ved=0ahUKEwj-pp2Cw9fsAhWi-GEKHdg7DfQQ4dUDCAc&amp;uact=5</span></p>
+<p>视频 <span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMTJLNDExTjd1QT9wPTEy">https://www.bilibili.com/video/BV12K411N7uA?p=12</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Rlc3RpbnkxNTA3L2FydGljbGUvZGV0YWlscy84MjM0NzM3MQ==">https://blog.csdn.net/destiny1507/article/details/82347371</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZWJ1Zi5jb20vY29sdW1uLzE0ODg4Ni5odG1s">https://www.freebuf.com/column/148886.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8wYTgzMzlmY2MyNjk=">https://www.jianshu.com/p/0a8339fcc269</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9zZWFyY2g/c291cmNlPWhwJmFtcDtlaT0xNGlaWDdtQ0NzLUVyN3dQMHFhX3FBTSZhbXA7cT0lRTQlQkMlQUElRTUlOEQlOEYlRTglQUUlQUUrY3RmJmFtcDtvcT0lRTQlQkMlQUElRTUlOEQlOEYlRTglQUUlQUUrY3RmJmFtcDtnc19sY3A9Q2dad2Mza3RZV0lRQXpvQ0NBQTZCUWdBRUxFRE9nZ0lBQkN4QXhDREFUb0hDQUFRc1FNUUREb0VDQUFRRERvS0NBQVFzUU1RZ3dFUUREb0VDQUFRSGpvR0NBQVFCUkFlVUlzTFdOWWdZTjBpYUFGd0FIZ0FnQUdxQVlnQnB3LVNBUVF3TGpFem1BRUFvQUVCcWdFSFozZHpMWGRwZXJBQkFBJmFtcDtzY2xpZW50PXBzeS1hYiZhbXA7dmVkPTBhaFVLRXdqNXlaU0N5TmZzQWhWUHdvc0JIVkxURHpVUTRkVURDQW8mYW1wO3VhY3Q9NQ==">https://www.google.com/search?source=hp&amp;ei=14iZX7mCCs-Er7wP0qa_qAM&amp;q=伪协议+ctf&amp;oq=伪协议+ctf&amp;gs_lcp=CgZwc3ktYWIQAzoCCAA6BQgAELEDOggIABCxAxCDAToHCAAQsQMQDDoECAAQDDoKCAAQsQMQgwEQDDoECAAQHjoGCAAQBRAeUIsLWNYgYN0iaAFwAHgAgAGqAYgBpw-SAQQwLjEzmAEAoAEBqgEHZ3dzLXdperABAA&amp;sclient=psy-ab&amp;ved=0ahUKEwj5yZSCyNfsAhVPwosBHVLTDzUQ4dUDCAo&amp;uact=5</span></p>
+<ul>
+<li>题目 </li>
+</ul>
+<p><span class="exturl" data-url="aHR0cHM6Ly9idXVvai5jbi9jaGFsbGVuZ2Vz">https://buuoj.cn/challenges</span></p>
 
       <div class="tags">
           <a href="/tags/web/" rel="tag"><i class="ic i-tag"></i> web</a>
@@ -707,7 +795,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-10-28 19:38:28" itemprop="dateModified" datetime="2020-10-28T19:38:28+08:00">2020-10-28</time>
+    <time title="Modified: 2020-10-31 18:13:33" itemprop="dateModified" datetime="2020-10-31T18:13:33+08:00">2020-10-31</time>
   </span>
 </div>
 
@@ -764,7 +852,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item right">
       
 
-  <a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeudstjqj20zk0m8k3r.jpg" title="机器学习_在黑暗中投掷飞镖？">
+  <a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclwuom7cj20zk0m8dvn.jpg" title="机器学习_在黑暗中投掷飞镖？">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> paper笔记</span>
   <h3>机器学习_在黑暗中投掷飞镖？</h3>
@@ -786,7 +874,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00 文件包含的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">文件包含的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">文件包含函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">目录遍历与文件包含的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.</span> <span class="toc-text">靶场环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dvwa"><span class="toc-number">1.4.1.</span> <span class="toc-text">dvwa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LFI-labs"><span class="toc-number">1.4.2.</span> <span class="toc-text">LFI labs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#phpstudy2018"><span class="toc-number">1.4.3.</span> <span class="toc-text">phpstudy2018</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">1.5.</span> <span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hackbar"><span class="toc-number">1.5.1.</span> <span class="toc-text">hackbar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9A%81%E5%89%91"><span class="toc-number">1.5.2.</span> <span class="toc-text">蚁剑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#burpsuite"><span class="toc-number">1.5.3.</span> <span class="toc-text">burpsuite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl"><span class="toc-number">1.5.4.</span> <span class="toc-text">curl</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B2%E6%8E%88%E6%80%9D%E8%B7%AF"><span class="toc-number">1.6.</span> <span class="toc-text">讲授思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">0x01 文件包含漏洞基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.1.</span> <span class="toc-text">漏洞产生的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.2.</span> <span class="toc-text">本地文件包含漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%8C%9B%EF%B8%8F%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.3.</span> <span class="toc-text">⌛️远程文件包含漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02%E5%8C%85%E5%90%AB%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96webshell"><span class="toc-number">3.</span> <span class="toc-text">0x02包含日志文件获取webshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">3.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">3.1.1.</span> <span class="toc-text">利用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-number">3.1.3.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%97%A5%E5%BF%97%E5%AD%98%E6%94%BE%E8%B7%AF%E5%BE%84"><span class="toc-number">3.2.</span> <span class="toc-text">获取日志存放路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E8%B7%AF%E5%BE%84"><span class="toc-number">3.2.1.</span> <span class="toc-text">默认路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.2.</span> <span class="toc-text">web中间件默认配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.3.</span> <span class="toc-text">伪协议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x0-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">0x0 漏洞的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">4.1.</span> <span class="toc-text">伪协议的利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">其他利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E4%B8%AA%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number">4.2.1.</span> <span class="toc-text">四个绕过方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-%E6%BC%8F%E6%B4%9E%E7%9A%84%E9%98%B2%E5%BE%A1"><span class="toc-number">5.</span> <span class="toc-text">0x03 漏洞的防御</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">5.0.1.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00 文件包含的基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">文件包含的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">文件包含函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">目录遍历与文件包含的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%B6%E5%9C%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">1.4.</span> <span class="toc-text">靶场环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dvwa"><span class="toc-number">1.4.1.</span> <span class="toc-text">dvwa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LFI-labs"><span class="toc-number">1.4.2.</span> <span class="toc-text">LFI labs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#phpstudy2018"><span class="toc-number">1.4.3.</span> <span class="toc-text">phpstudy2018</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">1.5.</span> <span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hackbar"><span class="toc-number">1.5.1.</span> <span class="toc-text">hackbar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9A%81%E5%89%91"><span class="toc-number">1.5.2.</span> <span class="toc-text">蚁剑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#burpsuite"><span class="toc-number">1.5.3.</span> <span class="toc-text">burpsuite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl"><span class="toc-number">1.5.4.</span> <span class="toc-text">curl</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B2%E6%8E%88%E6%80%9D%E8%B7%AF"><span class="toc-number">1.6.</span> <span class="toc-text">讲授思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">0x01 文件包含漏洞基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.1.</span> <span class="toc-text">漏洞产生的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.2.</span> <span class="toc-text">本地文件包含漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%8C%9B%EF%B8%8F%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.3.</span> <span class="toc-text">⌛️远程文件包含漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02%E5%8C%85%E5%90%AB%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E8%8E%B7%E5%8F%96webshell"><span class="toc-number">3.</span> <span class="toc-text">0x02包含日志文件获取webshell</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">3.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">3.1.1.</span> <span class="toc-text">利用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-number">3.1.3.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%97%A5%E5%BF%97%E5%AD%98%E6%94%BE%E8%B7%AF%E5%BE%84"><span class="toc-number">3.2.</span> <span class="toc-text">获取日志存放路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E8%B7%AF%E5%BE%84"><span class="toc-number">3.2.1.</span> <span class="toc-text">默认路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web%E4%B8%AD%E9%97%B4%E4%BB%B6%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.2.</span> <span class="toc-text">web中间件默认配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%8C%9B%EF%B8%8F%E5%90%AB%E4%B9%89"><span class="toc-number">3.3.</span> <span class="toc-text">⌛️含义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">3.4.</span> <span class="toc-text">分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#php-%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.4.1.</span> <span class="toc-text">php:&#x2F;&#x2F;协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#session%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-number">4.</span> <span class="toc-text">session文件包含</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">4.1.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x0-%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text">0x0 漏洞的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">5.1.</span> <span class="toc-text">伪协议的利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">其他利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E4%B8%AA%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number">5.2.1.</span> <span class="toc-text">四个绕过方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-%E6%BC%8F%E6%B4%9E%E7%9A%84%E9%98%B2%E5%BE%A1"><span class="toc-number">6.</span> <span class="toc-text">0x03 漏洞的防御</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.0.1.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%85%E7%9C%8B%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">待看资料</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
@@ -896,7 +984,7 @@ Yume Shoka = Parallel universe</title>
 <a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
   </li>
 
       
@@ -906,7 +994,7 @@ Yume Shoka = Parallel universe</title>
 <a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
   </li>
 
       

@@ -100,12 +100,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giph4wqtg4j20zk0m8x6p.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipey0a334j20zk0m8qpt.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipesrnqv3j20zk0m8ava.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclip4jbpj20zk0m87cv.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicitspjpbj20zk0m81ky.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipet8c1a2j20zk0m8kct.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gipevuctzzj20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicitspjpbj20zk0m81ky.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giclfdu6exj20zk0m87hw.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giclga70tsj20zk0m84mr.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gipev1x5e4j20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicitht3xtj20zk0m8k5v.jpg"></li>
         </ul>
       </div>
     </header>
@@ -169,7 +169,24 @@ Yume Shoka = Parallel universe</title>
 <p>PKCS5Padding：块大小为8，填充的字符的值为缺少的字符数。</p>
 <p>PKCS7Padding：块大小不确定。</p>
 <p>还有其他的…</p>
-<h1 id="DES常用的攻击手法"><a href="#DES常用的攻击手法" class="headerlink" title="DES常用的攻击手法"></a>DES常用的攻击手法</h1>
+<p>6、DES：奇偶校验位(8位)是不参与加解密的，故密钥长度一共是56位。</p>
+<p>弱点：</p>
+<ul>
+<li><p>弱密钥/半弱密钥</p>
+</li>
+<li><p>互补对称</p>
+</li>
+<li><p><strong>子密钥逆推：</strong>如果加密过程中两轮或者两轮以上的密钥泄漏，就可以考虑逆推出初始密钥</p>
+</li>
+</ul>
+<p>7、二重DES</p>
+<p>使用了两个DES密钥，密钥长度为112位，能够抵抗穷举攻击，不能抵抗中间相遇攻击。</p>
+<p>三重DES</p>
+<p>可以抵抗中间相遇攻击，一定条件下可以和DES兼容。</p>
+<p>8、AES攻击手法</p>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><p>1、hashcat</p>
+<p>参考 <span class="exturl" data-url="aHR0cDovL2ljNHJlLmJsb2dzcG90LmNvbS8yMDE2LzEyL2hvdy10by1pbnN0YWxsLWhhc2hjYXQtb24tbWFjb3Mtb3N4Lmh0bWw=">http://ic4re.blogspot.com/2016/12/how-to-install-hashcat-on-macos-osx.html</span></p>
+
   </div>
 
    <footer>
@@ -180,7 +197,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-11-06 17:42:33" itemprop="dateModified" datetime="2020-11-06T17:42:33+08:00">2020-11-06</time>
+    <time title="Modified: 2020-11-11 01:05:32" itemprop="dateModified" datetime="2020-11-11T01:05:32+08:00">2020-11-11</time>
   </span>
 </div>
 
@@ -235,7 +252,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gicis081o9j20zk0m8dmr.jpg" title="二进制方向">
+  <a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giciszlczyj20zk0m816d.jpg" title="二进制方向">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> </span>
   <h3>二进制方向</h3>
@@ -243,6 +260,14 @@ Yume Shoka = Parallel universe</title>
 
     </div>
     <div class="item right">
+      
+
+  <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giph4lm9i7j20zk0m84qp.jpg" title="excel表格数据处理">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> </span>
+  <h3>excel表格数据处理</h3>
+  </a>
+
     </div>
 </div>
 
@@ -259,7 +284,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DES%E5%B8%B8%E7%94%A8%E7%9A%84%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">DES常用的攻击手法</span></a></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">工具</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
       </div>
@@ -274,7 +299,7 @@ Yume Shoka = Parallel universe</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">10</span>
+        <span class="count">11</span>
         <span class="name">posts</span>
       </a>
     </div>
@@ -338,10 +363,12 @@ Yume Shoka = Parallel universe</title>
 
   <ul id="quick">
     <li class="prev pjax">
+        <a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
     </li>
     <li class="up"><i class="ic i-arrow-up"></i></li>
     <li class="down"><i class="ic i-arrow-down"></i></li>
     <li class="next pjax">
+        <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
     </li>
     <li class="percent"></li>
   </ul>
@@ -363,20 +390,28 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
+    <span><a href="/2020/11/06/%E5%AF%86%E7%A0%81/" title="密码">密码</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
+</div>
+
+    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
   </li>
 
       
@@ -393,9 +428,28 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" title="二进制方向">二进制方向</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
   </li>
 
       
@@ -423,35 +477,7 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/06/%E5%AF%86%E7%A0%81/" title="密码">密码</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
-</div>
-
-    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" title="二进制方向">二进制方向</a></span>
+    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
   </li>
 
   </ul>

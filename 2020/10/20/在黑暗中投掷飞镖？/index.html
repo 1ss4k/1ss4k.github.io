@@ -102,12 +102,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclwrdwyaj20zk0m8are.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipey0a334j20zk0m8qpt.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeybxm1pj20zk0m8niv.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giciukx8a7j20zk0m8aio.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicliwyw55j20zk0m8hdt.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclh0m9pdj20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicitzannuj20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gipewf5l51j20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicit31ffoj20zk0m8naf.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giph4lm9i7j20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicm0fdw5cj20zk0m8hdt.jpg"></li>
         </ul>
       </div>
     </header>
@@ -261,6 +261,18 @@ Yume Shoka = Parallel universe</title>
 <p>图六说明了机器学习对现有规则的补充的价值。</p>
 <h3 id="有限的训练数据"><a href="#有限的训练数据" class="headerlink" title="有限的训练数据"></a>有限的训练数据</h3><p>实验结果表明：限制实验数据会影响实验的效果，表中已经显示出来了。</p>
 <p>A中的先进机器人呈现出一种与良性数据不同的均匀分布。(稍后会证明这种性质会改变)</p>
+<p>实验结果表明：在有些网站中，LSTM模型已经可以去有效地捕捉到bot的模式了，但是当bot的行为更加复杂的时候，模型容易被有限的训练数据破坏。</p>
+<h1 id="有几率的数据合成-data-synthesis-using-odds"><a href="#有几率的数据合成-data-synthesis-using-odds" class="headerlink" title="有几率的数据合成(data synthesis using odds)"></a>有几率的数据合成(data synthesis using odds)</h1><p>本节讨论如何用合成的数据来训练模型，此方法不同于GAN。只合成bot数据，因为bot的数据一般是动态变化的，想要得到他的标签非常昂贵。</p>
+<p>设计了一种数据合成的方法叫ODDS，基于[outliers]和[clustered]的不同特征，使用不同的泛化函数。</p>
+<h2 id="motivation-of-ODDS"><a href="#motivation-of-ODDS" class="headerlink" title="motivation of ODDS"></a>motivation of ODDS</h2><p>用少量有限的数据进行训练会导致数据拟合，导致模型的泛化能力较差。GAN是一种流行的数据合成的方法，以模拟目标的分布。但是不适用于我们的实验，因为要求输入的bot分布是非代表性的。因此，研究将输入数据分布扩展到特征空间中的未知区域。</p>
+<p>可以用特定领域的启发式去提高猜测的正确性。</p>
+<p>有如下两个猜测：</p>
+<p>(1)猜测良性数据更加具有代表性和稳定性，可以依赖良性数据去生成补充数据。也就是说，良性区域外的任何数据都有可能是机器人数据。</p>
+<p>(2)标记bot的数据是有偏向的。某些特定的bot行为可以被很好地捕获，但是一些其他行为是under-represent甚至是丢失的。我们需要根据标记数据不同的内部结构进行数据合成。在特征空间的clustered区域，我们小心地扩展已经标记bot的区域，并且扩展不容易靠近良性区域；在离群点区域，可以更加积极地扩展bot区域，使良性集群的外侧更加均匀。</p>
+<p>设计了Outlier分布感知数据集合，又叫做ODDS，是一种数据合成的专用的GAN，</p>
+<h2 id="ODDS的设计概述"><a href="#ODDS的设计概述" class="headerlink" title="ODDS的设计概述"></a>ODDS的设计概述</h2><p><strong>步骤1:</strong> 预处理过程，学习输入数据的潜在的表示</p>
+<p>使用LSTM自动编码，将输入特征向量转换为一个更压缩的特征空间</p>
+<p><strong>步骤2:</strong></p>
 <p>疑问：为什么S2和S1使用相同的窗口来估计时间分布？</p>
 <p>2、recall，召回率，是什么意思？</p>
 <h1 id="会议视频记录"><a href="#会议视频记录" class="headerlink" title="会议视频记录"></a>会议视频记录</h1><p>视频链接🔗 <span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj0xVEJPTzRNcVNhayZhbXA7bGlzdD1QTDBwUkY0eHZvRDBuSmNCVjhPT05yRk5JamFidk9KcGxWJmFtcDtpbmRleD02NA==">https://www.youtube.com/watch?v=1TBOO4MqSak&amp;list=PL0pRF4xvoD0nJcBV8OONrFNIjabvOJplV&amp;index=64</span></p>
@@ -279,7 +291,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-11-05 10:17:02" itemprop="dateModified" datetime="2020-11-05T10:17:02+08:00">2020-11-05</time>
+    <time title="Modified: 2020-11-10 09:03:46" itemprop="dateModified" datetime="2020-11-10T09:03:46+08:00">2020-11-10</time>
   </span>
 </div>
 
@@ -334,7 +346,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giciukx8a7j20zk0m8aio.jpg" title="文件包含">
+  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeuv80yoj20zk0m8kjl.jpg" title="文件包含">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> web</span>
   <h3>文件包含</h3>
@@ -344,7 +356,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item right">
       
 
-  <a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeyonbf9j20zk0m8e81.jpg" title="sql注入">
+  <a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclxp31goj20zk0m8qv5.jpg" title="sql注入">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> web</span>
   <h3>sql注入</h3>
@@ -366,7 +378,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Background-and-goals"><span class="toc-number">3.</span> <span class="toc-text">Background and goals</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bot-detection"><span class="toc-number">3.1.</span> <span class="toc-text">Bot detection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">3.2.</span> <span class="toc-text">实际应用中的挑战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86"><span class="toc-number">3.3.</span> <span class="toc-text">数据收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E5%A4%84%E7%90%86%EF%BC%9AIP%E5%BA%8F%E5%88%97"><span class="toc-number">3.4.</span> <span class="toc-text">再处理：IP序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-number">3.5.</span> <span class="toc-text">真实的标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">3.6.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">3.7.</span> <span class="toc-text">范围和局限性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACbot%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">基本bot检测系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51-%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E7%9A%84%E8%A7%84%E5%88%99%E8%BF%87%E6%BB%A4%E5%87%BA%E6%98%93%E4%BA%8E%E6%A3%80%E6%B5%8B%E7%9A%84bot"><span class="toc-number">4.1.</span> <span class="toc-text">阶段1: 预处理，使用现有的规则过滤出易于检测的bot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52-%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%8E%BB%E6%A3%80%E6%B5%8B%E5%87%BA%E5%89%A9%E4%BD%99%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%AD%E7%9A%84%E9%AB%98%E7%BA%A7bot"><span class="toc-number">4.2.</span> <span class="toc-text">阶段2:使用机器学习模型去检测出剩余的数据中的高级bot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%A2%91%E7%8E%87%E7%BC%96%E7%A0%81%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.2.1.</span> <span class="toc-text">基于频率编码的滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">4.2.2.</span> <span class="toc-text">构建分类器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.</span> <span class="toc-text">评估性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9A%82%E6%97%B6%E5%88%86%E7%A6%BB"><span class="toc-number">4.3.1.</span> <span class="toc-text">训练和测试暂时分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.3.2.</span> <span class="toc-text">引导滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.3.</span> <span class="toc-text">模型的性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E7%9A%84%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.4.</span> <span class="toc-text">有限的训练数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%9A%E8%AE%AE%E8%A7%86%E9%A2%91%E8%AE%B0%E5%BD%95"><span class="toc-number">5.</span> <span class="toc-text">会议视频记录</span></a></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Background-and-goals"><span class="toc-number">3.</span> <span class="toc-text">Background and goals</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bot-detection"><span class="toc-number">3.1.</span> <span class="toc-text">Bot detection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">3.2.</span> <span class="toc-text">实际应用中的挑战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86"><span class="toc-number">3.3.</span> <span class="toc-text">数据收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E5%A4%84%E7%90%86%EF%BC%9AIP%E5%BA%8F%E5%88%97"><span class="toc-number">3.4.</span> <span class="toc-text">再处理：IP序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-number">3.5.</span> <span class="toc-text">真实的标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">3.6.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">3.7.</span> <span class="toc-text">范围和局限性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACbot%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">基本bot检测系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51-%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E7%9A%84%E8%A7%84%E5%88%99%E8%BF%87%E6%BB%A4%E5%87%BA%E6%98%93%E4%BA%8E%E6%A3%80%E6%B5%8B%E7%9A%84bot"><span class="toc-number">4.1.</span> <span class="toc-text">阶段1: 预处理，使用现有的规则过滤出易于检测的bot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52-%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%8E%BB%E6%A3%80%E6%B5%8B%E5%87%BA%E5%89%A9%E4%BD%99%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%AD%E7%9A%84%E9%AB%98%E7%BA%A7bot"><span class="toc-number">4.2.</span> <span class="toc-text">阶段2:使用机器学习模型去检测出剩余的数据中的高级bot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%A2%91%E7%8E%87%E7%BC%96%E7%A0%81%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.2.1.</span> <span class="toc-text">基于频率编码的滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">4.2.2.</span> <span class="toc-text">构建分类器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.</span> <span class="toc-text">评估性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9A%82%E6%97%B6%E5%88%86%E7%A6%BB"><span class="toc-number">4.3.1.</span> <span class="toc-text">训练和测试暂时分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.3.2.</span> <span class="toc-text">引导滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.3.</span> <span class="toc-text">模型的性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E7%9A%84%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.4.</span> <span class="toc-text">有限的训练数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E5%87%A0%E7%8E%87%E7%9A%84%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90-data-synthesis-using-odds"><span class="toc-number">5.</span> <span class="toc-text">有几率的数据合成(data synthesis using odds)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation-of-ODDS"><span class="toc-number">5.1.</span> <span class="toc-text">motivation of ODDS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ODDS%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">5.2.</span> <span class="toc-text">ODDS的设计概述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%9A%E8%AE%AE%E8%A7%86%E9%A2%91%E8%AE%B0%E5%BD%95"><span class="toc-number">6.</span> <span class="toc-text">会议视频记录</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
@@ -384,7 +396,7 @@ Yume Shoka = Parallel universe</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">10</span>
+        <span class="count">11</span>
         <span class="name">posts</span>
       </a>
     </div>
@@ -475,29 +487,19 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 <a href="/categories/web/" title="In web">web</a>
 </div>
 
     <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
-</div>
-
-    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
   </li>
 
       
@@ -513,38 +515,9 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
-</div>
-
-    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
 </div>
 
     <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
-</div>
-
-    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" title="二进制方向">二进制方向</a></span>
   </li>
 
       
@@ -563,7 +536,45 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
+    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" title="二进制方向">二进制方向</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
+</div>
+
+    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
   </li>
 
   </ul>

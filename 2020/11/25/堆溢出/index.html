@@ -1,0 +1,643 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Parallel universe" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Parallel universe" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="Parallel universe" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.3">
+
+  
+
+<link rel="canonical" href="http://example.com/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/">
+
+
+
+  <title>
+堆溢出 |
+Yume Shoka = Parallel universe</title>
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">堆溢出
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2020-11-25 20:42:48">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2020-11-25T20:42:48+08:00">2020-11-25</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giph4fomxoj20zk0m8axp.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeudstjqj20zk0m8k3r.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicitf0kl1j20zk0m87fe.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeyonbf9j20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclfb3vzhj20zk0m8wny.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main id="main">
+      <div class="inner">
+        <div id="content" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">Home</a></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="1ss4k">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Parallel universe">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>#内存分配的机制</p>
+<p>1、通过brk和mmap实现malloc内存分配</p>
+<p>![image-20201125213106650](/Users/my/Library/Application Support/typora-user-images/image-20201125213106650.png)</p>
+<p>arena个数：</p>
+<p>![image-20201125213341961](/Users/my/Library/Application Support/typora-user-images/image-20201125213341961.png)</p>
+<p>2、申请堆块</p>
+<p>malloc：实际内存为 0x10的chunk头 + 申请的大小，直接返回堆地址</p>
+<p>calloc：先清空堆内存空间，再返回堆地址。(丢弃之前块的内容)</p>
+<p>realloc</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">chunk=malloc(16);</span><br><span class="line">chunk1=realloc(chunk,32);</span><br><span class="line"></span><br><span class="line">当 realloc(ptr,size) 的 size 不等于 ptr 的 size 时</span><br><span class="line">如果申请 size &gt; 原来 size</span><br><span class="line">如果 chunk 与 top chunk 相邻，直接扩展这个 chunk 到新 size 大小,相当于从top chunk上切下来需要补上的大小</span><br><span class="line">如果 chunk 与 top chunk 不相邻，相当于 free(ptr),malloc(new_size)</span><br><span class="line"></span><br><span class="line">如果申请 size &lt; 原来 size</span><br><span class="line">如果*相差*不足以容得下一个最小 chunk(64 位下 32 个字节，32 位下 16 个字节)，则保持不变</span><br><span class="line">如果*相差*可以容得下一个最小 chunk，则切割原 chunk 为两部分，free 掉后一部分(因为还可以再使用)</span><br><span class="line"></span><br><span class="line">当 realloc(ptr,size) 的 size 等于 0 时，相当于 free(ptr)</span><br><span class="line">当 realloc(ptr,size) 的 size 等于 ptr 的size，不进行任何操作</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3、释放堆块</p>
+<p>free：先进行判断。</p>
+<p>(1)大小 chunk_size &lt;= max_fast(0x80) </p>
+<p>(2)位置 chunk不位于heap的顶部，即不与top chunk相邻</p>
+<p>如果满足上面两种情况，则放到fast bins中，否则放到unsorted bin中</p>
+<p>在实际操作的时候，bins可以查看相应的bin信息</p>
+<p>![image-20201130223318937](/Users/my/Library/Application Support/typora-user-images/image-20201130223318937.png)</p>
+<p>理论是这样的，但是在实际操作的时候发现加入了tcachebins机制，释放的堆块都放入了tcachebins中</p>
+<p>![image-20201130223916270](/Users/my/Library/Application Support/typora-user-images/image-20201130223916270.png)</p>
+<p>查阅资料发现，只有tcachebins满了之后，才会存入fastbins中。并且tcache也是区分块的大小的。</p>
+<p>![image-20201201114346997](/Users/my/Library/Application Support/typora-user-images/image-20201201114346997.png)</p>
+<p>可以用如下代码进行测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;malloc.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">        int *a, *b, *b1, *c, *d, *t1, *t2, *t3, *t4, *t5, *t6, *t7;</span><br><span class="line">        t1 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        t2 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        t3 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        t4 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        t5 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        t6 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        t7 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        a = (int *)malloc(<span class="number">0x30</span>);</span><br><span class="line">  			b1 = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        b = (int *)malloc(<span class="number">0x68</span>);</span><br><span class="line">        c = (int *)malloc(<span class="number">0x69</span>);</span><br><span class="line">        d = (int *)malloc(<span class="number">0x30</span>);</span><br><span class="line"></span><br><span class="line">        free(t1);</span><br><span class="line">        free(t2);</span><br><span class="line">        free(t3);</span><br><span class="line">        free(t4);</span><br><span class="line">        free(t5);</span><br><span class="line">        free(t6);</span><br><span class="line">        free(t7);</span><br><span class="line"></span><br><span class="line">        free(a);</span><br><span class="line">        free(b);</span><br><span class="line">        free(c);</span><br><span class="line">        free(d);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>调试可获得如下知识：</p>
+<ul>
+<li>最开始释放的堆块会放在tcachebins中，并且数量限制为7，它指向的是fd地址，即chunk地址+0x10。</li>
+</ul>
+<p>![image-20201201112025983](/Users/my/Library/Application Support/typora-user-images/image-20201201112025983.png)</p>
+<p>chunk地址如下</p>
+<p>![image-20201201112300282](/Users/my/Library/Application Support/typora-user-images/image-20201201112300282.png)</p>
+<p>所以原来的代码不能测试想要的东西，需要重新设计代码</p>
+<p>代码思路：用到的是0x30,0x79,0x80,0x90，需要先把相应的tcachebins填满后，才能放到fastbins里面。</p>
+<p>对0x30大小的块进行测试，创建8块，并释放。</p>
+<p>可以得出结论：它的容量大小为7。并且申请的 0x30大小的块，先被放入0x40的tcachebins中，再被放入到了0x40的fastbin中。</p>
+<p>![image-20201204105324629](/Users/my/Library/Application Support/typora-user-images/image-20201204105324629.png)</p>
+<p>![image-20201204105423656](/Users/my/Library/Application Support/typora-user-images/image-20201204105423656.png)</p>
+<p>申请的0x79大小的块，先被放入0x90的tcachebins中，然后并没有放入fastbins中，而是放入了unsortedbin中。</p>
+<p>![image-20201204111551585](/Users/my/Library/Application Support/typora-user-images/image-20201204111551585.png)</p>
+<p>第8块被放入了unsortbin中，而在释放完第九块之后，又神奇的没有了。可能是有其他机制，我还没学到而已。</p>
+<p>![image-20201204111724900](/Users/my/Library/Application Support/typora-user-images/image-20201204111724900.png)</p>
+<p>再来测试0x80，申请0x80大小的块，先被放在0x90大小的tcachebins中，然后释放的第八块被放在了unsortedbin中，释放的第9块没有显示，释放完最后一块（第十块）之后，unsortedbin被清空了，啥也没有了。</p>
+<p>![image-20201204112345577](/Users/my/Library/Application Support/typora-user-images/image-20201204112345577.png)</p>
+<p>测试0x78大小的块，发现放在了fastbins的0x80里面</p>
+<p>![image-20201204113345605](/Users/my/Library/Application Support/typora-user-images/image-20201204113345605.png)</p>
+<p>此处理解到这个程度就可以啦！</p>
+<p>调试代码如下,测试的时候a/b/c/d单个单个测试。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;malloc.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">        int *a[<span class="number">8</span>];</span><br><span class="line">        int *b[<span class="number">9</span>];</span><br><span class="line">        int *c[<span class="number">10</span>];</span><br><span class="line">        int *d[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">        int i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">8</span>; i++)&#123;</span><br><span class="line">                a[i] = (int *)malloc(<span class="number">0x30</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)&#123;</span><br><span class="line">                free(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">9</span>; i++)&#123;</span><br><span class="line">                b[i] = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++)&#123;</span><br><span class="line">                free(b[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)&#123;</span><br><span class="line">                c[i] = (int *)malloc(<span class="number">0x80</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">                free(c[i]);        </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">8</span>; i++)&#123;</span><br><span class="line">                d[i] = (int *)malloc(<span class="number">0x78</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)&#123;</span><br><span class="line">                free(d[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4、内存对齐</p>
+<p>堆块复用知识</p>
+<p>规则：</p>
+<p>0x61 - 68:—&gt; 0x71【 8位 】剩下的9 10 11 12 13 14 15 16，共8个字节，可以利用为下一个堆块的pre_size，</p>
+<p>0x69 - 6f:—&gt; 0x81 【 7位 】剩下的不够利用为pre_size，需要再开辟0x10的空间。</p>
+<p>0x70 - 0x78 —&gt; 0x81 </p>
+<p>即假设申请的大小为0x60，它给开辟的空间的大小就是0x71。可以用如下程序进行测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;malloc.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">        int *a, *b, *c, *d, *e, *f, *g, *h, *i, *j;</span><br><span class="line">        a = (int *)malloc(<span class="number">0x59</span>); </span><br><span class="line">        b = (int *)malloc(<span class="number">0x60</span>);</span><br><span class="line">        c = (int *)malloc(<span class="number">0x67</span>);</span><br><span class="line">        d = (int *)malloc(<span class="number">0x68</span>);</span><br><span class="line">        e = (int *)malloc(<span class="number">0x69</span>);</span><br><span class="line">        f = (int *)malloc(<span class="number">0x6f</span>);</span><br><span class="line">        g = (int *)malloc(<span class="number">0x70</span>);</span><br><span class="line">        h = (int *)malloc(<span class="number">0x77</span>);</span><br><span class="line">        i = (int *)malloc(<span class="number">0x78</span>);</span><br><span class="line">        j = (int *)malloc(<span class="number">0x79</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用gdb进行调试，heap查看堆块相应的信息。</p>
+<p>![image-20201130220235942](/Users/my/Library/Application Support/typora-user-images/image-20201130220235942.png)</p>
+<p>0x30gx 地址，可以查看堆块相应的内容,此处用 x/100gx 0x555555756250 查看。</p>
+<p>![image-20201130220345007](/Users/my/Library/Application Support/typora-user-images/image-20201130220345007.png)</p>
+<p>0x59 —&gt; 0x71</p>
+<p>0x60 —&gt; 0x71</p>
+<p>0x67 —&gt; 0x71</p>
+<p>0x68 —&gt; 0x71</p>
+<p>0x69 —&gt; 0x81</p>
+<p>0x6f—&gt; 0x81</p>
+<p>0x70—&gt; 0x81</p>
+<p>0x77—&gt; 0x81</p>
+<p>0x78—&gt; 0x81</p>
+<p>0x79—&gt; 0x91</p>
+<p>所以可以看成，以0x8和0x9为分界线，到了0x9，就要加个0x10</p>
+<p>#堆块chunk的结构</p>
+<p>1、基于glibc中的源码</p>
+<p>glibc中搜索malloc_chunk，可以找到定义的结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  INTERNAL_SIZE_T      mchunk_prev_size;  <span class="comment">/* Size of previous chunk (if free).  */</span></span><br><span class="line">  INTERNAL_SIZE_T      mchunk_size;       <span class="comment">/* Size in bytes, including overhead. */</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd</span>;</span>         <span class="comment">/* double links -- used only if free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Only used for large blocks: pointer to next larger size.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd_nextsize</span>;</span> <span class="comment">/* double links -- used only if free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk_nextsize</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>mchunk_prev_size 和 mchunk_size 都是8字节，32位。所以两个大小就是0x10。</p>
+<p>fd是下一块空闲堆块，bk是前一块空闲堆块，每个8字节，大小总共0x10。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    chunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">	    |             Size of previous chunk, if unallocated (P clear)  |</span><br><span class="line">	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">	    |             Size of chunk, in bytes                     |A|M|P|</span><br><span class="line">      mem-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">	    |             User data starts here...                          .</span><br><span class="line">	    .                                                               .</span><br><span class="line">	    .             (malloc_usable_size() bytes)                      .</span><br><span class="line">	    .                                                               |</span><br><span class="line">nextchunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">	    |             (size of chunk, but used for application data)    |</span><br><span class="line">	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">	    |             Size of next chunk, in bytes                |A|0|1|</span><br><span class="line">	    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>mchunk_prev_size只有在前一块未被使用的时候才用来表示前一个块的chunk。</p>
+<p>mchunk_size：当前chunk的大小。AMP是标志位</p>
+<p>A：A=0 为主分区分配，A=1 为非主分区分配，参见后面</p>
+<p>M：M=1表示使用mmap映射区域，M=0为使用heap区域，brk申请。</p>
+<p>P：P=1 表示<strong>pre_chunk</strong>空闲，未分配，mchunk_prev_size才有效。0表示<strong>前一个</strong>堆块已分配。</p>
+<p>2、top chunk</p>
+<p>位于最底部，最高地址处。</p>
+<p>bin中的块都不能使用时，会从top chunk中再切割出相应的大小。</p>
+<h1 id="bin的分类和结构"><a href="#bin的分类和结构" class="headerlink" title="bin的分类和结构"></a>bin的分类和结构</h1><p><strong>tcachebins</strong></p>
+<p>单链表，用fd指针。</p>
+<p>只对链表头进行操作，有点类似栈。</p>
+<p><strong>fastbin</strong></p>
+<p>单链表，用fd指针，后进先出。</p>
+<p>大小:  0x20 — 0x80</p>
+<p>不进行合并的操作</p>
+<p><strong>unsortedbin</strong></p>
+<p>循环双链表，头插法，尾删法。</p>
+<p>| 头 —— 尾</p>
+<p>大小：0x80 — 任意大小</p>
+<p>会对物理相邻的free chunk 进行合并操作</p>
+<p>会残留main_arena 的地址</p>
+<p><strong>small bins</strong></p>
+<p>类似unsorted bin </p>
+<p>大小：0x20-0x3f0 (0x3f0 = 十进制的1008)</p>
+<p>一共有62个small bin，16字节为公差，单调递增，等差数列</p>
+<p><strong>large bins</strong></p>
+<p>大小：0x400 — 无穷大</p>
+<p>一共有63个large bin，每个 bin 中的 chunk 大小不是一个固定公差的等差数列，而是分成 6 组 bin，每组 bin 是一个 固定公差的等差数列，每组的 bin 数量依次为 32、16、8、4、2、1，公差依次为 64B、512B、 4096B、32768B、262144B 等</p>
+<p>在每个bin中，从大到小进行排列，脱链时从小到大找符合条件的堆块</p>
+<h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><h3 id="UAF"><a href="#UAF" class="headerlink" title="UAF"></a>UAF</h3><p>原理：free后没有清空内存，导致free状态的内存空间再次被使用</p>
+<p>利用：修改free状态块的fd 和 bk指针，指向我们想要的内容。再次再分配的时候就会分配这个已经free掉的块，并且其中的指针指向的是我们想要的地址</p>
+<p>注意：fastbin中指向的块的大小与原块的大小要保持一致</p>
+<h4 id="练习1—chunk"><a href="#练习1—chunk" class="headerlink" title="练习1—chunk"></a>练习1—chunk</h4><h3 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h3><h3 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><h3 id="offbyone-and-offbynull"><a href="#offbyone-and-offbynull" class="headerlink" title="offbyone and offbynull"></a>offbyone and offbynull</h3><h3 id="tcache技术"><a href="#tcache技术" class="headerlink" title="tcache技术"></a>tcache技术</h3><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>地址 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RpdHRvenp6L0NJU0NOXzIwMTlfZmluYWxfZGF5MV9wd25fNg==">https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6</span></p>
+<p>1、可以实现的功能：(1)free (2)malloc</p>
+<p>2、checksec </p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Full RELRO 重定向，无法修改GOT表</span><br><span class="line">Stack:    Canary found 金丝雀</span><br><span class="line">NX:       NX enabled 栈不可执行</span><br><span class="line">PIE:      PIE enabled 内存地址随机化</span><br></pre></td></tr></table></figure>
+
+
+
+<p>file 查看文件信息</p>
+<p>但是自己还是太菜了，看不懂 </p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3poeTAyNTkwNy9hcnRpY2xlL2RldGFpbHMvOTkyMDY4MzE=">https://blog.csdn.net/zhy025907/article/details/99206831</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9jY2YxODljMjA5MGI=">https://www.jianshu.com/p/ccf189c2090b</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNzA2OTI0L2FydGljbGUvZGV0YWlscy84OTg1NTk1NA==">https://blog.csdn.net/qq_41706924/article/details/89855954</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZWx2aXJhbmdlbC9wLzg4OTM5MTYuaHRtbA==">https://www.cnblogs.com/elvirangel/p/8893916.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZWx2aXJhbmdlbC9wLzg4OTM5MTYuaHRtbA==">https://www.cnblogs.com/elvirangel/p/8893916.html</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phenJ5bndvbmcvYXJ0aWNsZS9kZXRhaWxzLzg4MjQwMTgy">https://blog.csdn.net/jazrynwong/article/details/88240182</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuZnJlZXNpb24uY29tL2FydGljbGUvNDY1NDY2NTE2Lw==">https://www.freesion.com/article/465466516/</span></p>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2020-12-12 17:46:40" itemprop="dateModified" datetime="2020-12-12T17:46:40+08:00">2020-12-12</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="1ss4k WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="1ss4k Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="1ss4k PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>1ss4k <i class="ic i-at"><em>@</em></i>Parallel universe
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="http://example.com/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/" title="堆溢出">http://example.com/2020/11/25/堆溢出/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="nav">
+    <div class="item left">
+      
+
+  <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giph4lm9i7j20zk0m84qp.jpg" title="栈溢出">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> </span>
+  <h3>栈溢出</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="/2020/12/04/%E7%88%AC%E8%99%AB/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipey84bjtj20zk0m8hdt.jpg" title="爬虫">
+  <span class="type">Next Post</span>
+  <span class="category"><i class="ic i-flag"></i> </span>
+  <h3>爬虫</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bin%E7%9A%84%E5%88%86%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">bin的分类和结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text">漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#UAF"><span class="toc-number">2.0.1.</span> <span class="toc-text">UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%83%E4%B9%A01%E2%80%94chunk"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">练习1—chunk</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#double-free"><span class="toc-number">2.0.2.</span> <span class="toc-text">double free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unsorted-bin-attack"><span class="toc-number">2.0.3.</span> <span class="toc-text">unsorted bin attack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unlink"><span class="toc-number">2.0.4.</span> <span class="toc-text">unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#offbyone-and-offbynull"><span class="toc-number">2.0.5.</span> <span class="toc-text">offbyone and offbynull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcache%E6%8A%80%E6%9C%AF"><span class="toc-number">2.0.6.</span> <span class="toc-text">tcache技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%83%E4%B9%A01"><span class="toc-number">2.0.7.</span> <span class="toc-text">练习1</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="1ss4k"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">1ss4k</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">17</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">3</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">6</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lvdXJuYW1l" title="https:&#x2F;&#x2F;github.com&#x2F;yourname"><i class="ic i-github"></i></span>
+      <span class="exturl item twitter" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;twitter.com&#x2F;yourname"><i class="ic i-twitter"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yourname"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item music" data-url="aHR0cHM6Ly9tdXNpYy4xNjMuY29tLyMvdXNlci9ob21lP2lkPXlvdXJpZA==" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;yourid"><i class="ic i-cloud-music"></i></span>
+      <span class="exturl item weibo" data-url="aHR0cHM6Ly93ZWliby5jb20veW91cm5hbWU=" title="https:&#x2F;&#x2F;weibo.com&#x2F;yourname"><i class="ic i-weibo"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9hYm91dC5tZS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;about.me&#x2F;yourname"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+        
+  <li class="item dropdown">
+    <a href="javascript:void(0);"><i class="ic i-feather"></i>Posts</a>
+    <ul class="submenu">
+
+        
+  <li class="item">
+    <a href="/archives/" rel="section"><i class="ic i-list-alt"></i>Archives</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/categories/" rel="section"><i class="ic i-th"></i>Categories</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/tags/" rel="section"><i class="ic i-tags"></i>Tags</a>
+  </li>
+
+  </ul>
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2020/12/04/%E7%88%AC%E8%99%AB/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" title="二进制方向">二进制方向</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/13/%E5%AE%89%E5%8D%93/" title="安卓">安卓</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="代码审计">代码审计</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/" title="利用网络威胁情报实现有效的网络威胁搜索">利用网络威胁情报实现有效的网络威胁搜索</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2020</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">1ss4k @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2020/11/25/堆溢出/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.3"></script>
+
+
+
+
+</body>
+</html>

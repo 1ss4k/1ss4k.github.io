@@ -102,12 +102,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicitzannuj20zk0m8b29.jpg"></li>
-          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gipewf5l51j20zk0m8b29.jpg"></li>
-          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicit31ffoj20zk0m8naf.jpg"></li>
-          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giph4lm9i7j20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
-          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicm0fdw5cj20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipetv6p75j20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicitcxhpij20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclil3m4ej20zk0m8tn8.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhpw3lwj20zk0m8gvw.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipesx5fdwj20zk0m81kx.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipewr8iypj20zk0m8b29.jpg"></li>
         </ul>
       </div>
     </header>
@@ -272,7 +272,69 @@ Yume Shoka = Parallel universe</title>
 <p>设计了Outlier分布感知数据集合，又叫做ODDS，是一种数据合成的专用的GAN，</p>
 <h2 id="ODDS的设计概述"><a href="#ODDS的设计概述" class="headerlink" title="ODDS的设计概述"></a>ODDS的设计概述</h2><p><strong>步骤1:</strong> 预处理过程，学习输入数据的潜在的表示</p>
 <p>使用LSTM自动编码，将输入特征向量转换为一个更压缩的特征空间</p>
-<p><strong>步骤2:</strong></p>
+<p>**步骤2:**将DBSCAN应用于新的特征空间，将数据分为clusters和outliers</p>
+<p>**步骤3:**训练ODDS模型</p>
+<p>一个生成器旨在fit outlier的数据，另一个fit cluster的数据。</p>
+<p>鉴别器被训练成(a)从真实数据中分类出合成数据 (b)从良性数据中分类出benign数据。鉴别器可以直接应用于bot检测。</p>
+<p>**步骤3:**下一节叙述。</p>
+<p>M = {X1,X2…Xn}是一个带标签的数据集，Xi是一个IP序列。</p>
+<p>Xi = {x1,x2…xt}，xt属于R^{d}，表示IP序列中第t个请求的原始特征向量。</p>
+<h3 id="LSTM自动编码预处理器"><a href="#LSTM自动编码预处理器" class="headerlink" title="LSTM自动编码预处理器"></a>LSTM自动编码预处理器</h3><p>这一步学习输入数据的压缩表示，以便更有效地进行数据聚类。</p>
+<p>LSTM-autoencoder是一个序列到序列的模型，包含一个编码器和一个解码器。编码器为给定的输入计算一个低维的潜在向量，解码器根据这个向量重建输入。</p>
+<p>只使用benign数据去训练这个模型，自动编码器会将bot数据视为异常分布的数据。有助于将bot数据和良性数据分开。B_v表示潜在的空间分布。</p>
+<h3 id="数据聚集"><a href="#数据聚集" class="headerlink" title="数据聚集"></a>数据聚集</h3><p>使用DBSCAN把数据分成两部分：高密度聚类和低密度离群值，它应用于潜在的空间向量v。</p>
+<p>DBSCAN是一个基于密度的聚类算法，它不仅能捕获数据中的聚类，还能产生无法形成聚类的离群值。</p>
+<p>目标是寻找一个好的轮廓(silhouette)得分，当簇内距离相对于最近簇的簇间距离来说是最小的。</p>
+<p>一旦确定了聚类的数量，我们可以自动设置阈值dt，来识别异常值。</p>
+<p>聚类算法所依赖的距离函数 在高维空间中往往失去作用，因此在潜在空间进行聚类往往更加有效。</p>
+<h3 id="ODDS的规则"><a href="#ODDS的规则" class="headerlink" title="ODDS的规则"></a>ODDS的规则</h3><p><img data-src="/images/pasted-9.png" alt="upload successful"></p>
+<p>ODDS包含一个生成器G1，用于近似Bo的异常分布，另一个生成器G2用于近似聚集数据Bc的分布，还有一个鉴别器D。</p>
+<p><strong>G1</strong></p>
+<p>为了近似出真实的离群值分布pG1，生成器G1从良性用户的表示中学习到一个生成分布O，</p>
+<p>![image-20201117143840636](/Users/my/Library/Application Support/typora-user-images/image-20201117143840636.png)</p>
+<p><img data-src="/images/pasted-10.png" alt="upload successful"></p>
+<p>生成分布O如下：<br><img data-src="/images/pasted-11.png" alt="upload successful"></p>
+<p>e是一个阈值，用来区分产生的数据是否在高密度良性区域。t1是一个规范化的项，C是一个小的常数，Bv代表整个潜在的特征空间。</p>
+<p>最小化pg1和O之间的KL散度，省略常数，如下</p>
+<p>![image-20201117145252578](/Users/my/Library/Application Support/typora-user-images/image-20201117145252578.png)</p>
+<p><img data-src="/images/pasted-12.png" alt="upload successful"></p>
+<p>H是熵，1是指示符功能。定义一个特征匹配损失，以确保生成的样本和实际的离群样本相似一些。</p>
+<p>![image-20201117145830097](/Users/my/Library/Application Support/typora-user-images/image-20201117145830097.png)</p>
+<p><img data-src="/images/pasted-13.png" alt="upload successful"></p>
+<p>其中，f是鉴别器的隐藏层。第一代完整目标函数定义如下：</p>
+<p>![image-20201117150221059](/Users/my/Library/Application Support/typora-user-images/image-20201117150221059.png)</p>
+<p><img data-src="/images/pasted-14.png" alt="upload successful"></p>
+<p><strong>G2:</strong></p>
+<p>生成器G2学习一个生成分布C，聚类数据是良性数据和bot数据的混合，α是控制生成的bot数据 更加接近真实数据pm还是良性数据pb。</p>
+<p>![image-20201117151142347](/Users/my/Library/Application Support/typora-user-images/image-20201117151142347.png)</p>
+<p>最小化pg2和C之间的KL散度</p>
+<p>![image-20201117151418348](/Users/my/Library/Application Support/typora-user-images/image-20201117151418348.png)</p>
+<p>特征匹配损失Lfm2是为了确保生成的样本和真实的聚类样本没有太大的差别。</p>
+<p>![image-20201117151826059](/Users/my/Library/Application Support/typora-user-images/image-20201117151826059.png)</p>
+<p>f是鉴别器的隐藏层。g2完整的目标函数定义如下</p>
+<p>![image-20201117151949770](/Users/my/Library/Application Support/typora-user-images/image-20201117151949770.png)</p>
+<p><strong>鉴别器：</strong></p>
+<p>目的是将真实数据和合成数据、良性用户数据和bot数据 分开来。鉴别器公式如下：</p>
+<p>![image-20201117152139542](/Users/my/Library/Application Support/typora-user-images/image-20201117152139542.png)</p>
+<p>和GAN的区别是：不需要从synthesized bot data中区分出real bot data，而是从synthesized bot data中区分出real benign data，用于bot检测。第四个条件熵鼓励判别器以高置信度来识别真实的良性数据。最后一个数据鼓励鉴别者正确地将真实bot数据从真实的benign数据中分离出来。综合：鉴别器就是从真实和合成数据中将benign用户分离出来。</p>
+<p>我们使用鉴别器作为bot检测器，我们尝试将合成数据输入到一个单独的分类器。使用鉴别器进行bot检测 消除了训练独立分类器的额外开销。</p>
+<h3 id="实施"><a href="#实施" class="headerlink" title="实施"></a>实施</h3><p>为了优化生成器的目标函数，我们采用了几种近似的方法。为了最小化H(pc)，我们采用了pull-away项。为了检测pm和pb，我们采用了[58]提出的方法 使用神经网络分类器进行逼近。</p>
+<h1 id="表现评估"><a href="#表现评估" class="headerlink" title="表现评估"></a>表现评估</h1><p>评估ODDS的效果，提出以下问题：</p>
+<p>(1)当用所有的有标签数据进行训练的时候，ODDS能有多大的帮助？</p>
+<p>(2)在使用有限的标记数据（例如1%）进行训练时，ODDS有多大帮助？</p>
+<p>(3)ODDS会帮助分类器在一段时间内保持有效吗？</p>
+<p>(4)ODDS会帮助分类器再训练吗？</p>
+<p>(5)每个生成器会对整体的性能有多大贡献？</p>
+<p>(6)为什么ODDS起作用？什么情况下，ODDS的帮助很小？</p>
+<p>(7)对抗性训练能让ODDS进一步获益吗？</p>
+<h3 id="实验设置"><a href="#实验设置" class="headerlink" title="实验设置"></a>实验设置</h3><p>我们再次关注绕过规则的先进机器人。</p>
+<p><strong>超参数</strong></p>
+<p> 我们基本的LSTM模型有两个LSTM隐藏层，都是8维的，batch的尺寸为512，训练epoch是100，激活函数是sigmoid。Adam用于优化，损失是二进制交叉熵。L2正则化用于两个隐藏层。 </p>
+<p>我们使用成本敏感的learning(恶意和良性的比值是 1:2)，来解决数据不平衡的问题。</p>
+<p>对于ODDS，鉴别器和生成器是前反馈神经网络，所有的网络都包含两个隐藏层(100和50维)。</p>
+<p>对于生成器，噪声的维度是50，生成器的输出 与 LSTM自动编码器的输出维度相同，都是130。</p>
+<p>阈值： [真实良性用户数据 ] 的95%</p>
+<p>α设为0.1</p>
 <p>疑问：为什么S2和S1使用相同的窗口来估计时间分布？</p>
 <p>2、recall，召回率，是什么意思？</p>
 <h1 id="会议视频记录"><a href="#会议视频记录" class="headerlink" title="会议视频记录"></a>会议视频记录</h1><p>视频链接🔗 <span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj0xVEJPTzRNcVNhayZhbXA7bGlzdD1QTDBwUkY0eHZvRDBuSmNCVjhPT05yRk5JamFidk9KcGxWJmFtcDtpbmRleD02NA==">https://www.youtube.com/watch?v=1TBOO4MqSak&amp;list=PL0pRF4xvoD0nJcBV8OONrFNIjabvOJplV&amp;index=64</span></p>
@@ -291,7 +353,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-11-10 09:03:46" itemprop="dateModified" datetime="2020-11-10T09:03:46+08:00">2020-11-10</time>
+    <time title="Modified: 2020-12-06 00:47:34" itemprop="dateModified" datetime="2020-12-06T00:47:34+08:00">2020-12-06</time>
   </span>
 </div>
 
@@ -346,7 +408,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeuv80yoj20zk0m8kjl.jpg" title="文件包含">
+  <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gicliierfjj20zk0m8npd.jpg" title="文件包含">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> web</span>
   <h3>文件包含</h3>
@@ -356,7 +418,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item right">
       
 
-  <a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclxp31goj20zk0m8qv5.jpg" title="sql注入">
+  <a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipexe4oykj20zk0m87ji.jpg" title="sql注入">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> web</span>
   <h3>sql注入</h3>
@@ -378,7 +440,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Background-and-goals"><span class="toc-number">3.</span> <span class="toc-text">Background and goals</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bot-detection"><span class="toc-number">3.1.</span> <span class="toc-text">Bot detection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">3.2.</span> <span class="toc-text">实际应用中的挑战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86"><span class="toc-number">3.3.</span> <span class="toc-text">数据收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E5%A4%84%E7%90%86%EF%BC%9AIP%E5%BA%8F%E5%88%97"><span class="toc-number">3.4.</span> <span class="toc-text">再处理：IP序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-number">3.5.</span> <span class="toc-text">真实的标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">3.6.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">3.7.</span> <span class="toc-text">范围和局限性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACbot%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">基本bot检测系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51-%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E7%9A%84%E8%A7%84%E5%88%99%E8%BF%87%E6%BB%A4%E5%87%BA%E6%98%93%E4%BA%8E%E6%A3%80%E6%B5%8B%E7%9A%84bot"><span class="toc-number">4.1.</span> <span class="toc-text">阶段1: 预处理，使用现有的规则过滤出易于检测的bot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52-%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%8E%BB%E6%A3%80%E6%B5%8B%E5%87%BA%E5%89%A9%E4%BD%99%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%AD%E7%9A%84%E9%AB%98%E7%BA%A7bot"><span class="toc-number">4.2.</span> <span class="toc-text">阶段2:使用机器学习模型去检测出剩余的数据中的高级bot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%A2%91%E7%8E%87%E7%BC%96%E7%A0%81%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.2.1.</span> <span class="toc-text">基于频率编码的滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">4.2.2.</span> <span class="toc-text">构建分类器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.</span> <span class="toc-text">评估性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9A%82%E6%97%B6%E5%88%86%E7%A6%BB"><span class="toc-number">4.3.1.</span> <span class="toc-text">训练和测试暂时分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.3.2.</span> <span class="toc-text">引导滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.3.</span> <span class="toc-text">模型的性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E7%9A%84%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.4.</span> <span class="toc-text">有限的训练数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E5%87%A0%E7%8E%87%E7%9A%84%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90-data-synthesis-using-odds"><span class="toc-number">5.</span> <span class="toc-text">有几率的数据合成(data synthesis using odds)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation-of-ODDS"><span class="toc-number">5.1.</span> <span class="toc-text">motivation of ODDS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ODDS%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">5.2.</span> <span class="toc-text">ODDS的设计概述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%9A%E8%AE%AE%E8%A7%86%E9%A2%91%E8%AE%B0%E5%BD%95"><span class="toc-number">6.</span> <span class="toc-text">会议视频记录</span></a></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Background-and-goals"><span class="toc-number">3.</span> <span class="toc-text">Background and goals</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bot-detection"><span class="toc-number">3.1.</span> <span class="toc-text">Bot detection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E4%B8%AD%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">3.2.</span> <span class="toc-text">实际应用中的挑战</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%94%B6%E9%9B%86"><span class="toc-number">3.3.</span> <span class="toc-text">数据收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E5%A4%84%E7%90%86%EF%BC%9AIP%E5%BA%8F%E5%88%97"><span class="toc-number">3.4.</span> <span class="toc-text">再处理：IP序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%A0%87%E7%AD%BE"><span class="toc-number">3.5.</span> <span class="toc-text">真实的标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="toc-number">3.6.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%92%8C%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-number">3.7.</span> <span class="toc-text">范围和局限性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACbot%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">基本bot检测系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B51-%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E7%9A%84%E8%A7%84%E5%88%99%E8%BF%87%E6%BB%A4%E5%87%BA%E6%98%93%E4%BA%8E%E6%A3%80%E6%B5%8B%E7%9A%84bot"><span class="toc-number">4.1.</span> <span class="toc-text">阶段1: 预处理，使用现有的规则过滤出易于检测的bot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B6%E6%AE%B52-%E4%BD%BF%E7%94%A8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%8E%BB%E6%A3%80%E6%B5%8B%E5%87%BA%E5%89%A9%E4%BD%99%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%AD%E7%9A%84%E9%AB%98%E7%BA%A7bot"><span class="toc-number">4.2.</span> <span class="toc-text">阶段2:使用机器学习模型去检测出剩余的数据中的高级bot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E9%A2%91%E7%8E%87%E7%BC%96%E7%A0%81%E7%9A%84%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.2.1.</span> <span class="toc-text">基于频率编码的滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%88%86%E7%B1%BB%E5%99%A8"><span class="toc-number">4.2.2.</span> <span class="toc-text">构建分类器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.</span> <span class="toc-text">评估性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%92%8C%E6%B5%8B%E8%AF%95%E6%9A%82%E6%97%B6%E5%88%86%E7%A6%BB"><span class="toc-number">4.3.1.</span> <span class="toc-text">训练和测试暂时分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-number">4.3.2.</span> <span class="toc-text">引导滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%80%A7%E8%83%BD"><span class="toc-number">4.3.3.</span> <span class="toc-text">模型的性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E7%9A%84%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.4.</span> <span class="toc-text">有限的训练数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E5%87%A0%E7%8E%87%E7%9A%84%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90-data-synthesis-using-odds"><span class="toc-number">5.</span> <span class="toc-text">有几率的数据合成(data synthesis using odds)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#motivation-of-ODDS"><span class="toc-number">5.1.</span> <span class="toc-text">motivation of ODDS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ODDS%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">5.2.</span> <span class="toc-text">ODDS的设计概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LSTM%E8%87%AA%E5%8A%A8%E7%BC%96%E7%A0%81%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">5.2.1.</span> <span class="toc-text">LSTM自动编码预处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E9%9B%86"><span class="toc-number">5.2.2.</span> <span class="toc-text">数据聚集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ODDS%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-number">5.2.3.</span> <span class="toc-text">ODDS的规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%96%BD"><span class="toc-number">5.2.4.</span> <span class="toc-text">实施</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%A8%E7%8E%B0%E8%AF%84%E4%BC%B0"><span class="toc-number">6.</span> <span class="toc-text">表现评估</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE"><span class="toc-number">6.0.1.</span> <span class="toc-text">实验设置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%9A%E8%AE%AE%E8%A7%86%E9%A2%91%E8%AE%B0%E5%BD%95"><span class="toc-number">7.</span> <span class="toc-text">会议视频记录</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
         <ul>
@@ -396,7 +458,7 @@ Yume Shoka = Parallel universe</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">11</span>
+        <span class="count">17</span>
         <span class="name">posts</span>
       </a>
     </div>
@@ -487,6 +549,61 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="代码审计">代码审计</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/" title="利用网络威胁情报实现有效的网络威胁搜索">利用网络威胁情报实现有效的网络威胁搜索</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/13/%E5%AE%89%E5%8D%93/" title="安卓">安卓</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 </div>
 
     <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
@@ -508,15 +625,6 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/06/%E5%AF%86%E7%A0%81/" title="密码">密码</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
     <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
   </li>
 
@@ -524,57 +632,9 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E6%9D%82%E8%AE%B0/" title="In 杂记">杂记</a>
 </div>
 
-    <span><a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/" title="磁盘清理">磁盘清理</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/" title="二进制方向">二进制方向</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
-</div>
-
-    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
-</div>
-
-    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
+    <span><a href="/2020/12/04/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a></span>
   </li>
 
   </ul>

@@ -100,12 +100,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclxxcb6rj20zk0m8b29.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhpw3lwj20zk0m8gvw.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevgoki5j20zk0m84qp.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicliierfjj20zk0m8npd.jpg"></li>
-          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipevarprfj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicitf0kl1j20zk0m87fe.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicm0fdw5cj20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipey0a334j20zk0m8qpt.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipeubcbajj20zk0m8h1h.jpg"></li>
+          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipexj2jgzj20zk0m8b09.jpg"></li>
         </ul>
       </div>
     </header>
@@ -203,11 +203,64 @@ Yume Shoka = Parallel universe</title>
 
 
 
-<h2 id="4、TCP路由追踪"><a href="#4、TCP路由追踪" class="headerlink" title="4、TCP路由追踪"></a>4、TCP路由追踪</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzMubWQ=">https://www.cntofu.com/book/33/3.md</span></p>
-<p>参考</p>
+<h2 id="4、导入和导出数据"><a href="#4、导入和导出数据" class="headerlink" title="4、导入和导出数据"></a>4、导入和导出数据</h2><p>保存数据的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; wrpcap(&quot;temp.cap&quot;,a[0])</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; filebb</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;console&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">NameError: name &#39;filebb&#39; is not defined</span><br><span class="line">&gt;&gt;&gt; filebb &#x3D; rdpcap(&quot;temp.cap&quot;)</span><br><span class="line">&gt;&gt;&gt; filebb</span><br><span class="line">&lt;temp.cap: TCP:22 UDP:0 ICMP:0 Other:0&gt;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>但是退出scapy之后这些是不保存的。可以使用 save_session() 来保存，下次运行的时候使用load_session()来加载。</p>
+<h1 id="0x03-设计扫描器"><a href="#0x03-设计扫描器" class="headerlink" title="0x03 设计扫描器"></a>0x03 设计扫描器</h1><p>##1、端口扫描器</p>
+<p>常见的端口扫描类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. TCP 连接扫描</span><br><span class="line">2. TCP SYN 扫描(也称为半开放扫描或stealth扫描)</span><br><span class="line">3. TCP 圣诞树(Xmas Tree)扫描</span><br><span class="line">4. TCP FIN 扫描</span><br><span class="line">5. TCP 空扫描(Null)</span><br><span class="line">6. TCP ACK 扫描</span><br><span class="line">7. TCP 窗口扫描</span><br><span class="line">8. UDP 扫描</span><br></pre></td></tr></table></figure>
+
+
+
+<p>###TCP连接扫描</p>
+<p>TCP3次握手过程见[4]。我们判断端口是否开放，方法是通过判断接收到的数据包是[SYN+ACK ] 还是 [RST]。</p>
+<p>如果是[SYN+ACK]，则端口是开放的，如果是[RST]，则端口是关闭的。</p>
+<p>分析[4]的部分代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scan</span>(<span class="params">ip,port</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        packet = IP(dst=ip)/TCP(dport=port, flags=<span class="string">&quot;S&quot;</span>)  <span class="comment"># 构造标志位为syn的数据包</span></span><br><span class="line">        result = sr1(packet,timeout=<span class="number">0.5</span>, verbose=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> int(result[TCP].flags) == <span class="number">18</span>:</span><br><span class="line">            <span class="comment"># 通过判断响应的数据包中，是否存在第二次握手Ack+syn标志位，存在即端口开放</span></span><br><span class="line">            time.sleep(<span class="number">0.1</span>)</span><br><span class="line">            print(ip, <span class="string">&quot;TCP&quot;</span> , port, <span class="string">&quot;open&quot;</span>)</span><br><span class="line">            <span class="comment"># 注意这里如果使用+号进行字符串拼接的话会导致报错，使用逗号即可拼接</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>flags是标志位，设置为S，即设置了SYN = 1</p>
+<p>sr1会发送并且返回应答数据包，verbose是用来设置是否回显</p>
+<p>报文中 flags的排列顺序为：URG  ACK  PSH  RST  SYN  FIN。如果SYN+ACK为1，则flag的值为010010，10进制为18。</p>
+<p>在scapy中单条语句输入</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; packet=IP(dst=&quot;www.1ss4k.com&quot;)/TCP(dport=80,flags=&quot;S&quot;)</span><br><span class="line">&gt;&gt;&gt; packet</span><br><span class="line">&lt;IP  frag=0 proto=tcp dst=Net(&#x27;www.1ss4k.com&#x27;) |&lt;TCP  dport=http flags=S |&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在TCP包中设置了 目的地址、目标端口、SYN标志位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; result&#x3D;sr1(packet,timeout&#x3D;0.5,verbose&#x3D;1)</span><br><span class="line"></span><br><span class="line">Begin emission:</span><br><span class="line">Finished to send 1 packets.</span><br><span class="line"></span><br><span class="line">Received 7 packets, got 1 answers, remaining 0 packets</span><br><span class="line">&gt;&gt;&gt; result</span><br><span class="line">&lt;IP  version&#x3D;4L ihl&#x3D;5L tos&#x3D;0x68 len&#x3D;44 id&#x3D;0 flags&#x3D;DF frag&#x3D;0L ttl&#x3D;49 proto&#x3D;tcp chksum&#x3D;0x75eb src&#x3D;185.199.109.153 dst&#x3D;172.21.0.3 options&#x3D;[] |&lt;TCP  sport&#x3D;http dport&#x3D;ftp_data seq&#x3D;3113937083 ack&#x3D;1 dataofs&#x3D;6L reserved&#x3D;0L flags&#x3D;SA window&#x3D;43200 chksum&#x3D;0x7959 urgptr&#x3D;0 options&#x3D;[(&#39;MSS&#39;, 1404)] |&gt;&gt;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里设置的是有回显，可以看到flags=SA</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; int(result[TCP].flags)</span><br></pre></td></tr></table></figure>
+
+<p>结果是18</p>
+<p>用脚本来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">from scapy.all import *</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">for port_check in range(90) :</span><br><span class="line">    port_f &#x3D; int(port_check + 1)</span><br><span class="line">    packet &#x3D; IP(dst&#x3D;&quot;www.1ss4k.com&quot;)&#x2F;TCP(dport&#x3D; port_f, flags&#x3D;&quot;S&quot;)</span><br><span class="line">    result &#x3D; sr1(packet,timeout &#x3D; 0.5, verbose &#x3D; 0)</span><br><span class="line"></span><br><span class="line">    if(result !&#x3D; None):</span><br><span class="line">        if (int(result[TCP].flags) &#x3D;&#x3D; 18):</span><br><span class="line">            time.sleep(0.1)</span><br><span class="line">            print(port_f,&quot;open&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@VM-0-3-ubuntu:~&#x2F;scan# python tcp2.py</span><br><span class="line">(80, &#39;open&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>存在的问题：扫描速度较慢，可以改进使用多线程。</p>
+<p>如果把端口的范围改至：1-65535，可以扫描出所有的端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@VM-0-3-ubuntu:~&#x2F;scan# python tcp2.py</span><br><span class="line">(80, &#39;open&#39;)</span><br><span class="line">(443, &#39;open&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>分析[3]的代码</p>
+<p>出现错误：</p>
+<p>Traceback (most recent call last):<br>  File “3tcp.py”, line 11, in <module><br>    elif(tcp_connect_scan_resp.haslayer(TCP)):<br>AttributeError: ‘NoneType’ object has no attribute ‘haslayer’</module></p>
+<h1 id="0x04-设计嗅探器"><a href="#0x04-设计嗅探器" class="headerlink" title="0x04 设计嗅探器"></a>0x04 设计嗅探器</h1><p>参考</p>
 <ul>
-<li>[1]中文文档 <span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzEubWQ=">https://www.cntofu.com/book/33/1.md</span></li>
-<li>[2]英文文档 <span class="exturl" data-url="aHR0cHM6Ly9zY2FweS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvaW50cm9kdWN0aW9uLmh0bWw=">https://scapy.readthedocs.io/en/latest/introduction.html</span></li>
+<li><p>[1]中文文档 <span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzEubWQ=">https://www.cntofu.com/book/33/1.md</span></p>
+</li>
+<li><p>[2]英文文档 <span class="exturl" data-url="aHR0cHM6Ly9zY2FweS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvaW50cm9kdWN0aW9uLmh0bWw=">https://scapy.readthedocs.io/en/latest/introduction.html</span></p>
+</li>
+<li><p>[3]用Scapy写一个端口扫描器 <span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3RoaW5rX3ljeC9hcnRpY2xlL2RldGFpbHMvNTA4OTgwOTY=">https://blog.csdn.net/think_ycx/article/details/50898096</span></p>
+</li>
+<li><p>[4]python+scapy构造TCP协议包扫描主机端口 <span class="exturl" data-url="aHR0cHM6Ly93d3cuY29kZW5vbmcuY29tL2NzMTA1NTkzMzI5Lw==">https://www.codenong.com/cs105593329/</span></p>
+</li>
 </ul>
 
   </div>
@@ -220,7 +273,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-12-16 15:37:25" itemprop="dateModified" datetime="2020-12-16T15:37:25+08:00">2020-12-16</time>
+    <time title="Modified: 2020-12-16 21:30:56" itemprop="dateModified" datetime="2020-12-16T21:30:56+08:00">2020-12-16</time>
   </span>
 </div>
 
@@ -275,7 +328,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclhfehz7j20zk0m8u0x.jpg" title="代码审计">
+  <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giciuja1j1j20zk0m8kjl.jpg" title="代码审计">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> </span>
   <h3>代码审计</h3>
@@ -299,7 +352,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00基础知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">0x01 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E4%BD%BF%E7%94%A8-%E2%80%94-%E8%B5%B7%E8%88%AAScapy"><span class="toc-number">3.</span> <span class="toc-text">0x02 使用 — 起航Scapy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E7%94%9F%E6%88%90%E5%8D%95%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.1.</span> <span class="toc-text">1、生成单个数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%94%9F%E6%88%90-%E4%B8%80%E7%BB%84%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.2.</span> <span class="toc-text">2、生成 一组数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.3.</span> <span class="toc-text">3、发送数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81TCP%E8%B7%AF%E7%94%B1%E8%BF%BD%E8%B8%AA"><span class="toc-number">3.4.</span> <span class="toc-text">4、TCP路由追踪</span></a></li></ol></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00基础知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">0x01 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E4%BD%BF%E7%94%A8-%E2%80%94-%E8%B5%B7%E8%88%AAScapy"><span class="toc-number">3.</span> <span class="toc-text">0x02 使用 — 起航Scapy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E7%94%9F%E6%88%90%E5%8D%95%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.1.</span> <span class="toc-text">1、生成单个数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%94%9F%E6%88%90-%E4%B8%80%E7%BB%84%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.2.</span> <span class="toc-text">2、生成 一组数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.3.</span> <span class="toc-text">3、发送数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%AF%BC%E5%85%A5%E5%92%8C%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE"><span class="toc-number">3.4.</span> <span class="toc-text">4、导入和导出数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-%E8%AE%BE%E8%AE%A1%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">0x03 设计扫描器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-%E8%AE%BE%E8%AE%A1%E5%97%85%E6%8E%A2%E5%99%A8"><span class="toc-number">5.</span> <span class="toc-text">0x04 设计嗅探器</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
       </div>
@@ -413,10 +466,28 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" title="栈溢出">栈溢出</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/" title="堆溢出">堆溢出</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 <a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
+    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
   </li>
 
       
@@ -435,7 +506,7 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="代码审计">代码审计</a></span>
+    <span><a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/" title="利用网络威胁情报实现有效的网络威胁搜索">利用网络威胁情报实现有效的网络威胁搜索</a></span>
   </li>
 
       
@@ -453,34 +524,7 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/" title="堆溢出">堆溢出</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/06/%E5%AF%86%E7%A0%81/" title="密码">密码</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
+    <span><a href="/2020/12/04/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a></span>
   </li>
 
       
@@ -490,6 +534,15 @@ Yume Shoka = Parallel universe</title>
 </div>
 
     <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
   </li>
 
   </ul>

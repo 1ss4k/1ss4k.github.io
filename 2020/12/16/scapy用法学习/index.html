@@ -1,0 +1,559 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="Parallel universe" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="Parallel universe" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="Parallel universe" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.3">
+
+  
+
+<link rel="canonical" href="http://example.com/2020/12/16/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/">
+
+
+
+  <title>
+scapy用法学习 |
+Yume Shoka = Parallel universe</title>
+<meta name="generator" content="Hexo 5.2.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">scapy用法学习
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="Created: 2020-12-16 12:49:17">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">Posted on</span>
+    <time itemprop="dateCreated datePublished" datetime="2020-12-16T12:49:17+08:00">2020-12-16</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="Toggle navigation bar">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipeu7txpzj20zk0m81kx.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipev1x5e4j20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhfehz7j20zk0m8u0x.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giph4wqtg4j20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipew28b65j20zk0m8hdt.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclwuom7cj20zk0m8dvn.jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main id="main">
+      <div class="inner">
+        <div id="content" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">Home</a></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/16/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="1ss4k">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Parallel universe">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>#0x00基础知识</p>
+<p>1、作用：构建数据包 / 发送 / 捕获 / 分析 / 匹配响应</p>
+<h1 id="0x01-安装"><a href="#0x01-安装" class="headerlink" title="0x01 安装"></a>0x01 安装</h1><p>安装在ubuntu</p>
+<p><code>apt install python-scapy</code></p>
+<p>#0x02 使用—起航Scapy</p>
+<p>##1、生成单个数据包</p>
+<p>层次：Ether()/IP()/TCP()/</p>
+<p>堆加层次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a&#x3D;Ether()&#x2F;IP(dst&#x3D;&quot;www.slashdot.org&quot;)&#x2F;TCP()&#x2F;&quot;GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&quot;</span><br><span class="line">&gt;&gt;&gt; hexdump(a)</span><br><span class="line">0000   FE EE 0B CA E5 69 52 54  00 DB 10 F5 08 00 45 00   .....iRT......E.</span><br><span class="line">0010   00 43 00 01 00 00 40 06  D0 23 AC 15 00 03 D8 69   .C....@..#.....i</span><br><span class="line">0020   26 0F 00 14 00 50 00 00  00 00 00 00 00 00 50 02   &amp;....P........P.</span><br><span class="line">0030   20 00 13 21 00 00 47 45  54 20 2F 69 6E 64 65 78    ..!..GET &#x2F;index</span><br><span class="line">0040   2E 68 74 6D 6C 20 48 54  54 50 2F 31 2E 30 20 0A   .html HTTP&#x2F;1.0 .</span><br><span class="line">0050   0A</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; b &#x3D; str(a)</span><br><span class="line">&gt;&gt;&gt; b</span><br><span class="line">&#39;\xfe\xee\x0b\xca\xe5iRT\x00\xdb\x10\xf5\x08\x00E\x00\x00C\x00\x01\x00\x00@\x06\xd0#\xac\x15\x00\x03\xd8i&amp;\x0f\x00\x14\x00P\x00\x00\x00\x00\x00\x00\x00\x00P\x02 \x00\x13!\x00\x00GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&#39;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c&#x3D;Ether(b)</span><br><span class="line">&gt;&gt;&gt; c</span><br><span class="line">&lt;Ether  dst&#x3D;fe:ee:0b:ca:e5:69 src&#x3D;52:54:00:db:10:f5 type&#x3D;IPv4 |&lt;IP  version&#x3D;4L ihl&#x3D;5L tos&#x3D;0x0 len&#x3D;67 id&#x3D;1 flags&#x3D; frag&#x3D;0L ttl&#x3D;64 proto&#x3D;tcp chksum&#x3D;0xd023 src&#x3D;172.21.0.3 dst&#x3D;216.105.38.15 options&#x3D;[] |&lt;TCP  sport&#x3D;ftp_data dport&#x3D;http seq&#x3D;0 ack&#x3D;0 dataofs&#x3D;5L reserved&#x3D;0L flags&#x3D;S window&#x3D;8192 chksum&#x3D;0x1321 urgptr&#x3D;0 options&#x3D;[] |&lt;Raw  load&#x3D;&#39;GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&#39; |&gt;&gt;&gt;&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c.hide_defaults()</span><br><span class="line">&gt;&gt;&gt; c</span><br><span class="line">&lt;Ether  dst&#x3D;fe:ee:0b:ca:e5:69 src&#x3D;52:54:00:db:10:f5 type&#x3D;IPv4 |&lt;IP  ihl&#x3D;5L len&#x3D;67 frag&#x3D;0 proto&#x3D;tcp chksum&#x3D;0xd023 src&#x3D;172.21.0.3 dst&#x3D;216.105.38.15 |&lt;TCP  dataofs&#x3D;5L chksum&#x3D;0x1321 options&#x3D;[] |&lt;Raw  load&#x3D;&#39;GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&#39; |&gt;&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>hide_defaults会删除一些默认字段的值。</p>
+<p>一些其它命令</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  命令	效果</span><br><span class="line">str(pkt)	组装数据包</span><br><span class="line">hexdump(pkt)	十六进制转储</span><br><span class="line">ls(pkt)	显示出字段值的列表</span><br><span class="line">pkt.summary()	一行摘要</span><br><span class="line">pkt.show()	针对数据包的展开试图</span><br><span class="line">pkt.show2()	显示聚合的数据包（例如，计算好了校验和）</span><br><span class="line">pkt.sprintf()	用数据包字段填充格式字符串</span><br><span class="line">pkt.decode_payload_as()	改变payload的decode方式</span><br><span class="line">pkt.psdump()	绘制一个解释说明的PostScript图表</span><br><span class="line">pkt.pdfdump()	绘制一个解释说明的PDF</span><br><span class="line">pkt.command()	返回可以生成数据包的Scapy命令</span><br></pre></td></tr></table></figure>
+
+
+
+<p>##2、生成一组数据包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aa&#x3D;IP(dst&#x3D;&quot;www.slashdot.org&#x2F;30&quot;)</span><br><span class="line">&gt;&gt;&gt; aa</span><br><span class="line">&lt;IP  dst&#x3D;Net(&#39;www.slashdot.org&#x2F;30&#39;) |&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; [p for p in aa]</span><br><span class="line">[&lt;IP  dst&#x3D;216.105.38.12 |&gt;, &lt;IP  dst&#x3D;216.105.38.13 |&gt;, &lt;IP  dst&#x3D;216.105.38.14 |&gt;, &lt;IP  dst&#x3D;216.105.38.15 |&gt;]</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; bb&#x3D;IP(ttl&#x3D;[1,2,(5,9)])</span><br><span class="line">&gt;&gt;&gt; bb</span><br><span class="line">&lt;IP  ttl&#x3D;[1, 2, (5, 9)] |&gt;</span><br><span class="line">&gt;&gt;&gt; [p for p in bb]</span><br><span class="line">[&lt;IP  ttl&#x3D;1 |&gt;, &lt;IP  ttl&#x3D;2 |&gt;, &lt;IP  ttl&#x3D;(5, 9) |&gt;]</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; cc &#x3D; TCP(dport&#x3D;[80,443])</span><br><span class="line">&gt;&gt;&gt; cc</span><br><span class="line">&lt;TCP  dport&#x3D;[&#39;http&#39;, &#39;https&#39;] |&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; [p for p in aa&#x2F;cc]</span><br><span class="line">[&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.12 |&lt;TCP  dport&#x3D;http |&gt;&gt;, </span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.12 |&lt;TCP  dport&#x3D;https |&gt;&gt;, </span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.13 |&lt;TCP  dport&#x3D;http |&gt;&gt;, </span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.13 |&lt;TCP  dport&#x3D;https |&gt;&gt;, </span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.14 |&lt;TCP  dport&#x3D;http |&gt;&gt;,</span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.14 |&lt;TCP  dport&#x3D;https |&gt;&gt;, </span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.15 |&lt;TCP  dport&#x3D;http |&gt;&gt;, </span><br><span class="line">&lt;IP  frag&#x3D;0 proto&#x3D;tcp dst&#x3D;216.105.38.15 |&lt;TCP  dport&#x3D;https |&gt;&gt;]</span><br></pre></td></tr></table></figure>
+
+<p>由此可见，数据包的概念是使用所有区域之间的笛卡尔积来生成的一组数据包。</p>
+<h2 id="3、发送数据包"><a href="#3、发送数据包" class="headerlink" title="3、发送数据包"></a>3、发送数据包</h2><p><code>send()</code>函数将会在第3层发送数据包。也就是说它会为你处理路由和第2层的数据。<code>sendp()</code>函数将会工作在第2层。选择合适的接口和正确的链路层协议都取决于你。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; send(IP(dst=&quot;1.2.3.4&quot;)/ICMP())</span><br><span class="line">.</span><br><span class="line">Sent 1 packets.</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; sendp(Ether()/IP(dst=&quot;1.2.3.4&quot;,ttl=(1,4)), iface=&quot;eth0&quot;)</span><br><span class="line">....</span><br><span class="line">Sent 4 packets.</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; sendp(Ether()/IP(dst=&quot;1.2.3.4&quot;,ttl=(1,7)), iface=&quot;eth0&quot;)</span><br><span class="line">.......</span><br><span class="line">Sent 7 packets.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>可以使用fuzz()来进行模糊测试</p>
+<p>发送并且接受，使用函数sr()。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> p&#x3D;sr(IP(dst&#x3D;&quot;www.slashdot.org&quot;)&#x2F;ICMP()&#x2F;&quot;XXXXXXXXXXX&quot;)</span><br><span class="line">Begin emission:</span><br><span class="line">.Finished to send 1 packets.</span><br><span class="line">..................*</span><br><span class="line">Received 20 packets, got 1 answers, remaining 0 packets</span><br><span class="line">&gt;&gt;&gt; p</span><br><span class="line">(&lt;Results: TCP:0 UDP:0 ICMP:1 Other:0&gt;, &lt;Unanswered: TCP:0 UDP:0 ICMP:0 Other:0&gt;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; p[0].show()</span><br><span class="line">0000 IP &#x2F; ICMP 172.21.0.3 &gt; 216.105.38.15 echo-request 0 &#x2F; Raw &#x3D;&#x3D;&gt; IP &#x2F; ICMP 216.105.38.15 &gt; 172.21.0.3 echo-reply 0 &#x2F; Raw</span><br></pre></td></tr></table></figure>
+
+<p><code>sr()</code>函数是用来发送数据包和接收应答。该函数返回一对数据包及其应答，还有无应答的数据包。<code>sr1()</code>函数是一种变体，用来返回一个应答数据包。发送的数据包必须是第3层报文（IP，ARP等）。<code>srp()</code>则是使用第2层报文（以太网，802.3等）。</p>
+<p>发送和接收函数族是scapy中的核心部分。它们返回一对两个列表。第一个就是发送的数据包及其应答组成的列表，第二个是无应答数据包组成的列表。为了更好查看返回的结果，可以使用如下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; ans,unans &#x3D; _</span><br><span class="line">&gt;&gt;&gt; ans.summary()</span><br><span class="line">&gt;&gt;&gt; unans.summary()</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:34233 &gt; 192.168.1.1:441 S</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:43449 &gt; 192.168.1.1:440 S</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:17091 &gt; 192.168.1.1:https S</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:16503 &gt; 192.168.1.1:442 S</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用make_table() 函数建立一个表格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; ans,unans &#x3D; sr(IP(dst&#x3D;[&quot;192.168.1.1&quot;,&quot;yahoo.com&quot;,&quot;slashdot.org&quot;])&#x2F;TCP(dport&#x3D;[22,80,443],flags&#x3D;&quot;S&quot;))</span><br><span class="line">Begin emission:</span><br><span class="line">...Finished to send 9 packets.</span><br><span class="line">......................................*....*...*...................................................................................</span><br><span class="line"></span><br><span class="line">...............................^C</span><br><span class="line">Received 12194 packets, got 4 answers, remaining 5 packets</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; ans.summary()</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 216.105.38.15:https S &#x3D;&#x3D;&gt; IP &#x2F; TCP 216.105.38.15:https &gt; 172.21.0.3:ftp_data SA</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 98.137.11.163:http S &#x3D;&#x3D;&gt; IP &#x2F; TCP 98.137.11.163:http &gt; 172.21.0.3:ftp_data SA</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 98.137.11.163:https S &#x3D;&#x3D;&gt; IP &#x2F; TCP 98.137.11.163:https &gt; 172.21.0.3:ftp_data SA</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 216.105.38.15:http S &#x3D;&#x3D;&gt; IP &#x2F; TCP 216.105.38.15:http &gt; 172.21.0.3:ftp_data SA</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; ans.make_table( lambda(s,r): (s.dst, s.dport, r.sprintf(&quot;&#123;TCP:%TCP.flags%&#125;&#123;ICMP:%IP.src% - %ICMP.type%&#125;&quot;)))</span><br><span class="line">    98.137.11.163 216.105.38.15</span><br><span class="line">80  SA            SA</span><br><span class="line">443 SA            SA</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>只显示我们感兴趣的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; ans.summary()</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 216.105.38.15:https S &#x3D;&#x3D;&gt; IP &#x2F; TCP 216.105.38.15:https &gt; 172.21.0.3:ftp_data SA</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 98.137.11.163:http S &#x3D;&#x3D;&gt; IP &#x2F; TCP 98.137.11.163:http &gt; 172.21.0.3:ftp_data SA</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 98.137.11.163:https S &#x3D;&#x3D;&gt; IP &#x2F; TCP 98.137.11.163:https &gt; 172.21.0.3:ftp_data SA</span><br><span class="line">IP &#x2F; TCP 172.21.0.3:ftp_data &gt; 216.105.38.15:http S &#x3D;&#x3D;&gt; IP &#x2F; TCP 216.105.38.15:http &gt; 172.21.0.3:ftp_data SA</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; ans.summary( lambda(s,r): r.sprintf(&quot;%TCP.sport% \t %TCP.flags%&quot;) )</span><br><span class="line">https 	 SA</span><br><span class="line">http 	 SA</span><br><span class="line">https 	 SA</span><br><span class="line">http 	 SA</span><br><span class="line">&gt;&gt;&gt; ans.summary( lambda(s,r): s.sprintf(&quot;%TCP.sport% \t %TCP.flags%&quot;) )</span><br><span class="line">ftp_data 	 S</span><br><span class="line">ftp_data 	 S</span><br><span class="line">ftp_data 	 S</span><br><span class="line">ftp_data 	 S</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Scapy还包含一个<code>report_ports()</code>函数，该函数不仅可以自动化SYN scan，而且还会对收集的结果以LaTeX形式输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">report_ports(&quot;192.168.1.1&quot;,(440,443))</span><br><span class="line"></span><br><span class="line">.........................................................................................................................................................^C</span><br><span class="line">Received 2454 packets, got 0 answers, remaining 4 packets</span><br><span class="line">&#39;\\begin&#123;tabular&#125;&#123;|r|l|l|&#125;\n\\hline\n\\hline\n\\hline\n440 &amp; ? &amp; unanswered \\\\\nhttps &amp; ? &amp; unanswered \\\\\n442 &amp; ? &amp; unanswered \\\\\n441 &amp; ? &amp; unanswered \\\\\n\\hline\n\\end&#123;tabular&#125;\n&#39;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TCP路由追踪"><a href="#TCP路由追踪" class="headerlink" title="TCP路由追踪"></a>TCP路由追踪</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzMubWQ=">https://www.cntofu.com/book/33/3.md</span></p>
+<p>参考</p>
+<ul>
+<li>[1]中文文档 <span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzEubWQ=">https://www.cntofu.com/book/33/1.md</span></li>
+<li>[2]英文文档 <span class="exturl" data-url="aHR0cHM6Ly9zY2FweS5yZWFkdGhlZG9jcy5pby9lbi9sYXRlc3QvaW50cm9kdWN0aW9uLmh0bWw=">https://scapy.readthedocs.io/en/latest/introduction.html</span></li>
+</ul>
+
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">Edited on</span>
+    <time title="Modified: 2020-12-16 15:26:09" itemprop="dateModified" datetime="2020-12-16T15:26:09+08:00">2020-12-16</time>
+  </span>
+</div>
+
+      
+<div class="reward">
+  <button><i class="ic i-heartbeat"></i> Donate</button>
+  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
+  <div id="qr">
+      
+      <div>
+        <img data-src="/images/wechatpay.png" alt="1ss4k WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/alipay.png" alt="1ss4k Alipay">
+        <p>Alipay</p>
+      </div>
+      
+      <div>
+        <img data-src="/images/paypal.png" alt="1ss4k PayPal">
+        <p>PayPal</p>
+      </div>
+  </div>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>Post author:  </strong>1ss4k <i class="ic i-at"><em>@</em></i>Parallel universe
+  </li>
+  <li class="link">
+    <strong>Post link: </strong>
+    <a href="http://example.com/2020/12/16/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="scapy用法学习">http://example.com/2020/12/16/scapy用法学习/</a>
+  </li>
+  <li class="license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="nav">
+    <div class="item left">
+      
+
+  <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclil3m4ej20zk0m8tn8.jpg" title="代码审计">
+  <span class="type">Previous Post</span>
+  <span class="category"><i class="ic i-flag"></i> </span>
+  <h3>代码审计</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="Contents">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">0x01 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">1.1.</span> <span class="toc-text">3、发送数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E8%B7%AF%E7%94%B1%E8%BF%BD%E8%B8%AA"><span class="toc-number">1.2.</span> <span class="toc-text">TCP路由追踪</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="Related">
+      </div>
+      <div class="overview panel" data-title="Overview">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="1ss4k"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">1ss4k</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">18</span>
+        <span class="name">posts</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">3</span>
+        <span class="name">categories</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">6</span>
+        <span class="name">tags</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL3lvdXJuYW1l" title="https:&#x2F;&#x2F;github.com&#x2F;yourname"><i class="ic i-github"></i></span>
+      <span class="exturl item twitter" data-url="aHR0cHM6Ly90d2l0dGVyLmNvbS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;twitter.com&#x2F;yourname"><i class="ic i-twitter"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yourname"><i class="ic i-zhihu"></i></span>
+      <span class="exturl item music" data-url="aHR0cHM6Ly9tdXNpYy4xNjMuY29tLyMvdXNlci9ob21lP2lkPXlvdXJpZA==" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;yourid"><i class="ic i-cloud-music"></i></span>
+      <span class="exturl item weibo" data-url="aHR0cHM6Ly93ZWliby5jb20veW91cm5hbWU=" title="https:&#x2F;&#x2F;weibo.com&#x2F;yourname"><i class="ic i-weibo"></i></span>
+      <span class="exturl item about" data-url="aHR0cHM6Ly9hYm91dC5tZS95b3VybmFtZQ==" title="https:&#x2F;&#x2F;about.me&#x2F;yourname"><i class="ic i-address-card"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
+  </li>
+
+        
+  <li class="item dropdown">
+    <a href="javascript:void(0);"><i class="ic i-feather"></i>Posts</a>
+    <ul class="submenu">
+
+        
+  <li class="item">
+    <a href="/archives/" rel="section"><i class="ic i-list-alt"></i>Archives</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/categories/" rel="section"><i class="ic i-th"></i>Categories</a>
+  </li>
+
+        
+  <li class="item">
+    <a href="/tags/" rel="section"><i class="ic i-tags"></i>Tags</a>
+  </li>
+
+  </ul>
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>Random Posts</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/12/16/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="scapy用法学习">scapy用法学习</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/paper%E7%AC%94%E8%AE%B0/" title="In paper笔记">paper笔记</a>
+</div>
+
+    <span><a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/" title="机器学习_在黑暗中投掷飞镖？">机器学习_在黑暗中投掷飞镖？</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="代码审计">代码审计</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/" title="利用网络威胁情报实现有效的网络威胁搜索">利用网络威胁情报实现有效的网络威胁搜索</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/" title="每日code-11月">每日code-11月</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" title="栈溢出">栈溢出</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>Recent Comments</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2020</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">1ss4k @ Yume Shoka</span>
+  </div>
+  <div class="powered-by">
+    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2020/12/16/scapy用法学习/',
+    favicon: {
+      show: "（●´3｀●）Goooood",
+      hide: "(´Д｀)Booooom"
+    },
+    search : {
+      placeholder: "Search for Posts",
+      empty: "We didn't find any results for the search: ${query}",
+      stats: "${hits} results found in ${time} ms"
+    },
+    valine: true,fancybox: true,copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.3"></script>
+
+
+
+
+</body>
+</html>

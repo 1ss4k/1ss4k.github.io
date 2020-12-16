@@ -100,12 +100,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giph4wqtg4j20zk0m8x6p.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipetfk5zwj20zk0m8e81.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclx6phq6j20zk0m8e36.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclip4jbpj20zk0m87cv.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclj61ylzj20zk0m8b29.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclize41wj20zk0m87gk.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclxxcb6rj20zk0m8b29.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhpw3lwj20zk0m8gvw.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gipevgoki5j20zk0m84qp.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicmnywqgpj20zk0m8dwx.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1gicliierfjj20zk0m8npd.jpg"></li>
+          <li class="item" data-background-image="https://tva3.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
         </ul>
       </div>
     </header>
@@ -149,13 +149,10 @@ Yume Shoka = Parallel universe</title>
   <div class="body md" itemprop="articleBody">
     
 
-    <p>#0x00基础知识</p>
-<p>1、作用：构建数据包 / 发送 / 捕获 / 分析 / 匹配响应</p>
+    <h1 id="0x00基础知识"><a href="#0x00基础知识" class="headerlink" title="0x00基础知识"></a>0x00基础知识</h1><p>1、作用：构建数据包 / 发送 / 捕获 / 分析 / 匹配响应</p>
 <h1 id="0x01-安装"><a href="#0x01-安装" class="headerlink" title="0x01 安装"></a>0x01 安装</h1><p>安装在ubuntu</p>
 <p><code>apt install python-scapy</code></p>
-<p>#0x02 使用—起航Scapy</p>
-<p>##1、生成单个数据包</p>
-<p>层次：Ether()/IP()/TCP()/</p>
+<h1 id="0x02-使用-—-起航Scapy"><a href="#0x02-使用-—-起航Scapy" class="headerlink" title="0x02 使用 — 起航Scapy"></a>0x02 使用 — 起航Scapy</h1><h2 id="1、生成单个数据包"><a href="#1、生成单个数据包" class="headerlink" title="1、生成单个数据包"></a>1、生成单个数据包</h2><p>层次：Ether()/IP()/TCP()/</p>
 <p>堆加层次</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a&#x3D;Ether()&#x2F;IP(dst&#x3D;&quot;www.slashdot.org&quot;)&#x2F;TCP()&#x2F;&quot;GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&quot;</span><br><span class="line">&gt;&gt;&gt; hexdump(a)</span><br><span class="line">0000   FE EE 0B CA E5 69 52 54  00 DB 10 F5 08 00 45 00   .....iRT......E.</span><br><span class="line">0010   00 43 00 01 00 00 40 06  D0 23 AC 15 00 03 D8 69   .C....@..#.....i</span><br><span class="line">0020   26 0F 00 14 00 50 00 00  00 00 00 00 00 00 50 02   &amp;....P........P.</span><br><span class="line">0030   20 00 13 21 00 00 47 45  54 20 2F 69 6E 64 65 78    ..!..GET &#x2F;index</span><br><span class="line">0040   2E 68 74 6D 6C 20 48 54  54 50 2F 31 2E 30 20 0A   .html HTTP&#x2F;1.0 .</span><br><span class="line">0050   0A</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; b &#x3D; str(a)</span><br><span class="line">&gt;&gt;&gt; b</span><br><span class="line">&#39;\xfe\xee\x0b\xca\xe5iRT\x00\xdb\x10\xf5\x08\x00E\x00\x00C\x00\x01\x00\x00@\x06\xd0#\xac\x15\x00\x03\xd8i&amp;\x0f\x00\x14\x00P\x00\x00\x00\x00\x00\x00\x00\x00P\x02 \x00\x13!\x00\x00GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&#39;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c&#x3D;Ether(b)</span><br><span class="line">&gt;&gt;&gt; c</span><br><span class="line">&lt;Ether  dst&#x3D;fe:ee:0b:ca:e5:69 src&#x3D;52:54:00:db:10:f5 type&#x3D;IPv4 |&lt;IP  version&#x3D;4L ihl&#x3D;5L tos&#x3D;0x0 len&#x3D;67 id&#x3D;1 flags&#x3D; frag&#x3D;0L ttl&#x3D;64 proto&#x3D;tcp chksum&#x3D;0xd023 src&#x3D;172.21.0.3 dst&#x3D;216.105.38.15 options&#x3D;[] |&lt;TCP  sport&#x3D;ftp_data dport&#x3D;http seq&#x3D;0 ack&#x3D;0 dataofs&#x3D;5L reserved&#x3D;0L flags&#x3D;S window&#x3D;8192 chksum&#x3D;0x1321 urgptr&#x3D;0 options&#x3D;[] |&lt;Raw  load&#x3D;&#39;GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&#39; |&gt;&gt;&gt;&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c.hide_defaults()</span><br><span class="line">&gt;&gt;&gt; c</span><br><span class="line">&lt;Ether  dst&#x3D;fe:ee:0b:ca:e5:69 src&#x3D;52:54:00:db:10:f5 type&#x3D;IPv4 |&lt;IP  ihl&#x3D;5L len&#x3D;67 frag&#x3D;0 proto&#x3D;tcp chksum&#x3D;0xd023 src&#x3D;172.21.0.3 dst&#x3D;216.105.38.15 |&lt;TCP  dataofs&#x3D;5L chksum&#x3D;0x1321 options&#x3D;[] |&lt;Raw  load&#x3D;&#39;GET &#x2F;index.html HTTP&#x2F;1.0 \n\n&#39; |&gt;&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
 
@@ -165,8 +162,7 @@ Yume Shoka = Parallel universe</title>
 
 
 
-<p>##2、生成一组数据包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aa&#x3D;IP(dst&#x3D;&quot;www.slashdot.org&#x2F;30&quot;)</span><br><span class="line">&gt;&gt;&gt; aa</span><br><span class="line">&lt;IP  dst&#x3D;Net(&#39;www.slashdot.org&#x2F;30&#39;) |&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; [p for p in aa]</span><br><span class="line">[&lt;IP  dst&#x3D;216.105.38.12 |&gt;, &lt;IP  dst&#x3D;216.105.38.13 |&gt;, &lt;IP  dst&#x3D;216.105.38.14 |&gt;, &lt;IP  dst&#x3D;216.105.38.15 |&gt;]</span><br></pre></td></tr></table></figure>
+<h2 id="2、生成-一组数据包"><a href="#2、生成-一组数据包" class="headerlink" title="2、生成 一组数据包"></a>2、生成 一组数据包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; aa&#x3D;IP(dst&#x3D;&quot;www.slashdot.org&#x2F;30&quot;)</span><br><span class="line">&gt;&gt;&gt; aa</span><br><span class="line">&lt;IP  dst&#x3D;Net(&#39;www.slashdot.org&#x2F;30&#39;) |&gt;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; [p for p in aa]</span><br><span class="line">[&lt;IP  dst&#x3D;216.105.38.12 |&gt;, &lt;IP  dst&#x3D;216.105.38.13 |&gt;, &lt;IP  dst&#x3D;216.105.38.14 |&gt;, &lt;IP  dst&#x3D;216.105.38.15 |&gt;]</span><br></pre></td></tr></table></figure>
 
 
 
@@ -207,7 +203,7 @@ Yume Shoka = Parallel universe</title>
 
 
 
-<h2 id="TCP路由追踪"><a href="#TCP路由追踪" class="headerlink" title="TCP路由追踪"></a>TCP路由追踪</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzMubWQ=">https://www.cntofu.com/book/33/3.md</span></p>
+<h2 id="4、TCP路由追踪"><a href="#4、TCP路由追踪" class="headerlink" title="4、TCP路由追踪"></a>4、TCP路由追踪</h2><p><span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzMubWQ=">https://www.cntofu.com/book/33/3.md</span></p>
 <p>参考</p>
 <ul>
 <li>[1]中文文档 <span class="exturl" data-url="aHR0cHM6Ly93d3cuY250b2Z1LmNvbS9ib29rLzMzLzEubWQ=">https://www.cntofu.com/book/33/1.md</span></li>
@@ -224,7 +220,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-12-16 15:31:53" itemprop="dateModified" datetime="2020-12-16T15:31:53+08:00">2020-12-16</time>
+    <time title="Modified: 2020-12-16 15:37:25" itemprop="dateModified" datetime="2020-12-16T15:37:25+08:00">2020-12-16</time>
   </span>
 </div>
 
@@ -279,7 +275,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeuibk9fj20zk0m8ay2.jpg" title="代码审计">
+  <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva3.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclhfehz7j20zk0m8u0x.jpg" title="代码审计">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> </span>
   <h3>代码审计</h3>
@@ -303,7 +299,7 @@ Yume Shoka = Parallel universe</title>
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">0x01 安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">1.1.</span> <span class="toc-text">3、发送数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E8%B7%AF%E7%94%B1%E8%BF%BD%E8%B8%AA"><span class="toc-number">1.2.</span> <span class="toc-text">TCP路由追踪</span></a></li></ol></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">0x00基础知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">0x01 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E4%BD%BF%E7%94%A8-%E2%80%94-%E8%B5%B7%E8%88%AAScapy"><span class="toc-number">3.</span> <span class="toc-text">0x02 使用 — 起航Scapy</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E7%94%9F%E6%88%90%E5%8D%95%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.1.</span> <span class="toc-text">1、生成单个数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%94%9F%E6%88%90-%E4%B8%80%E7%BB%84%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.2.</span> <span class="toc-text">2、生成 一组数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">3.3.</span> <span class="toc-text">3、发送数据包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81TCP%E8%B7%AF%E7%94%B1%E8%BF%BD%E8%B8%AA"><span class="toc-number">3.4.</span> <span class="toc-text">4、TCP路由追踪</span></a></li></ol></li></ol>
       </div>
       <div class="related panel pjax" data-title="Related">
       </div>
@@ -407,18 +403,10 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/%E6%9D%82%E8%AE%B0/" title="In 杂记">杂记</a>
 </div>
 
-    <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/" title="堆溢出">堆溢出</a></span>
+    <span><a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/" title="磁盘清理">磁盘清理</a></span>
   </li>
 
       
@@ -428,16 +416,17 @@ Yume Shoka = Parallel universe</title>
 <a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
+    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
+    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
   </li>
 
       
@@ -455,7 +444,34 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" title="栈溢出">栈溢出</a></span>
+    <span><a href="/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="scapy用法学习">scapy用法学习</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/" title="堆溢出">堆溢出</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/06/%E5%AF%86%E7%A0%81/" title="密码">密码</a></span>
   </li>
 
       
@@ -471,29 +487,9 @@ Yume Shoka = Parallel universe</title>
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
 </div>
 
-    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="scapy用法学习">scapy用法学习</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/web/" title="In web">web</a>
-</div>
-
-    <span><a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含">文件包含</a></span>
+    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
   </li>
 
   </ul>

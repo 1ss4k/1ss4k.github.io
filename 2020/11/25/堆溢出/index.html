@@ -100,12 +100,12 @@ Yume Shoka = Parallel universe</title>
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giciundwu5j20zk0m8n9e.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicis081o9j20zk0m8dmr.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclhtuo6nj20zk0m8ttm.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gipeu7txpzj20zk0m81kx.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1gicm0fdw5cj20zk0m8hdt.jpg"></li>
-          <li class="item" data-background-image="https://tva1.sinaimg.cn/large/6833939bly1giclhpw3lwj20zk0m8gvw.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giclffsa1cj20zk0m811l.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gipexj2jgzj20zk0m8b09.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gipet4bz0yj20zk0m8e81.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giph4wqtg4j20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1gicli3sbvtj20zk0m8x6p.jpg"></li>
+          <li class="item" data-background-image="https://tva2.sinaimg.cn/large/6833939bly1giclwrdwyaj20zk0m8are.jpg"></li>
         </ul>
       </div>
     </header>
@@ -272,7 +272,20 @@ Yume Shoka = Parallel universe</title>
 <h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><h3 id="UAF"><a href="#UAF" class="headerlink" title="UAF"></a>UAF</h3><p>原理：free后没有清空内存，导致free状态的内存空间再次被使用</p>
 <p>利用：修改free状态块的fd 和 bk指针，指向我们想要的内容。再次再分配的时候就会分配这个已经free掉的块，并且其中的指针指向的是我们想要的地址</p>
 <p>注意：fastbin中指向的块的大小与原块的大小要保持一致</p>
-<h4 id="练习1—chunk"><a href="#练习1—chunk" class="headerlink" title="练习1—chunk"></a>练习1—chunk</h4><h3 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h3><h3 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><h3 id="offbyone-and-offbynull"><a href="#offbyone-and-offbynull" class="headerlink" title="offbyone and offbynull"></a>offbyone and offbynull</h3><h3 id="tcache技术"><a href="#tcache技术" class="headerlink" title="tcache技术"></a>tcache技术</h3><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>地址 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RpdHRvenp6L0NJU0NOXzIwMTlfZmluYWxfZGF5MV9wd25fNg==">https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6</span></p>
+<h4 id="练习1—chunk"><a href="#练习1—chunk" class="headerlink" title="练习1—chunk"></a>练习1—chunk</h4><p>首先分析程序，ida打开。</p>
+<p>再根据程序的逻辑，写出交互。</p>
+<p>基本格式如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line">context(arch=<span class="string">&#x27;amd64&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line"></span><br><span class="line">local = <span class="number">1</span></span><br><span class="line">elf = ELF(<span class="string">&#x27;./chunk&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">    p = process(<span class="string">&#x27;./chunk&#x27;</span>)</span><br><span class="line">    libc = elf.libc</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    p = remote(<span class="string">&#x27;172.16.229.161&#x27;</span>,<span class="number">7001</span>)</span><br><span class="line">    libc = ELF(<span class="string">&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#onegadget64(libc.so.6)  0x45216  0x4526a  0xf02a4  0xf1147</span></span><br><span class="line">sl = <span class="keyword">lambda</span> s : p.sendline(s)</span><br><span class="line">sd = <span class="keyword">lambda</span> s : p.send(s)</span><br><span class="line">rc = <span class="keyword">lambda</span> n : p.recv(n)</span><br><span class="line">ru = <span class="keyword">lambda</span> s : p.recvuntil(s)</span><br><span class="line">ti = <span class="keyword">lambda</span> : p.interactive()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bk</span>(<span class="params">addr</span>):</span></span><br><span class="line">    gdb.attach(p,<span class="string">&quot;b *&quot;</span>+str(hex(addr)))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">debug</span>(<span class="params">addr,PIE=True</span>):</span></span><br><span class="line">    <span class="keyword">if</span> PIE:</span><br><span class="line">        text_base = int(os.popen(<span class="string">&quot;pmap &#123;&#125;| awk &#x27;&#123;&#123;print $1&#125;&#125;&#x27;&quot;</span>.format(p.pid)).readlines()[<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">        gdb.attach(p,<span class="string">&#x27;b *&#123;&#125;&#x27;</span>.format(hex(text_base+addr)))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        gdb.attach(p,<span class="string">&quot;b *&#123;&#125;&quot;</span>.format(hex(addr)))</span><br><span class="line"></span><br><span class="line">XXX(交互)</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">p.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>交互如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">idx,size</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Give me a book ID: &quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line">    ru(<span class="string">&quot;how long: &quot;</span>)</span><br><span class="line">    sl(str(size))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span>(<span class="params">idx</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Which book do you want to show?&quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">free</span>(<span class="params">idx</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Which one to throw?&quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span>(<span class="params">idx,size,py</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Which book to write?&quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line">    ru(<span class="string">&quot;how big?&quot;</span>)</span><br><span class="line">    sl(str(size))</span><br><span class="line">    ru(<span class="string">&quot;Content: &quot;</span>)</span><br><span class="line">    sd(py)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>调试exp的时候，先设下断点debug(0)，然后在终端输入tmux，即可在窗口运行python程序，如下，非常炫酷。</p>
+<p>![image-20201217000156674](/Users/my/Library/Application Support/typora-user-images/image-20201217000156674.png)</p>
+<p>要关闭tmux窗口的话，需要运行tmux kill-window</p>
+<h3 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h3><h3 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><h3 id="offbyone-and-offbynull"><a href="#offbyone-and-offbynull" class="headerlink" title="offbyone and offbynull"></a>offbyone and offbynull</h3><h3 id="tcache技术"><a href="#tcache技术" class="headerlink" title="tcache技术"></a>tcache技术</h3><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>地址 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0RpdHRvenp6L0NJU0NOXzIwMTlfZmluYWxfZGF5MV9wd25fNg==">https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6</span></p>
 <p>1、可以实现的功能：(1)free (2)malloc</p>
 <p>2、checksec </p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Full RELRO 重定向，无法修改GOT表</span><br><span class="line">Stack:    Canary found 金丝雀</span><br><span class="line">NX:       NX enabled 栈不可执行</span><br><span class="line">PIE:      PIE enabled 内存地址随机化</span><br></pre></td></tr></table></figure>
@@ -299,7 +312,7 @@ Yume Shoka = Parallel universe</title>
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">Edited on</span>
-    <time title="Modified: 2020-12-12 17:46:40" itemprop="dateModified" datetime="2020-12-12T17:46:40+08:00">2020-12-12</time>
+    <time title="Modified: 2020-12-17 00:02:53" itemprop="dateModified" datetime="2020-12-17T00:02:53+08:00">2020-12-17</time>
   </span>
 </div>
 
@@ -354,7 +367,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item left">
       
 
-  <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giciukx8a7j20zk0m8aio.jpg" title="栈溢出">
+  <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipeyvx1d4j20zk0m8hdt.jpg" title="栈溢出">
   <span class="type">Previous Post</span>
   <span class="category"><i class="ic i-flag"></i> </span>
   <h3>栈溢出</h3>
@@ -364,7 +377,7 @@ Yume Shoka = Parallel universe</title>
     <div class="item right">
       
 
-  <a href="/2020/12/04/%E7%88%AC%E8%99%AB/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva1.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipesx5fdwj20zk0m81kx.jpg" title="爬虫">
+  <a href="/2020/12/04/%E7%88%AC%E8%99%AB/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva2.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipey0a334j20zk0m8qpt.jpg" title="爬虫">
   <span class="type">Next Post</span>
   <span class="category"><i class="ic i-flag"></i> </span>
   <h3>爬虫</h3>
@@ -401,7 +414,7 @@ Yume Shoka = Parallel universe</title>
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">18</span>
+        <span class="count">19</span>
         <span class="name">posts</span>
       </a>
     </div>
@@ -494,16 +507,7 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/06/%E5%AF%86%E7%A0%81/" title="密码">密码</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/" title="栈溢出">栈溢出</a></span>
+    <span><a href="/2020/12/16/%E9%80%86%E5%90%91/" title="逆向">逆向</a></span>
   </li>
 
       
@@ -521,7 +525,16 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/" title="综合渗透">综合渗透</a></span>
+    <span><a href="/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="scapy用法学习">scapy用法学习</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="代码审计">代码审计</a></span>
   </li>
 
       
@@ -531,6 +544,25 @@ Yume Shoka = Parallel universe</title>
 </div>
 
     <span><a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="excel表格数据处理">excel表格数据处理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+</div>
+
+    <span><a href="/2020/11/13/%E5%AE%89%E5%8D%93/" title="安卓">安卓</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/web/" title="In web">web</a>
+</div>
+
+    <span><a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/" title="sql注入">sql注入</a></span>
   </li>
 
       
@@ -549,16 +581,7 @@ Yume Shoka = Parallel universe</title>
 <div class="breadcrumb">
 </div>
 
-    <span><a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" title="机器学习中的注意事项">机器学习中的注意事项</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/12/04/%E7%88%AC%E8%99%AB/" title="爬虫">爬虫</a></span>
+    <span><a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/" title="利用网络威胁情报实现有效的网络威胁搜索">利用网络威胁情报实现有效的网络威胁搜索</a></span>
   </li>
 
       
@@ -569,15 +592,6 @@ Yume Shoka = Parallel universe</title>
 </div>
 
     <span><a href="/2020/11/02/AWD/" title="AWD">AWD</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="scapy用法学习">scapy用法学习</a></span>
   </li>
 
   </ul>

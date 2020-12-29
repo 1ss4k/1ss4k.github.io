@@ -477,6 +477,22 @@
 <p>还是卡在 脚本2运行出错</p>
 <p>真nm服了</p>
 <h3 id="尝试在云服务器中运行"><a href="#尝试在云服务器中运行" class="headerlink" title="尝试在云服务器中运行"></a>尝试在云服务器中运行</h3><p>还是不行，有错误。应该是chrome版本的问题。</p>
+<p>用docker搭建环境</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39198406/article/details/85085505">https://blog.csdn.net/weixin_39198406/article/details/85085505</a></p>
+<p>docker run -i -t ubuntu /bin/bash 就进入了容器里</p>
+<p>root@33967751dd81:/etc# cat /etc/issue<br>Ubuntu 20.04.1 LTS \n \l</p>
+<p>可以查看系统的版本</p>
+<p>启动</p>
+<p>docker run -d -p 4444:4444 –shm-size=2g selenium/standalone-chrome:3.141.59-dubnium</p>
+<p>这里暴露了4444端口。</p>
+<p>使用格式如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.desired_capabilities <span class="keyword">import</span> DesiredCapabilities</span><br><span class="line"></span><br><span class="line">driver = webdriver.Remote(</span><br><span class="line">    command_executor=<span class="string">&quot;http://127.0.0.1:4444/wd/hub&quot;</span>,</span><br><span class="line">    desired_capabilities=DesiredCapabilities.CHROME</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">driver.get(<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br><span class="line">print(driver.title)</span><br><span class="line">driver.close()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>执行结果成功</p>
+<p>![image-20201222220953177](/Users/my/Library/Application Support/typora-user-images/image-20201222220953177.png)</p>
+<p>文章后面的部署没看懂，先不管它</p>
 <p>视频地址 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1TA41187n6">https://www.bilibili.com/video/BV1TA41187n6</a></p>
 <p>目标：搜索有关 中考 的信息</p>
 
@@ -513,10 +529,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-17T20:55:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-22T22:11:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 17, 2020</p>
+    <p>更新于：Dec 22, 2020</p>
   </a>
 </div>
 

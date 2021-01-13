@@ -5,10 +5,6 @@
   <!-- SEO相关 -->
   
     
-      
-        <meta name="robots" content="noindex,follow">
-      
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -23,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>虽然没什么用但还是想记下来</title>
+  <title>早期基于DGA的僵尸网络识别：将检测推向边缘 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -309,7 +305,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -378,522 +374,250 @@
         
 
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
-  <section class="post-list">
+
+
+  
+  <div class="article-meta" id="top">
     
     
+    
+      <h1 class="title">
+        早期基于DGA的僵尸网络识别：将检测推向边缘
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 9, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/">
-        栈溢出⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
+      <div id="lc-pv" data-title="早期基于DGA的僵尸网络识别：将检测推向边缘" data-path="/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  <p>#背景及目的</p>
+<p>​    僵尸网络的传播速度很快，大多数依靠AGDs(algorithmically generated domain names 算法生成域名)来逃避检测，通过DGA(domain generation algorithm 域生成算法)来屏蔽入侵检测系统。</p>
+<p>​    本文提出了一个轻量级隐私保护框架，将智能模块推向边缘，目的是在移动以及面向边缘的场景中实现早期基于DGA的僵尸网络检测。</p>
+<h1 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h1><p>从5G研究中得出的一个重要结论是：服务层可以与网络体系结构分解开来，使得框架可动态变化。</p>
+<p>[7,15,24]提出大多数入侵检测系统仅限于对网络流的监督分析。有一些高级的也会分析其他方面。</p>
+<h3 id="Edge-AI"><a href="#Edge-AI" class="headerlink" title="Edge AI"></a>Edge AI</h3><p>(1)背景</p>
+<p>[12，26，33，43]显示，Edge AI旨在将ML移向用户终端，而不是云上。</p>
+<p>我们按照[43]提出的定义，将Edge AI的方法分类为金字塔的层。一共有六个层，最低是云场景，最高是整个进程都在终端执行。</p>
+<p>图1描述了这六种方法的性能和区别。其中INF表示推理(inference)阶段。</p>
+<p>![28806837-E1BD-41A0-B2F8-337C571B1752](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/28806837-E1BD-41A0-B2F8-337C571B1752.png)</p>
+<p>低要求的任务可以在网络的边缘执行，通常直接在终端设备上执行。</p>
+<p>在本图中，只有第三级和第六级，可以保证用户的数据不会离开设备。在第二和第五级，推理过程是在边缘上进行的。</p>
+<p>[12,33]提出另一个完全不同的主题，叫做AI for Edge，应用人工智能优化和自配置，来提供服务的网络片。</p>
+<p>AI for Edge包含那些为管理模块 提供优化和学习能力的 ML应用程序。AI on Edge包含了 IDS服务中应该部署何种智能的研究，而不是如何部署它。</p>
+<p>能否在边缘和最终终端设备上执行训练阶段，在很大程度上取决于：用例本身 / 潜在因素和延迟要求 / 同时存在的应用程序、密码限制和网络切片限制等隔离要求可能会导致的隐私和数据问题 / 要处理的数据量 / 终端设备的资源限制。</p>
+<p>(2)不通的架构设计</p>
+<p>(3)与网络安全的关系</p>
+<p>#本文概述</p>
+<p>​    本文主要研究了 基于DGA的识别大规模僵尸网络的方法，并且研究了找到[攻击通信信道]的机器学习算法。</p>
+<p>​    检测AGD的研究角度很丰富：</p>
+<ul>
+<li>它继承了**完全限定域名(FQDN)**的随机性，使得基于规则的静态IDS对于ML无效。</li>
+<li>要分析的FQDN的数量众多，使得我们需要可变化的体系结构。</li>
+<li>浏览器的浏览历史是隐私，需要进行隐私保护。</li>
+<li>APTs可以在执行恶意操作之前长时间保持正常。</li>
+</ul>
+<p>本文利用支持SDN/NFV范式的思想，以提供自动化和可伸缩的检测和反应能力。</p>
+<p>本文贡献如下：</p>
+<ul>
+<li><p>本研究将确定 Edge AI应用于 基于ML的网络安全 的关键原则</p>
+</li>
+<li><p>对基于DGA的僵尸网络检测的文献进行研究，并将其映射到具有Edge AI特征的架构设计上，最终对每种架构设计的优缺点进行比较</p>
+</li>
+<li><p>在对SECaaS部署位置进行讨论之后，起草一个实验框架结构</p>
+</li>
+<li><p>一组实验将证明，在基于DGA的僵尸网络识别中，边缘人工智能方法的正确性，以及轻量级和可解释的传统ML算法的有效性</p>
+</li>
+<li><p>将准则和关键思想融入到经验教训和未来工作的讨论中去。</p>
+</li>
+</ul>
+
+  
+  
+    
+    <div class='footer'>
       
-        <div>
-          <a class='readmore' href='/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/>http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/</a></p>
+              
+            
+          </blockquote>
         </div>
+      
       
     </div>
   
+  
+    
 
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-12T09:22:03+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jan 12, 2021</p>
+  </a>
 </div>
 
-          </div>
         
       
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/">
-        利用网络威胁情报实现有效的网络威胁搜索⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        摘要本文提出了EFFHUNTER，一个使用OSCTI，促进网络威胁搜索的系统。它是建立在一个成熟的系统审计框架之上的。它提供：
-(1)
+          
 
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别：将检测推向边缘 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别：将检测推向边缘 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别：将检测推向边缘 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-17</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/13/%E5%AE%89%E5%8D%93/">
-        安卓⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        APK文件1、apk文件其实就是zip文件，压缩包格式的文件，其中包含的主要内容如下：
 
-2、AndroidManifest.xml文件，经过编译之后，变成了字节码，只有经过反编译，才能重新查看源代码。
-尝试win10中的安卓逆向助手，不成功，无反编译xml的选项。
-尝试安装apktool：在卷software中安装成功。
-反编译apk文件，出现Input file (/Users/my/D...
+
+        
       
-    
+    </div>
   </div>
+
+
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-13</time>
-        
-      </div>
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2020/11/13/%E5%AE%89%E5%8D%93/'>
-            Read More
-          </a>
-        </div>
+        <a class='prev' href='/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>水印中的一些正交矩</p>
+          <p class='content'>离散傅立叶变换矩Matlab中有内置函数用于生成离散傅立叶变换的矩，dftmtx。例子如下：
+123456789D = dftmtx(4)D =   1.0000 + 0.0000i   1.0...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/'>
+          <p class='title'>基于机器学习的恶意URL检测---一<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>前言：毕设选择了这个题目，此文章来记录一下学习过程，希望自己能够设计出一个比较好的系统！
+用机器学习玩转恶意URL检测文章链接 https://www.freebuf.com/articles/...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-        excel表格数据处理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 前言每天的工作是重复枯燥的复制粘贴表格信息，别人知道后骂我sb，痛定思痛我决定写一个程序来实现自动化复制粘贴工作。大致分析了一下有以下几个难点：
-1、数据是钉钉直播导出的，而他们的备注和真实名字有一定差异，如原本叫姜子牙，备注为 塔城_姜子牙，并且有些类似[古力娜扎]的长名，匹配时复杂。
-2、有些群成员是不需要统计的。
-使用工具：
-python
-xlrd/xlwt/xlutils ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-11</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/06/%E5%AF%86%E7%A0%81/">
-        密码⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        #基础知识
-1、通常说有五种攻击方法
-选择文本攻击就是：选择明文+选择密文。
-2、公钥密码体制困难性的原因
-RSA：大因数分解
-elgamal：离散对数
-ECC：椭圆曲线的离散对数问题
-3、对称密码中的流密码(序列密码)
-密钥流生成器可以分为：驱动部分(如线性移位寄存器LFSR)和非线形组合部分。
-4、分组密码
-扩散和混淆。
-要求混淆的过程是可逆的。
-S变换：混淆，P变换：扩散。SPN网络，...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-06</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/06/%E5%AF%86%E7%A0%81/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/">
-        二进制方向⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        逆向基础知识1、需要使用工具，对加密算法进行分析。
-除了密码学中常见的加密方法，还有一些变种题型。vm逆向/smc逆向(代码块加密)/cheate逆向(主动防御)/python逆向/加壳逆向。
-2、Windows中的命令
-calc打开计算器，其中的运算功能较为方便。可用本机的计算器代替。
-notepad，打开记事本，做记录。
-看到了16min——网鼎杯技能培训
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-05</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-        机器学习中的注意事项⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        题目：Dos and Don’ts of Machine Learning in Computer Security
-摘要
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-05</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/">
-        综合渗透⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        综合渗透测试1、目标：拿取系统的权限
-2、综合渗透思路
-
-内网工具1、MSF
-kali中集成的。
-终端输入 msfconsole
-msf5，是框架的命令行。
-show auxiliary 显示辅助模块，主要用来信息搜集
-show exploits 攻击模块。
-木马反连：以17-010为例，首先模糊搜索search，找到相应的信息。use，使用它。info，查看信息。其中：Basic opti...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-03</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/">
-        磁盘清理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言前几天下载了iMovie，然后磁盘空间突然就快满了… 这里记录一下清除的过程，以备以后查阅使用。
+  </article>
 
 
-….算了，买硬盘好了….
 
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
 
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/">
-        每日code-11月⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        11.041、349.两个数组的交集
-题意：给定两个数组，编写一个函数来计算它们的交集
-思路：每个数组把其中的数字维护一个表/检查两个表中相同的部分。
-实现：
-自己不会实现...直接参考别人的
-参考答案
-class Solution &#123; //这个是题目固定的结构
-
-public:
-vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-02</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/02/%E6%AF%8F%E6%97%A5code-11/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        
-          <a class="prev" rel="prev" href="/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          2 / 3
-        </p>
-        
-          <a class="next" rel="next" href="/page/3/">
-            <section class="post next white-box shadow">
-              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
-        
-      </div>
-    
-  
 
 
 </div>
@@ -903,131 +627,22 @@ vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(2)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Edge-AI"><span class="toc-text">Edge AI</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 14px; color: #999">sql注入</a> <a href="/tags/web/" style="font-size: 24px; color: #555">web</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 14px; color: #999">文件包含</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a> <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" style="font-size: 14px; color: #999">顶会SP</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -1043,8 +658,8 @@ vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="早期基于DGA的僵尸网络识别：将检测推向边缘";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

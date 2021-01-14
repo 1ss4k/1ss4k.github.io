@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>水印中的一些正交矩 - 虽然没什么用但还是想记下来</title>
+  <title>水印中的一些正交矩及其Matlab实现⌛️ - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        水印中的一些正交矩
+        水印中的一些正交矩及其Matlab实现⌛️
       </h1>
       <div class='new-meta-box'>
         
@@ -419,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="水印中的一些正交矩" data-path="/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/">
+      <div id="lc-pv" data-title="水印中的一些正交矩及其Matlab实现⌛️" data-path="/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -501,9 +501,76 @@
 <p>![5AC3C333-B0D5-4A1D-886D-0F8058DACB4E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/5AC3C333-B0D5-4A1D-886D-0F8058DACB4E.png)</p>
 <p>其中 ![C1E53AA3-E71A-44CC-9144-B2EA82AB1BF4](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C1E53AA3-E71A-44CC-9144-B2EA82AB1BF4.png)</p>
 <p>分别表示重建彩色图像的红色、绿色和蓝色分量，并且L是qlfms的最大阶数。</p>
+<p>###Orthogonal Fourier–Mellin Moments (OFMM)</p>
+<p>参考文章[3]论述了有关极性谐波的内容。</p>
+<p>阶数为n，重复度为l的极性复指数变换格式为：</p>
+<p>![D36D8A8E-437B-4DE4-B064-0DFECBE11C9E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/D36D8A8E-437B-4DE4-B064-0DFECBE11C9E.png)</p>
+<p>![FBA0788B-3488-40A1-A0E2-ABCD90156FE3](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/FBA0788B-3488-40A1-A0E2-ABCD90156FE3.png)</p>
+<p>其中径向核是径向上的复指数：</p>
+<p>![DE13CC1C-6960-466B-BD38-4E5EB2035A98](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DE13CC1C-6960-466B-BD38-4E5EB2035A98.png)</p>
+<p>并且满足正交条件：</p>
+<p>![39224B85-8C6A-46DC-B47D-673F817A2787](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/39224B85-8C6A-46DC-B47D-673F817A2787.png)</p>
+<p>后面还有详细的关于极性的计算方式，此处不再记录。</p>
+<p>文中有个表，说明了不同矩的变换正交性及数值稳定性的比较</p>
+<p>![70CFD3C7-2E9E-49A1-A654-038D22DD6F4A](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/70CFD3C7-2E9E-49A1-A654-038D22DD6F4A.png)</p>
+<p>#OFMM</p>
+<p>根据矩的唯一性定理，一个图象的所有阶几何矩都是唯一的。低阶矩包含的图像细节信息较少。高阶矩易受噪声影响。</p>
+<p>ZM具有正交性和旋转不变性。但是，将其应用于尺度不变模式识别时，ZM在描述小尺寸图像时遇到了困难。</p>
+<p>本文在一组新的径向多项式的基础上引入了正交Fourier-Mellin矩（OFMM）。结果表明，OFMM在图像描述和噪声敏感性方面均优于ZM。</p>
+<p>FMMs定义如下：</p>
+<p>![46E86472-1D59-468D-839C-08A383662159](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/46E86472-1D59-468D-839C-08A383662159.png)</p>
+<p>其中f(r,thita)是图像，m是圆谐阶</p>
+<p>![D73D3B46-FC88-4983-8568-657C21DA6459](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/D73D3B46-FC88-4983-8568-657C21DA6459.png)</p>
+<p>根据定义，Mellin变换的阶s是复数值。s≥0。</p>
+<p>OFMMs定义如下：</p>
+<p>![70DE12AC-3689-4CAE-BD05-C3F52F9EE4AF](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/70DE12AC-3689-4CAE-BD05-C3F52F9EE4AF.png)</p>
+<p>其中a_n是归一化常数，Q_n(r)是r的n次的多项式，Q_n(r)的集合在0≤r≤1的集合范围内正交。</p>
+<p>![55BFF4B9-7769-4E19-B7FA-BDCB4048BF77](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/55BFF4B9-7769-4E19-B7FA-BDCB4048BF77.png)</p>
+<p>最后的符号是Kronecker符号，r的最大值是1。</p>
+<p>归一化常数a_n = 1/[2(n+1)]</p>
+<p>![58C91ECE-5665-4B3B-806F-23A91C893823](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/58C91ECE-5665-4B3B-806F-23A91C893823.png)</p>
+<p>![A83BB011-451B-489E-BF1C-26B5F5ED47E8](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/A83BB011-451B-489E-BF1C-26B5F5ED47E8.png)</p>
+<p>a_ns计算的代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c = ((<span class="number">-1</span>)^(n+s))*<span class="built_in">factorial</span>(n+s+<span class="number">1</span>) / ...</span><br><span class="line">        (<span class="built_in">factorial</span>(n-s)*<span class="built_in">factorial</span>(s)*<span class="built_in">factorial</span>(s+<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
+<p>Q_n(r)完整的计算代码如下：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> s = <span class="number">0</span>:n</span><br><span class="line">    c = ((<span class="number">-1</span>)^(n+s))*<span class="built_in">factorial</span>(n+s+<span class="number">1</span>) / ...</span><br><span class="line">        (<span class="built_in">factorial</span>(n-s)*<span class="built_in">factorial</span>(s)*<span class="built_in">factorial</span>(s+<span class="number">1</span>));</span><br><span class="line">    output = output + c * (rho .^ (t*s)).*<span class="built_in">sqrt</span>(t).*rho.^((t<span class="number">-1</span>)); <span class="comment">%没懂</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>Qn(r)的表达式计算如下：</p>
+<p>![64D489CB-280A-4F6C-B194-7D2F76737BE9](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/64D489CB-280A-4F6C-B194-7D2F76737BE9.png)</p>
+<p>当Qn(r)的n阶≥0时，OFMM是可积的。可以将OFMM表示为FMM的线性组合</p>
+<p>![086328DC-CF2F-46D3-AAB2-4CCCB6281454](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/086328DC-CF2F-46D3-AAB2-4CCCB6281454.png)</p>
+<p>OFMM可以被认为是广义的ZM。</p>
+<p>根据定义，Qn（r）的阶数n与圆调和阶数m无关。因此，基本函数Q（r）exp（-jm0）不再是x和y的多项式，而是可以表示为（x+jy）和（x-jy）中的复多项式。</p>
+<p>OFMM可以表示为复力矩（CM）的线性组合：</p>
+<p>![171B819D-D321-4DB1-932E-F6FCA2751E1D](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/171B819D-D321-4DB1-932E-F6FCA2751E1D.png)</p>
+<p>![FA6B1EA5-CE4B-4F59-BD93-0A9BAA1608CD](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/FA6B1EA5-CE4B-4F59-BD93-0A9BAA1608CD.png)</p>
+<p>OFFM的Matlab代码实现如下</p>
+<p>预操作</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">close all;</span><br><span class="line">clear all;</span><br><span class="line">clc;</span><br><span class="line">addpath(genpath(pwd));</span><br><span class="line">K = <span class="number">10</span> <span class="comment">%阶数，可调</span></span><br><span class="line">I = imread(<span class="string">&#x27;lena.tif&#x27;</span>);</span><br><span class="line">[N, M]  = <span class="built_in">size</span>(I);</span><br><span class="line">x       = <span class="number">-1</span>+<span class="number">1</span>/M:<span class="number">2</span>/M:<span class="number">1</span><span class="number">-1</span>/M;</span><br><span class="line">y       = <span class="number">1</span><span class="number">-1</span>/N:<span class="number">-2</span>/N:<span class="number">-1</span>+<span class="number">1</span>/N;</span><br><span class="line">[X,Y]   = <span class="built_in">meshgrid</span>(x,y); <span class="comment">%创建网格，下有详解1</span></span><br><span class="line">[~, r]  = <span class="built_in">cart2pol</span>(X, Y); <span class="comment">%把笛卡尔坐标转化为极坐标</span></span><br><span class="line">I(r&gt;<span class="number">1</span>)=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><ol>
+<li>MATLAB中meshgrid函数是用来生成网格的</li>
+</ol>
+</li>
+</ul>
+<p>参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhicungaoyuan-mingzhi/p/12443256.html">https://www.cnblogs.com/zhicungaoyuan-mingzhi/p/12443256.html</a></p>
+<p>图像分解成矩阵</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">tic; <span class="comment">%开始计时</span></span><br><span class="line">img = I;</span><br><span class="line">maxorder = K;</span><br><span class="line">[N, M]  = <span class="built_in">size</span>(img);</span><br><span class="line">x       = <span class="number">-1</span>+<span class="number">1</span>/M:<span class="number">2</span>/M:<span class="number">1</span><span class="number">-1</span>/M;</span><br><span class="line">y       = <span class="number">1</span><span class="number">-1</span>/N:<span class="number">-2</span>/N:<span class="number">-1</span>+<span class="number">1</span>/N;</span><br><span class="line">[X,Y]   = <span class="built_in">meshgrid</span>(x,y);</span><br><span class="line">[th, r]  = <span class="built_in">cart2pol</span>(X, Y); <span class="comment">%th是角度thita，r是径长度</span></span><br><span class="line"></span><br><span class="line">pz=th&lt;<span class="number">0</span>; <span class="comment">%用于找出极坐标中，所有thita&lt;0的地方</span></span><br><span class="line">theta =<span class="built_in">zeros</span>(N,M);</span><br><span class="line">theta(pz)     = th(pz) + <span class="number">2</span>*<span class="built_in">pi</span>; <span class="comment">%没懂</span></span><br><span class="line">theta(~pz)     = th(~pz); <span class="comment">%没懂</span></span><br><span class="line">pz=r&gt;<span class="number">1</span>;</span><br><span class="line">rho =<span class="built_in">zeros</span>(N,M);</span><br><span class="line">rho(pz)     = <span class="number">10000</span>;</span><br><span class="line">rho(~pz)     = r(~pz); </span><br><span class="line"></span><br><span class="line">output=<span class="built_in">zeros</span>(maxorder,maxorder); <span class="comment">%输出是K*K大小的矩阵</span></span><br><span class="line"><span class="keyword">for</span> order=<span class="number">0</span>:<span class="number">1</span>:maxorder</span><br><span class="line">    R=getRadialPoly(order,rho); </span><br><span class="line">    <span class="keyword">for</span> repetition=-maxorder:<span class="number">1</span>:maxorder</span><br><span class="line">        pupil =R.*<span class="built_in">exp</span>(<span class="number">-1</span><span class="built_in">j</span>*repetition * theta);</span><br><span class="line">        Product = double(img) .* pupil;</span><br><span class="line">        cnt = nnz(R)+<span class="number">1</span>;</span><br><span class="line">        output(order+<span class="number">1</span>,repetition+maxorder+<span class="number">1</span>)=sum(Product(:))*((<span class="number">2</span>*(order+<span class="number">1</span>))/(<span class="number">2</span>*<span class="built_in">pi</span>))*(<span class="number">4</span>/cnt);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[output]</span> = <span class="title">getRadialPoly</span><span class="params">(order,rho)</span></span></span><br><span class="line"><span class="comment">% obtain the order and repetition</span></span><br><span class="line">n = order;</span><br><span class="line">t = <span class="number">1</span>;</span><br><span class="line">output = <span class="built_in">zeros</span>(<span class="built_in">size</span>(rho));      <span class="comment">% initilization</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% compute the radial polynomial</span></span><br><span class="line"><span class="keyword">for</span> s = <span class="number">0</span>:n</span><br><span class="line">    c = ((<span class="number">-1</span>)^(n+s))*<span class="built_in">factorial</span>(n+s+<span class="number">1</span>) / ...</span><br><span class="line">        (<span class="built_in">factorial</span>(n-s)*<span class="built_in">factorial</span>(s)*<span class="built_in">factorial</span>(s+<span class="number">1</span>));</span><br><span class="line">    output = output + c * (rho .^ (t*s)).*<span class="built_in">sqrt</span>(t).*rho.^((t<span class="number">-1</span>));</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span> <span class="comment">% end getRadialPoly method</span></span><br><span class="line"></span><br><span class="line">DT = toc;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>还有重建图像的代码</p>
 <p>参考文章</p>
 <p>[1] Color image reconstruction using quaternion Legendre-Fourier moments inpolar pixels</p>
 <p>[2] Robust color image watermarking using invariantquaternion Legendre-Fourier moments</p>
+<p>[3] Two-dimensional polar harmonic transforms for invariant image representation</p>
+<p>[4] Orthogonal Fourier-Mellin momentsfor invariant pattern recognition</p>
+<p>[5] Image Reconstruction from Legendre Moments</p>
+<p>[X] 代码参考 <a target="_blank" rel="noopener" href="https://github.com/ShurenQi/MomentToolbox">https://github.com/ShurenQi/MomentToolbox</a></p>
 
   
   
@@ -538,10 +605,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-13T20:17:52+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-14T13:44:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jan 13, 2021</p>
+    <p>更新于：Jan 14, 2021</p>
   </a>
 </div>
 
@@ -560,7 +627,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/&title=水印中的一些正交矩 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/&title=水印中的一些正交矩及其Matlab实现⌛️ - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -572,7 +639,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/&title=水印中的一些正交矩 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/&title=水印中的一些正交矩及其Matlab实现⌛️ - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -584,7 +651,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/&title=水印中的一些正交矩 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/&title=水印中的一些正交矩及其Matlab实现⌛️ - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -681,7 +748,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="水印中的一些正交矩";
+  pdata.postTitle="水印中的一些正交矩及其Matlab实现⌛️";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

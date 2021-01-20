@@ -19,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>早期基于DGA的僵尸网络识别:将检测推向边缘⌛️ - 虽然没什么用但还是想记下来</title>
+  <title>早期基于DGA的僵尸网络识别:将检测推向边缘 - 虽然没什么用但还是想记下来</title>
+  
+    <meta name="keywords" content="edge AI">
   
 
   
@@ -384,7 +386,7 @@
     
     
       <h1 class="title">
-        早期基于DGA的僵尸网络识别:将检测推向边缘⌛️
+        早期基于DGA的僵尸网络识别:将检测推向边缘
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +403,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
+    </a>
+  </div>
+
 
           
         
@@ -419,7 +428,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="早期基于DGA的僵尸网络识别:将检测推向边缘⌛️" data-path="/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/">
+      <div id="lc-pv" data-title="早期基于DGA的僵尸网络识别:将检测推向边缘" data-path="/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -439,83 +448,79 @@
   <h3 id="文章等级及作者团队"><a href="#文章等级及作者团队" class="headerlink" title="文章等级及作者团队"></a>文章等级及作者团队</h3><p>​    文章全名 Early DGA-based botnet identification: pushing detection to the edges，发表期刊 cluster computing，3区，经查阅，文章质量在不断提高。</p>
 <p>​    作者来自西班牙，此项工作得到了西班牙国家网络安全研究所（INCIBE）的资助。</p>
 <h3 id="背景及目的"><a href="#背景及目的" class="headerlink" title="背景及目的"></a>背景及目的</h3><p>​    Edge AI被认为是继5G之后的下一个技术。正是在这个方向上，协作概念（如联合学习）将[5G的带宽和大量设备的优势] 与[轻量级但高效的机器学习模型]结合起来。Edge AI 可以作为 云无限资源 和 个人隐私资源限制 之间的一种调和。</p>
-<p>​    僵尸网络的传播速度很快，大多数依靠AGDs(algorithmically generated domain names 算法生成域名)来逃避检测，通过**DGA(domain generation algorithm 域生成算法)**来屏蔽入侵检测系统。</p>
+<p>​    僵尸网络的传播速度很快，大多数依靠AGDs(algorithmically generated domain names 算法生成域名)来逃避检测，通过DGA(domain generation algorithm 域生成算法)来屏蔽入侵检测系统。</p>
 <p>​    本文提出了一个轻量级隐私保护框架，将智能模块推向边缘。</p>
 <h3 id="前人工作"><a href="#前人工作" class="headerlink" title="前人工作"></a>前人工作</h3><p>从5G研究中得出的一个重要结论是：服务层可以与网络体系结构分解开来，这使得框架可动态变化。</p>
 <p>[7,15,24]提出大多数入侵检测系统仅限于对网络流的监督分析。但是有一些高级的也会分析其他方面。</p>
-<h4 id="Edge-AI"><a href="#Edge-AI" class="headerlink" title="Edge AI"></a>Edge AI</h4><h5 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h5><p>[12，26，33，43]显示，Edge AI旨在将ML移向用户终端。</p>
+<h4 id="Edge-AI"><a href="#Edge-AI" class="headerlink" title="Edge AI"></a>Edge AI</h4><p>[12，26，33，43]显示，Edge AI旨在将ML移向用户终端。</p>
 <p>本文按照[43]提出的定义，将Edge AI的方法分类为金字塔的层。一共有六个层，最低是整个进程都在云场景执行，最高是都在终端执行。</p>
-<p>图1描述了这六种方法的性能和区别。其中INF表示推理(inference)阶段。</p>
-<p>![28806837-E1BD-41A0-B2F8-337C571B1752](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/28806837-E1BD-41A0-B2F8-337C571B1752.png)</p>
+<p>下图描述了这六种方法的性能和区别。其中INF表示推理(inference)阶段。</p>
+<p><img src="/images/pasted-166.png" class="lazyload" data-srcset="/images/pasted-166.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>低要求的任务可以在网络的边缘执行，通常直接在终端设备上执行。</p>
 <p>在本图中，只有第三级和第六级，可以保证用户的数据不会离开设备。在第二和第五级，推理过程是在边缘上进行的。第一级和第四级显示，如果有必要的话，INF也可以在云上进行。</p>
 <p>[12,33]提出另一个完全不同的主题，叫做AI for Edge，应用人工智能优化和自配置，来提供服务的网络片。</p>
-<p>AI for Edge包含那些为管理模块 提供优化和学习能力的 ML应用程序。AI on Edge包含了 IDS服务中应该部署何种智能的研究，而不是如何部署它。</p>
+<p>AI for Edge包含那些为管理模块 提供优化和学习能力的 ML应用程序。AI on Edge包含了 IDS服务中应该部署哪种智能的研究，而不是在于去怎么部署它。</p>
 <p>能否在边缘和最终终端设备上执行训练阶段，在很大程度上取决于：用例本身 / 潜在因素和延迟要求 / 同时存在的应用程序、密码限制和网络切片限制等隔离要求可能会导致的隐私和数据问题 / 要处理的数据量 / 终端设备的资源限制。</p>
 <p>在一个合作的环境中，智能决策支持系统可以从于从多个来源收集的情报受益。</p>
 <p>[8]证明，协作的、基于云的IDS对0day恶意软件有效。</p>
-<p>(2)不同的架构设计</p>
-<p>本节将展示 基于DGA的检测框架 的选项和能力，并将其部署为SECAAS的集合。</p>
+<h4 id="不同的架构设计"><a href="#不同的架构设计" class="headerlink" title="不同的架构设计"></a>不同的架构设计</h4><p>本节将展示 基于DGA的检测框架 的选项和能力，并将其部署为SECAAS的集合。</p>
 <p><strong>level 2：</strong></p>
-<p>![395F6611-6692-4D82-8164-A86E9F0A7AFC](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/395F6611-6692-4D82-8164-A86E9F0A7AFC.png)</p>
+<p><img src="/images/pasted-167.png" class="lazyload" data-srcset="/images/pasted-167.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>这是一个5G类网络片的原型架构，该网络片插入内部解析器和远程解析器之间。在此场景中，网络片被配置为应用策略实施器，其规则由，例如，ML分类器定义。</p>
 <p><strong>level 3:</strong></p>
-<p>![6C4BFA22-CEFF-4218-802C-8A6136F51AFA](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6C4BFA22-CEFF-4218-802C-8A6136F51AFA.png)</p>
+<p><img src="/images/pasted-168.png" class="lazyload" data-srcset="/images/pasted-168.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>它是一个典型的设备内解析器架构，它在发送用户请求之前拦截用户的请求。</p>
 <p>在level 2 3 两种配置中，请求的FQDN 都是从DNS查询中提取的。</p>
 <p>他们都不需要与云服务器共享推断的数据，可以达到隔离和隐私的要求。</p>
 <p><strong>level 4:</strong></p>
-<p>![0ED9C42D-E0D7-4F5F-B7C5-C1B378F4F267](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/0ED9C42D-E0D7-4F5F-B7C5-C1B378F4F267.png)</p>
+<p><img src="/images/pasted-169.png" class="lazyload" data-srcset="/images/pasted-169.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p><strong>level 5:</strong></p>
-<p>![E84E65E3-1DCE-4F9E-B81C-00AE45FF0B46](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E84E65E3-1DCE-4F9E-B81C-00AE45FF0B46.png)</p>
+<p><img src="/images/pasted-170.png" class="lazyload" data-srcset="/images/pasted-170.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>level 4 和 level 5 都是通过直接在边缘分析数据来实现相同的隔离特性。</p>
 <p>这两种方法的主要区别在于，训练阶段发生在哪里。</p>
 <p>在level 4中，每个边缘都可以更新模型，并最终以联邦方式与云共享。尽管level 4在理论上可以设计为 将数据传输到云端以实现负载平衡，但在图c所示的场景中，情况并非如此。分类器被设计为 只在边缘上工作；因此，数据限制可以考虑在边缘边界上，而不是在云边界上。</p>
 <p>在level 5中，训练阶段处于边缘。边缘训练过程使用了一个由云收集的数据集，该数据集由私有数据和本地可用数据扩充。</p>
 <p>图d不像图c一样，包含训练模型（或其超参数）的实际共享。</p>
 <p>下表显示了 架构模型应用于 基于DGA的僵尸网络检测时的特性、优缺点</p>
-<p>![2E6DEE11-6C1F-4975-BDEB-A73BE21FA6A9](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/2E6DEE11-6C1F-4975-BDEB-A73BE21FA6A9.png)</p>
+<p><img src="/images/pasted-171.png" class="lazyload" data-srcset="/images/pasted-171.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p><strong>可用的计算资源：</strong>云训练和测试具有几乎无限的资源；边缘设备具有 有限的方法，而终端设备具有更加实质性的限制。</p>
 <p><strong>延迟：</strong>在很大程度上取决于与用户的距离</p>
 <p><strong>数据源可用性：</strong>与参与者之间的共享框架紧密相连，在这种情况下，如[22]所述，云可以接收聚合和匿名数据或选择相应的参数进行更新，最终提供对网络的无限制概述。</p>
-<h3 id="服务位置的关键方面"><a href="#服务位置的关键方面" class="headerlink" title="服务位置的关键方面"></a>服务位置的关键方面</h3><p>[2,40] 提出一种可以通过自主部署VNF提供SECaaS的方法，它广泛采用的，但缺乏创新。</p>
+<h4 id="服务位置的关键方面"><a href="#服务位置的关键方面" class="headerlink" title="服务位置的关键方面"></a>服务位置的关键方面</h4><p>[2,40] 提出一种可以通过自主部署VNF提供SECaaS的方法，它广泛采用的，但缺乏创新。</p>
 <p>概念区分：</p>
 <p><strong>边缘计算：</strong>与边缘相关的讨论应以自动化、无需人工的功能为中心，突出 有限的计算资源、极低的延迟要求以及与云服务的本机隔离等主题。</p>
 <p><strong>公司域：</strong>可以与私有云的概念有部分重叠，从而集中讨论敏感数据的保护和隔离等主题，而不是讨论全自动检测功能。私有云环境可以缓解 云提供商的隐私问题，还有共享知识库可以提供好处。</p>
 <p>只有少数作者[14,23]提出了完全适用于终端设备的检测解决方案。在这种受限场景中，与硬件相关的KPI变得非常重要。</p>
-<p>(3)与网络安全的关系</p>
-<p>有几个 与边缘人工智能范式兼容的应用程序 网络安全相关的问题值得一提。</p>
+<h4 id="与网络安全的关系"><a href="#与网络安全的关系" class="headerlink" title="与网络安全的关系"></a>与网络安全的关系</h4><p>有几个 与边缘人工智能范式兼容的应用程序 网络安全相关的问题值得一提。</p>
 <p>除了从云端继承的威胁模型之外，边缘计算也引入了新的安全风险。理想情况下，完全保护隐私的方法将 只管理严格必要的数据，而不将其传输到任何外部处理中心（在图1中，只有级别3和级别6达到此状态）。</p>
 <p>[18]深入分析了当前网络安全的攻击方面的威胁。他们首先介绍了 神经网络脆弱性和关键性的分类法，犯罪分子可以利用这些神经网络 在网络防御上获得优势。</p>
 <p>在网络检测中，本文的方案 是首次尝试在边缘上探索DGA检测。</p>
 <p>另一个关注点是：APT威胁。这些高级恶意软件通常针对特定目标重新编译，并呈现多个与经典签名不匹配的模糊变量。</p>
-<p>#本文概述</p>
-<p>​    本文主要研究了 基于DGA的识别大规模僵尸网络的方法，并且研究了找到[攻击通信信道]的机器学习算法。本文是第一次尝试建立一个基于DGA的僵尸网络检测框架，可以部署到边缘上。</p>
+<h3 id="本文方法"><a href="#本文方法" class="headerlink" title="本文方法"></a>本文方法</h3><p>​    本文主要研究了 基于DGA的识别大规模僵尸网络的方法，并且研究了找到[攻击通信信道]的机器学习算法。本文是第一次尝试建立一个基于DGA的僵尸网络检测框架，可以部署到边缘上。</p>
 <p>​    检测AGD的研究角度很丰富：</p>
 <ul>
-<li>它继承了**完全限定域名(FQDN)**的随机性，使得基于规则的静态IDS对于ML无效。</li>
+<li>它继承了<code> 完全限定域名(FQDN)</code> 的随机性，使得基于规则的静态IDS对于ML无效。</li>
 <li>要分析的FQDN的数量众多，使得我们需要可变化的体系结构。</li>
 <li>浏览器的浏览历史是隐私，需要进行隐私保护。</li>
 <li>APTs可以在执行恶意操作之前长时间保持正常。</li>
 </ul>
 <p>本文利用支持SDN/NFV范式的思想，以提供自动化和可伸缩的检测和反应能力。</p>
-<p>本文贡献如下：</p>
+<p>本文<code>贡献</code>如下：</p>
 <ul>
 <li><p>本研究将确定 Edge AI应用于 基于ML的网络安全 的关键原则</p>
 </li>
 <li><p>对基于DGA的僵尸网络检测的文献进行研究，并将其映射到具有Edge AI特征的架构设计上，最终对每种架构设计的优缺点进行比较</p>
 </li>
-<li><p>在对SECaaS部署位置进行讨论之后，起草一个实验框架结构</p>
+<li><p>讨论了SECaaS的部署位置，起草一个实验框架结构</p>
 </li>
-<li><p>一组实验将证明，在基于DGA的僵尸网络识别中，边缘人工智能方法的正确性，以及轻量级和可解释的传统ML算法的有效性</p>
+<li><p>用一组实验将证明，在基于DGA的僵尸网络识别中，边缘人工智能方法具有正确性，以及轻量级和可解释的传统ML算法的有效性</p>
 </li>
-<li><p>将准则和关键思想融入到经验教训和未来工作的讨论中去。</p>
+<li><p>将准则和关键思想用于指导将来的工作。</p>
 </li>
 </ul>
-<p>(1) 框架的体系结构</p>
-<p>本文所描述的框架兼容 联邦学习和 Edge AI 的4级。</p>
+<h4 id="框架的体系结构"><a href="#框架的体系结构" class="headerlink" title="框架的体系结构"></a>框架的体系结构</h4><p>本文所描述的框架兼容 联邦学习和 Edge AI 的4级。</p>
 <p>下图显示了它的体系结构。它利用了协作框架的思想。</p>
-<p>![653D33A7-C359-43E4-8FD4-62A1973AF5A6](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/653D33A7-C359-43E4-8FD4-62A1973AF5A6.png)</p>
+<p><img src="/images/pasted-172.png" class="lazyload" data-srcset="/images/pasted-172.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>边缘（表示为隔离的数据域）接收一个共享的、预先训练的检测模型，该模型可以用本地可用的数据进行扩展。</p>
 <p>每个域都可以提供数据或部分模型。</p>
 <p>只要有执行代码，整个边缘过程可能会转移到终端设备执行。</p>
@@ -525,7 +530,7 @@
 <p>(2)采用标准的80/20分离来分割数据。测试集(占20%)将分别用于云和边缘级别，使得结果可以比较。训练数据（占80%）被打乱并分为三个不同的、位置分层的集合，并且分配的比例可以配置(3)。</p>
 <p>(4) 子组件分离出一些数据 用来模拟仅在边缘级别可用的数据。</p>
 <p>云训练模块(5) 将使用第一个数据集，训练要与边缘共享的基础模型(6)。在这一阶段，通过对测试集的分类器模型进行评估，得到了第一个实验结果，并显示在下表中(文中表4)。</p>
-<p>![9038526C-7954-4027-AD58-767C7351173D](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/9038526C-7954-4027-AD58-767C7351173D.png)</p>
+<p><img src="/images/pasted-173.png" class="lazyload" data-srcset="/images/pasted-173.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>基础模型与其他边共享，并用本地收集的数据(7)进行扩充。本地数据是通过步骤(3)模拟的。更新后的模型在(8)中 根据前一阶段使用的相同测试数据进行评估，结果也可以从上表中看出。</p>
 <p>更新模型(7)并针对测试集(8)验证它所提供的结果，不一定会导致模型改进。换句话说，用额外的数据重新训练模型 可能不会导致检测率增加。然而，这种局部更新功能 是有意义的，在未来的研究中，在探索安全体系结构时可能会考虑到它。</p>
 <hr>
@@ -544,33 +549,29 @@
 <hr>
 <p>关于技术方面，DL算法可行，而我们坚持使用 explainable AI philosophy。尽管使用DL是一种趋势，但这项研究将从经验上证明，经典和轻量级模型可以取得优异的结果。</p>
 <p>尽管联邦学习集中在DL上，但同样的原则也可以应用于一些经典模型，首先是基于树的模型。因此，所有实验都将使用基于决策树的解决方案（如随机森林算法）或现代方法（如XGBoost或lightgbm）进行。</p>
-<p>3.1.1 数据 — 预处理与特征分析</p>
-<p>实验使用了作者[39]收集并于[38]公开发布的数据，在这个数据集中，收集并描述了50个恶意软件变体，提供了AGD的原始列表和提取特征的预览。</p>
+<h4 id="数据-—-预处理与特征分析"><a href="#数据-—-预处理与特征分析" class="headerlink" title="数据 — 预处理与特征分析"></a>数据 — 预处理与特征分析</h4><p>实验使用了作者[39]收集并于[38]公开发布的数据，在这个数据集中，收集并描述了50个恶意软件变体，提供了AGD的原始列表和提取特征的预览。</p>
 <p>然而，并非所有报告的特征都能提供足够的信息用于检测，因此，需要进行特征选择。此外，一些恶意软件类由于其不可区分性，通过使用聚类技术和仔细修改 而被分组。在已确认的50个恶意软件家族中，有21个集群已被确认。</p>
 <p>下图是有关集群的类。</p>
-<p>![5AEA98DF-CE47-4A24-907F-0DA8B99A7F83](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/5AEA98DF-CE47-4A24-907F-0DA8B99A7F83.png)</p>
+<p><img src="/images/pasted-174.png" class="lazyload" data-srcset="/images/pasted-174.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>对聚集的数据进行了重采样（训练集为200000个FQDN，测试集为9628个FQDN，他们都是分层的）</p>
 <p>通过递归特征消除过程 对特征进行排序，每次迭代消除一个特征。实验结果表明，前10个特征具有代表性，并取得了较好的分类效果。</p>
 <p>下表2显示了挑选的三个分类器的分类性能。</p>
-<p>![2DF2FEDB-651F-4666-BD77-0EFE21D54405](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/2DF2FEDB-651F-4666-BD77-0EFE21D54405.png)</p>
+<p><img src="/images/pasted-175.png" class="lazyload" data-srcset="/images/pasted-175.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>表3报告了 完整功能集和前10个功能集的 资源消耗结果</p>
-<p>![66DF01F1-3180-448C-8E33-5A6F54A22EC6](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/66DF01F1-3180-448C-8E33-5A6F54A22EC6.png)</p>
+<p><img src="/images/pasted-176.png" class="lazyload" data-srcset="/images/pasted-176.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>通过将表2中报告的信息与表3中报告的信息相结合，可以注意到平均资源消耗减半，因为在F1得分中接受了2%的loss。提出的折衷方案能够实现检测模型的可伸缩和动态配置，但其仅仅是 根据流量的不同，简单地切换到最具反应性和计算量较小的模型</p>
-<p>3.1.2 主要框架的循环 — 数据流和实验结果</p>
-<p>对于实验，该框架为从数据集中 每个类抽取10000个域名，并且该框架构建在随机森林分类的基础上，启用了热启动选项，以允许模型的边缘升级。</p>
+<h4 id="主要框架的循环-—-数据流和实验结果"><a href="#主要框架的循环-—-数据流和实验结果" class="headerlink" title="主要框架的循环 — 数据流和实验结果"></a>主要框架的循环 — 数据流和实验结果</h4><p>对于实验，该框架为从数据集中 每个类抽取10000个域名，并且该框架构建在随机森林分类的基础上，启用了热启动选项，以允许模型的边缘升级。</p>
 <p>数据流向见图3，标号(2) — (8)。</p>
-<p>3.1.3 反馈循环的示例 — 模拟零日APT</p>
-<p>这个实验的目的是 在一个新的恶意软件的情况下，模拟框架数据流。见图3，标号(A) — (H)。</p>
-<p>(2) 资源需求 — 最小的计算资源和模块位置</p>
-<p>评估分析了各个组件的能力和要求。如下两张表分别显示了子组件的 时间和内存的要求。</p>
-<p>![F3512F72-9886-4B5C-A583-221A2CB5800A](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F3512F72-9886-4B5C-A583-221A2CB5800A.png)</p>
-<p>![8E509483-BBA8-4E92-8E5D-D50D96175F1F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8E509483-BBA8-4E92-8E5D-D50D96175F1F.png)</p>
+<h4 id="反馈循环的示例-—-模拟零日APT"><a href="#反馈循环的示例-—-模拟零日APT" class="headerlink" title="反馈循环的示例 — 模拟零日APT"></a>反馈循环的示例 — 模拟零日APT</h4><p>这个实验的目的是 在一个新的恶意软件的情况下，模拟框架数据流。见图3，标号(A) — (H)。</p>
+<h4 id="资源需求-—-最小的计算资源和模块位置"><a href="#资源需求-—-最小的计算资源和模块位置" class="headerlink" title="资源需求 — 最小的计算资源和模块位置"></a>资源需求 — 最小的计算资源和模块位置</h4><p>评估分析了各个组件的能力和要求。如下两张表分别显示了子组件的 时间和内存的要求。</p>
+<p><img src="/images/pasted-177.png" class="lazyload" data-srcset="/images/pasted-177.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p><img src="/images/pasted-178.png" class="lazyload" data-srcset="/images/pasted-178.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>(5) 被分为 初始一般拟合 和 可选交叉验证过程。类似地，根据再培训组件的可选性 对客户进行了相应的划分。</p>
 <p>实验配置：设置每个VNF独立地执行每个子模块。在资源分配方面，考虑了几种典型配置：从 1个专用核心和1 GB SDRAM（Raspberry PI IoT设备的典型配置）到 4个专用核心和4 GB SDRAM（低端个人笔记本电脑的典型配置）。</p>
 <p>对于选定的ML模型的特定配置，降低最小内存资源是不可能的。然而，新的专门面向IoT的ML库 可能在较低的资源要求下 提供较好的检测性能。</p>
 <p>表5和表3中报告的结果都表明，即使没有优化的mobile-specific ML库，在资源受限的环境中也有可能获得很好的检测结果。</p>
 <p>本研究证明了 基于DGA的僵尸网络检测模块 不仅在资源紧张的环境中部署是可行的，并且以联合方式共享知识也会有很好的效果。</p>
-<h1 id="收获及未来的工作"><a href="#收获及未来的工作" class="headerlink" title="收获及未来的工作"></a>收获及未来的工作</h1><p>​    边缘人工智能是对 高端网络安全问题的一个 创新的解决方案。本地模型擅长将信息与其他模型隔离开来，但是模型需要共享数据，才能更加有效地识别出威胁。也就是说，虽然像[16]这样的预测模型只使用单个用户数据就可以很好地工作，但是其他的检测模型（比如本研究中提出的模型）并不适合单独工作。</p>
+<h3 id="收获及未来的工作"><a href="#收获及未来的工作" class="headerlink" title="收获及未来的工作"></a>收获及未来的工作</h3><p>​    边缘人工智能是对 高端网络安全问题的一个 创新的解决方案。本地模型擅长将信息与其他模型隔离开来，但是模型需要共享数据，才能更加有效地识别出威胁。也就是说，虽然像[16]这样的预测模型只使用单个用户数据就可以很好地工作，但是其他的检测模型（比如本研究中提出的模型）并不适合单独工作。</p>
 <p>​    在实际的推理过程开始之前，有些场景可能需要大量的预处理计算。</p>
 <p>​    未来的研究应该包括在架构设计中 性能、延迟和隐私方面的权衡。在数据保护方面，未来的研究可能集中在(1)聚合和匿名数据的方法（例如，同态和可搜索加密）、(2)知识转移学习、(3)八卦训练，以及(4)解释超参数可在协作网络中共享的 可解释ML（和DL）模型。共享参数的方法可能会消除大量的计算，并且仍然有较强的检测能力。</p>
 <p>​    DL不是在任何时候都需要的。有时少量的特性就 足以训练一些经典的ML算法，获得良好的结果。</p>
@@ -584,8 +585,8 @@
 <p>(3) 虽然ML（和DL）算法的定量比较框架确实存在，但它们的应用往往局限于 可能欺骗结果的聚合指标，例如曲线下面积（AUC）；因此，未来的研究者应该报告所有结果，尤其是负结果。</p>
 <p>(4) 实际的实现往往是在一个合适的验证框架之外进行描述和测试的；从某种意义上说，未来的研究可能会集中在开发一套工具和指标来实现形式比较。</p>
 <p>结论中提到，这项研究的进展将是扩展检测模型，以应对频繁的域名攻击，如域名盗用（即URL劫持），或识别不太知名的技术，如基于DNS的数据过滤</p>
-<p>问题</p>
-<p>1、逻辑不太清晰</p>
+<h3 id="阅读时的问题"><a href="#阅读时的问题" class="headerlink" title="阅读时的问题"></a>阅读时的问题</h3><p>1、逻辑不太清晰</p>
+<p>2、很多知识点看不懂</p>
 
   
   
@@ -620,10 +621,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-16T23:02:41+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-20T15:47:24+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jan 16, 2021</p>
+    <p>更新于：Jan 20, 2021</p>
   </a>
 </div>
 
@@ -631,6 +632,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/edge-AI/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>edge AI</p></a></div>
+
 
         
       
@@ -642,7 +646,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别:将检测推向边缘⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别:将检测推向边缘 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -654,7 +658,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别:将检测推向边缘⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别:将检测推向边缘 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -666,7 +670,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别:将检测推向边缘⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/&title=早期基于DGA的僵尸网络识别:将检测推向边缘 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -749,7 +753,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E7%AD%89%E7%BA%A7%E5%8F%8A%E4%BD%9C%E8%80%85%E5%9B%A2%E9%98%9F"><span class="toc-text">文章等级及作者团队</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E5%8F%8A%E7%9B%AE%E7%9A%84"><span class="toc-text">背景及目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E4%BA%BA%E5%B7%A5%E4%BD%9C"><span class="toc-text">前人工作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Edge-AI"><span class="toc-text">Edge AI</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E4%BD%8D%E7%BD%AE%E7%9A%84%E5%85%B3%E9%94%AE%E6%96%B9%E9%9D%A2"><span class="toc-text">服务位置的关键方面</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E7%AD%89%E7%BA%A7%E5%8F%8A%E4%BD%9C%E8%80%85%E5%9B%A2%E9%98%9F"><span class="toc-text">文章等级及作者团队</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E5%8F%8A%E7%9B%AE%E7%9A%84"><span class="toc-text">背景及目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E4%BA%BA%E5%B7%A5%E4%BD%9C"><span class="toc-text">前人工作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Edge-AI"><span class="toc-text">Edge AI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">不同的架构设计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E4%BD%8D%E7%BD%AE%E7%9A%84%E5%85%B3%E9%94%AE%E6%96%B9%E9%9D%A2"><span class="toc-text">服务位置的关键方面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">与网络安全的关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E6%96%B9%E6%B3%95"><span class="toc-text">本文方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-text">框架的体系结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE-%E2%80%94-%E9%A2%84%E5%A4%84%E7%90%86%E4%B8%8E%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90"><span class="toc-text">数据 — 预处理与特征分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%A1%86%E6%9E%B6%E7%9A%84%E5%BE%AA%E7%8E%AF-%E2%80%94-%E6%95%B0%E6%8D%AE%E6%B5%81%E5%92%8C%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">主要框架的循环 — 数据流和实验结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%8D%E9%A6%88%E5%BE%AA%E7%8E%AF%E7%9A%84%E7%A4%BA%E4%BE%8B-%E2%80%94-%E6%A8%A1%E6%8B%9F%E9%9B%B6%E6%97%A5APT"><span class="toc-text">反馈循环的示例 — 模拟零日APT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E9%9C%80%E6%B1%82-%E2%80%94-%E6%9C%80%E5%B0%8F%E7%9A%84%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90%E5%92%8C%E6%A8%A1%E5%9D%97%E4%BD%8D%E7%BD%AE"><span class="toc-text">资源需求 — 最小的计算资源和模块位置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B6%E8%8E%B7%E5%8F%8A%E6%9C%AA%E6%9D%A5%E7%9A%84%E5%B7%A5%E4%BD%9C"><span class="toc-text">收获及未来的工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">阅读时的问题</span></a></li></ol>
     </div>
   </section>
 
@@ -769,7 +773,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="早期基于DGA的僵尸网络识别:将检测推向边缘⌛️";
+  pdata.postTitle="早期基于DGA的僵尸网络识别:将检测推向边缘";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

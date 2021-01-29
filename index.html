@@ -436,9 +436,153 @@
         
           
         
+          
+        
+          
+        
+          
+        
       
     
     
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/">
+        恶意URL三
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        此文是关于两篇文章的总结
+
+第一篇：https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-cyber-security-tasks-malicious-url-prediction.html
+1、关于本文用到的Transformer模型，前置知识参考 https://zhuanlan.zh...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-25</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/">
+        恶意URL检测代码实现二
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        问题1：python3中安装了 sk-learn，但脚本中不能导入
+可能是python3.8的版本问题，改为用python2。在运行脚本的时候也要用python2。
+参考 https://www.jianshu.com/p/fcb7256fcbd5，再安装sklearn2pmml和sklearn_pandas库。
+sklearn_pandas库安装版本 sklearn-pandas-1.8....
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-23</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
+        堆溢出之unlink
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        1、基础知识
+连续free的堆块，会被合并，放入unsorted bin中。
+之前unlink的宏
+12345678#define unlink(P, BK, FD) &#123; FD = P-&gt;fd;                //FD = *P + 8; BK = P-&gt;bk;               // BK = *P + 12; FD-&gt;bk = BK;...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-22</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -754,149 +898,6 @@ apt install python-scapy
       
         <div>
           <a class='readmore' href='/2020/12/16/%E9%80%86%E5%90%91/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
-        代码审计⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        PHP
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-08</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/04/%E7%88%AC%E8%99%AB/">
-        爬虫⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        项目实践1: 耽美书籍爬取豆瓣上，与耽美有关的书籍，存入 书籍名字 和简介 和 作者 和豆瓣评分和价格 到本地csv文件。
-参考 https://turingplanet.org/2020/03/28/%e8%b1%86%e7%93%a3%e7%88%ac%e8%99%ab%e9%a1%b9%e7%9b%ae/#xiang_mu_she_ji
-###环境
-python3.6+
-下载Selen...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-04</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/04/%E7%88%AC%E8%99%AB/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/">
-        堆利用(一)之基础知识及uaf/double free
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        基础知识内存分配的机制1、通过brk和mmap实现malloc内存分配
-
-arena个数：
-
-申请堆块malloc：实际内存为 0x10的chunk头 + 申请的大小，直接返回堆地址
-calloc：先清空堆内存空间，再返回堆地址。(丢弃之前块的内容)
-realloc
-1234567891011121314chunk=malloc(16);chunk1=realloc(chunk,32);当 ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/'>
             Read More
           </a>
         </div>

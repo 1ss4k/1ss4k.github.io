@@ -19,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>恶意URL三 - 虽然没什么用但还是想记下来</title>
+  <title>恶意URL检测(三)文章总结 - 虽然没什么用但还是想记下来</title>
+  
+    <meta name="keywords" content="恶意URL检测">
   
 
   
@@ -384,7 +386,7 @@
     
     
       <h1 class="title">
-        恶意URL三
+        恶意URL检测(三)文章总结
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +403,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/web/">web</a>
+    </a>
+  </div>
+
 
           
         
@@ -419,7 +428,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="恶意URL三" data-path="/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/">
+      <div id="lc-pv" data-title="恶意URL检测(三)文章总结" data-path="/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -437,22 +446,20 @@
 
   
   <p>此文是关于两篇文章的总结</p>
-<hr>
-<p>第一篇：<a target="_blank" rel="noopener" href="https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-cyber-security-tasks-malicious-url-prediction.html">https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-cyber-security-tasks-malicious-url-prediction.html</a></p>
+<h1 id="一"><a href="#一" class="headerlink" title="一"></a>一</h1><p>第一篇：<a target="_blank" rel="noopener" href="https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-cyber-security-tasks-malicious-url-prediction.html">https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-cyber-security-tasks-malicious-url-prediction.html</a></p>
 <p>1、关于本文用到的Transformer模型，前置知识参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/82312421">https://zhuanlan.zhihu.com/p/82312421</a></p>
 <p>它支持自监督，可以使用没有标记的数据。本文使用它作为特征提取器。</p>
 <p>2、每个URL与一个token相关。</p>
 <p>3、此模型训练好之后，可以用来预测下一个最有可能出现的字符，也可以用来预测某个url是恶意的概率。</p>
 <p>4、本文使用FFNN作为分类器。</p>
 <p>5、本文的方法同时考虑到了预测阶段本条与下一条的特征。</p>
-<p>![截屏2021-01-28 下午3.09.11](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-28 下午3.09.11.png)</p>
+<p><img src="/images/pasted-180.png" class="lazyload" data-srcset="/images/pasted-180.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>亮点：</p>
 <p>1、使用Transformer模型</p>
 <p>2、与深度学习模型的结果进行了比较</p>
 <p>3、把url检测与nlp联系起来</p>
 <p>4、介绍了一个新的损失函数</p>
-<hr>
-<p>题目：Malicious URL Detection using Deep Learning</p>
+<h1 id="二"><a href="#二" class="headerlink" title="二"></a>二</h1><p>题目：Malicious URL Detection using Deep Learning</p>
 <p>1、以往检测方法：</p>
 <p>黑名单、正则表达式和签名匹配等方法。但是不能发现未出现过的url。</p>
 <p>最近，最常用的方法是应用领域知识提取URL的词汇特征，然后应用机器学习模型。</p>
@@ -479,10 +486,10 @@
 <p>8、实验细节</p>
 <p>在DUD中，字符级keras嵌入让128作为嵌入大小，因为每个字符映射到128维。这有助于 通过将相似字符的语义映射到相似向量 来学习字符之间的相似性。</p>
 <p>损失函数如下：</p>
-<p>![截屏2021-01-28 下午6.03.11](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-28 下午6.03.11.png)</p>
+<p><img src="/images/pasted-181.png" class="lazyload" data-srcset="/images/pasted-181.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>Pd是测试数据集中所有样本的预测概率向量，ed是期望类标签的向量，值为0或1</p>
 <p>本文提出的体系结构如下：</p>
-<p>![截屏2021-01-28 下午6.12.50](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-28 下午6.12.50.png)</p>
+<p><img src="/images/pasted-182.png" class="lazyload" data-srcset="/images/pasted-182.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>9、实验结果分析</p>
 <ul>
 <li><p>数据集1的训练结果比数据集2要好。</p>
@@ -531,7 +538,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-29T11:28:02+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-29T12:10:25+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Jan 29, 2021</p>
@@ -542,6 +549,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>恶意URL检测</p></a></div>
+
 
         
       
@@ -553,7 +563,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/&title=恶意URL三 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/&title=恶意URL检测(三)文章总结 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -565,7 +575,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/&title=恶意URL三 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/&title=恶意URL检测(三)文章总结 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -577,7 +587,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/&title=恶意URL三 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/&title=恶意URL检测(三)文章总结 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -609,7 +619,7 @@
       
       
         <a class='next' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/'>
-          <p class='title'>恶意URL检测代码实现二<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='title'>恶意URL检测(二)代码实现<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>问题1：python3中安装了 sk-learn，但脚本中不能导入
 可能是python3.8的版本问题，改为用python2。在运行脚本的时候也要用python2。
 参考 https://www...</p>
@@ -645,6 +655,20 @@
 
 
 
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        
+    </div>
+  </section>
+
 
   
 
@@ -661,7 +685,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="恶意URL三";
+  pdata.postTitle="恶意URL检测(三)文章总结";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

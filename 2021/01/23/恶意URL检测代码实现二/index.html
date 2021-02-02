@@ -496,6 +496,11 @@
 <p>结束！然后训练了一下，模型大概    700KB，比原来的5MB小了很多。</p>
 <p>预测的时候预测的所有的URL都是良性的。自己加了一条sql注入，检测出来了！完美！！</p>
 <p><img src="/images/pasted-179.png" class="lazyload" data-srcset="/images/pasted-179.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>在探寻改进方式时，我们找到了一篇发表在Elsevier Science上的论文 McPAD：A Multiple Classifier System for Accurate Payload-based Anomaly Detection<br>该论文指出，由于我们只有大量白样本，可以考虑通过单分类模型，学习单类样本的最小边界，边界之外的则识别为异常。通俗的讲，就是与其学习攻击的url特征，不如直接学习正常url的特征，拒绝所有不符合正常特征的url，以不变应万变。<br>这里简单介绍论文实现的思路：<br>mcpad通过训练多个svm单分类器同时判断url是否正常，来提高系统的精确度。<br>为了训练多个不同分类器，需要不同的样本，通过ngram中n取不同值的方式来将url划分成不同的向量是一种解决方案，然而此举会导致特征空间成指数性增长（特征空间=256^n）增加计算的复杂度和空间开销。论文提出2ν-gram的向量化方式，ν代表所取两个字母间的间隔。通过数学验证了该方法既不会损失信息也不会增加运算的复杂度。使用kmeans对数据进行降维后训练出多个单分类器来进行url的判断。单分类器的组合方式：Average, product, maximum and minimum probabilities， major voting</p>
+<p>该图为不同参数下的识别效率。<br>该论文为我们提供了一种新颖的向量化url的方法，值得我们后续改进时借鉴。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Coldwave96/MaliciousURLs/blob/master/train.py">https://github.com/Coldwave96/MaliciousURLs/blob/master/train.py</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Coldwave96/MaliciousUrls_Part2">https://github.com/Coldwave96/MaliciousUrls_Part2</a></p>
+<p><a target="_blank" rel="noopener" href="https://coldwave96.github.io/2019/11/08/MaliciousURLs/#%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE">https://coldwave96.github.io/2019/11/08/MaliciousURLs/#处理数据</a></p>
 
   
   
@@ -530,7 +535,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T01:13:01+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T09:19:04+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Feb 2, 2021</p>

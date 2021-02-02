@@ -21,7 +21,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Archive: 2020/11 - 虽然没什么用但还是想记下来</title>
+  <title>Tag: url检测 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -56,7 +56,7 @@
 <body>
   
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -307,7 +307,7 @@
     <div id="l_cover">
   
     
-        <div id="half" class='cover-wrapper  dock' style="display: ;">
+        <div id="full" class='cover-wrapper  dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -375,33 +375,17 @@
       <div class='body-wrapper' id="pjax-container">
         
 
+
 <div class='l_main'>
-	
-		
+  
+    
+      
   <section class="post-list">
     
       
         
           
         
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
       
     
     
@@ -415,22 +399,21 @@
   
     
     <h2 class="article-title" >
-      <a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/">
-        堆利用(一)之基础知识及uaf/double free
+      <a href="/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/">
+        恶意URL检测(一)基于机器学习的基础实现
       </a>
     </h2>
   
   <div class='md'>
     
       
-        基础知识内存分配的机制1、通过brk和mmap实现malloc内存分配
-
-arena个数：
-
-申请堆块malloc：实际内存为 0x10的chunk头 + 申请的大小，直接返回堆地址
-calloc：先清空堆内存空间，再返回堆地址。(丢弃之前块的内容)
-realloc
-1234567891011121314chunk=malloc(16);chunk1=realloc(chunk,32);当 ...
+        前言：毕设选择了这个题目，此文章来记录一下学习过程，希望自己能够设计出一个比较好的系统！
+用机器学习玩转恶意URL检测文章链接 https://www.freebuf.com/articles/network/131279.html
+模型：逻辑回归
+步骤：
+1、分别拿到正常请求和恶意请求的数据集。
+参考 https://github.com/Echo-Ws/UrlDetect
+使用里面的文件...
       
     
   </div>
@@ -438,448 +421,15 @@ realloc
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2020-11-25</time>
+        <time>2021-01-04</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
+          <a class="category-link" href="/categories/web/">web</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/">
-        栈溢出⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/">
-        利用网络威胁情报实现有效的网络威胁搜索⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        摘要本文提出了EFFHUNTER，一个使用OSCTI，促进网络威胁搜索的系统。它是建立在一个成熟的系统审计框架之上的。它提供：
-(1)
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-17</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/13/%E5%AE%89%E5%8D%93/">
-        安卓⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        APK文件1、apk文件其实就是zip文件，压缩包格式的文件，其中包含的主要内容如下：
-
-2、AndroidManifest.xml文件，经过编译之后，变成了字节码，只有经过反编译，才能重新查看源代码。
-尝试win10中的安卓逆向助手，不成功，无反编译xml的选项。
-尝试安装apktool：在卷software中安装成功。
-反编译apk文件，出现Input file (/Users/my/D...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-13</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/13/%E5%AE%89%E5%8D%93/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-        excel表格数据处理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 前言每天的工作是重复枯燥的复制粘贴表格信息，别人知道后骂我sb，痛定思痛我决定写一个程序来实现自动化复制粘贴工作。大致分析了一下有以下几个难点：
-1、数据是钉钉直播导出的，而他们的备注和真实名字有一定差异，如原本叫姜子牙，备注为 塔城_姜子牙，并且有些类似[古力娜扎]的长名，匹配时复杂。
-2、有些群成员是不需要统计的。
-使用工具：
-python
-xlrd/xlwt/xlutils ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-11</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/06/%E5%AF%86%E7%A0%81/">
-        密码⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        #基础知识
-1、通常说有五种攻击方法
-选择文本攻击就是：选择明文+选择密文。
-2、公钥密码体制困难性的原因
-RSA：大因数分解
-elgamal：离散对数
-ECC：椭圆曲线的离散对数问题
-3、对称密码中的流密码(序列密码)
-密钥流生成器可以分为：驱动部分(如线性移位寄存器LFSR)和非线形组合部分。
-4、分组密码
-扩散和混淆。
-要求混淆的过程是可逆的。
-S变换：混淆，P变换：扩散。SPN网络，...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-06</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/06/%E5%AF%86%E7%A0%81/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/">
-        二进制方向⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        逆向基础知识1、需要使用工具，对加密算法进行分析。
-除了密码学中常见的加密方法，还有一些变种题型。vm逆向/smc逆向(代码块加密)/cheate逆向(主动防御)/python逆向/加壳逆向。
-2、Windows中的命令
-calc打开计算器，其中的运算功能较为方便。可用本机的计算器代替。
-notepad，打开记事本，做记录。
-看到了16min——网鼎杯技能培训
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-05</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
-        机器学习中的注意事项⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        题目：Dos and Don’ts of Machine Learning in Computer Security
-摘要
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-05</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/">
-        综合渗透⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        综合渗透测试1、目标：拿取系统的权限
-2、综合渗透思路
-
-内网工具1、MSF
-kali中集成的。
-终端输入 msfconsole
-msf5，是框架的命令行。
-show auxiliary 显示辅助模块，主要用来信息搜集
-show exploits 攻击模块。
-木马反连：以17-010为例，首先模糊搜索search，找到相应的信息。use，使用它。info，查看信息。其中：Basic opti...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-03</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/">
-        磁盘清理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言前几天下载了iMovie，然后磁盘空间突然就快满了… 这里记录一下清除的过程，以备以后查阅使用。
-
-
-….算了，买硬盘好了….
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/'>
+          <a class='readmore' href='/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/'>
             Read More
           </a>
         </div>
@@ -896,25 +446,11 @@ show exploits 攻击模块。
   </section>
   
     
-      <br>
-      <div class="prev-next">
-        
-        <p class="current">
-          1 / 2
-        </p>
-        
-          <a class="next" rel="next" href="/archives/2020/11/page/2/">
-            <section class="post next white-box shadow">
-              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
-        
-      </div>
-    
   
 
 
-	
+    
+  
 </div>
 <aside class='l_side'>
   
@@ -1073,7 +609,7 @@ show exploits 攻击模块。
 
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
 </script>
 

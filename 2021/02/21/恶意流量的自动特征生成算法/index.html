@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.2.0'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+  <title>恶意流量的自动特征生成算法 - 虽然没什么用但还是想记下来</title>
+  
+
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+</head>
+
+<body>
+  
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  <div id="l_body">
+    <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
+          
+            <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">1ss4k</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/v4/getting-started/"
+              
+              
+              id="v4getting-started">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f5c3.svg'><p>文档</p>
+            </a>
+          
+            <a href="/faqs/"
+              
+              
+              id="faqs">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f516.svg'><p>帮助</p>
+            </a>
+          
+            <a href="/examples/"
+              
+              
+              id="examples">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f396.svg'><p>示例</p>
+            </a>
+          
+            <a href="/contributors/"
+              
+              
+              id="contributors">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f389.svg'><p>社区</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4f0.svg'><p>博客</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+    <div id='safearea'>
+      <div class='body-wrapper' id="pjax-container">
+        
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        恶意流量的自动特征生成算法
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Feb 21, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="恶意流量的自动特征生成算法" data-path="/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <p>本文作者来自于：绿盟科技、清华大学、哈尔滨工业大学。本文发表于2020 IEEE 19th International Conference on Trust, Security and Privacy in Computing and Communications (TrustCom)，属于CCF- C类会议。</p>
+<h3 id="一、背景及目的"><a href="#一、背景及目的" class="headerlink" title="一、背景及目的"></a>一、背景及目的</h3><p>​    ML在检测攻击行为时，可能有如下问题：虚假报警率过高；黑盒我们无法了解其内部机理。所以需要人工地去验证结果，花费较大。</p>
+<p>​    解决方法如下：</p>
+<p>(1) 设计了自动特征生成算法。利用数据挖掘的方法 提取出关键词和关键特征。</p>
+<p> (2) 可解释AI。 </p>
+<p>​    本文提出了CMIRGen，来自动产生特征。用到了XAI的方法和聚类的方法。不像传统的聚类算法和最长公共子序列那样，本文方法从黑盒模型中学习到知识(即特征)，然后自动提取它。</p>
+<h3 id="二、前人工作"><a href="#二、前人工作" class="headerlink" title="二、前人工作"></a>二、前人工作</h3><p><strong>1、最长公共子序列</strong></p>
+<p>​    前人通常使用最长公共子序列(LCS)的方法。</p>
+<p>​    它的缺点是：只有payload内容相同时，才可以使用 / 大规模数据时难以使用 / 没有考虑到普通的和恶意之间的差别。</p>
+<p><strong>2、LARGen</strong></p>
+<p>​    基于LDA，可以提取关键字符串，并且是无监督的。</p>
+<p>​    缺点：算法的有效性依赖于手工标签的准确性，并且在不同的场景中难以保证性能的有效性。</p>
+<p><strong>3、FIRMA</strong></p>
+<p>​    基于协议parsing、聚类和tag提取。优点：分类的准确性高。</p>
+<p>​    缺点：此方法的有效性依赖于协议parsing。</p>
+<h3 id="三、前置知识"><a href="#三、前置知识" class="headerlink" title="三、前置知识"></a>三、前置知识</h3><p>1、黑盒模型的推断</p>
+<p>(1)XAI：</p>
+<p>改进点：一方面可以优化模型本身，另一方面可以将黑盒模型作为输入，通过输入扰动，推断模型内部的操作准则。</p>
+<p>(2)基于推断：</p>
+<p>起源于原始的ML，可以选择的应用范围更广。本文关注的是基于推断的方法，尤其是基于特征归属的方法。下面介绍了LIME：局部可解释模型不可知论的解释。</p>
+<p>LIME过程：使用人类可理解的尺度来扰乱输入数据，产生一个新的变换数据集。并且使用变换数据集进行预测。然后再基于线性回归或决策树，来产生一个可解释的模型，它被视为黑盒模型的代理模型。</p>
+<p>2、将模型推断应用于特征生成</p>
+<p>payload和文本具有一定的相似性，所以可以应用相同的方法来处理，所以数据挖掘上的很多方法可以用于网络流量分析。</p>
+<p>但是使用范围也有一定的限制。因为网络流量更加精密、以及动态变化。在网络流量中增加某个单词 通常不会产生显著的变化。并且同时存在 结构 和 语义内容。</p>
+<p>网络内部结构中 可能包括：嵌入的内容、模糊的内容，甚至是加密的内容，增加了困难性。</p>
+<p>完整的过程如下：</p>
+<p><img src="/images/pasted-237.png" class="lazyload" data-srcset="/images/pasted-237.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>用文档来表示网络流，然后对其进行有监督的数据挖掘，就可以得到一个准确度很高的模型，然后就可以得到有分别力的词。</p>
+<p>这个过程不需要花费什么，并且仅仅依赖于最开始有标签的数据。</p>
+<h3 id="四、CMIRGen框架及实现算法"><a href="#四、CMIRGen框架及实现算法" class="headerlink" title="四、CMIRGen框架及实现算法"></a>四、CMIRGen框架及实现算法</h3><p>本文提取到的rules是：恶意流量payload中可读的子字符串。</p>
+<p>框架总体过程如下：</p>
+<p><img src="/images/pasted-238.png" class="lazyload" data-srcset="/images/pasted-238.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<h4 id="1、预处理"><a href="#1、预处理" class="headerlink" title="1、预处理"></a>1、预处理</h4><p>目的是：从数据流中提取可读字符串。分析对象不同，提取的信息也会不同。</p>
+<p>从csv中读取数据，标签有2类，数据共有6.1w条。</p>
+<p><img src="/images/pasted-239.png" class="lazyload" data-srcset="/images/pasted-239.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>读取数据代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.simplefilter(action=<span class="string">&#x27;ignore&#x27;</span>, category=FutureWarning)</span><br><span class="line">%load_ext autoreload</span><br><span class="line">%autoreload <span class="number">2</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">DATASET = <span class="string">&#x27;data/CSIC/csic-for-extractor.csv&#x27;</span></span><br><span class="line">df = pd.read_csv(DATASET, sep=<span class="string">&#x27;,&#x27;</span>, dtype=&#123;<span class="string">&#x27;text&#x27;</span>:str, <span class="string">&#x27;type&#x27;</span>:str&#125;, low_memory=<span class="literal">False</span>)</span><br><span class="line">df.loc[df.type != <span class="string">&#x27;99999&#x27;</span>, <span class="string">&#x27;type&#x27;</span>] = <span class="string">&#x27;malicious&#x27;</span></span><br><span class="line">df.loc[df.type == <span class="string">&#x27;99999&#x27;</span>, <span class="string">&#x27;type&#x27;</span>] = <span class="string">&#x27;normal&#x27;</span></span><br><span class="line">df.rename(columns=&#123;<span class="string">&quot;type&quot;</span>: <span class="string">&quot;target&quot;</span>&#125;,inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="/images/pasted-240.png" class="lazyload" data-srcset="/images/pasted-240.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>其中恶意和良性的条数如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">13</span>]: df[df.target == <span class="string">&#x27;malicious&#x27;</span>].shape</span><br><span class="line">Out[<span class="number">13</span>]: (<span class="number">25065</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">In [<span class="number">14</span>]: df[df.target == <span class="string">&#x27;normal&#x27;</span>].shape</span><br><span class="line">Out[<span class="number">14</span>]: (<span class="number">36000</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>预处理函数如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">text_preprocess</span>(<span class="params">df, x_col=<span class="string">&#x27;text&#x27;</span>, y_col=<span class="string">&#x27;target&#x27;</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Preprocessing for texts.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Some preprocssing procedure for text in a dataframe, such as unreadable character</span></span><br><span class="line"><span class="string">    revomval, label encoding and so on.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        df: datafame to be preprocessed.</span></span><br><span class="line"><span class="string">        x_col: the text column for processing.</span></span><br><span class="line"><span class="string">        y_col: the label column for processing.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        df: preprocessed dataframe</span></span><br><span class="line"><span class="string">        label_map: the target label and encoding result mapping</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># remove unreadable character</span></span><br><span class="line">    df[x_col] = df[x_col].str.replace(<span class="string">r&#x27;[^\x00-\x7F]+&#x27;</span>, <span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    df = df.dropna()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># reset index</span></span><br><span class="line">    df.index = np.arange(<span class="number">1</span>, len(df) + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># label encoding</span></span><br><span class="line">    le = preprocessing.LabelEncoder()</span><br><span class="line">    le.fit(df[y_col])</span><br><span class="line">    df[y_col] = le.transform(df[y_col]) <span class="comment"># example for binary classification &#123;&#x27;malicious&#x27;: 0, &#x27;normal&#x27;: 1&#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># get label and value mapping</span></span><br><span class="line">    label_map = dict(zip(le.classes_, range(len(le.classes_))))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> df, label_map</span><br></pre></td></tr></table></figure>
+
+<p>有如下几个作用</p>
+<p>(1) 替换不可读的字符为空格，删除缺失数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df[x_col] = df[x_col].str.replace(<span class="string">r&#x27;[^\x00-\x7F]+&#x27;</span>, <span class="string">&#x27; &#x27;</span>)</span><br><span class="line"><span class="comment">#\x00-\x7f是ascii字符，^是取反，表示不在这个区间之内，即不可见字符。</span></span><br><span class="line"><span class="comment">#r表示 不再转义了，表示成原始字符。</span></span><br><span class="line"></span><br><span class="line">df = df.dropna()</span><br><span class="line"><span class="comment">#删除缺失数据</span></span><br></pre></td></tr></table></figure>
+
+<p>(2) 插入索引</p>
+<p>df由索引[0-61064] 变为 [1-61065]。</p>
+<p>(3) 标签转化</p>
+<p>恶意转为0，良性转为1。map结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">6</span>]: label_map</span><br><span class="line">Out[<span class="number">6</span>]: &#123;<span class="string">&#x27;malicious&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;normal&#x27;</span>: <span class="number">1</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ipython中如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">&quot;..&quot;</span>)</span><br><span class="line"><span class="keyword">import</span> lime</span><br><span class="line"><span class="keyword">from</span> tpe_model <span class="keyword">import</span> text_preprocess</span><br><span class="line"><span class="keyword">from</span> tpe_model <span class="keyword">import</span> text_model_generator <span class="comment">#属于模型训练部分</span></span><br><span class="line">df, label_map = text_preprocess(df)</span><br><span class="line">print(label_map)</span><br></pre></td></tr></table></figure>
+
+<p>接下来训练模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmg = text_model_generator(df)</span><br><span class="line">model = tmg.model_trainer()</span><br></pre></td></tr></table></figure>
+
+<p>模型具体的定义如下</p>
+<p>选用的模型是离散型朴素贝叶斯，预测的结果准确度为:</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.9371835739733735</span><br></pre></td></tr></table></figure>
+
+
+
+<p>由于加入了LIME，可以进行解释。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_instance_explained</span>(<span class="params">df, instance_i, model, label_map, refer_label, xcol_name=<span class="string">&#x27;text&#x27;</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Explain instance in a dataframe</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Test functions. Show keyword based explainations from lime.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        df: dataframe to be explained.</span></span><br><span class="line"><span class="string">        instance_i: index location of the specific instance.</span></span><br><span class="line"><span class="string">        model: model that can classify instances.</span></span><br><span class="line"><span class="string">        label_map: label text and value mappings.</span></span><br><span class="line"><span class="string">        refer_label: the reference label for lime.</span></span><br><span class="line"><span class="string">        xcol_name: column name for content to be explained in df.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        None. Just printable information.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Locate instance content 得到内容</span></span><br><span class="line">    string = df[xcol_name].iloc[instance_i] <span class="comment">#instance_i = 30633，即得到df中 30633行处 xcol_name处的值</span></span><br><span class="line">    row = df[xcol_name].iloc[[instance_i]]</span><br><span class="line">    print(<span class="string">&#x27;Model predict result %s&#x27;</span> % model.predict(row)) <span class="comment">#输出数据及预测结果</span></span><br><span class="line">    print(label_map)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Get explainations from LIME 得到解释</span></span><br><span class="line">    labels = list(label_map.values())</span><br><span class="line">    explainer = LimeTextExplainer(class_names=labels)</span><br><span class="line">    exp = explainer.explain_instance(string, model.predict_proba, num_features=<span class="number">10</span>, num_samples=<span class="number">200</span>, labels=labels)</span><br><span class="line">    print(exp.as_list(label=label_map[refer_label]))</span><br></pre></td></tr></table></figure>
+
+<p>其实没有进行操作，只是打印了一些信息。</p>
+<p>测试例子及结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gethttp://localhost:<span class="number">8080</span>/tienda1/miembros/imagenes/zarauz.jpg</span><br><span class="line"></span><br><span class="line">In [<span class="number">75</span>]: print(exp.as_list(label=label_map[refer_label]))</span><br><span class="line">[(<span class="string">&#x27;jpg&#x27;</span>, <span class="number">-0.021038973678323948</span>), (<span class="string">&#x27;zarauz&#x27;</span>, <span class="number">-0.020156677036900415</span>), (<span class="string">&#x27;imagenes&#x27;</span>, <span class="number">-0.017663788601498</span>), (<span class="string">&#x27;miembros&#x27;</span>, <span class="number">-0.013590393963914255</span>), (<span class="string">&#x27;gethttp&#x27;</span>, <span class="number">-0.004047875467937037</span>), (<span class="string">&#x27;8080&#x27;</span>, <span class="number">-0.0025638794651593575</span>), (<span class="string">&#x27;tienda1&#x27;</span>, <span class="number">-0.0018759405740022262</span>), (<span class="string">&#x27;localhost&#x27;</span>, <span class="number">0.00044111549956922427</span>)]</span><br></pre></td></tr></table></figure>
+
+<p>ipython单步调用如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tpe_core <span class="keyword">import</span> get_instance_explained</span><br><span class="line"><span class="keyword">from</span> lime.lime_text <span class="keyword">import</span> LimeTextExplainer</span><br><span class="line"></span><br><span class="line"><span class="comment">#注释掉的是直接打开之前训练好的模型的步骤</span></span><br><span class="line"><span class="comment"># Warning The pickle module is not secure. Only unpickle data you trust.Reference: https://docs.python.org/3/library/pickle.html</span></span><br><span class="line"><span class="comment"># import pickle</span></span><br><span class="line"><span class="comment"># with open(&quot;model.test&quot;, &#x27;rb&#x27;) as f:</span></span><br><span class="line"><span class="comment">#     model = pickle.load(f, encoding=&#x27;bytes&#x27;)</span></span><br><span class="line"></span><br><span class="line">labels = list(label_map.values())</span><br><span class="line">get_instance_explained(df, <span class="number">30633</span>, model, label_map, <span class="string">&#x27;malicious&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2、聚类"><a href="#2、聚类" class="headerlink" title="2、聚类"></a>2、聚类</h4><p>字符串相似度使用的是 Levenshtein distance，即字符编码距离。它使用动态规划的算法可以较快实现～</p>
+<p>聚类算法使用的是DBSCAN，sklearn中可以直接调用。</p>
+<h4 id="3、特征提取"><a href="#3、特征提取" class="headerlink" title="3、特征提取"></a>3、特征提取</h4><p>对于扫描流量：可能有很大的数据是自动扫描产生的，我们进行聚类之后，这些数据被分在一个类中，有助于我们的处理，并且减少了特征的冗余。本文使用了递归的LCS算法，</p>
+<p>对于非扫描流量：使用基于模型推断的方法。LIME可以给出每个词的置信度得分。它可以使相关人员更好的去理解为什么会得到这个结果。</p>
+<p>代码大致实现过程如下</p>
+<p>rule_matching_evaluation函数</p>
+<p>单条语句分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#shuffle dataset 数据集置乱</span></span><br><span class="line">df.sample(frac=<span class="number">1</span>, random_state=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/pasted-241.png" class="lazyload" data-srcset="/images/pasted-241.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_for_seed = df[df[<span class="string">&#x27;target&#x27;</span>] == label_map[<span class="string">&#x27;malicious&#x27;</span>]].sample(seed_num, random_state=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>找到恶意的数据，取seed_num条，此处seed_num = 2000(后文提到，最大值可以是2500)</p>
+<p><img src="/images/pasted-242.png" class="lazyload" data-srcset="/images/pasted-242.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>下面调用get_rules函数 去得到seed rules。</p>
+<p>@先看 get_lime_rules 函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">40</span>]: df_lime</span><br><span class="line">Out[<span class="number">40</span>]:</span><br><span class="line">                                                    text  target</span><br><span class="line"><span class="number">7946</span>   posthttp://localhost:<span class="number">8080</span>/tienda1/publico/vaci...       <span class="number">0</span></span><br><span class="line"><span class="number">24475</span>  gethttp://localhost:<span class="number">8080</span>/tienda1/publico/auten...       <span class="number">0</span></span><br><span class="line"><span class="number">6574</span>   gethttp://localhost:<span class="number">8080</span>/tienda1/publico/vacia...       <span class="number">0</span></span><br><span class="line">...</span><br><span class="line"><span class="number">5279</span>   posthttp://localhost:<span class="number">8080</span>/tienda1/miembros/edi...       <span class="number">0</span></span><br><span class="line"><span class="number">17915</span>  gethttp://localhost:<span class="number">8080</span>/tienda1/publico/regis...       <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>核心代码如下，以第一条数据为例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, row <span class="keyword">in</span> df_lime.iterrows():</span><br><span class="line">    print(<span class="string">&quot;index,row:&quot;</span>,index,row)</span><br><span class="line">    <span class="comment">#index是索引，7946，row是含两列内容的数据</span></span><br><span class="line">    exp = explainer.explain_instance(row[xcol_name]</span><br><span class="line">                                    , model.predict_proba</span><br><span class="line">                                    , num_features=<span class="number">10</span></span><br><span class="line">                                    , num_samples=<span class="number">200</span></span><br><span class="line">                                    , labels=labels)</span><br><span class="line">    print(<span class="string">&quot;exp :&quot;</span>,exp)</span><br><span class="line">    <span class="comment">#exp输出 &lt;lime.explanation.Explanation object at 0x7fdd59938f60&gt;</span></span><br><span class="line">        <span class="comment"># words that of length over 2 is confidential and the first n(n=6) words of higgest confidence are adopted</span></span><br><span class="line">    exp_list = exp.as_list(label=label_map[refer_label])</span><br><span class="line">    print(<span class="string">&quot;exp_list&quot;</span>,exp_list)</span><br><span class="line">    <span class="comment">#exp_list [(&#x27;b2a&#x27;, 0.698051199119179), (&#x27;vaciar&#x27;, 0.02219552222686937), (&#x27;8080&#x27;, -0.0181900902571223), (&#x27;tienda1&#x27;, -0.013191906047022592), (&#x27;posthttp&#x27;, 0.013103121836744645), (&#x27;jsp&#x27;, -0.006485941223079477), (&#x27;localhost&#x27;, -0.005650881064500139), (&#x27;publico&#x27;, -0.005266674440153708), (&#x27;carrito&#x27;, -0.0004746814426690281)]</span></span><br><span class="line">    </span><br><span class="line">    sorted_list = sorted(exp_list, key=<span class="keyword">lambda</span> d:d[<span class="number">1</span>], reverse=<span class="literal">True</span>)</span><br><span class="line">    print(<span class="string">&quot;sorted_list&quot;</span>,sorted_list)</span><br><span class="line">    <span class="comment">#sorted_list [(&#x27;b2a&#x27;, 0.698051199119179), (&#x27;vaciar&#x27;, 0.02219552222686937), (&#x27;posthttp&#x27;, 0.013103121836744645), (&#x27;carrito&#x27;, -0.0004746814426690281), (&#x27;publico&#x27;, -0.005266674440153708), (&#x27;localhost&#x27;, -0.005650881064500139), (&#x27;jsp&#x27;, -0.006485941223079477), (&#x27;tienda1&#x27;, -0.013191906047022592), (&#x27;8080&#x27;, -0.0181900902571223)]</span></span><br><span class="line">    </span><br><span class="line">    tmp_list = [t[<span class="number">0</span>] <span class="keyword">for</span> t <span class="keyword">in</span> sorted_list <span class="keyword">if</span> (t[<span class="number">1</span>] &gt; MIN_WORD_CONFIDENCE <span class="keyword">and</span> len(t[<span class="number">0</span>]) &gt;= MIN_WORD_LEN)][:MAX_WORDS_NUM]</span><br><span class="line">    print(<span class="string">&quot;tmp_list&quot;</span>,tmp_list)</span><br><span class="line">    <span class="comment"># tmp_list [&#x27;b2a&#x27;, &#x27;vaciar&#x27;] 。t是一个二元组，比如(&#x27;b2a&#x27;, 0.698051199119179)。</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># order strings for filtering and comparing</span></span><br><span class="line">    <span class="keyword">if</span> len(tmp_list) &gt; <span class="number">1</span>:</span><br><span class="line">        print(<span class="string">&quot;AAA&quot;</span>)</span><br><span class="line">        tmp_list.sort()</span><br><span class="line">        print(<span class="string">&quot;tmp_list sort:&quot;</span>,tmp_list)</span><br><span class="line">        <span class="comment"># tmp_list sort: [&#x27;b2a&#x27;, &#x27;vaciar&#x27;]</span></span><br><span class="line">        lime_rules.append(tmp_list)</span><br><span class="line">        print(<span class="string">&quot;lime_rules&quot;</span>,lime_rules)</span><br><span class="line">        <span class="comment"># lime_rules [[&#x27;b2a&#x27;, &#x27;vaciar&#x27;]]</span></span><br></pre></td></tr></table></figure>
+
+<p>tmp_list的选择条件为：t[1] &gt; 最小置信度，t[0]的长度 &gt; 最小长度，并且最多选取[MAX_WORDS_NUM]个。</p>
+<p>最后的lime_rules结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="string">&#x27;b2a&#x27;</span>, <span class="string">&#x27;vaciar&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;buzzy&#x27;</span>, <span class="string">&#x27;delay&#x27;</span>, <span class="string">&#x27;impr37e4197d9&#x27;</span>, <span class="string">&#x27;waitfor&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;b2a&#x27;</span>, <span class="string">&#x27;vaciar&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;adir&#x27;</span>, <span class="string">&#x27;anadir&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;entrar&#x27;</span>, <span class="string">&#x27;errormsga&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;aexp4&#x27;</span>, <span class="string">&#x27;htr&#x27;</span>, <span class="string">&#x27;iisadmpwd&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;ceguezuelo&#x27;</span>, <span class="string">&#x27;pwda&#x27;</span>, <span class="string">&#x27;yenmeng&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;anadir&#x27;</span>, <span class="string">&#x27;cantidad&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;administrator&#x27;</span>, <span class="string">&#x27;cfide&#x27;</span>, <span class="string">&#x27;cfm&#x27;</span>, <span class="string">&#x27;navserver&#x27;</span>]]</span><br></pre></td></tr></table></figure>
+
+<p>排好序之后</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="string">&#x27;adir&#x27;</span>, <span class="string">&#x27;anadir&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;administrator&#x27;</span>, <span class="string">&#x27;cfide&#x27;</span>, <span class="string">&#x27;cfm&#x27;</span>, <span class="string">&#x27;navserver&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;aexp4&#x27;</span>, <span class="string">&#x27;htr&#x27;</span>, <span class="string">&#x27;iisadmpwd&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;anadir&#x27;</span>, <span class="string">&#x27;cantidad&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;b2a&#x27;</span>, <span class="string">&#x27;vaciar&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;b2a&#x27;</span>, <span class="string">&#x27;vaciar&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;buzzy&#x27;</span>, <span class="string">&#x27;delay&#x27;</span>, <span class="string">&#x27;impr37e4197d9&#x27;</span>, <span class="string">&#x27;waitfor&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;ceguezuelo&#x27;</span>, <span class="string">&#x27;pwda&#x27;</span>, <span class="string">&#x27;yenmeng&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;entrar&#x27;</span>, <span class="string">&#x27;errormsga&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line">lime_rules = list(k <span class="keyword">for</span> k,_ <span class="keyword">in</span> itertools.groupby(k))</span><br><span class="line"><span class="comment">#去除相同的元素</span></span><br><span class="line"></span><br><span class="line">[[<span class="string">&#x27;adir&#x27;</span>, <span class="string">&#x27;anadir&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;administrator&#x27;</span>, <span class="string">&#x27;cfide&#x27;</span>, <span class="string">&#x27;cfm&#x27;</span>, <span class="string">&#x27;navserver&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;aexp4&#x27;</span>, <span class="string">&#x27;htr&#x27;</span>, <span class="string">&#x27;iisadmpwd&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;anadir&#x27;</span>, <span class="string">&#x27;cantidad&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;b2a&#x27;</span>, <span class="string">&#x27;vaciar&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;buzzy&#x27;</span>, <span class="string">&#x27;delay&#x27;</span>, <span class="string">&#x27;impr37e4197d9&#x27;</span>, <span class="string">&#x27;waitfor&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;ceguezuelo&#x27;</span>, <span class="string">&#x27;pwda&#x27;</span>, <span class="string">&#x27;yenmeng&#x27;</span>],</span><br><span class="line"> [<span class="string">&#x27;entrar&#x27;</span>, <span class="string">&#x27;errormsga&#x27;</span>]]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>@下面再看 get_lime_rules_parallel。</p>
+<p>它的调用方法如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lime_rules = get_lime_rules_parallel(df, get_lime_rules, model, label_map, <span class="string">&#x27;malicious&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>将get_lime_rules 作为函数传入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_split = np.array_split(df, n_cores)</span><br><span class="line"><span class="comment">#首先将数据分成n_cores组。原来设定的n_cores = 20，此处选用n_cores = 2</span></span><br><span class="line">pool = Pool(n_cores)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后去执行get_lime_rules函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parallel_result = pool.map(partial(func, model=model, label_map=label_map, refer_label=refer_label), df_split)</span><br></pre></td></tr></table></figure>
+
+<p>pool.map可以看作是多核多线程执行，传入的参数是df_split，即分割后的结果。得到的结果保存在parallel_result中。</p>
+<p>然后再去重、排序，返回的就是这些word。还需要释放池化的资源～</p>
+<p>@上面是基于推断得到的rules，如果是基于扫描得到的，需要调用get_scan_rules函数。</p>
+<p>首先定义一些参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">max_payload_len = <span class="number">50</span></span><br><span class="line">payloads = df</span><br></pre></td></tr></table></figure>
+
+<p>根据content_direction是forward 还是 backward，进行分类操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> content_direction == <span class="string">&#x27;forward&#x27;</span>:</span><br><span class="line">       payloads[xcol_name] = payloads[xcol_name].apply(<span class="keyword">lambda</span> x: x[:max_payload_len])</span><br><span class="line"><span class="keyword">elif</span> content_direction == <span class="string">&#x27;backward&#x27;</span>:</span><br><span class="line">       max_payload_len = <span class="number">-1</span> * max_payload_len</span><br><span class="line">       payloads[xcol_name] = payloads[xcol_name].apply(<span class="keyword">lambda</span> x: x[max_payload_len:])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如原始若是<code>posthttp://localhost:8080/tienda1/publico/vaci..</code> ，backward 换成<code>8080/tienda1/publico/vaciar.jsp?b2a=vaciar+car...</code> (没有截取到前面的<code>posthttp://localhost:</code>)</p>
+<p>主要目的是：正向的话就截断，payload最大长度为50。反向的话 就反向截断，不保留前面的～然后结果保存在sequence中。</p>
+<p>下面调用函数求解距离矩阵</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> tpe_distance_matrix <span class="keyword">import</span> distance_matrix</span><br></pre></td></tr></table></figure>
+
+<p>其实计算的是pair-wise similarity相似度。核心代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(N):</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> s_matrix[i][j] &gt;= <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            seq1 = seq[i][<span class="number">1</span>]</span><br><span class="line">            seq2 = seq[j][<span class="number">1</span>]</span><br><span class="line">            minlen = min(len(seq1), len(seq2))</span><br><span class="line">    </span><br><span class="line">            len1 = len2 = sims = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> range(minlen):</span><br><span class="line">                <span class="keyword">if</span> seq1[x] != <span class="number">256</span>:</span><br><span class="line">                    len1 += <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> seq1[x] == seq2[x]:</span><br><span class="line">                        sims += <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> seq2[x] != <span class="number">256</span>:</span><br><span class="line">                    len2 += <span class="number">1.0</span></span><br><span class="line"></span><br><span class="line">            maxlen = max(len1, len2)</span><br><span class="line">            s_matrix[i][j] = sims / maxlen</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>大致的思路就是，遍历2个字符串，遇到相同的字符，sims的值就+1。如果两个字符串越相似，最后s_matrix的值就会越大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Get distance matrix</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N):</span><br><span class="line">        d_matrix[i][j] = s_matrix[i][i] - s_matrix[i][j]</span><br></pre></td></tr></table></figure>
+
+<p>这个步骤可以看成是标准化。因为要求的是距离矩阵，所以求一个差值。值越小，越相近。</p>
+<p>下面进行聚类</p>
+<p>直接调用sklearn中的DBSCAN进行聚类，得到的标签保存在 skl_labels 中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db = DBSCAN(eps=<span class="number">0.25</span>, min_samples=<span class="number">10</span>, metric=<span class="string">&#x27;precomputed&#x27;</span>).fit(X)</span><br><span class="line">print( <span class="string">&#x27;Finish clustering...&#x27;</span>)</span><br><span class="line">skl_labels = db.labels_</span><br></pre></td></tr></table></figure>
+
+<p>然后对标签进行规范化，值不是-1的，都+1。</p>
+<p>@tpe_all_lcs</p>
+<p>目的是求两个字符串的最长公共子串。</p>
+<p>其中有一个最小长度限制，小于这个长度的是不被记录的。</p>
+<p>而且前面找到公共子串后会继续往下寻找，知道找遍整个字符串，输出长度大于最小长度的所有公共字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># search recursively and document the longest of the back part</span></span><br><span class="line">l2_forward = []</span><br><span class="line"><span class="keyword">if</span> (x_longest &lt; s1_len - <span class="number">1</span>) <span class="keyword">and</span> (y_longest &lt; s2_len - <span class="number">1</span>):</span><br><span class="line">    l2_forward = lcs(s1_[x_longest:s1_len], s2_[y_longest:s2_len])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> len(l2_forward) &gt; <span class="number">0</span>:</span><br><span class="line">    l_list.extend(l2_forward)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> l_list</span><br></pre></td></tr></table></figure>
+
+<p>测试如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s1_ = <span class="string">&#x27;aayydbbccc123456deqzwy&#x27;</span></span><br><span class="line">s2_ = <span class="string">&#x27;yydedede12345dezwy&#x27;</span></span><br><span class="line">res = lcs(s1_, s2_)</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res <span class="keyword">is</span> : [<span class="string">&#x27;yyd&#x27;</span>, <span class="string">&#x27;12345&#x27;</span>, <span class="string">&#x27;zwy&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>注意到输出的是一个列表。</p>
+<p>然后再从每个聚类中提取rules。此处引入了lcs，来计算最小公共子串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># extract rules from each cluster</span></span><br><span class="line"> scan_rules = []</span><br><span class="line"> <span class="keyword">for</span> label <span class="keyword">in</span> se_df.label.unique():</span><br><span class="line">     print(<span class="string">&quot;label:&quot;</span>,label)</span><br><span class="line">     <span class="keyword">if</span> label != <span class="number">-1</span>:</span><br><span class="line">         re = se_df.loc[ss_df[<span class="string">&#x27;label&#x27;</span>] == label][[<span class="string">&#x27;seq&#x27;</span>]]</span><br><span class="line">         </span><br><span class="line">         print(<span class="string">&quot;re:&quot;</span>,re)</span><br><span class="line">         target_array = re[<span class="string">&#x27;seq&#x27;</span>].tolist()</span><br><span class="line">         print(<span class="string">&quot;target_array&quot;</span>,target_array)</span><br><span class="line">         </span><br><span class="line">         <span class="comment"># find seed sequence</span></span><br><span class="line">         max_len = <span class="number">0</span></span><br><span class="line">         <span class="keyword">for</span> l <span class="keyword">in</span> target_array:</span><br><span class="line">             <span class="keyword">if</span> len(l) &gt; max_len:</span><br><span class="line">                 seed = l</span><br><span class="line"></span><br><span class="line">         pattern_list = [seed]</span><br><span class="line">         print(<span class="string">&quot;pattern_list1:&quot;</span>,pattern_list)</span><br><span class="line">         <span class="comment">#先存入pattern_list中</span></span><br><span class="line">         </span><br><span class="line">         <span class="keyword">for</span> l <span class="keyword">in</span> target_array:</span><br><span class="line">           	print(<span class="string">&quot;l is:&quot;</span>,l)</span><br><span class="line">             pattern_new = []</span><br><span class="line">             <span class="keyword">for</span> pattern <span class="keyword">in</span> pattern_list:</span><br><span class="line">                 print(<span class="string">&quot;pattern:&quot;</span>,pattern)</span><br><span class="line">               	print(<span class="string">&quot;lcs:&quot;</span>,lcs(pattern, l))</span><br><span class="line">                 pattern_new.extend(lcs(pattern, l))</span><br><span class="line">             pattern_list = pattern_new</span><br><span class="line">             print(<span class="string">&quot;pattern_list2:&quot;</span>,pattern_list)</span><br><span class="line">         pattern_tup = (label, pattern_list)</span><br><span class="line">			<span class="comment">#本质就是 遍历各个payload，找到公共字符串，最后返回到pattern_tup中</span></span><br><span class="line">         </span><br><span class="line">         target_sequences_o = []</span><br><span class="line">         <span class="keyword">for</span> e <span class="keyword">in</span> pattern_list:</span><br><span class="line">             target_sequences_o.append(<span class="string">&quot;&quot;</span>.join(e))</span><br><span class="line">         <span class="keyword">if</span> len(target_sequences_o) &gt; <span class="number">0</span>:</span><br><span class="line">             scan_rules.append(target_sequences_o)</span><br><span class="line"> print(scan_rules)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出提示如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">2  8080/tienda1/publico/vaciar.jsp?b2a=vaciar+car...</span><br><span class="line">4  lico/entrar.jsp?errormsga=credenciales+incorre...</span><br><span class="line"><span class="number">6</span>  re=%<span class="number">2</span>b&amp;precio=<span class="number">100</span>&amp;cantidad=<span class="number">52</span>&amp;b1=a adir+al+car...</span><br><span class="line"><span class="number">8</span>  ogin=yenmeng&amp;pwda=ceguezuelo&amp;remember=on&amp;b1=en...</span><br><span class="line">target_array [<span class="string">&#x27;8080/tienda1/publico/vaciar.jsp?b2a=vaciar+carrito&#x27;</span>, <span class="string">&#x27;lico/entrar.jsp?errormsga=credenciales+incorrectas&#x27;</span>, <span class="string">&#x27;re=%2b&amp;precio=100&amp;cantidad=52&amp;b1=a adir+al+carrito&#x27;</span>, <span class="string">&#x27;ogin=yenmeng&amp;pwda=ceguezuelo&amp;remember=on&amp;b1=entrar&#x27;</span>]</span><br><span class="line">pattern_list1: [<span class="string">&#x27;ogin=yenmeng&amp;pwda=ceguezuelo&amp;remember=on&amp;b1=entrar&#x27;</span>]</span><br><span class="line">pattern_list2: []</span><br><span class="line">pattern_list2: []</span><br><span class="line">pattern_list2: []</span><br><span class="line">pattern_list2: []</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<p>代码的核心思路就是去找多个url中同时存在的最小公共子串</p>
+<p>然后返回到get_rules函数</p>
+<p>@get_rules</p>
+<p>得到了 lime_rules 和 scan_rules 两个list，然后调用fuse_lime_and_scan_rules 把他们联结起来。返回的是 dataframe 。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s1 = pd.Series(scan_rules + lime_rules)</span><br></pre></td></tr></table></figure>
+
+<p>注意：连接的时候，scan_rules在前面！</p>
+<p>然后！还调用了<code>rules = string_2_rule()</code> 这个函数，去进行格式转换</p>
+<p>转换之后变成下面这种形式。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">123</span>]: result</span><br><span class="line">Out[<span class="number">123</span>]:</span><br><span class="line">  rule_strings  rule_type     regex</span><br><span class="line">1            1          1  ^(?=.*1)</span><br><span class="line">2            2          1  ^(?=.*2)</span><br><span class="line">3            3          1  ^(?=.*3)</span><br><span class="line">4            b          2  ^(?=.*b)</span><br><span class="line">5            a          2  ^(?=.*a)</span><br><span class="line">6            t          2  ^(?=.*t)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>前面用到的get_rules函数如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_rules</span>(<span class="params">df, model, label_map, refer_label, lime_flag=True, scan_flag=False, content_direction=<span class="string">&#x27;forward&#x27;</span>, xcol_name=<span class="string">&#x27;text&#x27;</span>, n_cores=<span class="number">20</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Generate rules for given dataframe with LCS and inference based methods. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Take dataframe and classification model as inputs, extract global rules for</span></span><br><span class="line"><span class="string">    texts or payloads classification.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        df: dataframe to be explained.</span></span><br><span class="line"><span class="string">        model: model that can classify instances.</span></span><br><span class="line"><span class="string">        label_map: label text and value mappings.</span></span><br><span class="line"><span class="string">        refer_label: the reference label for lime.</span></span><br><span class="line"><span class="string">        lime_flag: on-off flag for lime based inference rules.</span></span><br><span class="line"><span class="string">        scan_flag: on-off flag for LCS based scan rules.</span></span><br><span class="line"><span class="string">        content_direction: cut out sequences from &#x27;forward&#x27; or &#x27;backward&#x27;</span></span><br><span class="line"><span class="string">        xcol_name: column name for content to be explained in df.</span></span><br><span class="line"><span class="string">        n_cores: number of cores to utilize.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        Classification rules based on list of keywords.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> lime_flag == <span class="literal">True</span>:</span><br><span class="line">        lime_rules = get_lime_rules_parallel(df, get_lime_rules, model, label_map, <span class="string">&#x27;malicious&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        lime_rules = []</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> scan_flag == <span class="literal">True</span>:</span><br><span class="line">        scan_rules = get_scan_rules(df, xcol_name=<span class="string">&#x27;text&#x27;</span>, content_direction=content_direction)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        scan_rules = []</span><br><span class="line"></span><br><span class="line">    result = fuse_lime_and_scan_rules(lime_rules, scan_rules)</span><br><span class="line">    result.columns = [<span class="string">&#x27;rule_strings&#x27;</span>, <span class="string">&#x27;rule_type&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># get regular expressions.</span></span><br><span class="line">    rules = string_2_rule(result.copy())</span><br><span class="line">    <span class="keyword">return</span> rules</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4、rule压缩"><a href="#4、rule压缩" class="headerlink" title="4、rule压缩"></a>4、rule压缩</h4><p>各个rules之间可能会有重叠的部分。</p>
+<p>使用loop循环去消除掉重复的rules。循环代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, max_iter_times):</span><br><span class="line">    print(<span class="string">&#x27;Reinforce iteration loop %d&#x27;</span>% (i+<span class="number">1</span>))</span><br><span class="line">    print(<span class="string">&#x27;Seed rules number: %d&#x27;</span> % rules_tobe_validate.shape[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+<p>具体过程reinforce rules</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">max_iter_times = <span class="number">2</span></span><br><span class="line">df_split = np.array_split(df, max_iter_times) <span class="comment">#分割</span></span><br></pre></td></tr></table></figure>
+
+<p>调用rule_validation函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match_result, rules_tobe_validate = rule_validation(df_for_reinforce, rules_tobe_validate, n_cores=n_cores)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果不是最后一次调用的话，代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">flag = <span class="number">1</span></span><br><span class="line">ori_rules = rules</span><br><span class="line"></span><br><span class="line"><span class="comment"># repeat the match process if there is rules of no use</span></span><br><span class="line"><span class="keyword">while</span> flag == <span class="number">1</span>:</span><br><span class="line">    flag = <span class="number">0</span></span><br><span class="line">    valid_df = parallelize_dataframe(df, match_func, ori_rules, n_cores=n_cores)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># drop low acrruacy rate rules</span></span><br><span class="line">    remove_list = refine_rules_by_metrics(valid_df)</span><br><span class="line">    refined_rules = ori_rules.loc[~ori_rules.index.isin(remove_list)]</span><br><span class="line">    <span class="keyword">if</span> remove_list:</span><br><span class="line">        flag = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        valid_df.loc[valid_df[<span class="string">&#x27;rule_num&#x27;</span>].isin(remove_list), [<span class="string">&#x27;match&#x27;</span>]] = <span class="number">0</span></span><br><span class="line">        valid_df.loc[valid_df[<span class="string">&#x27;rule_num&#x27;</span>].isin(remove_list), [<span class="string">&#x27;rule_num&#x27;</span>]] = <span class="number">0</span></span><br><span class="line">        ori_rules = refined_rules</span><br><span class="line"></span><br><span class="line"><span class="comment"># validate duplicate removal of rules to improve later match efficiency </span></span><br><span class="line">refined_rules = rule_deduplicate(refined_rules)</span><br></pre></td></tr></table></figure>
+
+<p>其中有match_func，其作用为：为df增加两列，分别为match 和 rule_num。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> search(rule[<span class="string">&#x27;regex&#x27;</span>], payload[<span class="string">&#x27;text&#x27;</span>]):</span><br><span class="line">    payloads_i.loc[p_index, <span class="string">&#x27;match&#x27;</span>] = rule[<span class="string">&#x27;rule_type&#x27;</span>]</span><br><span class="line">    payloads_i.loc[p_index, <span class="string">&#x27;rule_num&#x27;</span>] = r_index  </span><br></pre></td></tr></table></figure>
+
+<p>如果检查到rule的regex和payload的text相等，修改相应位置的match和rule_num。</p>
+<p>调用了parallelize_dataframe函数，其实就是进行池化，多核处理。</p>
+<p>然后去掉准确度较低的rules。使用的是refine_rules_by_metrics函数。其调用了get_metrics函数，它会计算分类的性能。具体见下节。</p>
+<p>get_metrics返回的是一个list，list包含的是那些准确度较低的rules，我们要把它删掉。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">metrics_for_rule = get_metrics(result_df[result_df.rule_num == rule_index])</span><br><span class="line"><span class="comment"># define the lower bound for useful rules </span></span><br><span class="line"><span class="keyword">if</span> float(metrics_for_rule[<span class="string">&#x27;acc&#x27;</span>]) &lt; MIN_SINGLE_RULE_ACCURACY:</span><br><span class="line">    rule_remove_list.append(rule_index)</span><br></pre></td></tr></table></figure>
+
+<p>通过语句<code>refined_rules = ori_rules.loc[~ori_rules.index.isin(remove_list)]</code>删除掉那些准确度低的rules。</p>
+<p>再返回rule_validation函数，会调用rule_deduplicate函数，删除重复的rules。</p>
+<p>核心代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># traverse rules in rule set.</span></span><br><span class="line"><span class="keyword">for</span> rule_index, rule <span class="keyword">in</span> rules.iterrows():</span><br><span class="line">    <span class="keyword">for</span> rule_s_index, rule_s <span class="keyword">in</span> rules.iterrows():</span><br><span class="line">        <span class="keyword">if</span> rule_index == rule_s_index:</span><br><span class="line">                <span class="keyword">continue</span> </span><br><span class="line">        string = <span class="string">&#x27;&#x27;</span>.join(rule_s[<span class="string">&#x27;rule_strings&#x27;</span>])</span><br><span class="line">        <span class="keyword">if</span> search(rule[<span class="string">&#x27;regex&#x27;</span>], string):</span><br><span class="line">            <span class="keyword">if</span> rules.loc[rule_s_index, <span class="string">&#x27;duplicate&#x27;</span>] &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># only reserve match result that hit for the first time </span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">if</span> rules.loc[rule_index, <span class="string">&#x27;duplicate&#x27;</span>] == rule_s_index:</span><br><span class="line">                <span class="comment"># skip to rules that have been matchee</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                rules.loc[rule_s_index, <span class="string">&#x27;duplicate&#x27;</span>] = rule_index</span><br></pre></td></tr></table></figure>
+
+<p>思想就是：进行遍历，遇到重复的之后在duplicate列做一个标记，值为重复位置的索引。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result_rules = rules.loc[rules[<span class="string">&#x27;duplicate&#x27;</span>] == <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>如下语句选取出那些没有重复的rules。</p>
+<p>至此，rule_validation函数结束，返回reinforce。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">metrics = get_metrics(match_result)</span><br></pre></td></tr></table></figure>
+
+<p>计算一下准确度acc，如果&lt;0.98，需要再次reinforce，但是操作的对象是如下数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_rein = match_result.loc[(match_result.match == <span class="number">0</span>) &amp; (match_result.target == label_map[<span class="string">&#x27;malicious&#x27;</span>])][[<span class="string">&#x27;text&#x27;</span>, <span class="string">&#x27;target&#x27;</span>]] </span><br></pre></td></tr></table></figure>
+
+<p>是选出刚才结果中match == 0并且target == 恶意的数据，即没有识别出的恶意数据流。</p>
+<p>然后执行get rules。</p>
+<p>然后再执行一次rule_validation，此时final_flag=True，执行的函数为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># If it is the final test, make duplicate removal first and guarantee the correspondance of hit results and rules index</span></span><br><span class="line">rules = rule_deduplicate(rules)</span><br><span class="line">refined_rules = rules</span><br><span class="line">valid_df = parallelize_dataframe(df, match_func, refined_rules, n_cores=n_cores)</span><br></pre></td></tr></table></figure>
+
+<p>先移除重复的，然后在执行parallelize_dataframe。如果不是最后一次，则先执行parallelize_dataframe，再移除重复的。</p>
+<p>最后最后，调用get_final_rules函数去输出相应的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rule_list = list(filter(<span class="keyword">lambda</span> x: x &gt; <span class="number">0</span>, list(match_result.rule_num.unique())))</span><br><span class="line">rule_list.sort()</span><br><span class="line">print(<span class="string">&#x27;Matched rules total : %d&#x27;</span> % (len(rule_list)))</span><br><span class="line"><span class="comment">#去除负数，排序</span></span><br><span class="line"></span><br><span class="line">df_draw = match_result.loc[match_result.rule_num != <span class="number">0</span>].groupby([<span class="string">&#x27;rule_num&#x27;</span>])[<span class="string">&#x27;match&#x27;</span>].count()</span><br><span class="line">df_draw.plot.bar(figsize=(<span class="number">15</span>, <span class="number">10</span>), legend=<span class="literal">True</span>, fontsize=<span class="number">12</span>)</span><br><span class="line"><span class="comment">#画图</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后再返回rule_matching_evaluation函数，输出打印一些相关信息，结束！</p>
+<h4 id="5、内部rule评价"><a href="#5、内部rule评价" class="headerlink" title="5、内部rule评价"></a>5、内部rule评价</h4><p>主要关注的指标如下：恶意软件召回率、TPR、FPR、准确率。</p>
+<p>get_metrics函数，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">match_result_stat = result_df.groupby([<span class="string">&#x27;match&#x27;</span>, <span class="string">&#x27;target&#x27;</span>])[<span class="string">&#x27;text&#x27;</span>].count()</span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="/images/pasted-243.png" class="lazyload" data-srcset="/images/pasted-243.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>最后mydict结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">44</span>]: mydict</span><br><span class="line">Out[<span class="number">44</span>]: &#123;<span class="string">&#x27;v00&#x27;</span>: <span class="number">361</span>, <span class="string">&#x27;v01&#x27;</span>: <span class="number">264</span>, <span class="string">&#x27;v10&#x27;</span>: <span class="number">668</span>, <span class="string">&#x27;v11&#x27;</span>: <span class="number">49</span>, <span class="string">&#x27;v20&#x27;</span>: <span class="number">622</span>, <span class="string">&#x27;v21&#x27;</span>: <span class="number">36</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后计算出相应的指标</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0 for malicious and 1 for normal</span></span><br><span class="line">acc = float(<span class="string">&quot;&#123;0:.6f&#125;&quot;</span>.format((mydict[<span class="string">&#x27;v01&#x27;</span>]+mydict[<span class="string">&#x27;v10&#x27;</span>] +mydict[<span class="string">&#x27;v20&#x27;</span>])/result_df.shape[<span class="number">0</span>]))</span><br><span class="line">fpr = float(<span class="string">&quot;&#123;0:.6f&#125;&quot;</span>.format((mydict[<span class="string">&#x27;v11&#x27;</span>]+mydict[<span class="string">&#x27;v21&#x27;</span>])/(mydict[<span class="string">&#x27;v11&#x27;</span>]+mydict[<span class="string">&#x27;v21&#x27;</span>]+mydict[<span class="string">&#x27;v10&#x27;</span>]+mydict[<span class="string">&#x27;v20&#x27;</span>])))</span><br><span class="line">rec = float(<span class="string">&quot;&#123;0:.6f&#125;&quot;</span>.format((mydict[<span class="string">&#x27;v10&#x27;</span>]+mydict[<span class="string">&#x27;v20&#x27;</span>])/(mydict[<span class="string">&#x27;v10&#x27;</span>]+mydict[<span class="string">&#x27;v20&#x27;</span>]+mydict[<span class="string">&#x27;v00&#x27;</span>])))</span><br><span class="line">rec_scan = float(<span class="string">&quot;&#123;0:.6f&#125;&quot;</span>.format(mydict[<span class="string">&#x27;v10&#x27;</span>]/(mydict[<span class="string">&#x27;v10&#x27;</span>]+mydict[<span class="string">&#x27;v20&#x27;</span>])))</span><br><span class="line">rec_lime = float(<span class="string">&quot;&#123;0:.6f&#125;&quot;</span>.format(mydict[<span class="string">&#x27;v20&#x27;</span>]/(mydict[<span class="string">&#x27;v10&#x27;</span>]+mydict[<span class="string">&#x27;v20&#x27;</span>])))</span><br><span class="line">metrics = dict([(<span class="string">&#x27;acc&#x27;</span>, acc), (<span class="string">&#x27;fpr&#x27;</span>, fpr), (<span class="string">&#x27;rec&#x27;</span>, rec), (<span class="string">&#x27;rec_scan&#x27;</span>, rec_scan), (<span class="string">&#x27;rec_lime&#x27;</span>, rec_lime)])</span><br></pre></td></tr></table></figure>
+
+<p>这里v11+v21是FP，v10+v20是TN，</p>
+<p>即v21表示，真实的是2，预测的是1.</p>
+<p>没懂这里的计算…感觉和普通的不太一样～</p>
+<p>根据生成的指标，如果其没有达到设定的阈值，删除掉假阳性较高的数据，然后重新鉴别一下匹配错误的数据。</p>
+<p>完整的算法如下：</p>
+<p><img src="/images/pasted-244.png" class="lazyload" data-srcset="/images/pasted-244.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<h3 id="五、实验评估"><a href="#五、实验评估" class="headerlink" title="五、实验评估"></a>五、实验评估</h3><p>准则：较低的recall rate 会检测不出恶意行为，较高错误预警率会影响正常的使用，rules太多，会导致处理过慢。</p>
+<p>1、数据集：webshell、Spam、CSIC。</p>
+<p>spam数据集是从YouTube上爬取的评论，它虽然不是网络流量，但是符合文本的规则，可以在此处使用。</p>
+<p>CSIC数据集是一个公共数据集，包含有各种攻击数据。</p>
+<p>2、rule分类性能分析：</p>
+<p>在提取特征的时候，应该从数据集中取例子sample。</p>
+<p>在最后的阶段，要使用所有的流量进行特征匹配。</p>
+<p>本文使用了两个模型：MLP和随机森林。还使用了格搜索算法。</p>
+<p>不同数据集上的分类性能如下：</p>
+<p><img src="/images/pasted-245.png" class="lazyload" data-srcset="/images/pasted-245.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>由图可知，在webshell数据集上的准确度最高。(文中对这种现象的原因作了解释)</p>
+<p>基于字符的关键字特征提取方法 本质上是一个线性模型，所以如果数据不能被线性模型分类，那么性能就会变差。</p>
+<p>3、参数敏感性分析</p>
+<p>重点分析的参数： 随机种子的数量、最小字符串长度阈值、推断的置信度参数。</p>
+<p>下图记录了产生rules的数量 以及总体的分类准确度(当SSN=2500的时候)。</p>
+<p><img src="/images/pasted-246.png" class="lazyload" data-srcset="/images/pasted-246.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>由图可知，seed rule set增加，提取出的rules也增加，并且在seed rule se &gt; 1500之后趋近稳定。</p>
+<p>字符最小长度越大，对word的限制越严格，rules总数越小。但是它提高了模型的普遍性和覆盖率。但是也会造成更大的假阳性，分类准确度下降。</p>
+<p>本文模型内部 会将性能较差的rules舍弃掉。</p>
+<p>关于推断过程的置信度参数</p>
+<p><img src="/images/pasted-247.png" class="lazyload" data-srcset="/images/pasted-247.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>由图可知：值越大，符合条件的rules越少，rules的质量越好。</p>
+<p>有时，并不是分类越准确越好，有时候相比起来，rules越少 这个指标更加重要。有时，rules更少意味着rules的泛化能力更强，rules覆盖率更高。更加节约时间及资源。</p>
+<p><strong>本文贡献如下：</strong></p>
+<p>(1) 这是第一次在 网络流量特征生成中 利用模型推理的方法。并且对之进行加速。</p>
+<p>(2) 实验证明了此方法的有效性。</p>
+<p><strong>未来工作：</strong></p>
+<p>1、对于不可读字符串的特征提取方法。</p>
+<p>2、其他模型应用于推断算法</p>
+<p>其他代码总结</p>
+<p>需要先安装LIME</p>
+<p>地址 <a target="_blank" rel="noopener" href="https://github.com/marcotcr/lime">https://github.com/marcotcr/lime</a></p>
+<p>git clone —&gt; python setup.py build 即可 。(注意！需python3运行)</p>
+<p>1、tpe_get_config</p>
+<p><code>import configparser</code> ConfigParser 是用来读取配置文件的包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> configparser</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getConfig</span>(<span class="params">section, key</span>):</span></span><br><span class="line">    config = configparser.ConfigParser()</span><br><span class="line">    path = os.path.split(os.path.realpath(__file__))[<span class="number">0</span>] + <span class="string">&#x27;/tpe.conf&#x27;</span></span><br><span class="line">    config.read(path)</span><br><span class="line">    <span class="keyword">return</span> config.get(section, key)</span><br><span class="line">    </span><br><span class="line">getConfig(<span class="string">&quot;rule_parameter&quot;</span>, <span class="string">&quot;min_single_rule_accuracy&quot;</span>) <span class="comment">#</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出各个内容，得到的结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@VM<span class="number">-0</span><span class="number">-3</span>-ubuntu:~/XGen/XAIGen<span class="comment"># python test_get_config.py</span></span><br><span class="line">&lt;backports.configparser.ConfigParser object at <span class="number">0x7f36e93a8a50</span>&gt; <span class="comment">#config</span></span><br><span class="line">/root/XGen/XAIGen/tpe.conf <span class="comment">#path</span></span><br><span class="line">[<span class="string">&#x27;/root/XGen/XAIGen/tpe.conf&#x27;</span>] <span class="comment">#config.read(path)</span></span><br><span class="line"><span class="number">0.85</span> <span class="comment">#config.get(section, key)</span></span><br></pre></td></tr></table></figure>
+
+<p>值总结如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">getConfig(<span class="string">&quot;rule_parameter&quot;</span>, <span class="string">&quot;min_single_rule_accuracy&quot;</span>) <span class="comment">#0.85</span></span><br><span class="line">getConfig(<span class="string">&quot;rule_parameter&quot;</span>, <span class="string">&quot;min_word_len&quot;</span>) <span class="comment">#3</span></span><br><span class="line">MIN_WORD_CONFIDENCE = float(tpe_get_config.getConfig(<span class="string">&quot;rule_parameter&quot;</span>, <span class="string">&quot;min_word_confidence&quot;</span>)) <span class="comment">#0.02</span></span><br><span class="line">MAX_WORDS_NUM = int(tpe_get_config.getConfig(<span class="string">&quot;rule_parameter&quot;</span>, <span class="string">&quot;max_words_number&quot;</span>)) <span class="comment">#4</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>收获：</strong></p>
+<p>1、payload/UR L 同时存在结构和语义内容。</p>
+<p>2、评价指标，如果数据集大小不一样，能否乘上系数？</p>
+<p>3、本文模型 以及聚类，直接用了现成的，能否改进呢？用什么模型更加合适？</p>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/>http://example.com/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-02-27T20:36:24+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Feb 27, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/&title=恶意流量的自动特征生成算法 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/&title=恶意流量的自动特征生成算法 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/&title=恶意流量的自动特征生成算法 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/02/09/%E6%81%B6%E6%84%8FURL%E5%9B%9B/'>
+          <p class='title'>恶意URL四⌛️<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>六、使用机器学习的恶意URL检测综述文章标题：Malicious URL Detection using Machine Learning:A Survey，三位作者来自新加坡管理大学
+1、特征...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%83%8C%E6%99%AF%E5%8F%8A%E7%9B%AE%E7%9A%84"><span class="toc-text">一、背景及目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%89%8D%E4%BA%BA%E5%B7%A5%E4%BD%9C"><span class="toc-text">二、前人工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-text">三、前置知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81CMIRGen%E6%A1%86%E6%9E%B6%E5%8F%8A%E5%AE%9E%E7%8E%B0%E7%AE%97%E6%B3%95"><span class="toc-text">四、CMIRGen框架及实现算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">1、预处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E8%81%9A%E7%B1%BB"><span class="toc-text">2、聚类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96"><span class="toc-text">3、特征提取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81rule%E5%8E%8B%E7%BC%A9"><span class="toc-text">4、rule压缩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E5%86%85%E9%83%A8rule%E8%AF%84%E4%BB%B7"><span class="toc-text">5、内部rule评价</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%AE%9E%E9%AA%8C%E8%AF%84%E4%BC%B0"><span class="toc-text">五、实验评估</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+        
+        
+          <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="恶意流量的自动特征生成算法";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+</script>
+
+        
+      </div>
+      
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        Use
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.2.0" target="_blank" class="codename">Volantis</a>
+        as theme
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2020-2021 1ss4k</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+      <a id="s-top" class="fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+  </div>
+  <div>
+    <script>
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/********************脚本懒加载函数********************************/
+function loadScript(src, cb) {
+var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+var script = document.createElement('script');
+script.setAttribute('type','text/javascript');
+if (cb) script.onload = cb;
+script.setAttribute('src', src);
+HEAD.appendChild(script);
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    setTimeout(function() {
+      loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+    }, 1);
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+</script>
+
+
+<!-- internal -->
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+  
+    <script>
+      window.FPConfig = {
+        delay: 0,
+        ignoreKeywords: [],
+        maxRPS: 5,
+        hoverDelay: 25
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+
+    let pagePlaceholder = pdata.commentPlaceholder || "快来评论吧~";
+
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: pagePlaceholder,
+      path: path,
+      appId: "",
+      appKey: "",
+      pageSize: '10',
+      avatar: 'robohash',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      recordIP: 'false',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'u9j57bwJod4EDmXWdxrwuqQT-MdYXbMMI',
+    app_key: 'jfHtEKVE24j0IVCGHbvuFClp',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'http://example.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'http://example.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'http://example.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+
+
+
+    
+      
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          "#l_cover",
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      // 关于百度统计对 SPA 页面的处理：
+      // 方案一：百度统计>管理>单页应用设置中，打开开启按钮即可对SPA进行统计。 https://tongji.baidu.com/web/help/article?id=324
+      // 方案二：取消注释下列代码。 https://tongji.baidu.com/web/help/article?id=235
+       
+
+      // 关于谷歌统计对 SPA 页面的处理：
+      // 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+      // https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+      
+	 
+
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+          if (typeof $.fancybox == "undefined") {
+            SCload_fancybox();
+          } else {
+            pjax_fancybox();
+          }
+        
+        
+        
+        
+        
+        
+          pjax_valine();
+        
+        
+        
+        
+        
+      } catch (e) {
+        console.log(e);
+      }
+	  
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+
+    
+  </div>
+</body>
+</html>

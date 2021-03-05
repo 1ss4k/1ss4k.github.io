@@ -392,6 +392,202 @@
   
     
     <h2 class="article-title" >
+      <a href="/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/">
+        恶意URL检测(二)用户角度SVM
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        一、机器学习实现恶意URL检测文章3地址 https://coldwave96.github.io/2019/11/08/MaliciousURLs/
+1、处理数据
+POST请求，URL要加上请求的主体内容。
+2、改进点
+
+细分攻击类型
+优化TF-IDF，如考虑词袋+TF-IDF，或利用TF- IDF将URL中不重要的部分进行泛化处理。
+使用深度学习
+
+3、词袋+TF-IDF+cnn
+文章3...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-23</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/web/">web</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
+        堆利用(二)之unlink
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        基础知识连续free的堆块，会被合并，放入unsorted bin中。
+之前unlink的宏定义
+12345678#define unlink(P, BK, FD) &#123; FD = P-&gt;fd;                //FD = *P + 8; BK = P-&gt;bk;               // BK = *P + 12; FD-&gt;bk = BK; ...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-22</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/01/17/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84HTTP%E6%B5%81%E9%87%8F%E7%9A%84%E6%81%B6%E6%84%8FDNS%E6%A3%80%E6%B5%8B/">
+        基于机器学习的HTTPS流量的恶意DNS检测
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        会议：2020 International Conference on Innovation and Intelligence for Informatics, Computing and Technologies (3ICT) 
+2位作者，分别来自维亚普大学计算机科学与工程学院、印度信息技术学院计算机科学与工程系。
+背景及目的​    互联网发展迅速，DNS(域名系统)是很重要的一个部分。...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-17</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/17/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84HTTP%E6%B5%81%E9%87%8F%E7%9A%84%E6%81%B6%E6%84%8FDNS%E6%A3%80%E6%B5%8B/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/">
+        水印中的一些正交矩及其Matlab实现⌛️
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        离散傅立叶变换矩Matlab中有内置函数用于生成离散傅立叶变换的矩，dftmtx。例子如下：
+123456789D = dftmtx(4)D =   1.0000 + 0.0000i   1.0000 + 0.0000i   1.0000 + 0.0000i   1.0000 + 0.0000i   1.0000 + 0.0000i   0.0000 - 1.0000i  -1.0000 +...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-01-12</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/">
         早期基于DGA的僵尸网络识别:将检测推向边缘
       </a>
@@ -651,193 +847,6 @@ apt install python-scapy
       
         <div>
           <a class='readmore' href='/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/04/%E7%88%AC%E8%99%AB/">
-        爬虫⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        #项目实践1: 爬取Alexa上的url
-在服务器中运行，python版本3.6，安装bs4
-1sudo apt-get install python-bs4
-
-
-
-代码如下，参考https://blog.csdn.net/x18835129278/article/details/78444593
-12345678910111213141516171819202122232425262728...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-04</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/04/%E7%88%AC%E8%99%AB/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/">
-        堆利用(一)之基础知识及uaf/double free
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        基础知识内存分配的机制1、通过brk和mmap实现malloc内存分配
-
-arena个数：
-
-申请堆块malloc：实际内存为 0x10的chunk头 + 申请的大小，直接返回堆地址
-calloc：先清空堆内存空间，再返回堆地址。(丢弃之前块的内容)
-realloc
-1234567891011121314chunk=malloc(16);chunk1=realloc(chunk,32);当 ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/25/%E5%A0%86%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/">
-        栈溢出⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-25</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/25/%E6%A0%88%E6%BA%A2%E5%87%BA/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/">
-        利用网络威胁情报实现有效的网络威胁搜索⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        摘要本文提出了EFFHUNTER，一个使用OSCTI，促进网络威胁搜索的系统。它是建立在一个成熟的系统审计框架之上的。它提供：
-(1)
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-17</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/17/%E5%88%A9%E7%94%A8%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%83%85%E6%8A%A5%E5%AE%9E%E7%8E%B0%E6%9C%89%E6%95%88%E7%9A%84%E7%BD%91%E7%BB%9C%E5%A8%81%E8%83%81%E6%90%9C%E7%B4%A2/'>
             Read More
           </a>
         </div>

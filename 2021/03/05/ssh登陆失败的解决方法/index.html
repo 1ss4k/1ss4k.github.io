@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
+    </a>
+  </div>
+
 
           
         
@@ -442,17 +449,17 @@
 
 
 <p>1、更改服务器ssh配置</p>
-<p>​    依稀记得是在<code>/etc/ssh/sshd_config</code>中加了两条语句，现在尝试把它删掉。但是现在不能登陆，final shell也不能登陆，控制台标准方式也不行(需要开启ssh端口)，采用控制台VNC方式。</p>
-<p>​    root用户登录不上(不知道为啥)，先登陆普通用户，<code>su root</code>切换登陆。</p>
+<p>​    依稀记得是在<code>/etc/ssh/sshd_config</code>中加了两条语句，现在尝试把它删掉。但是现在不能直接ssh登陆，final shell也不能登陆，控制台标准方式也不行(需要开启ssh端口)，采用控制台VNC方式。</p>
+<p>​    root用户登录不上(不知道为啥)，先登陆普通用户，<code>su root</code>切换用户登陆。</p>
 <p>​    罪魁祸首如下</p>
-<img src="/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/EA186F18-6741-4C3B-94A3-6553236A9340.png" class="lazyload" data-srcset="/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/EA186F18-6741-4C3B-94A3-6553236A9340.png" srcset="data:image/png;base64,666" alt="EA186F18-6741-4C3B-94A3-6553236A9340" style="zoom:50%;">
-
-<p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/tojohnonly/article/details/79746588%EF%BC%8C%E8%AE%BE%E7%BD%AE%E4%B8%BA">https://blog.csdn.net/tojohnonly/article/details/79746588，设置为</a></p>
+<p><img src="/images/pasted-248.png" class="lazyload" data-srcset="/images/pasted-248.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/tojohnonly/article/details/79746588%EF%BC%8C">https://blog.csdn.net/tojohnonly/article/details/79746588，</a></p>
+<p>设置为</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ClientAliveInterval <span class="number">60</span></span><br><span class="line">ClientAliveCountMax <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
 <p>再<code>systemctl restart sshd</code> 重启ssh服务。</p>
 <p>成功啦～～～</p>
-<p>![52A44093-9B1A-425F-A85A-D58DF1C39AE7](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/52A44093-9B1A-425F-A85A-D58DF1C39AE7.png)</p>
+<p><img src="/images/pasted-249.png" class="lazyload" data-srcset="/images/pasted-249.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>2、设置ssh连接不断开</p>
 <p>参考<code>https://ngwind.github.io/2019/01/25/保持ssh服务连接不断开的方法/</code>，原来的设置应该就可以保持连接～</p>
 
@@ -489,7 +496,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-05T22:59:24+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-05T23:11:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Mar 5, 2021</p>
@@ -566,9 +573,12 @@
     <div class="prev-next">
       
       
-        <a class='next' href='/2021/03/05/refused%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/'>
-          <p class='title'>refused解决方法<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'></p>
+        <a class='next' href='/2021/03/02/latex%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/'>
+          <p class='title'>latex排版记录<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>前言：每个期刊都有自己的格式，最简便的方法是去网站上找到模板，直接套用即可。此文章记录的是对elsarticle模板的分析。
+#预定义格式
+如下
+1234\documentclass[revie...</p>
         </a>
       
     </div>

@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>恶意url五 - 虽然没什么用但还是想记下来</title>
+  <title>使用DNS序列定位APT攻击中受感染的主机 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        恶意url五
+        使用DNS序列定位APT攻击中受感染的主机
       </h1>
       <div class='new-meta-box'>
         
@@ -408,7 +408,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 6, 2021</p>
+    <p>发布于：Mar 16, 2021</p>
   </a>
 </div>
 
@@ -419,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="恶意url五" data-path="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/">
+      <div id="lc-pv" data-title="使用DNS序列定位APT攻击中受感染的主机" data-path="/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,113 +436,120 @@
 
 
   
-  <h1 id="十一、卷积神经网络的方法实现准确且快速的URL钓鱼检测"><a href="#十一、卷积神经网络的方法实现准确且快速的URL钓鱼检测" class="headerlink" title="十一、卷积神经网络的方法实现准确且快速的URL钓鱼检测"></a>十一、卷积神经网络的方法实现准确且快速的URL钓鱼检测</h1><p>1、作者来自 西电、陕西省网络计算与安全技术重点实验室、西北工业大学、捷克斯托乔瓦理工大学、西里西亚理工大学。发表期刊是 Elsevier-computer network-2020年4月。</p>
-<p>2、本文的目的是检测钓鱼网站的URL地址，且只分析URL text。</p>
-<p>3、前人工作</p>
-<p>可以分为 基于list的 和 基于机器学习的。</p>
-<p>一个比较好的应用是ad-hot(点对点网络)</p>
-<p>4、本文方法</p>
-<p>![截屏2021-03-08 下午7.15.26](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-08 下午7.15.26.png)</p>
+  <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>1、列出了一些重大的经典的攻击</p>
 <ul>
-<li>text coding</li>
+<li>Aurora </li>
 </ul>
-<p>使用如图所示的 one-hot，编码为图像。(与常规的语言不同，所以编码，看作图像来处理。)</p>
-<p>![F5C2D053-64CF-4A1C-9356-476460AE8DC1](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F5C2D053-64CF-4A1C-9356-476460AE8DC1.png)</p>
-<p>得到的结果是稀疏的，所以用到一个嵌入层，目的是将输入转换为一个数字来表示的简洁的矩阵。</p>
-<p>使用t-SNE方法，可以更加直观地看相似性。</p>
-<p>5、实验结果</p>
-<p>与LSTM比较[9]。得出的结果是：CNN在各方面的处理效果都比LSTM好。</p>
-<p>6、代码测试</p>
-<p>参考 <a target="_blank" rel="noopener" href="https://www.activestate.com/blog/phishing-url-detection-with-python-and-ml/">https://www.activestate.com/blog/phishing-url-detection-with-python-and-ml/</a></p>
-<p>使用的模型是决策树。数据集使用 <a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/Phishing+Websites#">https://archive.ics.uci.edu/ml/datasets/Phishing+Websites#</a></p>
-<p>如下：</p>
-<p>![EACD24D6-7C92-49F0-BDA7-E4FE7E181C3D](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/EACD24D6-7C92-49F0-BDA7-E4FE7E181C3D.png)</p>
-<p>使用weka，将.arff格式的文件转为csv格式，便于后续操作。</p>
-<p>根据数据集的划分方法，可以学到一些知识，如：</p>
-<p>使用@，会忽略前面的地址，只转到后面的地址。</p>
-<p>//表示重定向。</p>
-<p>特征具体的解释见文件：Phishing Websites Features.docx</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://www.mcafee.com/blogs/other-blogs/mcafee-labs/more-details-on-operation-aurora/">https://www.mcafee.com/blogs/other-blogs/mcafee-labs/more-details-on-operation-aurora/</a></p>
 <ul>
-<li>安装seaborn </li>
+<li>Stuxnet</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install seaborn</span><br><span class="line"></span><br><span class="line"><span class="comment">#python</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br></pre></td></tr></table></figure>
-
-<p>执行脚本如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># To perform operations on dataset</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># Machine learning model</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line"><span class="comment"># Visualization</span></span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> export_graphviz</span><br><span class="line"></span><br><span class="line">df = pd.read_csv(<span class="string">&#x27;data/dataset.csv&#x27;</span>)</span><br><span class="line"><span class="comment">#dot_file = &#x27;.../tree.dot&#x27;</span></span><br><span class="line"><span class="comment">#confusion_matrix_file = &#x27;.../confusion_matrix.png&#x27;</span></span><br><span class="line"></span><br><span class="line">X = df.iloc[:, :<span class="number">-1</span>] <span class="comment">#特征空间</span></span><br><span class="line">y = df.iloc[:, <span class="number">-1</span>] <span class="comment">#结果集合</span></span><br><span class="line">Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, random_state=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">model = DecisionTreeClassifier()</span><br><span class="line">model.fit(Xtrain, ytrain)</span><br><span class="line"></span><br><span class="line">ypred = model.predict(Xtest)</span><br><span class="line">print(metrics.classification_report(ypred, ytest))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;\n\nAccuracy Score:&quot;</span>, metrics.accuracy_score(ytest, ypred).round(<span class="number">2</span>)*<span class="number">100</span>, <span class="string">&quot;%&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>测试结果如下</p>
-<p>![BBC64610-A62F-4496-A795-E0B178D33BFE](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/BBC64610-A62F-4496-A795-E0B178D33BFE.png)</p>
-<p>结果还可以噢！但是具体本文的方法没有实现，因为木有找到源码1551</p>
-<p>收获：</p>
-<p>1、CNN适用于处理图像。</p>
-<p>2、本文用到了嵌入层，提高了实验效果。</p>
-<p>3、与LSTM相比，CNN训练简单，时间短。</p>
-<h1 id="十二、URLdeepDetect-使用语义矢量的用于检测恶意URL的深度学习模型"><a href="#十二、URLdeepDetect-使用语义矢量的用于检测恶意URL的深度学习模型" class="headerlink" title="十二、URLdeepDetect: 使用语义矢量的用于检测恶意URL的深度学习模型"></a>十二、URLdeepDetect: 使用语义矢量的用于检测恶意URL的深度学习模型</h1><p>1、作者将现有的工作大致分为三类：</p>
-<p>(1)使用推特的特征和机器行为的数据</p>
-<p>(2)使用词汇、域名/主机名、URL特征</p>
-<p>(3)使用神经网络和矢量模型。</p>
-<p>但是他们存在如下的问题：(1)没有考虑URL分割得到的token的<strong>序列</strong>、(2)只出现了一次的词，不能提供有用的信息、(3)训练集中没有出现的词不能被正确预测。</p>
-<p>基于此，本文提出了一个深度学习模型，有两种实现方法。</p>
-<p>一：使用word embedding 获取URL分割成的token的语义序列，计算语义相似性得分，再得到矢量。并将其输入到LSTM模型中，并且使用到了k-means聚类。</p>
-<p>二：使用加密和k-means聚类的方法进行无监督的学习。</p>
-<p>2、word2vec的本质</p>
-<p>参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26306795%EF%BC%8C%E6%9C%89%E5%A6%82%E4%B8%8B%E6%80%BB%E7%BB%93">https://zhuanlan.zhihu.com/p/26306795，有如下总结</a></p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">举个简单例子，判断一个词的词性，是动词还是名词。用机器学习的思路，我们有一系列样本(x,y)，这里 x 是词语，y 是它们的词性，我们要构建 f(x)-&gt;y 的映射，但这里的数学模型 f（比如神经网络、SVM）只接受数值型输入，而 NLP 里的词语，是人类的抽象总结，是符号形式的（比如中文、英文、拉丁文等等），所以需要把他们转换成数值形式，或者说——嵌入到一个数学空间里，这种嵌入方式，就叫词嵌入（word embedding)，而 Word2vec，就是词嵌入（ word embedding) 的一种</span><br></pre></td></tr></table></figure>
-
-
-
-<p>3、LSTM</p>
-<p>​    LSTM是RNN的微调版本，其与embedding配合使用，效果最好。将上文产生的vector输入到LSTM中，用于训练。它可以解决内存不够的问题。</p>
-<p>4、数据集</p>
-<p>从<a target="_blank" rel="noopener" href="https://www.kaggle.com/siddharthkumar25/malicious-and-benign-urls%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E9%9B%86%EF%BC%8C%E5%85%B6%E6%9D%A5%E6%BA%90%E6%9C%89%E5%A4%9A%E4%B8%AA%EF%BC%8C%E4%BE%8B%E5%A6%82PhisTank%EF%BC%8C%E5%A4%A7%E5%B0%8F35.4MB%E3%80%82">https://www.kaggle.com/siddharthkumar25/malicious-and-benign-urls获取数据集，其来源有多个，例如PhisTank，大小35.4MB。</a></p>
-<p><strong>代码实践</strong></p>
-<p>1、tokenization</p>
-<p>需要使用NLTK。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install nltk</span><br><span class="line"><span class="keyword">import</span> nltk</span><br></pre></td></tr></table></figure>
-
-
-
-<p>测试如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line">nltk.download(<span class="string">&#x27;punkt&#x27;</span>)</span><br><span class="line"></span><br><span class="line">text=<span class="string">&quot;I love China!And this is used to test. And you?&quot;</span></span><br><span class="line">sens = nltk.sent_tokenize(text)</span><br><span class="line"><span class="comment">#sens = [&#x27;I love China!And this is used to test.&#x27;, &#x27;And you?&#x27;]</span></span><br><span class="line"></span><br><span class="line">words = [nltk.word_tokenize(sentence) <span class="keyword">for</span> sentence <span class="keyword">in</span> sens]</span><br><span class="line"><span class="comment">#words: [&#x27;I&#x27;, &#x27;love&#x27;, &#x27;China&#x27;, &#x27;!&#x27;, &#x27;And&#x27;, &#x27;this&#x27;, &#x27;is&#x27;, &#x27;used&#x27;, &#x27;to&#x27;, &#x27;test&#x27;, &#x27;.&#x27;]</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>2、Word2Vec</p>
-<p>参考文章 </p>
-<p><a target="_blank" rel="noopener" href="https://medium.com/@pocheng0118/word2vec-from-scratch-skip-gram-cbow-98fd17385945">https://medium.com/@pocheng0118/word2vec-from-scratch-skip-gram-cbow-98fd17385945</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/52ee8c5739b6">https://www.jianshu.com/p/52ee8c5739b6</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">pip install -U gensim</span><br><span class="line">pip install --upgrade gensim</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> word2vec</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySentences</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, fname</span>):</span></span><br><span class="line">        self.fname = fname    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">      <span class="keyword">for</span> line <span class="keyword">in</span> open(self.fname,<span class="string">&#x27;r&#x27;</span>): 	<span class="keyword">yield</span> line.split()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">w2vTrain</span>(<span class="params">f_input, model_output</span>):</span>         </span><br><span class="line">    sentences = MySentences(DataDir+f_input)</span><br><span class="line">    w2v_model = word2vec.Word2Vec(sentences, </span><br><span class="line">                                  min_count = MIN_COUNT, </span><br><span class="line">                                  workers = CPU_NUM, </span><br><span class="line">                                  size = VEC_SIZE,</span><br><span class="line">                                  window = CONTEXT_WINDOW</span><br><span class="line">                                 )</span><br><span class="line">    w2v_model.save(ModelDir+model_output)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">DataDir = <span class="string">&quot;&quot;</span></span><br><span class="line">ModelDir = <span class="string">&quot;&quot;</span></span><br><span class="line">MIN_COUNT = <span class="number">4</span></span><br><span class="line">CPU_NUM = <span class="number">2</span> <span class="comment"># 需要预先安装 Cython 以支持并行</span></span><br><span class="line">VEC_SIZE = <span class="number">20</span></span><br><span class="line">CONTEXT_WINDOW = <span class="number">5</span> <span class="comment"># 提取目标词上下文距离最长5个词</span></span><br><span class="line">f_input = <span class="string">&quot;bioCorpus_5000.txt&quot;</span></span><br><span class="line">model_output = <span class="string">&quot;test_w2v_model&quot;</span></span><br><span class="line">w2vTrain(f_input, model_output)</span><br></pre></td></tr></table></figure>
-
-<p>训练完之后多了这个模型</p>
-<p>![image-20210316143704330](/Users/my/Library/Application Support/typora-user-images/image-20210316143704330.png)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">w2v_model = word2vec.Word2Vec.load(ModelDir+model_output) <span class="comment">#加载模型</span></span><br><span class="line"></span><br><span class="line">In [<span class="number">22</span>]: w2v_model.most_similar(<span class="string">&#x27;heart&#x27;</span>)</span><br><span class="line">/usr/local/bin/ipython:<span class="number">1</span>: DeprecationWarning: Call to deprecated `most_similar` (Method will be removed <span class="keyword">in</span> <span class="number">4.0</span><span class="number">.0</span>, use self.wv.most_similar() instead).</span><br><span class="line">  <span class="comment">#!/usr/bin/python3</span></span><br><span class="line">Out[<span class="number">22</span>]:</span><br><span class="line">[(<span class="string">&#x27;protein&#x27;</span>, <span class="number">0.9994245767593384</span>),</span><br><span class="line"> (<span class="string">&#x27;pH&#x27;</span>, <span class="number">0.9993844032287598</span>),</span><br><span class="line"> (<span class="string">&#x27;synthesis&#x27;</span>, <span class="number">0.9993616342544556</span>),</span><br><span class="line"> (<span class="string">&#x27;A&#x27;</span>, <span class="number">0.9992623329162598</span>),</span><br><span class="line"> (<span class="string">&#x27;from&#x27;</span>, <span class="number">0.9992424249649048</span>),</span><br><span class="line"> (<span class="string">&#x27;by&#x27;</span>, <span class="number">0.9992324113845825</span>),</span><br><span class="line"> (<span class="string">&#x27;high&#x27;</span>, <span class="number">0.9992194175720215</span>),</span><br><span class="line"> (<span class="string">&#x27;or&#x27;</span>, <span class="number">0.9992164373397827</span>),</span><br><span class="line"> (<span class="string">&#x27;and&#x27;</span>, <span class="number">0.999205470085144</span>),</span><br><span class="line"> (<span class="string">&#x27;myocardial&#x27;</span>, <span class="number">0.9992042779922485</span>)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>收获：</p>
-<p>1、语义序列。本文及下篇文章都考虑到了序列的问题。本文考虑的是URL的token之间的序列，另一篇APT检测考虑的是主机发送的DNS请求之间的序列关系。</p>
-<p>2、word2vec是参考nlp中的内容，它的本质是把词语转换成数值形式。除了 Word2vec之外，还有基于共现矩阵分解的 GloVe 等等词嵌入方法。(已证明了 Skip-gram 模型和 GloVe 的 cost fucntion 本质上是一样的)</p>
-<p>3、本文提出了两种方法，分别是有监督的和无监督的，最终的效果都比较好。如果考虑到现实中无标签的数据比较多，无监督的方法应用的范围更大一些。</p>
-<h1 id="十三、"><a href="#十三、" class="headerlink" title="十三、"></a>十三、</h1><p>代码实践：</p>
-<p>1、</p>
-<h1 id="、McPAD：准确的payload自动检测多分类器"><a href="#、McPAD：准确的payload自动检测多分类器" class="headerlink" title="、McPAD：准确的payload自动检测多分类器"></a>、McPAD：准确的payload自动检测多分类器</h1><p>1、时间：2008年，较早</p>
-<p>2、2v-grams</p>
-<p>2、代码分析</p>
-<p>找到了之前作者发布的代码，写于2006、2007年，用的java。</p>
-<p>![4C685760-F37E-46AE-A316-86BBC988C159](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4C685760-F37E-46AE-A316-86BBC988C159.png)</p>
-<p>(1) </p>
-<p>2、收获：</p>
+<p>震网</p>
+<p>2、APTs严重威胁着网络安全，可能会窃取用户的信息，造成损失。他们会把自己伪装成合法用户，逐渐提权，使得自己难以被检测到。现有的主要方法是检测恶意域名。</p>
+<p>3、有些方法用web request graphs的方法来进行检测。</p>
+<p>4、本文主要贡献如下：</p>
+<p>(1)确定了某一<strong>时间段</strong>之内主机请求的DNS序列的特征，并且将他们量化成feature，在用它来定位受威胁的主机。</p>
+<p>(2)通过分析DNS日志中的请求序列的时间模式，检测APTs，而这不需要恶意域名。</p>
+<p>(3)在真实的大规模网络环境中进行实验，收集了70天的数据进行测试及评估。并且也在公开的数据集上进行了实验。</p>
+<p>(4)用现有的恶意域名的方法对公开的数据集进行处理，证明了现有的别人的恶意域名方法的有限性。</p>
+<h1 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h1><p>1、使用域名的方法</p>
+<p>[35]使用ELM(extreme learning machine)。</p>
+<p>[21]重点关注不平衡的DNS流量。</p>
+<p>2、使用web request graph的方法</p>
+<p>[18]基于web请求之间的独立性 重建了web请求图，将白名单之外的孤立节点视为可疑域名。</p>
+<p>[31]采用belief propagation frameworks (信任传播框架)。 </p>
+<p>[13]提出MUSE，可以在企业网络中系统地量化并排名。</p>
+<p>这些 方法都是由已的恶意域名得到未知的，但是我们已知的恶意域名较少，并且其变化很快。</p>
+<p>3、其他可能有启发的方法</p>
+<p>[25]关注内部主机出去的流量，计算主机的得分并排名。</p>
+<p>[23]基于DNS流量的相似性，提出了一个规模可变的僵尸组网络的检测方法。</p>
+<p>等等等</p>
+<h1 id="Scenario-amp-heuristics"><a href="#Scenario-amp-heuristics" class="headerlink" title="Scenario &amp; heuristics"></a>Scenario &amp; heuristics</h1><p>下面主要讨论了APTs的生命周期、本文的动机以及一些设想。</p>
+<p>1、APT的几个阶段</p>
+<p>​    攻击者可以获得大量的资源、数据，经过精心的准备然后实施攻击，并且他们还会尽可能地去隐藏自己，这使得攻击难以检测。</p>
+<p>​    研究通常将APT的生命周期划分为3-7个阶段，如下图：</p>
+<p>![image-20210316205513884](/Users/my/Library/Application Support/typora-user-images/image-20210316205513884.png)</p>
+<p>​    首先进行信息收集、指定攻击计划。这一阶段的攻击行为难以被检测。通常通过钓鱼或水坑攻击，对组织内部员工进行攻击，随后进行渗透，建立自己的footthold。随后提权，进行内部勘查，侧向移动，maintain presence，不断循环这个阶段，最后完成任务。一般攻击者为了隐藏自己，要使用HTTP/HTTPS服务，传输得到的数据。此阶段要用到C&amp;C服务。</p>
+<p>​    DNS日志记录着需要进行解析的所有请求，这个过程不是在短时间内完成的，这意味着恶意通信留下的痕迹及其时间模式可以作为有效的检测目标。</p>
+<p>2、假设</p>
+<p>​    在正式请求之前，恶意软件通常用合法域来测试网络连接。当受感染的主机搜索C&amp;C服务器时，它通常会解码一个或多个字符串，这些字符串通常来自恶意软件自己的二进制文件。有时攻击者也会把与C&amp;C通信相关的命令编码放在个人博客或社交网站上，受感染的主机访问博客内容，执行相关操作。</p>
+<p>​    一旦数据过滤开始，流量将显著增加。[38]说明了请求数和时间之间关系，以及流量和时间之间的关系。下图表示某一阶段请求和通信量激增。</p>
+<p>![image-20210316205700491](/Users/my/Library/Application Support/typora-user-images/image-20210316205700491.png)</p>
+<p>​    此外，还有一个有趣的现象，某些看似无关的域名总是出现在一起。这是因为一些APT活动设置多级C&amp;C服务以避免服务器检测。基于如上分析，提出如下假设：</p>
+<p>(1)当主机与C&amp;C服务器通信时，请求可能会变得更频繁（无论是针对相同的域还是不同的域），请求的域的数量也会增加。</p>
+<p>(2)要查找C&amp;C服务器，可能会在某一天的特定时间或固定时间间隔，对同一域进行每周/每月的固定请求。</p>
+<p>(3)在查找C&amp;C服务器或与之通信的过程中，可能会出现固定短时间间隔的频繁请求。</p>
+<p>(4)看似无关的域名可能会一起出现。</p>
+<p>(5)在连接到C&amp;C服务器之前和之后，受感染的主机可能会请求一些简单的合法域名。</p>
+<h1 id="本文方案"><a href="#本文方案" class="headerlink" title="本文方案"></a>本文方案</h1><p>本文方法的思路主要包括三个部分:</p>
+<p>1）预处理</p>
+<p>2）提取每个host的特征向量，构造一个多维度的特征空间。</p>
+<p>3）利用无监督的方法，在多维空间中对特征进行聚类</p>
+<p>​    除了在不同主机之间进行比较，还要考虑某一时间段中同一主机的功能变化，且本文的方法是无监督的。本文将NAT作为一个整体来考虑，暂时忽略了NAT的性能对实验的影响。流程图如下所示：</p>
+<p>![image-20210316205938938](/Users/my/Library/Application Support/typora-user-images/image-20210316205938938.png)</p>
+<p>1、预处理</p>
+<p>​    不同的日志系统结构也不同，为了便于移植，仅包含必要的字段，如：内部主机IP地址、请求的域名、访问日期和访问时间。具体的操作步骤如下：</p>
 <ul>
-<li><p>SVM对文本分类的效果较好。</p>
+<li><p>将日志转为可解释的文件类型，如ARFF、CSV。</p>
 </li>
-<li><p>使用2v-gram算法，不会损失信息，也不会使得运算很复杂。</p>
+<li><p>删除无用字段。</p>
 </li>
-<li></li>
+<li><p>按照主机序列和时间序列排序。</p>
+</li>
 </ul>
-<p>![4B05FBE1-0991-4E0D-8AF1-BCAE43991EAB](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4B05FBE1-0991-4E0D-8AF1-BCAE43991EAB.png)</p>
-<p>space. By varying the parameter ν, we constructed a representation of the payload in different feature spaces. Also, we adapted a feature clustering al- gorithm originally proposed in [9] to one-class problems, and used it to reduce the dimensionality of the different feature spaces where the payload is repre- sented. We obtained high detection accuracy at very low false positive rate by constructing our anomaly-based IDS, which we called McPAD (Multiple- classifier Payload-based Anomaly Detector), using a combination of multiple one-class SVM classifiers that work on these different feature spaces.</p>
-<p>In this paper we extend the results reported in [26]. We present a much deeper analysis of our anomaly detection system and its capabilities regarding detec- tion accuracy for shell-code attacks [1] and polymorphic shell-code attacks [30]. Shell-code attacks are among the most dangerous kinds of network attacks be- cause they carry executable malicious code that can hijack the normal execu- tion of the target vulnerable application. When successful, shell-code attacks often allow the attacker to gain complete control of the victim machine. Poly- morphic shell-code attacks automatically create new variants of the attack code before sending the actual intrusion attempt to a new victim, and are therefore very difficult to detect using signature-based IDS [30].</p>
-<p>We experiment with different classifier combination schemes on large datasets of both normal traffic and attacks. In particular, we perform experiments on the first week of traffic from the DARPA’99 dataset [22], and on seven days of real HTTP traffic collected at an academic institution. As attack dataset, we use a large dataset of “standard” HTTP attacks provided by the authors of [17], which is publicly available. Furthermore, we construct a large number of polymorphic attacks, which include attacks generated with the polymorphic shell-code engine CLET [8], a set of Polymorphic Blending Attacks (PBA) [14, 13] designed to evade PAYL [35], and a set of PBA specifically designed with the intent to evade our detection system. We compare McPAD to PAYL [35], and we show that our IDS has a much higher detection accuracy than PAYL on shell-code attacks at low false positive rates, and is in some cases resistant to even the sophisticated polymorphic blending attacks specifically designed to evade it. Furthermore, we released the source code of McPAD and the attack datasets we used for our experiments, with the hope of making the results we obtained reproducible.</p>
+<p>预处理完之后得到的数据格式如下：</p>
+<p>![image-20210316212458611](/Users/my/Library/Application Support/typora-user-images/image-20210316212458611.png)</p>
+<p>2、特征提取</p>
+<p>此处使用的所有特征都是基于前文的假设提取的。首先，有以下五个基本特性：</p>
+<p>（1） 请求总数。（根据假设1）</p>
+<p>Feature1=Count{请求数}</p>
+<p>（2） 域名总数。（根据假设1）</p>
+<p>Feature2=Count{domains}</p>
+<p>（3） 在同一时间间隔内对同一域的请求数。</p>
+<p>Feature3=Count{相同T的请求数}</p>
+<p>（4） 同一短时间间隔内的频繁请求数。（根据假设3）此处将时间间隔设置为2.5 s。</p>
+<p>Feature4=Count{相同δ的请求数}</p>
+<p>（5）同时出现不相关域名的次数。（根据假设4）此处“同时”定义为1s</p>
+<p>Feature5=Count{在ε出现不相关的域}</p>
+<p>​    考虑假设5，在连接到C&amp;C服务器之前或结束通信之后，受感染的主机通常会向大型公共论坛或合法的社区发送请求，以测试网络连接或作为结束通信并使恶意软件休眠的信号。但是本文没有把假设5量化为特征向量，但是，这一假设可以作为今后工作的重要参考。</p>
+<p>​    但是上面的5个特征并不都是具有意义的，比如特征3周期不确定。所以仅考虑特征1、2、4。</p>
+<p>（6） 请求数的变异系数，表示特征1的变异系数。</p>
+<p>（7） 域数的变异系数，表示特征2的变异系数。</p>
+<p>（8） 具有相同短间隔的频繁请求数的变异系数，表示特征4的变异系数。</p>
+<p>​    变异系数表示主机在同一时间间隔内发送的请求的特征变化(计算公式是：与平均值的最大差值)，反映了随时间变化的规律性。恶意的请求这些值经常发生突变，所以一般值都更大一些。</p>
+<p>​    设定时间粒度t为1天。由于APT活动的生命周期很长，太细的粒度会导致偏差和失去通用性。典型的工作/学习时间是一周。因此，时间窗口的总长度不需要超过7d。窗口大小过大将产生有误导性的平均值，窗口大小过小将不会产生显著的结果，最终选择了一个5天。</p>
+<p>3、无监督学习</p>
+<p>​    可以用标准化欧氏距离来表示空间中点之间的关系。考虑了多种算法，如基于密度的DBSCAN和层次聚类。参数对算法的效果有很大的影响，我们尽量选择很少或没有参数的模型，如k-means聚类。K-means算法的参数较少。在效率方面，K-means算法的时间复杂度和空间复杂度均低于层次聚类等算法。</p>
+<p>​    聚类的数目不能主观推测。与传统的聚类算法不同，Canopy算法不需要用户预先指定聚类数目，它的速度较快，但是准确度不高。因此我们可以首先用它生成粗糙聚类，得到合适的k值，然后利用k均值对聚类进行细化。</p>
+<h1 id="实验结果评估"><a href="#实验结果评估" class="headerlink" title="实验结果评估"></a>实验结果评估</h1><p>1、数据搜集</p>
+<p>​    实验的原始数据来自真实的大规模校园网环境。获得2018年连续70天的DNS日志系统记录，包括1300317135个请求记录，包括内部主机IP地址、访问域名、源端口号、访问日期、时间和各种其他参数。各个参数的主要属性如下：</p>
+<p>​    ![image-20210316221253322](/Users/my/Library/Application Support/typora-user-images/image-20210316221253322.png)</p>
+<p>​    并且，还从APT技术报告中得到了一些模拟数据(地址 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1MKrsVHKFNQdokkQN-Trf7A#list/path=%2F">https://pan.baidu.com/s/1MKrsVHKFNQdokkQN-Trf7A#list/path=%2F</a> 提取码：1f0g)，大概有超过70天的263个主机的DNS请求记录和总共600414334个请求。包含的字段同样包括主机IP地址、域名、日期和时间。</p>
+<p>![截屏2021-03-16 下午10.19.08](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.19.08.png)</p>
+<p>​    这里数据规模非常大，预处理之后，将数据降到100GB以下。提取特征后，特征文件只需要15.5 MB的存储空间。</p>
+<p>​    各种特征分布的直方图如下，横坐标表示特征值，纵坐标表示host数，并且纵坐标刻度是不均匀的，可以看成值的对数。在如下的8个特征中，特征3分为7个区间，其余特征分为10个区间。</p>
+<p>![截屏2021-03-16 下午10.22.05](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.22.05.png)</p>
+<p>2、实验结果</p>
+<p>​    本文使用weka 3.8.1将特征标准化，将所有特征的值归一化到区间[0,1]，并执行Canopy。不断调整参数T1和T2，而簇的数目的结果为10个保持不变。所以确定了后续k-means操作的时候簇的数目为10。</p>
+<p>​    计算每个簇的平均特征，如下表所示。</p>
+<p>![截屏2021-03-16 下午10.30.45](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.30.45.png)</p>
+<p>​    由表中数据可知，集群8的特征的值高于其他主机，作者使用它进行后续分析，结果如下表：</p>
+<p>![截屏2021-03-16 下午10.39.05](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.39.05.png)</p>
+<p>​    相应的指标如下：</p>
+<p>![截屏2021-03-16 下午10.40.21](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.40.21.png)</p>
+<p>​    可以看到结果是比较好的。随后作者分析了FP产生的可能的原因，经过分析发现：被误认为受感染主机的主机发出了许多请求，导致相应的特征值很高。检查他们的执行记录，发现他们都执行了大量的爬虫程序。</p>
+<p>​    此外，还分别去除掉某个特征，验证其他特征的有效性，结果如下表。其中，横轴表示不存在这个特征。</p>
+<p>![6A9433D5-F38D-4E9A-AA77-D008AF8F7924](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6A9433D5-F38D-4E9A-AA77-D008AF8F7924.png)</p>
+<p>​    此外，作者还在公开数据集上进行了实验，数据下载地址<a target="_blank" rel="noopener" href="https://data.4tu.nl/articles/dataset/DNS_Queries_to_Authoritative_DNS_Server_at_SURFnet_by_Google_s_Public_DNS_Resolver/12682040%E3%80%82%E4%BD%9C%E8%80%85%E9%80%89%E5%8F%96%E4%BA%86%E4%B8%A4%E4%B8%AA%E6%9C%88%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E5%AE%9E%E9%AA%8C%EF%BC%8C%E5%8C%85%E6%8B%AC%E6%80%BB%E5%85%B1380487036%E4%B8%AADNS%E8%AF%B7%E6%B1%82%E3%80%82%E6%88%91%E4%BB%AC%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%AD%E7%89%B9%E5%BE%815%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E5%88%B0%E5%9F%9F%E5%90%8D%EF%BC%8C%E4%BD%86%E8%AF%A5%E6%95%B0%E6%8D%AE%E9%9B%86%E5%AF%B9%E5%9F%9F%E5%90%8D%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%93%88%E5%B8%8C%E8%BF%90%E7%AE%97%EF%BC%8C%E6%89%80%E4%BB%A5%E6%AD%A4%E5%A4%84%E4%B8%8D%E8%83%BD%E5%86%8D%E8%BF%90%E7%94%A8%E7%89%B9%E5%BE%815%EF%BC%8C%E6%9C%AC%E6%96%87%E4%BD%BF%E7%94%A8%E4%BA%86%E9%99%A4%E7%89%B9%E5%BE%815%E4%B9%8B%E5%A4%96%E7%9A%847%E4%B8%AA%E7%89%B9%E5%BE%81%E3%80%82%E9%9A%8F%E5%90%8E%E5%AE%9E%E9%AA%8C%E4%B8%AD%EF%BC%8C%E8%81%9A%E7%B1%BB%E6%95%B0%E8%AE%BE%E4%B8%BA3%E3%80%82%E5%85%B6%E4%BB%96%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E5%92%8C%E4%B9%8B%E5%89%8D%E6%89%80%E8%BF%B0%E7%9B%B8%E5%90%8C%E3%80%82">https://data.4tu.nl/articles/dataset/DNS_Queries_to_Authoritative_DNS_Server_at_SURFnet_by_Google_s_Public_DNS_Resolver/12682040。作者选取了两个月的数据进行实验，包括总共380487036个DNS请求。我们的方法中特征5需要使用到域名，但该数据集对域名进行了哈希运算，所以此处不能再运用特征5，本文使用了除特征5之外的7个特征。随后实验中，聚类数设为3。其他实验步骤和之前所述相同。</a></p>
+<p>3、对比实验</p>
+<p>​    对照实验的作者基于静态DNS日志，提取了域名的9个特征。</p>
+<p>​    基于梯度，设置了隐藏节点的数量。后续的实验中删除了3个基于域名字符串的特征，达到了更高的准确度。</p>
+<p>收获：</p>
+<p>1、ELM和ANN模型是否能达到更好的效果呢？</p>
+<p>2、本文考虑到了DNS请求序列中的时间特性，这是大多数方法没有考虑到的。</p>
+<p>3、 本文所用的数据集非常大，有173G，第一次见到这么大的数据集。而对于真实的场景，数据集都是非常大的。</p>
+<p>4、本文用到的是DNS日志，有时也可以用到DNS的响应信息，响应中有时也包含着部分有用的内容。比如当此方法与恶意域检测方法相结合时，需要响应记录。</p>
+<p>5、Canopy算法不需要用户预先指定聚类数目，具有很好的实用价值。它的速度较快，但准确度较低。通常与k-means算法配合使用，用来确定聚类的数目。</p>
 
   
   
@@ -560,7 +567,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/>http://example.com/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/>http://example.com/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/</a></p>
               
             
           </blockquote>
@@ -577,7 +584,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-16T20:53:45+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-16T23:34:06+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Mar 16, 2021</p>
@@ -599,7 +606,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/&title=恶意url五 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/&title=使用DNS序列定位APT攻击中受感染的主机 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -611,7 +618,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/&title=恶意url五 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/&title=使用DNS序列定位APT攻击中受感染的主机 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -623,7 +630,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/&title=恶意url五 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/&title=使用DNS序列定位APT攻击中受感染的主机 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -653,20 +660,10 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>使用DNS序列定位APT攻击中受感染的主机</p>
-          <p class='content'>Introduction1、列出了一些重大的经典的攻击
-
-Aurora 
-
-参考 https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mor...</p>
-        </a>
       
-      
-        <a class='next' href='/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/'>
-          <p class='title'>ssh登陆失败的解决方法<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>之前想设置ssh连接不断开，一通操作之后不能登陆了… 以下记录恢复过程。
-12my@192:~$ --&gt; ssh -p22 root@(ip)ssh: connect to host (i...</p>
+        <a class='next' href='/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/'>
+          <p class='title'>恶意url五<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>十一、卷积神经网络的方法实现准确且快速的URL钓鱼检测1、作者来自 西电、陕西省网络计算与安全技术重点实验室、西北工业大学、捷克斯托乔瓦理工大学、西里西亚理工大学。发表期刊是 Elsevier-...</p>
         </a>
       
     </div>
@@ -729,7 +726,7 @@ Aurora
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="恶意url五";
+  pdata.postTitle="使用DNS序列定位APT攻击中受感染的主机";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

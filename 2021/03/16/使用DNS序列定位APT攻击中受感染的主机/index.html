@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
+    </a>
+  </div>
+
 
           
         
@@ -436,7 +443,7 @@
 
 
   
-  <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>1、列出了一些重大的经典的攻击</p>
+  <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>1、列出了一些重大的经典的攻击</p>
 <ul>
 <li>Aurora </li>
 </ul>
@@ -452,7 +459,7 @@
 <p>(2)通过分析DNS日志中的请求序列的时间模式，检测APTs，而这不需要恶意域名。</p>
 <p>(3)在真实的大规模网络环境中进行实验，收集了70天的数据进行测试及评估。并且也在公开的数据集上进行了实验。</p>
 <p>(4)用现有的恶意域名的方法对公开的数据集进行处理，证明了现有的别人的恶意域名方法的有限性。</p>
-<h1 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h1><p>1、使用域名的方法</p>
+<h2 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h2><p>1、使用域名的方法</p>
 <p>[35]使用ELM(extreme learning machine)。</p>
 <p>[21]重点关注不平衡的DNS流量。</p>
 <p>2、使用web request graph的方法</p>
@@ -464,29 +471,26 @@
 <p>[25]关注内部主机出去的流量，计算主机的得分并排名。</p>
 <p>[23]基于DNS流量的相似性，提出了一个规模可变的僵尸组网络的检测方法。</p>
 <p>等等等</p>
-<h1 id="Scenario-amp-heuristics"><a href="#Scenario-amp-heuristics" class="headerlink" title="Scenario &amp; heuristics"></a>Scenario &amp; heuristics</h1><p>下面主要讨论了APTs的生命周期、本文的动机以及一些设想。</p>
+<h2 id="Scenario-amp-heuristics"><a href="#Scenario-amp-heuristics" class="headerlink" title="Scenario &amp; heuristics"></a>Scenario &amp; heuristics</h2><p>下面主要讨论了APTs的生命周期、本文的动机以及一些设想。</p>
 <p>1、APT的几个阶段</p>
 <p>​    攻击者可以获得大量的资源、数据，经过精心的准备然后实施攻击，并且他们还会尽可能地去隐藏自己，这使得攻击难以检测。</p>
-<p>​    研究通常将APT的生命周期划分为3-7个阶段，如下图：</p>
-<p>![image-20210316205513884](/Users/my/Library/Application Support/typora-user-images/image-20210316205513884.png)</p>
+<p>​    研究通常将APT的生命周期划分为3-7个阶段，如下图：<br><img src="/images/pasted-264.png" class="lazyload" data-srcset="/images/pasted-264.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    首先进行信息收集、指定攻击计划。这一阶段的攻击行为难以被检测。通常通过钓鱼或水坑攻击，对组织内部员工进行攻击，随后进行渗透，建立自己的footthold。随后提权，进行内部勘查，侧向移动，maintain presence，不断循环这个阶段，最后完成任务。一般攻击者为了隐藏自己，要使用HTTP/HTTPS服务，传输得到的数据。此阶段要用到C&amp;C服务。</p>
 <p>​    DNS日志记录着需要进行解析的所有请求，这个过程不是在短时间内完成的，这意味着恶意通信留下的痕迹及其时间模式可以作为有效的检测目标。</p>
 <p>2、假设</p>
 <p>​    在正式请求之前，恶意软件通常用合法域来测试网络连接。当受感染的主机搜索C&amp;C服务器时，它通常会解码一个或多个字符串，这些字符串通常来自恶意软件自己的二进制文件。有时攻击者也会把与C&amp;C通信相关的命令编码放在个人博客或社交网站上，受感染的主机访问博客内容，执行相关操作。</p>
-<p>​    一旦数据过滤开始，流量将显著增加。[38]说明了请求数和时间之间关系，以及流量和时间之间的关系。下图表示某一阶段请求和通信量激增。</p>
-<p>![image-20210316205700491](/Users/my/Library/Application Support/typora-user-images/image-20210316205700491.png)</p>
-<p>​    此外，还有一个有趣的现象，某些看似无关的域名总是出现在一起。这是因为一些APT活动设置多级C&amp;C服务以避免服务器检测。基于如上分析，提出如下假设：</p>
+<p>​    一旦数据过滤开始，流量将显著增加。[38]说明了请求数和时间之间关系，以及流量和时间之间的关系。下图表示某一阶段请求和通信量激增。<br><img src="/images/pasted-265.png" class="lazyload" data-srcset="/images/pasted-265.png" srcset="data:image/png;base64,666" alt="upload successful"><br>​    此外，还有一个有趣的现象，某些看似无关的域名总是出现在一起。这是因为一些APT活动设置多级C&amp;C服务以避免服务器检测。基于如上分析，提出如下假设：</p>
 <p>(1)当主机与C&amp;C服务器通信时，请求可能会变得更频繁（无论是针对相同的域还是不同的域），请求的域的数量也会增加。</p>
 <p>(2)要查找C&amp;C服务器，可能会在某一天的特定时间或固定时间间隔，对同一域进行每周/每月的固定请求。</p>
 <p>(3)在查找C&amp;C服务器或与之通信的过程中，可能会出现固定短时间间隔的频繁请求。</p>
 <p>(4)看似无关的域名可能会一起出现。</p>
 <p>(5)在连接到C&amp;C服务器之前和之后，受感染的主机可能会请求一些简单的合法域名。</p>
-<h1 id="本文方案"><a href="#本文方案" class="headerlink" title="本文方案"></a>本文方案</h1><p>本文方法的思路主要包括三个部分:</p>
+<h2 id="本文方案"><a href="#本文方案" class="headerlink" title="本文方案"></a>本文方案</h2><p>本文方法的思路主要包括三个部分:</p>
 <p>1）预处理</p>
 <p>2）提取每个host的特征向量，构造一个多维度的特征空间。</p>
 <p>3）利用无监督的方法，在多维空间中对特征进行聚类</p>
 <p>​    除了在不同主机之间进行比较，还要考虑某一时间段中同一主机的功能变化，且本文的方法是无监督的。本文将NAT作为一个整体来考虑，暂时忽略了NAT的性能对实验的影响。流程图如下所示：</p>
-<p>![image-20210316205938938](/Users/my/Library/Application Support/typora-user-images/image-20210316205938938.png)</p>
+<p><img src="/images/pasted-266.png" class="lazyload" data-srcset="/images/pasted-266.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>1、预处理</p>
 <p>​    不同的日志系统结构也不同，为了便于移植，仅包含必要的字段，如：内部主机IP地址、请求的域名、访问日期和访问时间。具体的操作步骤如下：</p>
 <ul>
@@ -498,7 +502,7 @@
 </li>
 </ul>
 <p>预处理完之后得到的数据格式如下：</p>
-<p>![image-20210316212458611](/Users/my/Library/Application Support/typora-user-images/image-20210316212458611.png)</p>
+<p><img src="/images/pasted-267.png" class="lazyload" data-srcset="/images/pasted-267.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>2、特征提取</p>
 <p>此处使用的所有特征都是基于前文的假设提取的。首先，有以下五个基本特性：</p>
 <p>（1） 请求总数。（根据假设1）</p>
@@ -521,31 +525,30 @@
 <p>3、无监督学习</p>
 <p>​    可以用标准化欧氏距离来表示空间中点之间的关系。考虑了多种算法，如基于密度的DBSCAN和层次聚类。参数对算法的效果有很大的影响，我们尽量选择很少或没有参数的模型，如k-means聚类。K-means算法的参数较少。在效率方面，K-means算法的时间复杂度和空间复杂度均低于层次聚类等算法。</p>
 <p>​    聚类的数目不能主观推测。与传统的聚类算法不同，Canopy算法不需要用户预先指定聚类数目，它的速度较快，但是准确度不高。因此我们可以首先用它生成粗糙聚类，得到合适的k值，然后利用k均值对聚类进行细化。</p>
-<h1 id="实验结果评估"><a href="#实验结果评估" class="headerlink" title="实验结果评估"></a>实验结果评估</h1><p>1、数据搜集</p>
+<h2 id="实验结果评估"><a href="#实验结果评估" class="headerlink" title="实验结果评估"></a>实验结果评估</h2><p>1、数据搜集</p>
 <p>​    实验的原始数据来自真实的大规模校园网环境。获得2018年连续70天的DNS日志系统记录，包括1300317135个请求记录，包括内部主机IP地址、访问域名、源端口号、访问日期、时间和各种其他参数。各个参数的主要属性如下：</p>
-<p>​    ![image-20210316221253322](/Users/my/Library/Application Support/typora-user-images/image-20210316221253322.png)</p>
+<p><img src="/images/pasted-268.png" class="lazyload" data-srcset="/images/pasted-268.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    并且，还从APT技术报告中得到了一些模拟数据(地址 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1MKrsVHKFNQdokkQN-Trf7A#list/path=%2F">https://pan.baidu.com/s/1MKrsVHKFNQdokkQN-Trf7A#list/path=%2F</a> 提取码：1f0g)，大概有超过70天的263个主机的DNS请求记录和总共600414334个请求。包含的字段同样包括主机IP地址、域名、日期和时间。</p>
-<p>![截屏2021-03-16 下午10.19.08](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.19.08.png)</p>
+<p><img src="/images/pasted-269.png" class="lazyload" data-srcset="/images/pasted-269.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    这里数据规模非常大，预处理之后，将数据降到100GB以下。提取特征后，特征文件只需要15.5 MB的存储空间。</p>
 <p>​    各种特征分布的直方图如下，横坐标表示特征值，纵坐标表示host数，并且纵坐标刻度是不均匀的，可以看成值的对数。在如下的8个特征中，特征3分为7个区间，其余特征分为10个区间。</p>
-<p>![截屏2021-03-16 下午10.22.05](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.22.05.png)</p>
+<p><img src="/images/pasted-270.png" class="lazyload" data-srcset="/images/pasted-270.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>2、实验结果</p>
 <p>​    本文使用weka 3.8.1将特征标准化，将所有特征的值归一化到区间[0,1]，并执行Canopy。不断调整参数T1和T2，而簇的数目的结果为10个保持不变。所以确定了后续k-means操作的时候簇的数目为10。</p>
 <p>​    计算每个簇的平均特征，如下表所示。</p>
-<p>![截屏2021-03-16 下午10.30.45](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.30.45.png)</p>
+<p><img src="/images/pasted-271.png" class="lazyload" data-srcset="/images/pasted-271.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    由表中数据可知，集群8的特征的值高于其他主机，作者使用它进行后续分析，结果如下表：</p>
-<p>![截屏2021-03-16 下午10.39.05](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.39.05.png)</p>
+<p><img src="/images/pasted-272.png" class="lazyload" data-srcset="/images/pasted-272.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    相应的指标如下：</p>
-<p>![截屏2021-03-16 下午10.40.21](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-16 下午10.40.21.png)</p>
+<p><img src="/images/pasted-273.png" class="lazyload" data-srcset="/images/pasted-273.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    可以看到结果是比较好的。随后作者分析了FP产生的可能的原因，经过分析发现：被误认为受感染主机的主机发出了许多请求，导致相应的特征值很高。检查他们的执行记录，发现他们都执行了大量的爬虫程序。</p>
 <p>​    此外，还分别去除掉某个特征，验证其他特征的有效性，结果如下表。其中，横轴表示不存在这个特征。</p>
-<p>![6A9433D5-F38D-4E9A-AA77-D008AF8F7924](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6A9433D5-F38D-4E9A-AA77-D008AF8F7924.png)</p>
+<p><img src="/images/pasted-274.png" class="lazyload" data-srcset="/images/pasted-274.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>​    此外，作者还在公开数据集上进行了实验，数据下载地址<a target="_blank" rel="noopener" href="https://data.4tu.nl/articles/dataset/DNS_Queries_to_Authoritative_DNS_Server_at_SURFnet_by_Google_s_Public_DNS_Resolver/12682040%E3%80%82%E4%BD%9C%E8%80%85%E9%80%89%E5%8F%96%E4%BA%86%E4%B8%A4%E4%B8%AA%E6%9C%88%E7%9A%84%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E5%AE%9E%E9%AA%8C%EF%BC%8C%E5%8C%85%E6%8B%AC%E6%80%BB%E5%85%B1380487036%E4%B8%AADNS%E8%AF%B7%E6%B1%82%E3%80%82%E6%88%91%E4%BB%AC%E7%9A%84%E6%96%B9%E6%B3%95%E4%B8%AD%E7%89%B9%E5%BE%815%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E5%88%B0%E5%9F%9F%E5%90%8D%EF%BC%8C%E4%BD%86%E8%AF%A5%E6%95%B0%E6%8D%AE%E9%9B%86%E5%AF%B9%E5%9F%9F%E5%90%8D%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%93%88%E5%B8%8C%E8%BF%90%E7%AE%97%EF%BC%8C%E6%89%80%E4%BB%A5%E6%AD%A4%E5%A4%84%E4%B8%8D%E8%83%BD%E5%86%8D%E8%BF%90%E7%94%A8%E7%89%B9%E5%BE%815%EF%BC%8C%E6%9C%AC%E6%96%87%E4%BD%BF%E7%94%A8%E4%BA%86%E9%99%A4%E7%89%B9%E5%BE%815%E4%B9%8B%E5%A4%96%E7%9A%847%E4%B8%AA%E7%89%B9%E5%BE%81%E3%80%82%E9%9A%8F%E5%90%8E%E5%AE%9E%E9%AA%8C%E4%B8%AD%EF%BC%8C%E8%81%9A%E7%B1%BB%E6%95%B0%E8%AE%BE%E4%B8%BA3%E3%80%82%E5%85%B6%E4%BB%96%E5%AE%9E%E9%AA%8C%E6%AD%A5%E9%AA%A4%E5%92%8C%E4%B9%8B%E5%89%8D%E6%89%80%E8%BF%B0%E7%9B%B8%E5%90%8C%E3%80%82">https://data.4tu.nl/articles/dataset/DNS_Queries_to_Authoritative_DNS_Server_at_SURFnet_by_Google_s_Public_DNS_Resolver/12682040。作者选取了两个月的数据进行实验，包括总共380487036个DNS请求。我们的方法中特征5需要使用到域名，但该数据集对域名进行了哈希运算，所以此处不能再运用特征5，本文使用了除特征5之外的7个特征。随后实验中，聚类数设为3。其他实验步骤和之前所述相同。</a></p>
 <p>3、对比实验</p>
 <p>​    对照实验的作者基于静态DNS日志，提取了域名的9个特征。</p>
 <p>​    基于梯度，设置了隐藏节点的数量。后续的实验中删除了3个基于域名字符串的特征，达到了更高的准确度。</p>
-<p>收获：</p>
-<p>1、ELM和ANN模型是否能达到更好的效果呢？</p>
+<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><p>1、ELM和ANN模型是否能达到更好的效果呢？</p>
 <p>2、本文考虑到了DNS请求序列中的时间特性，这是大多数方法没有考虑到的。</p>
 <p>3、 本文所用的数据集非常大，有173G，第一次见到这么大的数据集。而对于真实的场景，数据集都是非常大的。</p>
 <p>4、本文用到的是DNS日志，有时也可以用到DNS的响应信息，响应中有时也包含着部分有用的内容。比如当此方法与恶意域检测方法相结合时，需要响应记录。</p>
@@ -584,10 +587,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-16T23:34:06+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-17T15:41:05+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Mar 16, 2021</p>
+    <p>更新于：Mar 17, 2021</p>
   </a>
 </div>
 
@@ -706,7 +709,7 @@
 
 
     <div class='content'>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Related-work"><span class="toc-text">Related work</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-amp-heuristics"><span class="toc-text">Scenario &amp; heuristics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E6%96%B9%E6%A1%88"><span class="toc-text">本文方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E8%AF%84%E4%BC%B0"><span class="toc-text">实验结果评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E8%8E%B7"><span class="toc-text">收获</span></a></li></ol>
     </div>
   </section>
 

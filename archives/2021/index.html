@@ -415,8 +415,52 @@
   
     
     <h2 class="article-title" >
+      <a href="/2021/03/27/easyconnect%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+        connect命令执行漏洞
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        mac版下载地址 http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg 版本：7.6.3
+
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-03-27</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/03/27/easyconnect%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
-        cve-2017-13089 wget栈溢出漏洞复现
+        cve-2017-13089 wget栈溢出
       </a>
     </h2>
   
@@ -424,7 +468,17 @@
     
       
         环境搭建1、Ubuntu 16.04 64bit
-![DB091FB7-51AD-4B0E-8DF8-03702EEB212F](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DB091FB7-51AD-4B0E-8DF8-...
+
+2、wget .19.1
+漏洞触发建立好poc文件之后，端口监听
+1nc -lp 9799 &lt; poc2
+
+另一个窗口执行
+1./wget 127.0.0.1:9799
+
+
+静态分析代码结构大致如下
+1234567http.c&#123;  ...  statcode == 401&#123;    ---&gt; skip_shor...
       
     
   </div>
@@ -433,6 +487,9 @@
       <div>
         
         <time>2021-03-24</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a>
         
       </div>
       
@@ -833,56 +890,6 @@ URL字符串的静态属性(如URL长度，每个属性的长度，特殊字符�
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/02/03/%E5%9F%BA%E4%BA%8ELSTM%E6%A8%A1%E5%9E%8B%E7%9A%84DNS%E9%9A%90%E8%94%BD%E4%BF%A1%E9%81%93%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95/">
-        基于LSTM模型的DNS隐蔽信道检测方法
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        本文发表于Computers &amp; Security，作者来自于北航、软件所、应急响应技术中心，发表时间2020年10月。
-一、背景及目的1、DNS(域名系统)作用是将域名转为IP地址。防火墙一般不过滤DNS，攻击者通常使用DNS来构建隐蔽通道。
-2、构建DNS隐蔽信道的方法大致分为两类：基于IP连接的 和 基于查询域名的。
-3、文中解释了DNS隐蔽信道的实现过程。
-4、DNS隐蔽信道...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-02-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/02/03/%E5%9F%BA%E4%BA%8ELSTM%E6%A8%A1%E5%9E%8B%E7%9A%84DNS%E9%9A%90%E8%94%BD%E4%BF%A1%E9%81%93%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1014,6 +1021,11 @@ URL字符串的静态属性(如URL长度，每个属性的长度，特殊字符�
             title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
             id="categoriesE69D82E8AEB0"
             ><div class='name'>杂记</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
+            id="categoriesE6BC8FE6B49EE5A48DE78EB0"
+            ><div class='name'>漏洞复现</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>

@@ -437,6 +437,19 @@
 
   
   <p>mac版下载地址 <a target="_blank" rel="noopener" href="http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg">http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg</a> 版本：7.6.3</p>
+<h2 id="一、MacOS微信逆向分析-Frida"><a href="#一、MacOS微信逆向分析-Frida" class="headerlink" title="一、MacOS微信逆向分析-Frida"></a>一、MacOS微信逆向分析-Frida</h2><p>由于自己现在一点基础都没有，先参考别的文章实现一些简单的操作。</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-266041.htm">https://bbs.pediy.com/thread-266041.htm</a></p>
+<p>1、工具</p>
+<ul>
+<li>class-dump下载地址 <a target="_blank" rel="noopener" href="https://www.chinapyg.com/thread-82442-1-1.html">https://www.chinapyg.com/thread-82442-1-1.html</a> (官网打不开)</li>
+</ul>
+<p>2、得到头文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span>-<span class="title">dump</span> -<span class="title">H</span> /<span class="title">Applications</span>/<span class="title">WeChat</span>.<span class="title">app</span> -<span class="title">o</span> /<span class="title">Users</span>/<span class="title">XXX</span>/<span class="title">Desktop</span>/<span class="title">wechat</span></span></span><br></pre></td></tr></table></figure>
+
+<p>得到.h文件</p>
+<p>3、反汇编</p>
+<p>将包内容中的MacOS/XXX 可执行文件拖到ida/hopper中进行反汇编。</p>
+<h2 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h2><p>paid，查壳软件，需要在windows中使用。</p>
 
   
   
@@ -445,6 +458,15 @@
 
   
     <div class="prev-next">
+      
+        <a class='prev' href='/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>macOS软件安全与逆向分析阅读笔记</p>
+          <p class='content'>本文记录阅读书籍时的总结。
+资源源码地址
+chapter1 如何分析macOS软件1、HT Editor下载
+​        版本2.1.0
+</p>
+        </a>
       
       
         <a class='next' href='/2021/03/24/wget%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
@@ -488,6 +510,20 @@
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81MacOS%E5%BE%AE%E4%BF%A1%E9%80%86%E5%90%91%E5%88%86%E6%9E%90-Frida"><span class="toc-text">一、MacOS微信逆向分析-Frida</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%B1%E5%A3%B3"><span class="toc-text">脱壳</span></a></li></ol>
+    </div>
+  </section>
 
 
   

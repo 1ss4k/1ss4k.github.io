@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来</title>
+  <title>leetCode01 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        macOS软件安全与逆向分析阅读笔记
+        leetCode01
       </h1>
       <div class='new-meta-box'>
         
@@ -408,7 +408,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 27, 2021</p>
+    <p>发布于：Mar 30, 2021</p>
   </a>
 </div>
 
@@ -419,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="macOS软件安全与逆向分析阅读笔记" data-path="/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/">
+      <div id="lc-pv" data-title="leetCode01" data-path="/2021/03/30/leetCode01/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,10 +436,44 @@
 
 
   
-  <p>本文记录阅读书籍时的总结。</p>
-<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><p><a target="_blank" rel="noopener" href="https://github.com/feicong/macbook">源码地址</a></p>
-<h2 id="chapter1-如何分析macOS软件"><a href="#chapter1-如何分析macOS软件" class="headerlink" title="chapter1 如何分析macOS软件"></a>chapter1 如何分析macOS软件</h2><p>1、HT Editor下载</p>
-<p>​        版本2.1.0</p>
+  <h2 id="3-30"><a href="#3-30" class="headerlink" title="3.30"></a>3.30</h2><p>1、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-phone-numbers/">193. 有效电话号码</a></p>
+<ul>
+<li>考点</li>
+</ul>
+<p>1、grep的用法</p>
+<p>-P 表示Perl语言的正则表达式</p>
+<ul>
+<li>思路</li>
+</ul>
+<p>正则匹配，注意格式以及能否优化代码</p>
+<p>参考<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-phone-numbers/solution/zheng-ze-biao-da-shi-zhong-xian-ding-fu-yu-ding-we/">https://leetcode-cn.com/problems/valid-phone-numbers/solution/zheng-ze-biao-da-shi-zhong-xian-ding-fu-yu-ding-we/</a></p>
+<p>答案如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -P <span class="string">&#x27;^([0-9]&#123;3&#125;-|\([0-9]&#123;3&#125;\) )[0-9]&#123;3&#125;-[0-9]&#123;4&#125;$&#x27;</span> file.txt</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>2、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/">153. 寻找旋转排序数组中的最小值</a></p>
+<ul>
+<li>思路</li>
+</ul>
+<p>原本数组是升序的，这个可以条件帮助我们查找。观察发现，一个数只要比他前面的小，那么就是这个数组中最小的数。</p>
+<ul>
+<li>过程</li>
+</ul>
+<p>给出的格式是</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findMin</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>需要自己补充findMin函数。题解如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">findMin</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = nums.size() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = left + (right - left) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt; nums[right]) &#123;          </span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;                               </span><br><span class="line">                right = mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums[left];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>参考 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/solution/er-fen-cha-zhao-wei-shi-yao-zuo-you-bu-dui-cheng-z/%EF%BC%8C%E8%99%BD%E7%84%B6%E4%B9%9F%E6%98%AF%E6%AF%94%E8%BE%83%EF%BC%8C%E4%BD%86%E6%98%AF%E6%98%AF%E7%94%A8%E4%BA%8C%E5%88%86%E6%B3%95%E6%9D%A5%E6%AF%94%E8%BE%83%E7%9A%84%EF%BC%8C%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%BE%83%E4%BD%8E%E3%80%82">https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/solution/er-fen-cha-zhao-wei-shi-yao-zuo-you-bu-dui-cheng-z/，虽然也是比较，但是是用二分法来比较的，复杂度较低。</a></p>
+<p>3、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-permutations-for-di-sequence/">DI 序列的有效排列</a></p>
+<ul>
+<li>考点：动态规划</li>
+</ul>
+<p>没看懂，下次再看</p>
 
   
   
@@ -457,7 +491,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/>http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/03/30/leetCode01/>http://example.com/2021/03/30/leetCode01/</a></p>
               
             
           </blockquote>
@@ -474,10 +508,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-27T18:54:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-31T10:17:42+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Mar 27, 2021</p>
+    <p>更新于：Mar 31, 2021</p>
   </a>
 </div>
 
@@ -496,7 +530,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/30/leetCode01/&title=leetCode01 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -508,7 +542,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/30/leetCode01/&title=leetCode01 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -520,7 +554,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/30/leetCode01/&title=leetCode01 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -550,8 +584,14 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/03/29/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>struts2[s2-052]远程命令执行漏洞复现</p>
+        <a class='prev' href='/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>恶意url六</p>
+          <p class='content'></p>
+        </a>
+      
+      
+        <a class='next' href='/2021/03/29/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
+          <p class='title'>struts2[s2-052]远程命令执行漏洞复现<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
           <p class='content'>漏洞信息编号：CVE-2017-9805
 环境搭建1、Windows 10(64位)
 2、tomcat9.0
@@ -559,12 +599,6 @@
 安装配置 by荆棘云海
  startup错误解决 by Jessica-小波
 ...</p>
-        </a>
-      
-      
-        <a class='next' href='/2021/03/27/easyconnect%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/'>
-          <p class='title'>connect命令执行漏洞<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>mac版下载地址 http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg 版本：...</p>
         </a>
       
     </div>
@@ -607,7 +641,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90"><span class="toc-text">资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chapter1-%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90macOS%E8%BD%AF%E4%BB%B6"><span class="toc-text">chapter1 如何分析macOS软件</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-30"><span class="toc-text">3.30</span></a></li></ol>
     </div>
   </section>
 
@@ -627,7 +661,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="macOS软件安全与逆向分析阅读笔记";
+  pdata.postTitle="leetCode01";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

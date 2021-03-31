@@ -5,6 +5,10 @@
   <!-- SEO相关 -->
   
     
+      
+        <meta name="robots" content="noindex,follow">
+      
+    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -19,7 +23,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来</title>
+  <title>虽然没什么用但还是想记下来</title>
   
 
   
@@ -305,7 +309,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper post dock' style="display: none;">
+        <div id="full" class='cover-wrapper  dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -374,218 +378,178 @@
         
 
 <div class='l_main'>
-  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
-
-
-  
-  <div class="article-meta" id="top">
+  <section class="post-list">
     
     
-    
-      <h1 class="title">
-        macOS软件安全与逆向分析阅读笔记
-      </h1>
-      <div class='new-meta-box'>
-        
-          
-            
-<div class='new-meta-item author'>
-  <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="">
-    <p>请设置文章作者</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 27, 2021</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item browse leancloud">
-    <a class='notlink'>
       
-      <div id="lc-pv" data-title="macOS软件安全与逆向分析阅读笔记" data-path="/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/">
-        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
-        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-        次浏览
-      </div>
-    </a>
-  </div>
-
-
-          
         
-      </div>
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/">
+        sql注入⌛️
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        0x00前言###授课逻辑：
+上午—mysql基础/联合查询
+下午—布尔盲注/防御绕过/安全加固
+工具phpstudy2018
+sqli-lab
+python2.7
+先询问是否让他们安装了python？
+⌛️windows下sqlmap安装.
+官网下载，解压到python文件夹中。
+首先在kali-linux中安装sqlmap
+dvwa
+dvwa更换了版本，所以先修改phpstudy 中的p...
+      
     
   </div>
-
-
   
-  <p>本文记录阅读书籍时的总结。</p>
-<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><p><a target="_blank" rel="noopener" href="https://github.com/feicong/macbook">源码地址</a></p>
-<h2 id="chapter1-如何分析macOS软件"><a href="#chapter1-如何分析macOS软件" class="headerlink" title="chapter1 如何分析macOS软件"></a>chapter1 如何分析macOS软件</h2><p>1、HT Editor下载</p>
-<p>​        版本2.1.0</p>
-
-  
-  
-    
-    <div class='footer'>
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2020-10-23</time>
+        
+      </div>
       
-      
-      
-        <div class='copyright'>
-          <blockquote>
-            
-              
-                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
-
-              
-            
-              
-                <p>本文永久链接是：<a href=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/>http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</a></p>
-              
-            
-          </blockquote>
+        <div>
+          <a class='readmore' href='/2020/10/23/sql%E6%B3%A8%E5%85%A5/'>
+            Read More
+          </a>
         </div>
       
-      
     </div>
   
-  
-    
 
-
-  <div class='article-meta' id="bottom">
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-27T18:54:04+08:00">
-  <a class='notlink'>
-    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Mar 27, 2021</p>
-  </a>
 </div>
 
+          </div>
         
       
         
-          
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/">
+        机器学习_在黑暗中投掷飞镖？⌛️
+      </a>
+    </h2>
+  
+  <div class='md'>
     
       
-        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
-          
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
-          
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
-          
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
-          
-        </a>
-      
-    
-      
-    
+        题目：在黑暗中投掷飞镖？利用神经数据增强技术检测和有限数据的检测机器
+收录：S&amp;P，四大顶会之一，作者团队：美国伊利诺伊大学香槟分校。
+Abstract(1)概要：目前许多机器学习的模型需要不断地提供标记数据进行训练，实用性不高。本文以bot检测为例，探索了如何使用数据合成来解决这一问题。
+(2)数据选取：收集了一年内3个月份的三个服务器的请求数据(2300万个请求)。
+(3)成果：...
       
     
   </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2020-10-20</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
 </div>
 
-
-
+          </div>
         
       
-    </div>
-  </div>
-
-
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
   
   
-
   
-    <div class="prev-next">
-      
-        <a class='prev' href='/2021/03/29/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>struts2[s2-052]远程命令执行漏洞复现</p>
-          <p class='content'>漏洞信息编号：CVE-2017-9805
-环境搭建1、Windows 10(64位)
-2、tomcat9.0
-参考
-安装配置 by荆棘云海
- startup错误解决 by Jessica-小波
-...</p>
-        </a>
-      
-      
-        <a class='next' href='/2021/03/27/easyconnect%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/'>
-          <p class='title'>connect命令执行漏洞<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>mac版下载地址 http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg 版本：...</p>
-        </a>
-      
-    </div>
   
-</article>
-
-
-  
-
-  <article class="post white-box reveal shadow" id="comments">
-    <p ct><i class='fas fa-comments'></i> 评论</p>
     
-    <div id="valine_container" class="valine_thread">
-  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+    <h2 class="article-title" >
+      <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">
+        文件包含⌛️
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        0x00 文件包含的基础知识文件包含的概念服务器执行PHP代码时，可以通过文件包含函数将文件包含进来，使用包含文件的代码。它的目的是更好地使用代码的重用性，简化开发流程，因为可以创建一个模板，在其他情况下重复使用。(其实除了PHP，Java、python里面都有文件包含的概念，Java–包，python–模块，import)
+文件包含函数PHP中的文件包含函数有四个
+require() 
+r...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2020-10-19</time>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
 </div>
 
-  </article>
-
-
-
-
+          </div>
+        
+      
+    
+  </section>
+  
+    
+      <br>
+      <div class="prev-next">
+        
+          <a class="prev" rel="prev" href="/page/4/">
+            <section class="post prev white-box shadow" >
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous&nbsp;
+            </section>
+          </a>
+        
+        <p class="current">
+          5 / 5
+        </p>
+        
+      </div>
+    
+  
 
 
 </div>
@@ -595,22 +559,141 @@
     
     
 
+<section class="widget blogger shadow desktop mobile">
+  <div class='content'>
+    
+      
+        <a class='avatar flat-box rectangle' href='/about/'>
+          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
+        </a>
+      
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="mailto:me@xxx.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="https://github.com/volantis-x/"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+          
+            <a href="/"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+              
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
 
+  
 
-  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+  
+    
+    
+  
+
+  <section class="widget category shadow desktop">
     
   <header>
     
-      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
     
   </header>
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90"><span class="toc-text">资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chapter1-%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90macOS%E8%BD%AF%E4%BB%B6"><span class="toc-text">chapter1 如何分析macOS软件</span></a></li></ol>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
+            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
+            ><div class='name'>paper阅读笔记</div><div class='badge'>(6)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/web/" href="/categories/web/"
+            id="categoriesweb"
+            ><div class='name'>web</div><div class='badge'>(5)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
+            id="categoriesE4BA8CE8BF9BE588B6"
+            ><div class='name'>二进制</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
+            id="categoriesE69D82E8AEB0"
+            ><div class='name'>杂记</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
+            id="categoriesE6BC8FE6B49EE5A48DE78EB0"
+            ><div class='name'>漏洞复现</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
     </div>
   </section>
 
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 14px; color: #999">sql注入</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/web/" style="font-size: 24px; color: #555">web</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 14px; color: #999">文件包含</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a> <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" style="font-size: 14px; color: #999">顶会SP</a>
+    </div>
+  </section>
+
+
+  
 
   
 
@@ -626,8 +709,8 @@
 
 <script>
   window.pdata={}
-  pdata.ispage=true;
-  pdata.postTitle="macOS软件安全与逆向分析阅读笔记";
+  pdata.ispage=false;
+  pdata.postTitle="";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

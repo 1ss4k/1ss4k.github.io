@@ -391,6 +391,58 @@
   
     
     <h2 class="article-title" >
+      <a href="/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+        ssh登陆失败的解决方法
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        之前想设置ssh连接不断开，一通操作之后不能登陆了… 以下记录恢复过程。
+12my@192:~$ --&gt; ssh -p22 root@(ip)ssh: connect to host (ip) port 22: Connection refused
+
+
+
+1、更改服务器ssh配置
+​    依稀记得是在/etc/ssh/sshd_config中加了两条语句，现在尝试把它删掉。但是现在不...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-03-05</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/'>
+            Read More
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/03/02/latex%E6%8E%92%E7%89%88%E8%AE%B0%E5%BD%95/">
         latex排版记录
       </a>
@@ -801,54 +853,6 @@ POST请求，URL要加上请求的主体内容。
       
         <div>
           <a class='readmore' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
-        堆利用(二)之unlink
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        基础知识连续free的堆块，会被合并，放入unsorted bin中。
-之前unlink的宏定义
-12345678#define unlink(P, BK, FD) &#123; FD = P-&gt;fd;                //FD = *P + 8; BK = P-&gt;bk;               // BK = *P + 12; FD-&gt;bk = BK; ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-01-22</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/'>
             Read More
           </a>
         </div>

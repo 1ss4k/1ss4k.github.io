@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>恶意url六 - 虽然没什么用但还是想记下来</title>
+  <title>恶意URL检测(六)钓鱼检测 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        恶意url六
+        恶意URL检测(六)钓鱼检测
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/web/">web</a>
+    </a>
+  </div>
+
 
           
         
@@ -419,7 +426,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="恶意url六" data-path="/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/">
+      <div id="lc-pv" data-title="恶意URL检测(六)钓鱼检测" data-path="/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -447,15 +454,14 @@
 <p>[8]提出随机森林的处理时间最短。</p>
 <p>4、数据集</p>
 <p>数据集1: <a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/phishing+websites">https://archive.ics.uci.edu/ml/datasets/phishing+websites</a></p>
-<p>![C8749D27-A76E-41D5-800B-BB7566002613](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C8749D27-A76E-41D5-800B-BB7566002613.png)</p>
+<p><img src="/images/pasted-319.png" class="lazyload" data-srcset="/images/pasted-319.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>数据集2：<a target="_blank" rel="noopener" href="https://archive.ics.uci.edu/ml/datasets/phishing+websites">https://archive.ics.uci.edu/ml/datasets/phishing+websites</a></p>
 <p>数据集3：<a target="_blank" rel="noopener" href="https://data.mendeley.com/datasets/h3cgnj8hft/1">https://data.mendeley.com/datasets/h3cgnj8hft/1</a></p>
 <p>5、机器学习算法</p>
 <p>level1：使用的机器学习算法：RF、决策树、MLP、SVM、SGD、GND(Gaussian Naive Bayes)。之后使用了10-fold 交叉验证。</p>
 <p>level2：使用了XGBoost分类器。</p>
 <p>6、stacking的概念</p>
-<p>![E5ED40F6-D3FA-4AA3-A1D4-E0DABCDB9D61](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E5ED40F6-D3FA-4AA3-A1D4-E0DABCDB9D61.png)</p>
-<p>为了避免训练集过拟合，使用N-fold交叉验证，他可以预测每个fold中out-of-fold的数据。</p>
+<p><img src="/images/pasted-320.png" class="lazyload" data-srcset="/images/pasted-320.png" srcset="data:image/png;base64,666" alt="upload successful"><br>为了避免训练集过拟合，使用N-fold交叉验证，他可以预测每个fold中out-of-fold的数据。</p>
 <p>在Level1:训练之后，由于用了多个算法，需要投票来决定最终的结果。并且为了得到更多特征用于level2的训练和预测，level1需要重复循环训练。即level 1的输出是下一个level的特征。</p>
 <p>7、实验结果</p>
 <p>用到的评价指标：混淆矩阵、PRC、AUC- ROC Curve、MAE、准确度。</p>
@@ -494,7 +500,7 @@
 <p>​    [27]提出了使用IG和卡方去确定cut-off rank的一种系统的方法。定义了IG和卡方的两个最小值，如果最后的结果都小于这两个值，就舍弃。</p>
 <p>5、本文方法</p>
 <p>整体框架如下图</p>
-<p>![DC4EF4D8-D435-46A8-BD7C-9F3EB6D709BA](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/DC4EF4D8-D435-46A8-BD7C-9F3EB6D709BA.png)</p>
+<p><img src="/images/pasted-321.png" class="lazyload" data-srcset="/images/pasted-321.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>数据扰动：对多个数据子集应用相同的特征扰动技术。</p>
 <p>函数扰动：对相同的数据集应用多个特征选择技术。</p>
 <p>[12]认为，数据分类可以减少分类器的复杂度。</p>
@@ -502,7 +508,7 @@
 <p>对每个数据分区执行FM、CDF-g算法，并求交集，产生FS，接下来进行数据扰动和函数扰动。函数扰动是求并集，得到baseline 特征集。</p>
 <p>6、CDF-g算法，一个自动特征cut-off rank识别器</p>
 <p>Cumulative Distribution Function(CDF)的理论背景：函数概率曲线。</p>
-<p>![F0841435-66E2-436E-B3F8-B4CB786E4ABC](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/F0841435-66E2-436E-B3F8-B4CB786E4ABC.png)</p>
+<p><img src="/images/pasted-322.png" class="lazyload" data-srcset="/images/pasted-322.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>7、不使用额外特征(如第三方查询、WHOIS信息、域名注册 等)的原因</p>
 <p>文中列出了如下三点(写的很有道理，就不翻译了)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(a) The webpage URL <span class="keyword">and</span> HTML source code <span class="keyword">is</span> the most basic data available <span class="keyword">in</span> phishing datasets. Using commonly accessible features ensures that our study <span class="keyword">is</span> relevant to most anti-phishing researchers.</span><br><span class="line">(b) External data are highly volatile. For example, the results of search engines change frequently.</span><br><span class="line">(c) Access to external resources <span class="keyword">is</span> unstable <span class="keyword">and</span> unpredictable. For example, the public API <span class="keyword">for</span> querying the Google PageR- ank metric was officially deprecated <span class="keyword">in</span> <span class="number">2016</span>, thus affecting many phishing detection techniques [<span class="number">10</span>,<span class="number">23</span>,<span class="number">30</span>] that depend</span><br><span class="line">on the PageRank feature.</span><br></pre></td></tr></table></figure>
@@ -513,8 +519,8 @@
 <p><a target="_blank" rel="noopener" href="https://www.selenium.dev/projects/">https://www.selenium.dev/projects/</a></p>
 <p>一个基于script的浏览器自动框架，用于提取特征(和之前看到的爬虫方法类似)</p>
 <p>9、48个特征</p>
-<p>![截屏2021-04-04 下午3.52.49](/Users/my/Library/Application Support/typora-user-images/截屏2021-04-04 下午3.52.49.png)</p>
-<p>![截屏2021-04-04 下午3.57.11](/Users/my/Library/Application Support/typora-user-images/截屏2021-04-04 下午3.57.11.png)</p>
+<p><img src="/images/pasted-323.png" class="lazyload" data-srcset="/images/pasted-323.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p><img src="/images/pasted-324.png" class="lazyload" data-srcset="/images/pasted-324.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>10、数据集</p>
 <p>​    搜集私有数据，加入phishTank、openphish的钓鱼数据，以及从Alexa和common crawl收集到的5000个合法数据。</p>
 <p>11、实验设置</p>
@@ -530,7 +536,7 @@
 <p>找到最适合RF的filter measure。此处是用top 1st特征的准确度来衡量的，并且在加入其他特征的时候，哪个达到了最快的平衡。实验得到，IG和卡方效果最好，然后是Symmetrical Uncertainty。</p>
 <p>(3)baseline特征的性能</p>
 <p>最终的baseline特征包含10个特征</p>
-<p>![B45C02C2-27F3-45AC-859C-AE4747895D14](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/B45C02C2-27F3-45AC-859C-AE4747895D14.png)</p>
+<p><img src="/images/pasted-325.png" class="lazyload" data-srcset="/images/pasted-325.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>(4)运行时间分析</p>
 <p>(5)在其他数据集上进行实验</p>
 <p>[11]提出了一种新的分类算法，叫FACA。</p>
@@ -565,10 +571,10 @@
 <p>5、前人工作</p>
 <p>2008年，Seifert分析DNS、web servers、webpages之间的关系。</p>
 <p>6、一部分笔记记在纸上了</p>
-<p>![E5634ED2-E8F6-4CBA-9643-09CC52E03778](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E5634ED2-E8F6-4CBA-9643-09CC52E03778.png)</p>
+<p><img src="/images/pasted-326.png" class="lazyload" data-srcset="/images/pasted-326.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>Rule3：模式1分割，若没有单独发现钓鱼target word，而是word前面有数字，则这个URL被认为是恶意的。</p>
 <p>Rule4：模式1分割，没有发现phishing target word，再将URL以模式2分割，得到的部分再以模式3分割，连续位置的word去构造出新的words，生成新的URL list。如果list包含target word，或者包含其他身份识别字符的字串部分，则这个URL被认为是恶意的。(下图是一个例子，可以较好解释)</p>
-<p>![截屏2021-04-07 下午8.13.50](/Users/my/Library/Application Support/typora-user-images/截屏2021-04-07 下午8.13.50.png)</p>
+<p><img src="/images/pasted-327.png" class="lazyload" data-srcset="/images/pasted-327.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>Rule5：直接使用IP地址，则视为恶意的。</p>
 <p>Rule6：协议出现在不该出现的地方，则视为恶意的。</p>
 <p>Rule7：TLD(top level domains)出现在不该出现的地方，则认为是恶意的。</p>
@@ -601,8 +607,7 @@
 <li>计算机视觉技术的视觉相似性，即SURF，从可疑网站和目标网站中提取关键点特征。然后计算合法页面和可疑页面之间的相似度。</li>
 </ul>
 <p>总体的框架如下：</p>
-<p>![截屏2021-04-08 下午12.09.21](/Users/my/Library/Application Support/typora-user-images/截屏2021-04-08 下午12.09.21.png)</p>
-<p>SURF：找到图片上的兴趣点，每个兴趣点的邻域由特征向量表示，所以具有比较好的鲁棒性。SURF采用基于Hessian矩阵逼近的快速Hessian检测器来识别兴趣点。它计算x和y方向的Haar小波响应，在x和y方向的响应之和的输出给出了每个兴趣点的特征向量。将这些特征向量在两幅图像（可疑网站图像和合法网站图像）之间进行相似度比较，确定是否是钓鱼网站。</p>
+<p><img src="/images/pasted-328.png" class="lazyload" data-srcset="/images/pasted-328.png" srcset="data:image/png;base64,666" alt="upload successful"><br>SURF：找到图片上的兴趣点，每个兴趣点的邻域由特征向量表示，所以具有比较好的鲁棒性。SURF采用基于Hessian矩阵逼近的快速Hessian检测器来识别兴趣点。它计算x和y方向的Haar小波响应，在x和y方向的响应之和的输出给出了每个兴趣点的特征向量。将这些特征向量在两幅图像（可疑网站图像和合法网站图像）之间进行相似度比较，确定是否是钓鱼网站。</p>
 <p>具体原理及实现可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30536513/article/details/97292062">这篇文章</a></p>
 <p>本文是在Matlab上实现的，</p>
 <p>收获：</p>
@@ -621,8 +626,11 @@
 <p>​    将JavaScript代码转为伪代码，然后得到树形结构，然后得到md5哈希。</p>
 <p>收获：</p>
 <p>1、本文贡献如下</p>
-<p>![15E02796-3616-49E3-BC43-BA4FF84BB240](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/15E02796-3616-49E3-BC43-BA4FF84BB240.png)</p>
+<p><img src="/images/pasted-329.png" class="lazyload" data-srcset="/images/pasted-329.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>2、还是 思想要活跃！大胆假设！</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>​    前几天还是浪费太多时间了，时不我待！！看的这五篇文章质量不算太高，而且内容都是注重钓鱼检测攻击，我还是想检测总体的恶意URL，因为真实环境中钓鱼还只是占了一小部分。</p>
+<p>​    这几天非常焦虑，不知道自己到底能做个什么东西出来，而且每天有各种各样的事情来扰乱自己，很烦躁。还是要静下心来一步一个脚印，多看多思考，还有20天！加油！！</p>
+<p>​    接下来的重点是看NLP相关的内容，一定要看优秀文章，不要看水文！！考虑有哪些方法是能够用在URL分析上的！加油加油冲冲冲！</p>
 
   
   
@@ -657,7 +665,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-08T14:22:42+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-08T14:37:28+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Apr 8, 2021</p>
@@ -679,7 +687,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意url六 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意URL检测(六)钓鱼检测 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -691,7 +699,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意url六 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意URL检测(六)钓鱼检测 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -703,7 +711,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意url六 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/30/%E6%81%B6%E6%84%8Furl%E5%85%AD/&title=恶意URL检测(六)钓鱼检测 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -800,7 +808,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E3%80%81PhishStack-%E9%92%93%E9%B1%BCURL%E6%A3%80%E6%B5%8B%E4%B8%AD%E5%A0%86%E5%8F%A0%E6%B3%9B%E5%8C%96%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-text">十六、PhishStack:钓鱼URL检测中堆叠泛化的评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%83%E3%80%81%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%92%93%E9%B1%BC%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%96%B0%E5%9E%8B%E6%B7%B7%E5%90%88%E6%80%BB%E4%BD%93%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E6%A1%86%E6%9E%B6"><span class="toc-text">十七、基于机器学习钓鱼检测系统的新型混合总体特征选择框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AB%E3%80%81%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E6%B7%B7%E5%90%88%E7%9A%84%E9%92%93%E9%B1%BC%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95"><span class="toc-text">十八、基于关键字混合的钓鱼检测方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B9%9D%E3%80%81%E4%B8%80%E7%A7%8D%E6%A3%80%E6%B5%8B%E7%BD%91%E7%BB%9C%E9%92%93%E9%B1%BC%E6%94%BB%E5%87%BB%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%8A%80%E6%9C%AF"><span class="toc-text">十九、一种检测网络钓鱼攻击的计算机视觉技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81%E7%94%A8%E4%BA%8E%E6%A3%80%E6%B5%8B%E9%92%93%E9%B1%BC%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%9F%BA%E4%BA%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="toc-text">二十、用于检测钓鱼页面的基于计算机视觉的框架</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E3%80%81PhishStack-%E9%92%93%E9%B1%BCURL%E6%A3%80%E6%B5%8B%E4%B8%AD%E5%A0%86%E5%8F%A0%E6%B3%9B%E5%8C%96%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-text">十六、PhishStack:钓鱼URL检测中堆叠泛化的评估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%83%E3%80%81%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%92%93%E9%B1%BC%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%96%B0%E5%9E%8B%E6%B7%B7%E5%90%88%E6%80%BB%E4%BD%93%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E6%A1%86%E6%9E%B6"><span class="toc-text">十七、基于机器学习钓鱼检测系统的新型混合总体特征选择框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AB%E3%80%81%E5%9F%BA%E4%BA%8E%E5%85%B3%E9%94%AE%E5%AD%97%E6%B7%B7%E5%90%88%E7%9A%84%E9%92%93%E9%B1%BC%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95"><span class="toc-text">十八、基于关键字混合的钓鱼检测方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B9%9D%E3%80%81%E4%B8%80%E7%A7%8D%E6%A3%80%E6%B5%8B%E7%BD%91%E7%BB%9C%E9%92%93%E9%B1%BC%E6%94%BB%E5%87%BB%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%8A%80%E6%9C%AF"><span class="toc-text">十九、一种检测网络钓鱼攻击的计算机视觉技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81%E7%94%A8%E4%BA%8E%E6%A3%80%E6%B5%8B%E9%92%93%E9%B1%BC%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%9F%BA%E4%BA%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="toc-text">二十、用于检测钓鱼页面的基于计算机视觉的框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-text">总结：</span></a></li></ol>
     </div>
   </section>
 
@@ -820,7 +828,7 @@
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="恶意url六";
+  pdata.postTitle="恶意URL检测(六)钓鱼检测";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

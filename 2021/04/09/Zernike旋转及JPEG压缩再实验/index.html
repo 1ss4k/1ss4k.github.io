@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>机器学习中的注意事项⌛️ - 虽然没什么用但还是想记下来</title>
+  <title>水印大修 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        机器学习中的注意事项⌛️
+        水印大修
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
+    </a>
+  </div>
+
 
           
         
@@ -408,7 +415,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Nov 5, 2020</p>
+    <p>发布于：Apr 9, 2021</p>
   </a>
 </div>
 
@@ -419,7 +426,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="机器学习中的注意事项⌛️" data-path="/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/">
+      <div id="lc-pv" data-title="水印大修" data-path="/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,8 +443,52 @@
 
 
   
-  <p><strong>题目：Dos and Don’ts of Machine Learning in Computer Security</strong></p>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1>
+  <p>记录下来过程，希望自己不再痛苦…🙏</p>
+<h2 id="Zernike旋转角度检测"><a href="#Zernike旋转角度检测" class="headerlink" title="Zernike旋转角度检测"></a>Zernike旋转角度检测</h2><p>1、图像截取</p>
+<p>​    经过实验，截取原来左上角的最好，所以还用原来的。</p>
+<p>2、重新实验</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.1</span>--<span class="number">-0.0950</span></span><br><span class="line"><span class="number">0.2</span>--<span class="number">-0.1955</span></span><br><span class="line"><span class="number">0.3</span>--<span class="number">-0.2739</span></span><br><span class="line"><span class="number">0.4</span>--<span class="number">-0.4106</span></span><br><span class="line"><span class="number">0.5</span>--<span class="number">-0.4815</span></span><br><span class="line"><span class="number">0.6</span>--<span class="number">-0.6132</span></span><br><span class="line"><span class="number">0.7</span>--<span class="number">-0.6835</span></span><br><span class="line"><span class="number">0.8</span>--<span class="number">-0.7861</span></span><br><span class="line"><span class="number">0.9</span>--<span class="number">-0.8796</span></span><br><span class="line"><span class="number">1</span>--<span class="number">-0.9969</span></span><br><span class="line"><span class="number">1.1</span>--<span class="number">-1.1049</span></span><br><span class="line"><span class="number">1.2</span>--<span class="number">-1.1829</span></span><br><span class="line"><span class="number">1.3</span>--<span class="number">-1.2899</span></span><br><span class="line"><span class="number">1.4</span>--<span class="number">-1.4225</span></span><br><span class="line"><span class="number">1.5</span>--<span class="number">-1.5167</span></span><br><span class="line"><span class="number">1.6</span>--<span class="number">-1.5953</span></span><br><span class="line"><span class="number">1.7</span>--<span class="number">-1.7030</span></span><br><span class="line"><span class="number">1.8</span>--<span class="number">-1.8189</span></span><br><span class="line"><span class="number">1.9</span>--<span class="number">-1.9150</span></span><br><span class="line"><span class="number">2.0</span>--<span class="number">-2.0351</span></span><br><span class="line"><span class="number">2.1</span>--<span class="number">-2.1443</span></span><br><span class="line"><span class="number">2.2</span>--<span class="number">-2.2291</span></span><br><span class="line"><span class="number">2.3</span>--<span class="number">-2.3617</span></span><br><span class="line"><span class="number">2.4</span>--<span class="number">-2.4388</span></span><br><span class="line"><span class="number">2.5</span>--<span class="number">-2.5171</span></span><br><span class="line"><span class="number">2.6</span>--<span class="number">-2.6090</span></span><br><span class="line"><span class="number">2.7</span>--<span class="number">-2.7349</span></span><br><span class="line"><span class="number">2.8</span>--<span class="number">-2.8175</span></span><br><span class="line"><span class="number">2.9</span>--<span class="number">-2.9041</span></span><br><span class="line"><span class="number">3.0</span>--<span class="number">-2.9956</span></span><br><span class="line"></span><br><span class="line"><span class="number">4.0</span>--<span class="number">-3.9561</span></span><br><span class="line"></span><br><span class="line"><span class="number">5.0</span>--<span class="number">-4.9969</span></span><br><span class="line"></span><br><span class="line"><span class="number">6.0</span>--<span class="number">-5.9583</span></span><br><span class="line"></span><br><span class="line"><span class="number">7.0</span>--<span class="number">-7.0020</span></span><br><span class="line"></span><br><span class="line"><span class="number">8.0</span>--<span class="number">-7.9866</span></span><br><span class="line"></span><br><span class="line"><span class="number">9.0</span>--<span class="number">-8.9673</span></span><br><span class="line"></span><br><span class="line"><span class="number">10.0</span>--<span class="number">-9.9460</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="整体的代码"><a href="#整体的代码" class="headerlink" title="整体的代码"></a>整体的代码</h2><p>1、如何处理逆变换之后在[0,255]范围之外的像素值？</p>
+<p>用一个local map 去记录。</p>
+<p>2、鲁棒性测试的整体流程</p>
+<p>​    图像输出显示的时候要uint8一下。</p>
+<p>​    运行的时候发现存在着问题，BER一直在0.5左右，检查代码发现是提取的时候边界设置错了。应该是之前测试的时候修改了一下然后忘记改回来了！</p>
+<p><img src="/images/pasted-330.png" class="lazyload" data-srcset="/images/pasted-330.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>​    现在发现不管怎么做，提取出的水印和原来相比总是有50个不一样！发现是没有处理超过255的像素值…我怎么能这么粗心啊啊啊！！！(应该是我后来改过了，总觉得自己之前不至于把这个忘记)。修改之后，代码正常了～</p>
+<p>3、测试提出的正常的方法鲁棒性如何</p>
+<p>保存在main_em2_attack.m和main_ex2_attack.m文件中</p>
+<p>效果比较差</p>
+<h2 id="HVS"><a href="#HVS" class="headerlink" title="HVS"></a>HVS</h2><p>参考 <a target="_blank" rel="noopener" href="https://github.com/t2ac32/PSNR-HVS-M-for-python">https://github.com/t2ac32/PSNR-HVS-M-for-python</a></p>
+<p>在服务器中运行。</p>
+<p>No module named ‘torch’ —&gt; pip3 install torchvision</p>
+<p>使用方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> psnrhvsm <span class="keyword">import</span> psnrhvsm</span><br><span class="line">img1 = Image.open(<span class="string">&quot;5.jpg&quot;</span>)</span><br><span class="line">img2 = Image.open(<span class="string">&quot;6.jpg&quot;</span>)</span><br><span class="line">imask = np.array(img1)</span><br><span class="line">noise = np.array(img2)</span><br><span class="line">print(imask.shape)</span><br><span class="line">[p_hvs_m, p_hvs] = psnrhvsm(noise,imask,wstep=<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+
+<p>出现错误<code>&#39;int&#39; object is not callable</code>，原因在下面</p>
+<p><img src="/images/pasted-331.png" class="lazyload" data-srcset="/images/pasted-331.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>上面的语句，不能直接使用 .size()，直接img1.size即可。</p>
+<p>啊啊啊啊我傻了我傻了！这是他为了改成python去用，文件中直接有.m文件，在Matlab中直接调用即可！</p>
+<h2 id="攻击手法更新"><a href="#攻击手法更新" class="headerlink" title="攻击手法更新"></a>攻击手法更新</h2><p>原来用的JPEG、JPEG2000有点过时。</p>
+<ul>
+<li>X264</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://www.videolan.org/developers/x264.html">http://www.videolan.org/developers/x264.html</a></p>
+<p>下载源码</p>
+<p>编译 参考<a target="_blank" rel="noopener" href="http://www.xin.at/x264/x264-guide-macosx-en.htm">http://www.xin.at/x264/x264-guide-macosx-en.htm</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">./configure --disable-asm</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">x264 --help</span><br></pre></td></tr></table></figure>
+
+<p>结果如下</p>
+<p><img src="/images/pasted-332.png" class="lazyload" data-srcset="/images/pasted-332.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
+<p>​    然后看实现过程发现，它适用于视频编码，并不适用于图片编码压缩。在实际情况中常用的还是JPEG等。</p>
+<ul>
+<li>X265、Daala</li>
+</ul>
+<p>同样都是适用于视频编码！</p>
+<p>修改完成～暂时告一段落嘻嘻～棒棒滴！</p>
+
   
   
     
@@ -454,7 +505,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/>http://example.com/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/>http://example.com/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/</a></p>
               
             
           </blockquote>
@@ -471,10 +522,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-12-17T20:54:18+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-11T20:48:53+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Dec 17, 2020</p>
+    <p>更新于：Apr 11, 2021</p>
   </a>
 </div>
 
@@ -493,7 +544,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/&title=机器学习中的注意事项⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/&title=水印大修 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -505,7 +556,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/&title=机器学习中的注意事项⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/&title=水印大修 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -517,7 +568,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2020/11/05/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/&title=机器学习中的注意事项⌛️ - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/&title=水印大修 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -547,24 +598,19 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2020/11/05/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%90%91/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>二进制方向⌛️</p>
-          <p class='content'>逆向基础知识1、需要使用工具，对加密算法进行分析。
-除了密码学中常见的加密方法，还有一些变种题型。vm逆向/smc逆向(代码块加密)/cheate逆向(主动防御)/python逆向/加壳逆向。
-...</p>
-        </a>
       
-      
-        <a class='next' href='/2020/11/03/%E7%BB%BC%E5%90%88%E6%B8%97%E9%80%8F/'>
-          <p class='title'>综合渗透⌛️<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>综合渗透测试1、目标：拿取系统的权限
-2、综合渗透思路
+        <a class='next' href='/2021/04/02/ubuntu16-04%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/'>
+          <p class='title'>ubuntu16.04本地提权漏洞<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>关于Linux提权参考知识星球中HBT的文章，总结如下：
 
-内网工具1、MSF
-kali中集成的。
-终端输入 msfconsole
-msf5，是框架的命令行。
-show auxiliary 显示辅...</p>
+信息搜集
+
+unix-privesc-check 一个工具，自动进行信息搜集
+
+内核漏洞
+
+内核漏洞提权的通用流程
+1231.诱使内核...</p>
         </a>
       
     </div>
@@ -607,7 +653,7 @@ show auxiliary 显示辅...</p>
 
 
     <div class='content'>
-        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Zernike%E6%97%8B%E8%BD%AC%E8%A7%92%E5%BA%A6%E6%A3%80%E6%B5%8B"><span class="toc-text">Zernike旋转角度检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">整体的代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HVS"><span class="toc-text">HVS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95%E6%9B%B4%E6%96%B0"><span class="toc-text">攻击手法更新</span></a></li></ol>
     </div>
   </section>
 
@@ -627,7 +673,7 @@ show auxiliary 显示辅...</p>
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="机器学习中的注意事项⌛️";
+  pdata.postTitle="水印大修";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

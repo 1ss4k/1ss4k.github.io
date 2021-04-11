@@ -392,25 +392,20 @@
   
     
     <h2 class="article-title" >
-      <a href="/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/">
-        恶意URL检测(二)用户角度SVM
+      <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
+        excel表格数据处理
       </a>
     </h2>
   
   <div class='md'>
     
       
-        一、机器学习实现恶意URL检测文章3地址 https://coldwave96.github.io/2019/11/08/MaliciousURLs/
-1、处理数据
-POST请求，URL要加上请求的主体内容。
-2、改进点
-
-细分攻击类型
-优化TF-IDF，如考虑词袋+TF-IDF，或利用TF- IDF将URL中不重要的部分进行泛化处理。
-使用深度学习
-
-3、词袋+TF-IDF+cnn
-文章3...
+        0x00 前言每天的工作是重复枯燥的复制粘贴表格信息，别人知道后骂我sb，痛定思痛我决定写一个程序来实现自动化复制粘贴工作。大致分析了一下有以下几个难点：
+1、数据是钉钉直播导出的，而他们的备注和真实名字有一定差异，如原本叫姜子牙，备注为 塔城_姜子牙，并且有些类似[古力娜扎]的长名，匹配时复杂。
+2、有些群成员是不需要统计的。
+使用工具：
+python
+xlrd/xlwt/xlutils ...
       
     
   </div>
@@ -418,15 +413,15 @@ POST请求，URL要加上请求的主体内容。
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-01-23</time>
+        <time>2020-11-11</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/web/">web</a>
+          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/01/23/%E6%81%B6%E6%84%8FURL%E4%BA%8C/'>
+          <a class='readmore' href='/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/'>
             Read More
           </a>
         </div>
@@ -448,17 +443,19 @@ POST请求，URL要加上请求的主体内容。
   
     
     <h2 class="article-title" >
-      <a href="/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/">
-        堆利用(二)之unlink
+      <a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/">
+        磁盘清理
       </a>
     </h2>
   
   <div class='md'>
     
       
-        基础知识连续free的堆块，会被合并，放入unsorted bin中。
-之前unlink的宏定义
-12345678#define unlink(P, BK, FD) &#123; FD = P-&gt;fd;                //FD = *P + 8; BK = P-&gt;bk;               // BK = *P + 12; FD-&gt;bk = BK; ...
+        前言前几天下载了iMovie，然后磁盘空间突然就快满了… 这里记录一下清除的过程，以备以后查阅使用。
+
+
+….算了，买硬盘好了….
+
       
     
   </div>
@@ -466,15 +463,15 @@ POST请求，URL要加上请求的主体内容。
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-01-22</time>
+        <time>2020-11-03</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
+          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/01/22/%E5%A0%86%E6%BA%A2%E5%87%BA%E4%B9%8Bunlink/'>
+          <a class='readmore' href='/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/'>
             Read More
           </a>
         </div>
@@ -496,17 +493,24 @@ POST请求，URL要加上请求的主体内容。
   
     
     <h2 class="article-title" >
-      <a href="/2021/01/17/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84HTTP%E6%B5%81%E9%87%8F%E7%9A%84%E6%81%B6%E6%84%8FDNS%E6%A3%80%E6%B5%8B/">
-        基于机器学习的HTTPS流量的恶意DNS检测
+      <a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/">
+        每日code-11月
       </a>
     </h2>
   
   <div class='md'>
     
       
-        会议：2020 International Conference on Innovation and Intelligence for Informatics, Computing and Technologies (3ICT) 
-2位作者，分别来自维亚普大学计算机科学与工程学院、印度信息技术学院计算机科学与工程系。
-背景及目的​    互联网发展迅速，DNS(域名系统)是很重要的一个部分。...
+        11.041、349.两个数组的交集
+题意：给定两个数组，编写一个函数来计算它们的交集
+思路：每个数组把其中的数字维护一个表/检查两个表中相同的部分。
+实现：
+自己不会实现...直接参考别人的
+参考答案
+class Solution &#123; //这个是题目固定的结构
+
+public:
+vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
       
     
   </div>
@@ -514,339 +518,15 @@ POST请求，URL要加上请求的主体内容。
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-01-17</time>
+        <time>2020-11-02</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
+          <a class="category-link" href="/categories/%E4%BB%8A%E5%A4%A9code%E4%BA%86%E5%90%97%EF%BC%81/">今天code了吗！</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/01/17/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84HTTP%E6%B5%81%E9%87%8F%E7%9A%84%E6%81%B6%E6%84%8FDNS%E6%A3%80%E6%B5%8B/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/">
-        水印中的一些正交矩及其Matlab实现⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        离散傅立叶变换矩Matlab中有内置函数用于生成离散傅立叶变换的矩，dftmtx。例子如下：
-123456789D = dftmtx(4)D =   1.0000 + 0.0000i   1.0000 + 0.0000i   1.0000 + 0.0000i   1.0000 + 0.0000i   1.0000 + 0.0000i   0.0000 - 1.0000i  -1.0000 +...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-01-12</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/01/12/%E5%82%85%E7%AB%8B%E5%8F%B6%E7%9F%A9%E7%9A%84Matlab%E5%AE%9E%E7%8E%B0/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/">
-        早期基于DGA的僵尸网络识别:将检测推向边缘
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        文章等级及作者团队​    文章全名 Early DGA-based botnet identification: pushing detection to the edges，发表期刊 cluster computing，3区，经查阅，文章质量在不断提高。
-​    作者来自西班牙，此项工作得到了西班牙国家网络安全研究所（INCIBE）的资助。
-背景及目的​    Edge AI被认为是继...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-01-09</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/01/09/%E6%97%A9%E6%9C%9F%E5%9F%BA%E4%BA%8EDGA%E7%9A%84%E5%83%B5%E5%B0%B8%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%EF%BC%9A%E5%B0%86%E6%A3%80%E6%B5%8B%E6%8E%A8%E5%90%91%E8%BE%B9%E7%BC%98/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/">
-        恶意URL检测(一)基于机器学习的基础实现
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言：毕设选择了这个题目，此文章来记录一下学习过程，希望自己能够设计出一个比较好的系统！
-用机器学习玩转恶意URL检测文章链接 https://www.freebuf.com/articles/network/131279.html
-模型：逻辑回归
-步骤：
-1、分别拿到正常请求和恶意请求的数据集。
-参考 https://github.com/Echo-Ws/UrlDetect
-使用里面的文件...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-01-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/web/">web</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/01/04/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B-%E4%B8%80/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/01/01/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8A%A0%E5%AF%86%E6%B5%81%E9%87%8F%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B%E7%9A%84%E7%BB%BC%E5%90%88%E6%80%A7%E8%83%BD%E7%A0%94%E7%A9%B6/">
-        基于机器学习的加密流量恶意软件检测的综合性能研究
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 发表刊物会议论文 2020 7th International Conference on Networking, Systems and Security (NSysS)
-Networking and Security
-作者分别来自：马萨诸塞州洛威尔大学、宾夕法尼亚州伊丽莎白镇大学、因特尔公司。
-暂时未找到会议等级(属于ACM？)
-0x01 研究目的​    网络流量中加密流量越...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-01-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/01/01/%E5%9F%BA%E4%BA%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8A%A0%E5%AF%86%E6%B5%81%E9%87%8F%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B%E7%9A%84%E7%BB%BC%E5%90%88%E6%80%A7%E8%83%BD%E7%A0%94%E7%A9%B6/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/">
-        scapy用法学习⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00基础知识1、作用：构建数据包 / 发送 / 捕获 / 分析 / 匹配响应
-0x01 安装安装在ubuntu
-apt install python-scapy
-0x02 使用 — 起航Scapy1、生成单个数据包层次：Ether()/IP()/TCP()/
-堆加层次
-123456789101112131415161718192021&gt;&gt;&gt; a&#x3D;Ether()...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-17</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/17/scapy%E7%94%A8%E6%B3%95%E5%AD%A6%E4%B9%A0/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/16/%E9%80%86%E5%90%91/">
-        逆向⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-16</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/16/%E9%80%86%E5%90%91/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
-        代码审计⌛️
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        PHP
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-12-08</time>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/12/08/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/'>
+          <a class='readmore' href='/2020/11/02/%E6%AF%8F%E6%97%A5code-11/'>
             Read More
           </a>
         </div>
@@ -873,14 +553,8 @@ apt install python-scapy
           </a>
         
         <p class="current">
-          3 / 5
+          3 / 3
         </p>
-        
-          <a class="next" rel="next" href="/page/4/">
-            <section class="post next white-box shadow">
-              &nbsp;Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
         
       </div>
     
@@ -992,9 +666,14 @@ apt install python-scapy
             ><div class='name'>二进制</div><div class='badge'>(2)</div></a></li>
         
           <li><a class="flat-box"
+            title="/categories/%E4%BB%8A%E5%A4%A9code%E4%BA%86%E5%90%97%EF%BC%81/" href="/categories/%E4%BB%8A%E5%A4%A9code%E4%BA%86%E5%90%97%EF%BC%81/"
+            id="categoriesE4BB8AE5A4A9codeE4BA86E59097EFBC81"
+            ><div class='name'>今天code了吗！</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
             id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(3)</div></a></li>
+            ><div class='name'>杂记</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
@@ -1023,7 +702,7 @@ apt install python-scapy
 
 
     <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 14px; color: #999">sql注入</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/web/" style="font-size: 24px; color: #555">web</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 14px; color: #999">文件包含</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 14px; color: #999">机器学习</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a> <a href="/tags/%E9%A1%B6%E4%BC%9ASP/" style="font-size: 14px; color: #999">顶会SP</a>
+      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a>
     </div>
   </section>
 

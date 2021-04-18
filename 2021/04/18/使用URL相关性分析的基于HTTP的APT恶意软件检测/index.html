@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Category: 杂记 - 虽然没什么用但还是想记下来</title>
+  <title>使用URL相关性分析的基于HTTP的APT恶意软件检测 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -307,7 +305,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -375,239 +373,270 @@
       <div class='body-wrapper' id="pjax-container">
         
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
+
+
+  
+  <div class="article-meta" id="top">
     
-      
-  <section class="post-list">
     
-      
+    
+      <h1 class="title">
+        使用URL相关性分析的基于HTTP的APT恶意软件检测
+      </h1>
+      <div class='new-meta-box'>
         
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
           
         
           
-        
+            
+
           
         
           
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 18, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="使用URL相关性分析的基于HTTP的APT恶意软件检测" data-path="/2021/04/18/%E4%BD%BF%E7%94%A8URL%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%9F%BA%E4%BA%8EHTTP%E7%9A%84APT%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a>1.背景</h2><h5 id="1-刊物-会议级别"><a href="#1-刊物-会议级别" class="headerlink" title="1.刊物/会议级别"></a>1.刊物/会议级别</h5><p>2021年发表于Hindawi，是一个开源期刊，属于SCI 4区。2021年1月，wiley收购hindawi (见<a target="_blank" rel="noopener" href="http://news.sciencenet.cn/htmlpaper/2021/1/2021161455023960628.shtm)%E3%80%82">http://news.sciencenet.cn/htmlpaper/2021/1/2021161455023960628.shtm)。</a></p>
+<h5 id="2-作者团队"><a href="#2-作者团队" class="headerlink" title="2.作者团队"></a>2.作者团队</h5><p>作者来自电子科技大学网络安全研究所、鹏城实验室、中国工程物理研究院(绵阳)。</p>
+<h5 id="3-论文背景"><a href="#3-论文背景" class="headerlink" title="3.论文背景"></a>3.论文背景</h5><p>本文使用HTTP header中的referer field去构建一个web请求图。通过URL相似性和重定向重建去优化构建的图。用不相关请求过滤去过滤掉剩余的不相关的合法请求。</p>
+<p>主要贡献如下：</p>
+<p>1.本文提出了一种基于图理论的方法去检测基于HTTP的APT恶意软件。</p>
+<p>2.小部分正常请求不包含referer field，用两种方法：重定向重构和URL相似性，去加入缺失的用户正常请求，以优化请求图。</p>
+<p>3.使用Local Outlier Factor去构建过滤器，它可以过滤掉83.2%的正常不相关的请求。</p>
+<p>由于缺乏大规模的有标签的APT恶意数据集，本文没有使用机器学习的方法，而是使用基于相关性的方法。</p>
+<h2 id="论文主要方法"><a href="#论文主要方法" class="headerlink" title="论文主要方法"></a>论文主要方法</h2><p>本文使用到的方法主要有：</p>
+<p>(1) HTTP请求图</p>
+<p>(2) HTTP请求分类</p>
+<h5 id="1-HTTP请求图"><a href="#1-HTTP请求图" class="headerlink" title="1.HTTP请求图"></a>1.HTTP请求图</h5><p>​    当浏览器发送HTTP请求去请求资源的时候，会请求HTML代码，然后再基于这个HTML代码去加载相应资源。在请求后续资源的时候，可能会再请求下载其他资源，这就需要更多的HTTP请求去完成。所以：可以使用web请求图去表示请求关系。</p>
+<p>​    许多恶意的HTTP请求会加入很多用户合法的HTTP请求去隐藏自己，但是我们发现，基于HTTP的APT恶意软件的初始化HTTP请求不包含Referer fields，并且它与用户的浏览行为不相关。所以构建出图之后，恶意URL请求会变成孤立的点。</p>
+<h5 id="2-HTTP请求分类"><a href="#2-HTTP请求分类" class="headerlink" title="2.HTTP请求分类"></a>2.HTTP请求分类</h5><p>需要对HTTP请求进行分类和过滤。本文根据HTTP产生的方式把其分为4类：</p>
+<p>(1) 用户初始化请求。此时refer field通常为空。</p>
+<p>(2) 包含webpage的请求。又浏览器产生的，不是由用户直接产生的。Refer field是源URL。</p>
+<p>(3) 正常的非相关请求。用户的良性web请求，但是缺乏refer field。虽然没有refer field，不能被直接加入到图中，但是与用户正常浏览有关。</p>
+<p>(4) 恶意请求。包含不相关的HTTP请求。</p>
+<h2 id="总体流程"><a href="#总体流程" class="headerlink" title="总体流程"></a>总体流程</h2><p>​    本文提出了一种使用基于URL相关性的web请求图去检测APT恶意攻击的方法，主要包括四个过程：(1)预处理；(2)构建一个web请求图; (3)优化web请求图；(4)正常不相关请求过滤。</p>
+<h5 id="1-预处理"><a href="#1-预处理" class="headerlink" title="1.预处理"></a>1.预处理</h5><p>​    用mitproxy去获取HTTP流量，并按照users的IP进行分类。然后提取referer field，host field和request URL field。用相应的URL构建web请求图。</p>
+<p>​    用HTTP响应请求来优化构建的图。</p>
+<h5 id="2-构建web请求图"><a href="#2-构建web请求图" class="headerlink" title="2.构建web请求图"></a>2.构建web请求图</h5><p>​    根据不同的IP，构建各自IP的数据图。通常用户初始化请求是web图的初始节点。</p>
+<h5 id="3-优化web请求图"><a href="#3-优化web请求图" class="headerlink" title="3.优化web请求图"></a>3.优化web请求图</h5><p>​    有些良性请求没有referer field，本文将这些正常的非相关的请求也加入到图中。关于怎么加入：本文提出了两种方法，分别是:（1）重定向重构（2）URL相似性。</p>
+<p>(1)重定向重构</p>
+<p>如果用户的初始化请求是重定向，响应的location field会给出重定向地址。浏览器会自动跳转到重定向地址，然后发送HTTP请求。但是，重定向之后的包的referer field是空的，所以之后的请求和初始的这个重定向请求是不相关的。</p>
+<p>​    *根据响应头的状态码，来确实是否是重定向。301、302、303、307是重定向。</p>
+<p>​    *对于基于HTML和基于JavaScript的重定向，重放HTTP请求包，然后检查meta元素和window.location属性，去判断这个页面是否是重定向的。</p>
+<p>如果是重定向的，修改响应的边的关系。</p>
+<p>(2)URL相似性</p>
+<p>就算使用了重定向重构，还是有一些节点是孤立的。</p>
+<p>作者又发现不相关的URL请求与正常的URL请求之间有一定的相似性。关注的是word-level级的相似性。用公式去计算两个URL之间的相似性。</p>
+<p>​        公式的计算方法为：相同元素的个数/A或B元素个数的最大值。是把要去计算的不相关节点和图中所有节点的相似性，然后找出最大的值。如果最大的值&gt;阈值，那么就认为是相关的，把相应的URL加入图中，它和这个最相似的节点地位相同。</p>
+<h5 id="4-过滤正常的不相关请求"><a href="#4-过滤正常的不相关请求" class="headerlink" title="4.过滤正常的不相关请求"></a>4.过滤正常的不相关请求</h5><p>​    通常是一些其他应用产生的HTTP请求。</p>
+<p>​    本文使用机器学习的方法 去构建一个正常请求filter，去过滤掉那些正常请求。</p>
+<p>![3FF8ED20-2C7F-4FB5-B9F4-0E963B2F12D2](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/3FF8ED20-2C7F-4FB5-B9F4-0E963B2F12D2.png) </p>
+<p>提取到的特征如上图。</p>
+<p>本文只用良性数据去训练，过滤掉时候也只会过滤掉良性的数据。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h5 id="1-数据集"><a href="#1-数据集" class="headerlink" title="1.数据集"></a>1.数据集</h5><p>​    良性：使用的数据集来自clickminer，数据集总量是1.48GB，有超过70,000个HTTP请求。使用1GB的流量去训练机器学习的正常非相关请求过滤器，剩下的用来评估。</p>
+<p>​    恶意APT攻击：数据来自<a target="_blank" rel="noopener" href="https://www.stratosphereips.org/">Stratosphere Lab</a>，<a target="_blank" rel="noopener" href="http://contagiodump.blogspot.com/">Contagiodump</a>, <a href="%E7%9B%AE%E5%89%8D%E4%B8%8D%E5%8F%AF%E8%AE%BF%E9%97%AE">Pcapanalysis</a>。总量是280MB，有超过10,000个HTTP请求。</p>
+<h5 id="2-参数选取"><a href="#2-参数选取" class="headerlink" title="2.参数选取"></a>2.参数选取</h5><p>​    先选取合适的机器学习算法：One Class SVM, Isolation Forest, Local outlier Factor. 用来训练的数据是：良性数据构造完图之后孤立的节点。结果如下：</p>
+<p>![04A29C12-7A15-4C49-9FDC-FE85CCBB648E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/04A29C12-7A15-4C49-9FDC-FE85CCBB648E.png) </p>
+<p>此时Local outlier Factor设定的n_neighbors=7. 性能最好～</p>
+<h5 id="3-实验结果分析"><a href="#3-实验结果分析" class="headerlink" title="3.实验结果分析"></a>3.实验结果分析</h5><p>1.URL相似度：</p>
+<p>设定阈值v= 0.5，</p>
+<p>2.优化图</p>
+<p>发现准确度提高了很多，但是恶意请求只减少了1.84%，原因是：一小部分恶意请求在图优化的过程中被加入了图中，因为URL的相似性。主要是因为：恶意数据集也包含着一些合法的流量，但是这些合法流量却被认为是恶意的。</p>
+<p>3.对比比较</p>
+<p>![D9C0980A-969E-4858-A0E8-C7F2F17C7D25](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/D9C0980A-969E-4858-A0E8-C7F2F17C7D25.png) </p>
+<p>由上图可知，本文提出的方法在各个方面都有比较好的性能。</p>
+<p>4.本文方法的局限性</p>
+<p>本文主要参考的是referer field，如果恶意软件伪造了referer field为已知的良性节点，我们的方法就不能正确识别出来了。</p>
+<p>本文的方法还能用于botnets检测，当botnet使用HTTP、C&amp;C的时候，就和恶意软件一样了。但是本文不能检测网络隐蔽信道。</p>
+<h2 id="个人总结和研究启发"><a href="#个人总结和研究启发" class="headerlink" title="个人总结和研究启发"></a>个人总结和研究启发</h2><ol>
+<li><p>本文提出了一种混的方法，先构建出web请求图，然后进行优化，再用机器学习的方法过滤掉一些数据。</p>
+</li>
+<li><p>本文比较重要的地方在于：把非相关的请求也加入了图中。用到的方法是重定向和URL的相似性。</p>
+</li>
+<li><p>URL相似性在比较的时候，用单个节点与图中的所有节点进行比较，如果相似度&gt;阈值0.5，就认为是合法的良性请求，加入图中。但是这种方法在图中节点的数量比较多的时候，时间复杂度会比较高。而且阈值的设定应该再多实验几次，相似度的计算方法可以改进。</p>
+</li>
+</ol>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/04/18/%E4%BD%BF%E7%94%A8URL%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%9F%BA%E4%BA%8EHTTP%E7%9A%84APT%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/>http://example.com/2021/04/18/%E4%BD%BF%E7%94%A8URL%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%9F%BA%E4%BA%8EHTTP%E7%9A%84APT%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-18T10:22:26+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 18, 2021</p>
+  </a>
+</div>
+
         
       
-    
-    
+        
+          
+
+        
       
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/">
-        水印大修
-      </a>
-    </h2>
-  
-  <div class='md'>
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
       
-        记录下来过程，希望自己不再痛苦…🙏
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/04/18/%E4%BD%BF%E7%94%A8URL%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%9F%BA%E4%BA%8EHTTP%E7%9A%84APT%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/&title=使用URL相关性分析的基于HTTP的APT恶意软件检测 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/18/%E4%BD%BF%E7%94%A8URL%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%9F%BA%E4%BA%8EHTTP%E7%9A%84APT%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/&title=使用URL相关性分析的基于HTTP的APT恶意软件检测 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/04/18/%E4%BD%BF%E7%94%A8URL%E7%9B%B8%E5%85%B3%E6%80%A7%E5%88%86%E6%9E%90%E7%9A%84%E5%9F%BA%E4%BA%8EHTTP%E7%9A%84APT%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/&title=使用URL相关性分析的基于HTTP的APT恶意软件检测 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/'>
+          <p class='title'>水印大修<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>记录下来过程，希望自己不再痛苦…🙏
 Zernike旋转角度检测1、图像截取
 ​    经过实验，截取原来左上角的最好，所以还用原来的。
 2、重新实验
-12345678910111213141516171819202122232425262728293031323334353637383940414243440.1---0.09500.2---0.19550.3---0.27390.4---...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-09</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/'>
-            Read More
-          </a>
-        </div>
+123456789101112131415...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
-        ssh登陆失败的解决方法
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        之前想设置ssh连接不断开，一通操作之后不能登陆了… 以下记录恢复过程。
-12my@192:~$ --&gt; ssh -p22 root@(ip)ssh: connect to host (ip) port 22: Connection refused
+  </article>
 
 
 
-1、更改服务器ssh配置
-​    依稀记得是在/etc/ssh/sshd_config中加了两条语句，现在尝试把它删掉。但是现在不...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-        excel表格数据处理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 前言每天的工作是重复枯燥的复制粘贴表格信息，别人知道后骂我sb，痛定思痛我决定写一个程序来实现自动化复制粘贴工作。大致分析了一下有以下几个难点：
-1、数据是钉钉直播导出的，而他们的备注和真实名字有一定差异，如原本叫姜子牙，备注为 塔城_姜子牙，并且有些类似[古力娜扎]的长名，匹配时复杂。
-2、有些群成员是不需要统计的。
-使用工具：
-python
-xlrd/xlwt/xlutils ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-11</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/">
-        磁盘清理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言前几天下载了iMovie，然后磁盘空间突然就快满了… 这里记录一下清除的过程，以备以后查阅使用。
 
 
-….算了，买硬盘好了….
 
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-  
-
-
-    
-  
 </div>
 <aside class='l_side'>
   
@@ -615,151 +644,28 @@ xlrd/xlwt/xlutils ...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(6)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/web/" href="/categories/web/"
-            id="categoriesweb"
-            ><div class='name'>web</div><div class='badge'>(6)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/" href="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/"
-            id="categoriesE4BB8AE5A4A9codeE595A6E59097EFBC81"
-            ><div class='name'>今天code啦吗！</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
-            id="categoriesE6BC8FE6B49EE5A48DE78EB0"
-            ><div class='name'>漏洞复现</div><div class='badge'>(4)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-text">1.背景</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%88%8A%E7%89%A9-%E4%BC%9A%E8%AE%AE%E7%BA%A7%E5%88%AB"><span class="toc-text">1.刊物&#x2F;会议级别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E4%BD%9C%E8%80%85%E5%9B%A2%E9%98%9F"><span class="toc-text">2.作者团队</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%AE%BA%E6%96%87%E8%83%8C%E6%99%AF"><span class="toc-text">3.论文背景</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BA%E6%96%87%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-text">论文主要方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-HTTP%E8%AF%B7%E6%B1%82%E5%9B%BE"><span class="toc-text">1.HTTP请求图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-HTTP%E8%AF%B7%E6%B1%82%E5%88%86%E7%B1%BB"><span class="toc-text">2.HTTP请求分类</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-text">总体流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">1.预处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E6%9E%84%E5%BB%BAweb%E8%AF%B7%E6%B1%82%E5%9B%BE"><span class="toc-text">2.构建web请求图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E4%BC%98%E5%8C%96web%E8%AF%B7%E6%B1%82%E5%9B%BE"><span class="toc-text">3.优化web请求图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E8%BF%87%E6%BB%A4%E6%AD%A3%E5%B8%B8%E7%9A%84%E4%B8%8D%E7%9B%B8%E5%85%B3%E8%AF%B7%E6%B1%82"><span class="toc-text">4.过滤正常的不相关请求</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">1.数据集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%8F%82%E6%95%B0%E9%80%89%E5%8F%96"><span class="toc-text">2.参数选取</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="toc-text">3.实验结果分析</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93%E5%92%8C%E7%A0%94%E7%A9%B6%E5%90%AF%E5%8F%91"><span class="toc-text">个人总结和研究启发</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a>
-    </div>
-  </section>
-
-
-  
 
   
 
 
 </aside>
+
 
 
         
@@ -769,8 +675,8 @@ xlrd/xlwt/xlutils ...
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="使用URL相关性分析的基于HTTP的APT恶意软件检测";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

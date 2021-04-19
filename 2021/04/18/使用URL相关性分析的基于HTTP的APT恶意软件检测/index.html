@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">paper阅读笔记</a>
+    </a>
+  </div>
+
 
           
         
@@ -470,20 +477,20 @@
 <p>​        公式的计算方法为：相同元素的个数/A或B元素个数的最大值。是把要去计算的不相关节点和图中所有节点的相似性，然后找出最大的值。如果最大的值&gt;阈值，那么就认为是相关的，把相应的URL加入图中，它和这个最相似的节点地位相同。</p>
 <h5 id="4-过滤正常的不相关请求"><a href="#4-过滤正常的不相关请求" class="headerlink" title="4.过滤正常的不相关请求"></a>4.过滤正常的不相关请求</h5><p>​    通常是一些其他应用产生的HTTP请求。</p>
 <p>​    本文使用机器学习的方法 去构建一个正常请求filter，去过滤掉那些正常请求。</p>
-<p>![3FF8ED20-2C7F-4FB5-B9F4-0E963B2F12D2](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/3FF8ED20-2C7F-4FB5-B9F4-0E963B2F12D2.png) </p>
+<p><img src="/images/pasted-333.png" class="lazyload" data-srcset="/images/pasted-333.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>提取到的特征如上图。</p>
 <p>本文只用良性数据去训练，过滤掉时候也只会过滤掉良性的数据。</p>
 <h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h5 id="1-数据集"><a href="#1-数据集" class="headerlink" title="1.数据集"></a>1.数据集</h5><p>​    良性：使用的数据集来自clickminer，数据集总量是1.48GB，有超过70,000个HTTP请求。使用1GB的流量去训练机器学习的正常非相关请求过滤器，剩下的用来评估。</p>
 <p>​    恶意APT攻击：数据来自<a target="_blank" rel="noopener" href="https://www.stratosphereips.org/">Stratosphere Lab</a>，<a target="_blank" rel="noopener" href="http://contagiodump.blogspot.com/">Contagiodump</a>, <a href="%E7%9B%AE%E5%89%8D%E4%B8%8D%E5%8F%AF%E8%AE%BF%E9%97%AE">Pcapanalysis</a>。总量是280MB，有超过10,000个HTTP请求。</p>
 <h5 id="2-参数选取"><a href="#2-参数选取" class="headerlink" title="2.参数选取"></a>2.参数选取</h5><p>​    先选取合适的机器学习算法：One Class SVM, Isolation Forest, Local outlier Factor. 用来训练的数据是：良性数据构造完图之后孤立的节点。结果如下：</p>
-<p>![04A29C12-7A15-4C49-9FDC-FE85CCBB648E](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/04A29C12-7A15-4C49-9FDC-FE85CCBB648E.png) </p>
+<p><img src="/images/pasted-334.png" class="lazyload" data-srcset="/images/pasted-334.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>此时Local outlier Factor设定的n_neighbors=7. 性能最好～</p>
 <h5 id="3-实验结果分析"><a href="#3-实验结果分析" class="headerlink" title="3.实验结果分析"></a>3.实验结果分析</h5><p>1.URL相似度：</p>
 <p>设定阈值v= 0.5，</p>
 <p>2.优化图</p>
 <p>发现准确度提高了很多，但是恶意请求只减少了1.84%，原因是：一小部分恶意请求在图优化的过程中被加入了图中，因为URL的相似性。主要是因为：恶意数据集也包含着一些合法的流量，但是这些合法流量却被认为是恶意的。</p>
 <p>3.对比比较</p>
-<p>![D9C0980A-969E-4858-A0E8-C7F2F17C7D25](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/D9C0980A-969E-4858-A0E8-C7F2F17C7D25.png) </p>
+<p><img src="/images/pasted-335.png" class="lazyload" data-srcset="/images/pasted-335.png" srcset="data:image/png;base64,666" alt="upload successful"></p>
 <p>由上图可知，本文提出的方法在各个方面都有比较好的性能。</p>
 <p>4.本文方法的局限性</p>
 <p>本文主要参考的是referer field，如果恶意软件伪造了referer field为已知的良性节点，我们的方法就不能正确识别出来了。</p>
@@ -530,7 +537,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-18T10:22:26+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-18T10:29:13+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：Apr 18, 2021</p>

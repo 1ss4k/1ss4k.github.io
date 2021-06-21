@@ -437,6 +437,47 @@
 
   
   <p>之前总共参考了三十一篇文章，交了定稿，但是总感觉还不够完善，实验不够细致。还有几天才答辩，继续做吧～</p>
+<h2 id="三十二、DeepPhish-Simulating-malicious-AI-从攻击者的角度使用AI产生钓鱼URL"><a href="#三十二、DeepPhish-Simulating-malicious-AI-从攻击者的角度使用AI产生钓鱼URL" class="headerlink" title="三十二、DeepPhish: Simulating malicious AI 从攻击者的角度使用AI产生钓鱼URL"></a>三十二、DeepPhish: Simulating malicious AI 从攻击者的角度使用AI产生钓鱼URL</h2><p>概述见 <a target="_blank" rel="noopener" href="https://albahnsen.com/2018/06/03/deepphish-simulating-malicious-ai/">https://albahnsen.com/2018/06/03/deepphish-simulating-malicious-ai/</a></p>
+<p>1、钓鱼URL产生的机理</p>
+<p>定位到了3个攻击者，分析他们的URL的特征</p>
+<p>2、用了几个指标</p>
+<p>效率/成功率/时间效率</p>
+<p>3、如何利用深度学习(LSTM)产生钓鱼URL</p>
+<p>输入钓鱼的但未被检测出的URL，学习他们的结构，生成钓鱼的能够逃避检测的URL。</p>
+<p>定义一个种子句子，随后预测下一个字符。最后分割得到生成的钓鱼URL。</p>
+<p>相关工作见Black Hat <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=0JhmR1Dpclo">https://www.youtube.com/watch?v=0JhmR1Dpclo</a></p>
+<p>视频主要讲述了3篇文章的工作，具体如下：</p>
+<p>1、91%的攻击都是以钓鱼攻击开始的。</p>
+<p>2、检测方法：one-hot / 词嵌入 / LSTM / sigmod</p>
+<h2 id="三十三、钓鱼攻击的检测处理框架"><a href="#三十三、钓鱼攻击的检测处理框架" class="headerlink" title="三十三、钓鱼攻击的检测处理框架"></a>三十三、钓鱼攻击的检测处理框架</h2><p>文章较老了，2007年，发表于CCS。用的是启发式的方法。</p>
+<p>1、提出了4中URL常用的混淆技术。</p>
+<p>2、特征：选取了4类</p>
+<p>基于页面的：网页的排名(URL的页面排名、主机的页面排名以及页面排名是否存在于爬虫数据库)、是否被索引、质量(评价见[11] )。</p>
+<p>基于域的：黑白名单来判断。</p>
+<p>基于类型的：是否有对host的混淆、URL路径中是否有任何的组织、主机名后的字符数。</p>
+<p>基于单词的：查看是否出现了webscr、secure、banking、ebayisapi、account、confirm、login和signin这些词。</p>
+<p>3、模型：逻辑回归</p>
+<p>4、效果：平均准确率为97.31%，真阳性率为95.8%，假阳性率为1.2%。</p>
+<p>5、用模型的结果对数据集进行分析。还分析了地理分布、受害人群之类的～</p>
+<h2 id="三十四、kn0w-thy-doma1n-name”-使用域名特征的钓鱼检测"><a href="#三十四、kn0w-thy-doma1n-name”-使用域名特征的钓鱼检测" class="headerlink" title="三十四、kn0w thy doma1n name”:使用域名特征的钓鱼检测"></a>三十四、kn0w thy doma1n name”:使用域名特征的钓鱼检测</h2><p>1、2018年，ACM，使用到了网站的内容。</p>
+<p>2、目前方法存在的问题：</p>
+<p>(1)使用了很多特征，但这些特征的选取有问题🤨</p>
+<p>(2)数据集，有点刻意，可能存在偏差</p>
+<p>3、特征选取：本文关注域名，考虑的是域名与网内内容之间的相关性，选取了7个特征。</p>
+<p>(1) 域名长度</p>
+<p>(2) URL长度</p>
+<p>(3) 正文中的链接比率：域和网页内容的链接，是否相关</p>
+<p>(4) 域名在网页中以单词出现的次数</p>
+<p>(5) 是否使用HTTPS</p>
+<p>(6) 域名中的非字母字符</p>
+<p>(7) LOGO附近是否出现域名：钓鱼网站中一般不出现。</p>
+<p>(8) 网页Page Title是否和域名一致</p>
+<p>4、模型</p>
+<p>没说，就是常见的机器学习模型</p>
+<p>5、数据集</p>
+<p>良性：Alexa，恶意：phishtank。但是本文所用的数据集较少。</p>
+<p>6、结果</p>
+<p>准确度达到98%以上。</p>
 <p>看到一篇文章，链接如下：<a target="_blank" rel="noopener" href="http://www.c-s-a.org.cn/csa/article/pdf/7461%E3%80%822019%E5%B9%B412%E6%9C%88%E6%94%B6%E7%A8%BF%EF%BC%8C2020%E5%B9%B410%E6%9C%88%E5%87%BA%E7%89%88%E3%80%82">http://www.c-s-a.org.cn/csa/article/pdf/7461。2019年12月收稿，2020年10月出版。</a></p>
 <h2 id="三十二、URLNet-深度学习"><a href="#三十二、URLNet-深度学习" class="headerlink" title="三十二、URLNet+深度学习"></a>三十二、URLNet+深度学习</h2><p>1、挂在arXiv上，作者来自新加坡管理大学</p>
 <p>2、使用模型：CNN</p>
@@ -477,10 +518,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-25T19:23:03+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-05-28T18:30:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：May 25, 2021</p>
+    <p>更新于：May 28, 2021</p>
   </a>
 </div>
 
@@ -553,6 +594,13 @@
   
     <div class="prev-next">
       
+        <a class='prev' href='/2021/05/25/5%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>5月安全新闻</p>
+          <p class='content'>5.24【事件与风险警示】
+1、印度尼西亚2亿多居民的敏感信息遭泄露
+https://cybleinc.com/2021/05/20/sensitive-details-of-over-200-...</p>
+        </a>
+      
       
         <a class='next' href='/2021/05/06/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C/'>
           <p class='title'>恶意URL检测实验结果<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
@@ -602,7 +650,7 @@
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%8D%81%E4%BA%8C%E3%80%81URLNet-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="toc-text">三十二、URLNet+深度学习</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%8D%81%E4%BA%8C%E3%80%81DeepPhish-Simulating-malicious-AI-%E4%BB%8E%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84%E8%A7%92%E5%BA%A6%E4%BD%BF%E7%94%A8AI%E4%BA%A7%E7%94%9F%E9%92%93%E9%B1%BCURL"><span class="toc-text">三十二、DeepPhish: Simulating malicious AI 从攻击者的角度使用AI产生钓鱼URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%8D%81%E4%B8%89%E3%80%81%E9%92%93%E9%B1%BC%E6%94%BB%E5%87%BB%E7%9A%84%E6%A3%80%E6%B5%8B%E5%A4%84%E7%90%86%E6%A1%86%E6%9E%B6"><span class="toc-text">三十三、钓鱼攻击的检测处理框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%8D%81%E5%9B%9B%E3%80%81kn0w-thy-doma1n-name%E2%80%9D-%E4%BD%BF%E7%94%A8%E5%9F%9F%E5%90%8D%E7%89%B9%E5%BE%81%E7%9A%84%E9%92%93%E9%B1%BC%E6%A3%80%E6%B5%8B"><span class="toc-text">三十四、kn0w thy doma1n name”:使用域名特征的钓鱼检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%8D%81%E4%BA%8C%E3%80%81URLNet-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="toc-text">三十二、URLNet+深度学习</span></a></li></ol>
     </div>
   </section>
 

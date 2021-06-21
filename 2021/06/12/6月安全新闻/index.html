@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>Category: 杂记 - 虽然没什么用但还是想记下来</title>
+  <title>6月安全新闻 - 虽然没什么用但还是想记下来</title>
   
 
   
@@ -307,7 +305,7 @@
     <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  dock' style="display: none;">
+        <div id="full" class='cover-wrapper post dock' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/033.jpg"></div>
           
@@ -375,292 +373,254 @@
       <div class='body-wrapper' id="pjax-container">
         
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
+
+
+  
+  <div class="article-meta" id="top">
     
-      
-  <section class="post-list">
     
-      
+    
+      <h1 class="title">
+        6月安全新闻
+      </h1>
+      <div class='new-meta-box'>
         
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>请设置文章作者</p>
+  </a>
+</div>
+
           
         
           
-        
+            
+
           
         
           
-        
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Jun 12, 2021</p>
+  </a>
+</div>
+
           
         
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
       
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/05/04/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E4%B9%8B%E9%BB%91%E5%AE%A2%E7%AB%9F%E5%9C%A8%E6%88%91%E8%BA%AB%E8%BE%B9/">
-        应急响应之肉鸡竟是我自己
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        本文转自先知社区 https://xz.aliyun.com/t/9558， 原作者evenaisak。
-之前服务器总是有一些异地登陆的告警信息，用代理就会这样，自己也没太在意。今天偶然间打开一看，发现如下提示！
-
-接下来处理一下！
-收集信息finalshell登陆发现CPU占用率为100%
-ps auxw|head -1;ps auxw|sort -rn -k3|head -10   查看...
-      
-    
+      <div id="lc-pv" data-title="6月安全新闻" data-path="/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  <h2 id="06-12"><a href="#06-12" class="headerlink" title="06.12"></a>06.12</h2><p>[IOC整理]</p>
+<p>1、幸运访客诈骗用的PHP恶意软件</p>
+<p>extend:    <a target="_blank" rel="noopener" href="https://blogs.jpcert.or.jp/en/2021/06/php_malware.html">https://blogs.jpcert.or.jp/en/2021/06/php_malware.html</a></p>
+<p>tag:    php / scam / </p>
+<p>description: 攻击者利用CMS漏洞在服务器上上传PHP恶意软件，网站被感染并嵌入恶意的页面，受害者在访问的时候，会重定向到诈骗网站。</p>
+<p>ioc:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fc858f544449f056656558c92ba485b0</span><br><span class="line"><span class="number">13</span>a9f50160d8bb8a5799c8850262cf4ae46a854b1b262918d188bb17c24b14c7</span><br><span class="line"><span class="number">38</span>c4a4dfc8e3d22ab3ad2e19eb84d116d01963ba6cb75d7f797f0b4b4724667f</span><br><span class="line">dcd5786762ed09b4f681b07a9aa5cf4f6940f25616478a1ab9b4f848e97690ef</span><br><span class="line"><span class="number">24</span>fb03d10be05931fad3df6c8d0c8c2763dfd9d8e0e3de00fa484cbf2892eef7</span><br><span class="line"><span class="number">5.9</span><span class="number">.34</span><span class="number">.13</span></span><br><span class="line"><span class="number">5.9</span><span class="number">.146</span><span class="number">.0</span></span><br><span class="line"><span class="number">5.9</span><span class="number">.235</span><span class="number">.245</span></span><br><span class="line"><span class="number">144.76</span><span class="number">.47</span><span class="number">.168</span></span><br><span class="line"><span class="number">178.63</span><span class="number">.30</span><span class="number">.30</span></span><br><span class="line"><span class="number">178.63</span><span class="number">.30</span><span class="number">.186</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="06-14"><a href="#06-14" class="headerlink" title="06.14"></a>06.14</h2><p>[IOC整理]</p>
+<p>1、Siloscape：第一个已知的针对windows容器的去感染云环境的恶意软件</p>
+<p>extend:    <a target="_blank" rel="noopener" href="https://unit42.paloaltonetworks.com/siloscape/">https://unit42.paloaltonetworks.com/siloscape/</a></p>
+<p>tag:    Siloscape / Kubernetes集群 / 容器</p>
+<p>description: Siloscape是严重混淆的恶意软件，通过Windows容器针对Kubernetes集群。其主要目的是为配置不良的 Kubernetes 集群打开后门，以运行恶意容器。</p>
+<p>ioc:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>B7A23676EE1953247A0364AC431B193E32C952CF17B205D36F800C270753FCB</span><br><span class="line"><span class="number">81046</span>F943D26501561612A629D8BE95AF254BC161011BA8A62D25C34C16D6D2A</span><br><span class="line"><span class="number">010859</span>BA20684AEABA986928A28E1AF219BAEBBF51B273FF47CB382987373DB7</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2、深入分析BlackCocaine勒索软件</p>
+<p>extend:    <a target="_blank" rel="noopener" href="https://cybleinc.com/2021/06/03/nucleus-software-becomes-victim-of-the-blackcocaine-ransomware/">https://cybleinc.com/2021/06/03/nucleus-software-becomes-victim-of-the-blackcocaine-ransomware/</a></p>
+<p>tag:    BlackCocaine / 勒索软件</p>
+<p>description: 黑可卡因是勒索软件组的最新成员，似乎是最复杂和最活跃的恶意软件之一。这个勒索软件家族遵循相同的服务器端加密模式来锁定用户文档并索要赎金。</p>
+<p>ioc:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">41</span>f533f7b8f83e5f0d67e90c7b38d1fdc70833a70749c756bae861ec1dc73c5c</span><br><span class="line"><span class="number">6471</span>a7f99df7a48e01bb7a7ebca3d638c5f6bf8f7feffd84f177cf969609819d</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3、对SKINNYBOY BEAR的后门的探索</p>
+<p>extend:    <a target="_blank" rel="noopener" href="https://cluster25.io/wp-content/uploads/2021/05/2021-05_FancyBear.pdf">https://cluster25.io/wp-content/uploads/2021/05/2021-05_FancyBear.pdf</a></p>
+<p>tag:    APT28 / Fancy Bear / SKINNYBOY BEAR</p>
+<p>description: 文章分析了APT28组织的后门。</p>
+<p>ioc:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ae1e587d19250deb40e92587b8a2188c</span><br><span class="line">efa4fa5ddee99853c32b321496f9369f2db119eb</span><br><span class="line"><span class="number">12331809</span>c3e03d84498f428a37a28cf6cbb1dafe98c36463593ad12898c588c9</span><br><span class="line"><span class="number">4</span>f3ac4c7b5932f11662d4d22fa5d88ec</span><br><span class="line"><span class="number">45</span>d607109d1a12a279664eec8f4bd604287b62c7</span><br><span class="line"><span class="number">04e1772997</span>b884540d5728a2069c3cc93b8f29478e306d341120f789ea8ec79e</span><br><span class="line"><span class="number">3537</span>ed6d4038ca7dbc054308c40fc3e3</span><br><span class="line">a13cb50e2405440ec984dd3fc340bceea4a81cfc</span><br><span class="line"><span class="number">2</span>a652721243f29e82bdf57b565208c59937bbb6af4ab51e7b6ba7ed270ea6bce</span><br><span class="line">fa4b1efd428bbf47f9c8395ca91eff25</span><br><span class="line">e15c665f02fb288fc4bdef9d23b2dc802b3aca0d</span><br><span class="line">ae0bc3358fef0ca2a103e694aa556f55a3fed4e98ba57d16f5ae7ad4ad583698</span><br><span class="line">updaterweb.com</span><br><span class="line">getstatpro.com</span><br><span class="line"><span class="number">194.33</span><span class="number">.40</span><span class="number">.72</span></span><br><span class="line"><span class="number">5.149</span><span class="number">.253</span><span class="number">.45</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>4、肚脑虫（APT-C-35）组织最新攻击框架披露</p>
+<p>extend: <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/rMgQWQ8uW9foOy60LKtRJw">https://mp.weixin.qq.com/s/rMgQWQ8uW9foOy60LKtRJw</a></p>
+<p>tag:    APT-C-35 / Jaca框架</p>
+<p>description: Donot使用了一系列新型的后门框架，并多次对其程序进行更新，文章对这些框架进行分析。</p>
+<p>ioc:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0529e14</span>c6725748bc8de0b7005f1afc6</span><br><span class="line"><span class="number">0</span>d007267373e9f54e87462632e98372a</span><br><span class="line"><span class="number">17957e81</span>bd1f730d5451e160e07bde06</span><br><span class="line"><span class="number">1</span>c8988c44adcc9a06f37323a284916c2</span><br><span class="line"><span class="number">1e23</span>bd1390ce846db260787e66a6a921</span><br><span class="line"><span class="number">22</span>cd25a69dd3b3a443ef7ce06ceb8309</span><br><span class="line"><span class="number">245</span>bf560f9befa8cd148eb5f831eff7b</span><br><span class="line"><span class="number">298142</span>aa83e5be469d759311703eec4a</span><br><span class="line"><span class="number">2</span>c6d3bfa0063d24ec89015646ef5c617</span><br><span class="line"><span class="number">3195</span>d64c6ba93e63d64f2b20a26c63a6</span><br><span class="line"><span class="number">392</span>cf2d2ce867f231ec444034f1dcbe0</span><br><span class="line"><span class="number">5487</span>df8c50fe8db1141bfa14c82ddf23</span><br><span class="line"><span class="number">5921</span>bdd6941d81f62da2181dfb281f90</span><br><span class="line"><span class="number">5</span>c637292566a57fb43af0fc9b91d7d1d</span><br><span class="line"><span class="number">5</span>fd5d855a9792ba0c2c1764b6f1589e1</span><br><span class="line"><span class="number">6</span>b3f9835ec1da1d8bee7d532acd45a64</span><br><span class="line"><span class="number">740</span>ee48958dc25a7f7fa8bcc15620907</span><br><span class="line"><span class="number">79</span>ef2c88288886965d36f5dc836b1fb8</span><br><span class="line"><span class="number">83</span>bd23c8d15e8c5a046d455b04d452a8</span><br><span class="line"><span class="number">86182</span>b2731343fdb1b6f843741b02dc0</span><br><span class="line"><span class="number">893</span>de661b8a5e3a00664f12323665d84</span><br><span class="line"><span class="number">8</span>fe3b7be548ab6bba549ddbfdabc90ed</span><br><span class="line">a93f2b85675a49d3db35c35814470c78</span><br><span class="line">b373739f2abbf82806f848b80cb1eb5b</span><br><span class="line">c0b2e735354e28404a57df25a7fc81c2</span><br><span class="line">d129b18e9c12dc8ba587b4188d91a8bd</span><br><span class="line">d565fa9129dde76320519bed851688ed</span><br><span class="line">e341bebced64c1006013bfced7c81396</span><br><span class="line">e3c12932128476988518a79c4cfd9b1e</span><br><span class="line">e6767b6d07045b0fad800ea947594735</span><br><span class="line">eb6ad1f5dfe1f8a6e654c1407ca6d48d</span><br><span class="line">f2205c89cc54d103959a178125ad252a</span><br><span class="line">f605433cf9e43ba1a307f9d51545bdad</span><br><span class="line"><span class="number">1</span>f2d77b78bc6e5f90de0335b9f360bce</span><br><span class="line">c6f8427bb993e3a0ce148509832a9f32</span><br><span class="line"><span class="number">346</span>d5a12b46f927d673248ea322de9ba</span><br><span class="line">d292dd3a4fcc453805aed9a36d36e171</span><br><span class="line">f6b4198a9f950028600c3851450e56bf</span><br><span class="line"><span class="number">8</span>b4f521fa83cf05c4912706c20bae603</span><br><span class="line">b34c85fc0f8a1867ba0a011b31ad9b8b</span><br><span class="line"><span class="number">316930</span>f2019b612544cd291976c4636f</span><br><span class="line">bc0bb76e572493424a75b81dbabcdd74</span><br><span class="line"><span class="number">5</span>abec7042e3a51782fa25d5bf4ac547d</span><br><span class="line"><span class="number">8</span>de9ab44bfa47ecd511a2f34063626f8</span><br><span class="line">c089e7d3d522ae311b049d62e568d897</span><br><span class="line"><span class="number">5876</span>b64e0aa1f250c89e7ab39777a536</span><br><span class="line">ac781485ea2b0658b389d63c0c9c0f1e</span><br><span class="line"><span class="number">2</span>dc41709e3f2ab37d9f0f716c2852fc4</span><br><span class="line"><span class="number">1</span>ad01e30f1f6bb4b12edb4999acaee35</span><br><span class="line">cd5994aa784254af89eecd917f0a9ce0</span><br><span class="line"><span class="number">7146</span>bba1c37d272d5ee8c326c997562c</span><br><span class="line"><span class="number">1</span>c5748d2e4a004cf7cc4391078a61ef0</span><br><span class="line">d51d4c9427e095bb9519c63b602cc704</span><br><span class="line"><span class="number">5</span>ca2894e5f16dd1e46e3cab3713bebdc</span><br><span class="line"><span class="number">641</span>d873ee52557a672705753256cc049</span><br><span class="line"><span class="number">685e5</span>c904e726c18d1c2dfc8bbb86343</span><br><span class="line">b5a3e45b582e413283bb85ce8908bb09</span><br><span class="line"><span class="number">3</span>baf72c9060ddda237dd36194b72cd67</span><br><span class="line"><span class="number">7</span>aec8127c0d21dd9b56e009766705f4a</span><br><span class="line"><span class="number">937189471730</span>d569e19c47006b43faf5</span><br><span class="line"><span class="number">62</span>c3a206c877f1a3f9411280c4b616ce</span><br><span class="line"><span class="number">0231</span>bca0d9c71f163180c241f7d851a8</span><br><span class="line">a08320b85b40fb974ea79efeb156ff7a</span><br><span class="line"><span class="number">9333185</span>f5fa26061692578ecfd4e11dd</span><br><span class="line">f3f79ef05d3a21a5a888fcdcf3e67ce2</span><br><span class="line"><span class="number">607</span>b18a62af3c79d34559ffe10fb9ad7</span><br><span class="line">https://credmg.xyz/topaz/exoip</span><br><span class="line">https://credmg.xyz/topaz/qmole/J1/b</span><br><span class="line">https://frontcheck.buzz/topaz/foti</span><br><span class="line">https://nelog.buzz/topaz/foti</span><br><span class="line">https://solutionsroof.xyz/rtgs/momx</span><br><span class="line">https://getsr.xyz/vocha/ogo</span><br><span class="line">https://getsr.xyz/vocha/utid/okla/dok</span><br><span class="line">https://face.shadowpage.xyz/to/dotic/tok</span><br><span class="line">https://face.shadowpage.xyz/ti/bolto/notr</span><br><span class="line">https://getsr.xyz/Supex/pingpong/W/o</span><br><span class="line">https://getsr.xyz/Supex/aqero/W/o</span><br><span class="line">https://credmg.xyz/supex/bigo</span><br><span class="line">credmg.xyz</span><br><span class="line">frontcheck.buzz</span><br><span class="line">nelog.buzz</span><br><span class="line">solutionsroof.xyz</span><br><span class="line">getsr.xyz</span><br><span class="line">free.newcontest.xyz</span><br><span class="line">face.shadowpage.xyz</span><br></pre></td></tr></table></figure>
+
+
+  
+  
+    
+    <div class='footer'>
       
-        <div>
-          <a class='readmore' href='/2021/05/04/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E4%B9%8B%E9%BB%91%E5%AE%A2%E7%AB%9F%E5%9C%A8%E6%88%91%E8%BA%AB%E8%BE%B9/'>
-            Read More
-          </a>
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/>http://example.com/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/</a></p>
+              
+            
+          </blockquote>
         </div>
+      
       
     </div>
   
+  
+    
 
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-14T16:02:21+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：Jun 14, 2021</p>
+  </a>
 </div>
 
-          </div>
         
       
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/">
-        水印大修
-      </a>
-    </h2>
-  
-  <div class='md'>
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
       
-        记录下来过程，希望自己不再痛苦…🙏
-Zernike旋转角度检测1、图像截取
-​    经过实验，截取原来左上角的最好，所以还用原来的。
-2、重新实验
-12345678910111213141516171819202122232425262728293031323334353637383940414243440.1---0.09500.2---0.19550.3---0.27390.4---...
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/&title=6月安全新闻 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/&title=6月安全新闻 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/&title=6月安全新闻 - 虽然没什么用但还是想记下来&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-09</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/09/Zernike%E6%97%8B%E8%BD%AC%E5%8F%8AJPEG%E5%8E%8B%E7%BC%A9%E5%86%8D%E5%AE%9E%E9%AA%8C/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-          </div>
+
+
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
-        ssh登陆失败的解决方法
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        之前想设置ssh连接不断开，一通操作之后不能登陆了… 以下记录恢复过程。
-12my@192:~$ --&gt; ssh -p22 root@(ip)ssh: connect to host (ip) port 22: Connection refused
-
-
-
-1、更改服务器ssh配置
-​    依稀记得是在/etc/ssh/sshd_config中加了两条语句，现在尝试把它删掉。但是现在不...
-      
-    
+    </div>
   </div>
+
+
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2021/03/05/ssh%E7%99%BB%E9%99%86%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/'>
-            Read More
-          </a>
-        </div>
+      
+        <a class='next' href='/2021/05/31/LSB%E4%BF%A1%E6%81%AF%E9%9A%90%E8%97%8F/'>
+          <p class='title'>LSB信息隐藏<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>文献参考一、抵御SPA分析、动态补偿的LSB算法
+复杂。但提供了一种思路，可以去抵抗一下提取的内容。
+二、直接位平面替换
+1、图像4*4分块，计算灰度差值来决定替换最低1位还是2位。用一个密钥串...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/">
-        excel表格数据处理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        0x00 前言每天的工作是重复枯燥的复制粘贴表格信息，别人知道后骂我sb，痛定思痛我决定写一个程序来实现自动化复制粘贴工作。大致分析了一下有以下几个难点：
-1、数据是钉钉直播导出的，而他们的备注和真实名字有一定差异，如原本叫姜子牙，备注为 塔城_姜子牙，并且有些类似[古力娜扎]的长名，匹配时复杂。
-2、有些群成员是不需要统计的。
-使用工具：
-python
-xlrd/xlwt/xlutils ...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-11</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/11/excel%E8%A1%A8%E6%A0%BC%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/">
-        磁盘清理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言前几天下载了iMovie，然后磁盘空间突然就快满了… 这里记录一下清除的过程，以备以后查阅使用。
+  </article>
 
 
-….算了，买硬盘好了….
-
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-11-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/11/03/%E5%86%85%E5%AD%98%E6%B8%85%E7%90%86/'>
-            Read More
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-  
 
 
-    
-  
+
+
 </div>
 <aside class='l_side'>
   
@@ -668,151 +628,28 @@ xlrd/xlwt/xlutils ...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">虽然没什么用但还是想记下来</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/volantis-x/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" href="/categories/paper%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"
-            id="categoriespaperE99885E8AFBBE7AC94E8AEB0"
-            ><div class='name'>paper阅读笔记</div><div class='badge'>(7)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/web/" href="/categories/web/"
-            id="categoriesweb"
-            ><div class='name'>web</div><div class='badge'>(10)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/"
-            id="categoriesE4BA8CE8BF9BE588B6"
-            ><div class='name'>二进制</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/" href="/categories/%E4%BB%8A%E5%A4%A9code%E5%95%A6%E5%90%97%EF%BC%81/"
-            id="categoriesE4BB8AE5A4A9codeE595A6E59097EFBC81"
-            ><div class='name'>今天code啦吗！</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%9D%82%E8%AE%B0/" href="/categories/%E6%9D%82%E8%AE%B0/"
-            id="categoriesE69D82E8AEB0"
-            ><div class='name'>杂记</div><div class='badge'>(5)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"
-            id="categoriesE6BC8FE6B49EE5A48DE78EB0"
-            ><div class='name'>漏洞复现</div><div class='badge'>(5)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#06-12"><span class="toc-text">06.12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#06-14"><span class="toc-text">06.14</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/DNS%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">DNS检测</a> <a href="/tags/DoH/" style="font-size: 14px; color: #999">DoH</a> <a href="/tags/ML-DL/" style="font-size: 14px; color: #999">ML&DL</a> <a href="/tags/edge-AI/" style="font-size: 14px; color: #999">edge AI</a> <a href="/tags/unlink/" style="font-size: 14px; color: #999">unlink</a> <a href="/tags/url%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">url检测</a> <a href="/tags/%E6%81%B6%E6%84%8FURL%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意URL检测</a> <a href="/tags/%E6%81%B6%E6%84%8Furl%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意url检测</a> <a href="/tags/%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B/" style="font-size: 14px; color: #999">恶意软件检测</a> <a href="/tags/%E7%89%B9%E5%BE%81%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" style="font-size: 14px; color: #999">特征自动生成</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 14px; color: #999">生活</a>
-    </div>
-  </section>
-
-
-  
 
   
 
 
 </aside>
+
 
 
         
@@ -822,8 +659,8 @@ xlrd/xlwt/xlutils ...
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="6月安全新闻";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

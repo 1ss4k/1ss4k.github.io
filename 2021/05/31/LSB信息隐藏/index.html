@@ -401,6 +401,13 @@
         
           
             
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%9D%82%E8%AE%B0/">杂记</a>
+    </a>
+  </div>
+
 
           
         
@@ -436,32 +443,37 @@
 
 
   
-  <h2 id="文献参考"><a href="#文献参考" class="headerlink" title="文献参考"></a>文献参考</h2><p>一、抵御SPA分析、动态补偿的LSB算法</p>
+  <h2 id="文献参考"><a href="#文献参考" class="headerlink" title="文献参考"></a>文献参考</h2><p><strong>一、抵御SPA分析、动态补偿的LSB算法</strong></p>
 <p>复杂。但提供了一种思路，可以去抵抗一下提取的内容。</p>
-<p>二、直接位平面替换</p>
+<p><strong>二、直接位平面替换</strong></p>
 <p>1、图像4*4分块，计算灰度差值来决定替换最低1位还是2位。用一个密钥串记录下来嵌入的是1位还是2位。</p>
 <p>嵌入时是与最高一位进行异或的。</p>
 <p>可以尝试。 重点是嵌入到最低位和第二位中。</p>
 <p>一种类似的方法：<a target="_blank" rel="noopener" href="https://www.docin.com/p-1696546625.html%EF%BC%8C%E9%9A%8F%E6%9C%BA%E9%80%89%E6%8B%A9%E5%B5%8C%E5%85%A5%E7%9A%84%E4%BD%8D%EF%BC%8C%E6%9B%B4%E7%AE%80%E5%8D%95%E4%B8%80%E4%BA%9B%E3%80%82">https://www.docin.com/p-1696546625.html，随机选择嵌入的位，更简单一些。</a></p>
-<p>三、基于BMP位图</p>
+<p><strong>三、基于BMP位图</strong></p>
 <p>操作对象时BMP，没啥新内容</p>
-<p>四、自适应、逆LSB嵌入</p>
+<p><strong>四、自适应、逆LSB嵌入</strong></p>
 <p>1、嵌入信息RC4加密</p>
 <p>2、选择某一位</p>
 <p>3、用p000 —— p111来计算是否改变了</p>
-<h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><p>一、原有实验1—可以当作2改进，随机嵌入位置</p>
+<h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><p><strong>一、原有实验1—可以当作2改进，随机嵌入位置</strong></p>
 <p>1、修改if sprintf语句缩进</p>
 <p>2、本质上是随机选择嵌入位置</p>
 <p>效果是：嵌入较少攻击时能抵抗剪切攻击</p>
-<p>二、LSB基础实验—当作对比实验</p>
+<p><strong>二、LSB基础实验—当作对比实验</strong></p>
 <p>可以直接使用bitset来设置，bitget来提取相应的水印信息。</p>
 <p>根据嵌入信息的多少，设置嵌入间隔。</p>
 <p>用最低位嵌入提取信息。</p>
-<p>三、选择位嵌入</p>
+<p><strong>三、选择位嵌入</strong></p>
 <p>图像Arnold置乱，每个块都是4*4的大小，共嵌入16bit的信息。</p>
 <p>首先求G、AVE，决定了要嵌入的位。</p>
-<p>攻击图像，还能提取多少？</p>
-<p>抵抗检测？：抵抗SPA</p>
+<p>攻击：</p>
+<p>(1)攻击图像，还能提取多少？—50%的误码率，所以抵抗不了任何攻击</p>
+<p>(2)抵抗检测？：抵抗SPA—未实现</p>
+<p><strong>四、高容量嵌入</strong></p>
+<p>图像分成3*3的块，每一个像素值都嵌入第三位或低四位，可以很大程度上提高嵌入容量。</p>
+<p>根据一定的条件来判定到底是嵌入低三位还是低四位。但是这种方法隐患很大，某一个位置提取出错了，后面就都错了。而且代码存在一定的问题，总是有错误最后也没改好。</p>
+<p>本文记录了实现的过程，用以纪念自己人生最后的<strong>善良</strong>。</p>
 
   
   
@@ -496,10 +508,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-02T21:22:15+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-06-21T11:33:54+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：Jun 2, 2021</p>
+    <p>更新于：Jun 21, 2021</p>
   </a>
 </div>
 
@@ -572,20 +584,11 @@
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/06/12/6%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>6月安全新闻</p>
-          <p class='content'>06.12[IOC整理]
-1、幸运访客诈骗用的PHP恶意软件
-extend:    https://blogs.jpcert.or.jp/en/2021/06/php_malware.html
-...</p>
-        </a>
       
-      
-        <a class='next' href='/2021/05/25/5%E6%9C%88%E5%AE%89%E5%85%A8%E6%96%B0%E9%97%BB/'>
-          <p class='title'>5月安全新闻<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>5.24【事件与风险警示】
-1、印度尼西亚2亿多居民的敏感信息遭泄露
-https://cybleinc.com/2021/05/20/sensitive-details-of-over-200-...</p>
+        <a class='next' href='/2021/05/25/%E6%81%B6%E6%84%8FURL%E5%8D%81/'>
+          <p class='title'>恶意URL(十)定稿后修改<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>之前总共参考了三十一篇文章，交了定稿，但是总感觉还不够完善，实验不够细致。还有几天才答辩，继续做吧～
+三十二、DeepPhish: Simulating malicious AI 从攻击者的角度...</p>
         </a>
       
     </div>
